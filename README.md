@@ -6,12 +6,13 @@ No server, no install, no account — open the page and R runs on-device.
 Installable to an Android home screen as a lightweight app once hosted
 over `https://`.
 
-40 short lessons, written in **tidyverse style** throughout (`tibble()`,
-`dplyr`/`purrr`/`forcats` verbs, and the native `|>` pipe — no base-R
-subsetting or `data.frame()` except where there's genuinely no tidyverse
-equivalent, like plain vector indexing). Organized into 8 units, built
-around a running "pilot survey" dataset, plus a project-workflow unit and
-an RStudio-shortcuts unit that aren't tied to the dataset at all.
+50 short lessons, written in **tidyverse style** throughout (`tibble()`,
+`dplyr`/`purrr`/`forcats`/`stringr` verbs, `ggplot2`, and the native `|>`
+pipe — no base-R subsetting or `data.frame()` except where there's
+genuinely no tidyverse equivalent, like plain vector indexing). Organized
+into 10 units, built around a running "pilot survey" dataset, plus a
+project-workflow unit and an RStudio-shortcuts unit that aren't tied to
+the dataset at all.
 
 **Unit 1 — Tidyverse Foundations**
 Vectors & indexing · `tibble()` + `select()` · `filter()` · a function +
@@ -47,8 +48,23 @@ naming a numbered pipeline script · reproducibility tools (`renv`, Git)
 Running/selecting code from the console · navigating long scripts and the
 document outline · pipe (`|>`) and assignment (`<-`) shortcuts
 
-The path map groups lessons visually by unit, and each unit unlocks
-progressively — you can't jump ahead until the previous lesson is done.
+**Unit 9 — Strings & Regex**
+`str_detect()` · `str_extract()` · `str_replace_all()` · `str_split()` ·
+cleaning free-text with `str_trim()` + `str_to_lower()`
+
+**Unit 10 — Visualization with ggplot2**
+A first scatter plot with `geom_point()` · `geom_col()` bar charts ·
+mapping `color` in `aes()` · titles with `labs()` · small multiples with
+`facet_wrap()`
+
+The path map groups lessons visually by unit, and shows a lock icon on
+lessons that come later than where you've currently progressed — but it's
+advisory, not a hard gate. Tapping *any* lesson, locked or not, opens it;
+tapping a locked one first shows a short "skip ahead?" confirmation so it's
+clear you're jumping past something. That means you can freely start
+"Working with Survey Data" without finishing "Tidyverse Foundations" first,
+or drop into "Visualization with ggplot2" on day one if that's what you
+want to explore.
 
 ## App structure
 
@@ -117,16 +133,38 @@ the file contents. That means:
   page in a private/incognito window will not have access to a previous
   save — localStorage doesn't sync across those.
 
-## On tidyverse and load time
+## On package installs, load time, and risk
 
-The app installs `dplyr`, `purrr`, `forcats`, and `here` from webR's WASM
-package repository at startup (not the full `tidyverse` meta-package, and
-deliberately not `tidyr` or `stringr`, whose dependency chains are heavier
-and riskier in WASM). `dplyr` alone pulls in a real dependency chain
-(rlang, vctrs, tibble, pillar, tidyselect, cli, glue, and more), so **first
-load is slow — expect 30–70 seconds** before the engine banner disappears.
-The browser caches these files after the first successful load, so
-subsequent visits should be quicker.
+The app installs six packages from webR's WASM package repository at
+startup: `dplyr`, `purrr`, `forcats`, `here`, `stringr`, and `ggplot2`
+(not the full `tidyverse` meta-package, and deliberately not `tidyr`).
+This is a heavy combination, and it's worth understanding the two
+different kinds of risk involved:
+
+- **Install weight.** `dplyr` and `ggplot2` alone each pull in real
+  dependency chains (rlang, vctrs, tibble, pillar, tidyselect, scales,
+  gtable, isoband, and more). `stringr` depends on `stringi`, historically
+  the trickiest compiled package to get working in WebAssembly — it
+  generally does have a WASM build in webR's repository, but it's the
+  single most likely package here to fail to install on a given webR
+  release. Combined, **expect first load to take 1–3 minutes**, possibly
+  longer on a slow connection. The browser caches everything after a
+  successful first load, so subsequent visits should be much quicker.
+- **Plot rendering.** Unlike every other lesson (which only checks data
+  values), the ggplot2 lessons try to actually draw the plot on-screen
+  using webR's graphics-capture API when you hit **Run**. This is newer,
+  less-documented territory than the rest of the app, and its exact
+  behavior can vary across webR versions. If a plot fails to render, the
+  app is built to degrade gracefully — the Run output area will say so,
+  and the lesson can still be completed normally, because **Check**
+  validates the underlying `ggplot` object directly and never depends on
+  whether the image actually drew.
+
+If either of these turns out to be a real blocker in practice, the
+straightforward fallback is to drop the `Strings & Regex` and/or
+`Visualization with ggplot2` units from the `LESSONS` array and remove the
+corresponding packages from the `installPackages()` call — everything else
+in the app is unaffected by removing a unit.
 
 ## Hosting on GitHub Pages
 

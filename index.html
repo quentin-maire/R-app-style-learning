@@ -193,6 +193,11 @@
     min-height:18px; display:none;
   }
   .output.show{display:block;}
+  .plot-canvas{
+    margin-top:11px; max-width:100%; width:100%; height:auto; border-radius:14px;
+    border:2px solid var(--card-border); background:#fff; display:none;
+  }
+  .plot-canvas.show{display:block;}
   .output .err{color:#FF8A80;}
 
   .feedback{
@@ -280,7 +285,7 @@
 
   <div class="engine-banner loading" id="engineBanner">
     <span class="dot"></span>
-    <span id="engineText">Starting R and installing dplyr, purrr, forcats, here (30–70s first time)…</span>
+    <span id="engineText">Starting R and installing dplyr, purrr, forcats, here, stringr, ggplot2 (1–3 min first time)…</span>
   </div>
 
   <main class="wrap">
@@ -324,6 +329,7 @@
       </div>
 
       <div class="output" id="output"></div>
+      <canvas class="plot-canvas" id="plotCanvas" style="display:none;"></canvas>
       <div class="feedback" id="feedback"></div>
 
       <div class="scroll-cue">▾ more ▾</div>
@@ -355,6 +361,17 @@
       <div class="celebrate-title">How it works</div>
       <div id="helpBody"></div>
       <button class="celebrate-close" id="helpClose">Got it</button>
+    </div>
+  </div>
+
+  <div class="celebrate-overlay" id="unlockOverlay">
+    <div class="celebrate-card">
+      <div class="celebrate-title">Skip ahead?</div>
+      <div id="unlockBody" style="text-align:left; margin-bottom:18px; line-height:1.55; font-size:13.5px; color:var(--text-soft);"></div>
+      <div style="display:flex; gap:10px;">
+        <button class="action ghost" id="unlockCancel" style="flex:1;">Cancel</button>
+        <button class="celebrate-close" id="unlockConfirm" style="flex:1;">Start anyway</button>
+      </div>
     </div>
   </div>
 
@@ -1249,6 +1266,197 @@ insert_assign <- "Alt+-"
       check: `exists("insert_pipe") && exists("insert_assign") &&
         tolower(gsub(" ", "", insert_pipe)) %in% c("ctrl+shift+m","cmd+shift+m","command+shift+m") &&
         tolower(gsub(" ", "", insert_assign)) %in% c("alt+-","option+-","opt+-")`
+    },
+    {
+      title: "Detecting a pattern with str_detect()",
+      id: "detecting-a-pattern-with-str-detect",
+      short: "str_detect()",
+      unit: "Strings & Regex",
+      instructions: `A vector of open-text survey responses, <code>responses</code>, is loaded.<br><br>
+        Create <code>mentions_price</code>: a logical vector that's <code>TRUE</code> wherever
+        the response contains the word <code>"price"</code>, using <code>str_detect()</code>.`,
+      preload: `Preloaded: responses — 4 open-text answers. stringr is loaded.`,
+      setup: `responses <- c("The price is too high", "Great service", "Loved the price point", "Not interested")`,
+      starter: `mentions_price <- str_detect(responses, "___")\n`,
+      solution: `mentions_price <- str_detect(responses, "price")\n`,
+      hint: 'str_detect(responses, "price") — TRUE wherever that text appears anywhere in the string.',
+      help: `<b>str_detect()</b> checks whether a pattern appears anywhere inside each string, returning TRUE/FALSE.<br><br>
+        Example:<br><code>fruits <- c("banana","apple","grape")<br>str_detect(fruits, "an")  # TRUE FALSE FALSE</code>`,
+      check: `exists("mentions_price") && identical(mentions_price, stringr::str_detect(responses, "price"))`
+    },
+    {
+      title: "Extracting matches with str_extract()",
+      id: "extracting-matches-with-str-extract",
+      short: "str_extract()",
+      unit: "Strings & Regex",
+      instructions: `A vector of respondent emails, <code>emails</code>, is loaded.<br><br>
+        Create <code>domains</code>: just the domain part after the <code>@</code> for each
+        email, using <code>str_extract()</code> with the pattern <code>"[^@]+$"</code> (one or
+        more non-@ characters at the end of the string).`,
+      preload: `Preloaded: emails — 3 email addresses.`,
+      setup: `emails <- c("alice@uni.edu", "bob@school.org", "cleo@college.ac.uk")`,
+      starter: `domains <- str_extract(emails, "___")\n`,
+      hint: 'str_extract(emails, "[^@]+$") — the pattern matches everything after the last @.',
+      solution: `domains <- str_extract(emails, "[^@]+$")\n`,
+      help: `<b>str_extract()</b> pulls out the part of a string that matches a pattern (a regular expression).<br><br>
+        Example:<br><code>codes <- c("ID-042", "ID-108")<br>str_extract(codes, "[0-9]+")  # "042" "108"</code>`,
+      check: `exists("domains") && identical(domains, stringr::str_extract(emails, "[^@]+$"))`
+    },
+    {
+      title: "Cleaning text with str_replace_all()",
+      id: "cleaning-text-with-str-replace-all",
+      short: "str_replace_all()",
+      unit: "Strings & Regex",
+      instructions: `A vector of addresses, <code>addresses</code>, is loaded, using the abbreviation
+        <code>"St"</code>.<br><br>
+        Create <code>full_addresses</code>: every <code>"St"</code> replaced with
+        <code>"Street"</code>, using <code>str_replace_all()</code>.`,
+      preload: `Preloaded: addresses — 3 street addresses.`,
+      setup: `addresses <- c("123 Main St", "45 Oak St", "7 Pine St")`,
+      starter: `full_addresses <- str_replace_all(addresses, "St", "___")\n`,
+      hint: 'str_replace_all(addresses, "St", "Street") — replaces every occurrence, not just the first.',
+      solution: `full_addresses <- str_replace_all(addresses, "St", "Street")\n`,
+      help: `<b>str_replace_all()</b> swaps every match of a pattern for replacement text. (<b>str_replace()</b> — no "_all" — only replaces the first match.)<br><br>
+        Example:<br><code>x <- c("cat and cat")<br>str_replace_all(x, "cat", "dog")  # "dog and dog"</code>`,
+      check: `exists("full_addresses") && identical(full_addresses, stringr::str_replace_all(addresses, "St", "Street"))`
+    },
+    {
+      title: "Splitting text with str_split()",
+      id: "splitting-text-with-str-split",
+      short: "str_split()",
+      unit: "Strings & Regex",
+      instructions: `A vector of full names in <code>"Last, First"</code> format,
+        <code>names_raw</code>, is loaded.<br><br>
+        Create <code>name_parts</code>: each name split into last/first pieces, using
+        <code>str_split()</code> on the pattern <code>", "</code>.`,
+      preload: `Preloaded: names_raw — 3 names.`,
+      setup: `names_raw <- c("Smith, John", "Doe, Jane", "Lee, Priya")`,
+      starter: `name_parts <- str_split(names_raw, "___")\n`,
+      hint: 'str_split(names_raw, ", ") — splits on the comma-space, returning a list with one element per name.',
+      solution: `name_parts <- str_split(names_raw, ", ")\n`,
+      help: `<b>str_split()</b> breaks each string into pieces wherever the pattern occurs, returning a list (one vector of pieces per input string).<br><br>
+        Example:<br><code>str_split("a-b-c", "-")  # list("a","b","c")</code>`,
+      check: `exists("name_parts") && identical(name_parts, stringr::str_split(names_raw, ", "))`
+    },
+    {
+      title: "Standardizing text",
+      id: "standardizing-text",
+      short: "str_trim + lower",
+      unit: "Strings & Regex",
+      instructions: `A vector of raw survey answers, <code>raw_responses</code>, has inconsistent
+        spacing and capitalization.<br><br>
+        Create <code>clean_responses</code>: trimmed of extra whitespace and lowercased, by
+        piping through <code>str_trim()</code> then <code>str_to_lower()</code>.`,
+      preload: `Preloaded: raw_responses — 3 messy free-text answers.`,
+      setup: `raw_responses <- c("  Yes ", "NO", " Maybe  ")`,
+      starter: `clean_responses <- raw_responses |> str_trim() |> str_to_lower(___)\n`,
+      hint: 'raw_responses |> str_trim() |> str_to_lower() — str_to_lower() takes no extra arguments here.',
+      solution: `clean_responses <- raw_responses |> str_trim() |> str_to_lower()\n`,
+      help: `<b>str_trim()</b> removes leading/trailing whitespace. <b>str_to_lower()</b> lowercases everything — piping the two together is a common first cleaning step for open-text data.<br><br>
+        Example:<br><code>"  HELLO  " |> str_trim() |> str_to_lower()  # "hello"</code>`,
+      check: `exists("clean_responses") && identical(clean_responses, raw_responses |> stringr::str_trim() |> stringr::str_to_lower())`
+    },
+    {
+      title: "Your first ggplot: a scatter plot",
+      id: "your-first-ggplot-a-scatter-plot",
+      short: "geom_point()",
+      unit: "Visualization with ggplot2",
+      instructions: `A <code>pilot</code> tibble (age, satisfaction) is loaded.<br><br>
+        Create <code>p</code>: a scatter plot of <code>satisfaction</code> against
+        <code>age</code>, using <code>ggplot()</code> with <code>aes()</code> and
+        <code>geom_point()</code>.`,
+      preload: `Preloaded: pilot — 6 respondents. ggplot2 is loaded. Hit Run to see the plot.`,
+      setup: `pilot <- tibble(age = c(22,35,41,29,58,31), satisfaction = c(4,5,2,3,5,4))`,
+      starter: `p <- ggplot(pilot, aes(x = ___, y = ___)) + geom_point()\np\n`,
+      hint: 'ggplot(pilot, aes(x = age, y = satisfaction)) + geom_point() — then print p (or just leave it as the last line) to see it.',
+      solution: `p <- ggplot(pilot, aes(x = age, y = satisfaction)) + geom_point()\np\n`,
+      help: `<b>ggplot()</b> starts a plot from a data frame. <b>aes()</b> maps columns to visual properties (x, y, color...). <b>geom_point()</b> draws each row as a point.<br><br>
+        Example:<br><code>ggplot(mtcars, aes(x = wt, y = mpg)) + geom_point()</code>`,
+      check: `exists("p") && inherits(p, "ggplot") &&
+        "GeomPoint" %in% class(p$layers[[1]]$geom) &&
+        identical(rlang::as_label(p$mapping$x), "age") &&
+        identical(rlang::as_label(p$mapping$y), "satisfaction")`
+    },
+    {
+      title: "A bar chart with geom_col()",
+      id: "a-bar-chart-with-geom-col",
+      short: "geom_col()",
+      unit: "Visualization with ggplot2",
+      instructions: `A <code>region_counts</code> tibble (region, n) is loaded — already summarized,
+        one row per region.<br><br>
+        Create <code>p</code>: a bar chart of <code>n</code> by <code>region</code>, using
+        <code>geom_col()</code> (for data that's already counted — <code>geom_bar()</code> is
+        for raw, uncounted rows).`,
+      preload: `Preloaded: region_counts — 3 regions. Hit Run to see the plot.`,
+      setup: `region_counts <- tibble(region = c("North","South","East"), n = c(4,6,3))`,
+      starter: `p <- ggplot(region_counts, aes(x = region, y = ___)) + geom_col()\np\n`,
+      hint: 'ggplot(region_counts, aes(x = region, y = n)) + geom_col()',
+      solution: `p <- ggplot(region_counts, aes(x = region, y = n)) + geom_col()\np\n`,
+      help: `<b>geom_col()</b> draws bars whose height comes directly from a column in your data (use this when you've already counted/summarized). <b>geom_bar()</b> counts raw rows for you instead.<br><br>
+        Example:<br><code>tibble(day = c("Mon","Tue"), sales = c(10,15)) |><br>  ggplot(aes(x = day, y = sales)) + geom_col()</code>`,
+      check: `exists("p") && inherits(p, "ggplot") && "GeomCol" %in% class(p$layers[[1]]$geom)`
+    },
+    {
+      title: "Mapping color with aes()",
+      id: "mapping-color-with-aes",
+      short: "color aes",
+      unit: "Visualization with ggplot2",
+      instructions: `A <code>pilot</code> tibble (age, satisfaction, region) is loaded.<br><br>
+        Create <code>p</code>: the same scatter plot as before, but with points colored by
+        <code>region</code> — add <code>color = region</code> inside <code>aes()</code>.`,
+      preload: `Preloaded: pilot — 6 respondents across 3 regions. Hit Run to see the plot.`,
+      setup: `pilot <- tibble(
+        age = c(22,35,41,29,58,31),
+        satisfaction = c(4,5,2,3,5,4),
+        region = c("North","South","North","East","South","South")
+      )`,
+      starter: `p <- ggplot(pilot, aes(x = age, y = satisfaction, color = ___)) + geom_point()\np\n`,
+      hint: 'aes(x = age, y = satisfaction, color = region) — color (or colour) works just like x and y inside aes().',
+      solution: `p <- ggplot(pilot, aes(x = age, y = satisfaction, color = region)) + geom_point()\np\n`,
+      help: `Any <b>aes()</b> argument — x, y, color, size, shape — maps a column to a visual channel, and ggplot2 handles the legend and scaling automatically.<br><br>
+        Example:<br><code>ggplot(iris, aes(x = Sepal.Length, y = Petal.Length, color = Species)) + geom_point()</code>`,
+      check: `exists("p") && inherits(p, "ggplot") && identical(rlang::as_label(p$mapping$colour), "region")`
+    },
+    {
+      title: "Adding titles with labs()",
+      id: "adding-titles-with-labs",
+      short: "labs()",
+      unit: "Visualization with ggplot2",
+      instructions: `A base scatter plot, <code>p_base</code>, is already built and loaded.<br><br>
+        Create <code>p</code>: <code>p_base</code> with a title and clearer axis labels added
+        via <code>+ labs(title = ..., x = ..., y = ...)</code>.`,
+      preload: `Preloaded: p_base — a ggplot object (age vs satisfaction). Hit Run to see the plot.`,
+      setup: `pilot <- tibble(age = c(22,35,41,29,58,31), satisfaction = c(4,5,2,3,5,4))
+      p_base <- ggplot(pilot, aes(x = age, y = satisfaction)) + geom_point()`,
+      starter: `p <- p_base + labs(title = "___", x = "Age", y = "Satisfaction")\np\n`,
+      hint: 'p_base + labs(title = "Age vs Satisfaction", x = "Age", y = "Satisfaction") — any exact title text is fine as long as it is non-empty.',
+      solution: `p <- p_base + labs(title = "Age vs Satisfaction", x = "Age", y = "Satisfaction")\np\n`,
+      help: `<b>labs()</b> adds or overrides labels — title, subtitle, axis names, legend name — without touching the data or geoms.<br><br>
+        Example:<br><code>p_base + labs(title = "My Chart", x = "X axis", y = "Y axis")</code>`,
+      check: `exists("p") && inherits(p, "ggplot") &&
+        is.character(p$labels$title) && nchar(p$labels$title) > 0 &&
+        identical(p$labels$x, "Age") && identical(p$labels$y, "Satisfaction")`
+    },
+    {
+      title: "Small multiples with facet_wrap()",
+      id: "small-multiples-with-facet-wrap",
+      short: "facet_wrap()",
+      unit: "Visualization with ggplot2",
+      instructions: `A <code>pilot</code> tibble (age, satisfaction, region) is loaded.<br><br>
+        Create <code>p</code>: the scatter plot split into one small panel per region, using
+        <code>+ facet_wrap(~region)</code>.`,
+      preload: `Preloaded: pilot — 6 respondents across 3 regions. Hit Run to see the plot.`,
+      setup: `pilot <- tibble(
+        age = c(22,35,41,29,58,31),
+        satisfaction = c(4,5,2,3,5,4),
+        region = c("North","South","North","East","South","South")
+      )`,
+      starter: `p <- ggplot(pilot, aes(x = age, y = satisfaction)) + geom_point() + facet_wrap(~___)\np\n`,
+      hint: 'facet_wrap(~region) — the tilde comes before the column name, no quotes needed.',
+      solution: `p <- ggplot(pilot, aes(x = age, y = satisfaction)) + geom_point() + facet_wrap(~region)\np\n`,
+      help: `<b>facet_wrap()</b> splits one plot into a grid of small panels, one per level of a variable — great for comparing groups side by side instead of overlaying them.<br><br>
+        Example:<br><code>ggplot(mtcars, aes(x = wt, y = mpg)) + geom_point() + facet_wrap(~cyl)</code>`,
+      check: `exists("p") && inherits(p, "ggplot") && !is.null(p$facet) && !inherits(p$facet, "FacetNull")`
     }
   ];
 
@@ -1316,8 +1524,10 @@ insert_assign <- "Alt+-"
       const btn = document.createElement("button");
       btn.className = "node-btn " + (completed.has(l.id) ? "done" : (i === current && view !== "path" ? "current" : (unlocked ? "" : "locked")));
       btn.textContent = completed.has(l.id) ? "✓" : String(i + 1);
-      btn.disabled = !unlocked;
-      btn.addEventListener("click", () => { if (unlocked) { current = i; renderLesson(); switchView("learn"); } });
+      btn.addEventListener("click", () => {
+        if (unlocked) { current = i; renderLesson(); switchView("learn"); }
+        else { showUnlockConfirm(i); }
+      });
       const label = document.createElement("div");
       label.className = "node-label";
       label.textContent = l.short;
@@ -1352,6 +1562,7 @@ insert_assign <- "Alt+-"
 
     $("code").value = l.starter;
     $("output").classList.remove("show"); $("output").textContent = "";
+    $("plotCanvas").classList.remove("show");
     $("feedback").classList.remove("show");
     $("prevBtn").disabled = current === 0;
     $("nextBtn").textContent = current === LESSONS.length - 1 ? "Restart ↻" : "Next →";
@@ -1385,9 +1596,9 @@ insert_assign <- "Alt+-"
       const { WebR } = await import('https://webr.r-wasm.org/latest/webr.mjs');
       webR = new WebR();
       await webR.init();
-      text.textContent = "R is running — installing dplyr, purrr, forcats, here…";
-      await webR.installPackages(['dplyr', 'purrr', 'forcats', 'here']);
-      await webR.evalR('library(dplyr); library(purrr); library(tibble); library(forcats); library(here)');
+      text.textContent = "R is running — installing dplyr, purrr, forcats, here, stringr, ggplot2 (this is the slow part)…";
+      await webR.installPackages(['dplyr', 'purrr', 'forcats', 'here', 'stringr', 'ggplot2']);
+      await webR.evalR('library(dplyr); library(purrr); library(tibble); library(forcats); library(here); library(stringr); library(ggplot2)');
       engineReady = true;
       banner.classList.remove("loading"); banner.classList.add("ready");
       $("runBtn").disabled = false; $("checkBtn").disabled = false;
@@ -1401,13 +1612,31 @@ insert_assign <- "Alt+-"
   }
 
   async function runR(code) {
-    const capture = await webR.captureR(code, { captureStreams: true, captureConditions: true, withAutoprint: true });
+    const capture = await webR.captureR(code, { captureStreams: true, captureConditions: true, withAutoprint: true, captureGraphics: true });
     let text = "";
     for (const msg of capture.output) {
       if (msg.type === "stdout" || msg.type === "stderr") text += msg.data + "\n";
     }
+    let images = [];
+    try { if (capture.images && capture.images.length) images = capture.images; } catch (_) {}
     try { capture.result?.free?.(); } catch (_) {}
-    return text.trim();
+    return { text: text.trim(), images };
+  }
+
+  function drawPlot(imageBitmap) {
+    const canvas = $("plotCanvas");
+    try {
+      canvas.width = imageBitmap.width;
+      canvas.height = imageBitmap.height;
+      const ctx = canvas.getContext("2d");
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(imageBitmap, 0, 0);
+      canvas.classList.add("show");
+      return true;
+    } catch (e) {
+      console.warn("Could not render plot", e);
+      return false;
+    }
   }
 
   function showCelebration(xpAwarded, leveledUp, newLevel) {
@@ -1434,6 +1663,27 @@ insert_assign <- "Alt+-"
   });
   $("helpClose").addEventListener("click", () => $("helpOverlay").classList.remove("show"));
 
+  let pendingUnlockIndex = null;
+  function showUnlockConfirm(i) {
+    pendingUnlockIndex = i;
+    const target = LESSONS[i];
+    const prereq = LESSONS[i - 1];
+    $("unlockBody").innerHTML = prereq
+      ? `<b>${target.title}</b> is later in the path — you haven't finished <b>${prereq.title}</b> yet. Jump ahead anyway?`
+      : `Jump straight to <b>${target.title}</b>?`;
+    $("unlockOverlay").classList.add("show");
+  }
+  $("unlockCancel").addEventListener("click", () => { $("unlockOverlay").classList.remove("show"); pendingUnlockIndex = null; });
+  $("unlockConfirm").addEventListener("click", () => {
+    if (pendingUnlockIndex !== null) {
+      current = pendingUnlockIndex;
+      renderLesson();
+      switchView("learn");
+    }
+    $("unlockOverlay").classList.remove("show");
+    pendingUnlockIndex = null;
+  });
+
   $("answerBtn").addEventListener("click", () => {
     const codeBox = $("code");
     if (!answerShown) {
@@ -1452,9 +1702,25 @@ insert_assign <- "Alt+-"
   $("runBtn").addEventListener("click", async () => {
     if (!engineReady) return;
     const out = $("output"); out.classList.add("show"); out.textContent = "Running…";
+    $("plotCanvas").classList.remove("show");
     try {
-      const result = await runR($("code").value);
-      out.textContent = result.length ? result : "(no console output — that's fine if you just assigned variables.)";
+      const { text, images } = await runR($("code").value);
+      let plotted = false;
+      if (images.length) {
+        plotted = drawPlot(images[images.length - 1]);
+      }
+      if (text.length) {
+        out.textContent = text;
+        out.classList.add("show");
+      } else if (plotted) {
+        out.classList.remove("show");
+      } else {
+        out.textContent = "(no console output — that's fine if you just assigned variables.)";
+      }
+      if (images.length && !plotted) {
+        out.classList.add("show");
+        out.textContent += (out.textContent ? "\n\n" : "") + "(a plot was generated but couldn't be displayed in this preview — the Check button doesn't depend on this, so grading still works.)";
+      }
     } catch (e) { out.innerHTML = `<span class="err">Error: ${(e.message || e).toString()}</span>`; }
   });
 
