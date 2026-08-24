@@ -2,15 +2,15 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
 <title>Field Notes — Learn R for Survey Data</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@400;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --green:#58CC02;
-    --green-deep:#4CAA00;
-    --green-light:#D7FFB8;
+    --lilac:#9B7EDE;
+    --lilac-deep:#7A5BC0;
+    --lilac-light:#EDE5FB;
     --blue:#1CB0F6;
     --blue-deep:#1899D6;
     --gold:#FFC800;
@@ -18,7 +18,6 @@
     --red:#FF4B4B;
     --red-deep:#EA2B2B;
     --red-light:#FFDFE0;
-    --purple:#CE82FF;
     --bg:#FFFFFF;
     --bg-soft:#F7F7F7;
     --card-border:#E5E5E5;
@@ -34,223 +33,198 @@
     font-family:'Nunito', system-ui, sans-serif;
     min-height:100vh;
     -webkit-tap-highlight-color: transparent;
+    padding-bottom:64px; /* space for bottom nav */
   }
-  .wrap{max-width:640px; margin:0 auto; padding:0 0 48px;}
+  .wrap{max-width:640px; margin:0 auto;}
+  button{font-family:inherit;}
 
-  header{
-    padding:16px 18px 14px;
-    background:var(--bg);
-    position:sticky; top:0; z-index:20;
-    border-bottom:2px solid var(--card-border);
+  /* ---------- Slim top strip ---------- */
+  #topStrip{
+    position:sticky; top:0; z-index:30;
+    background:var(--bg); border-bottom:2px solid var(--card-border);
+    padding:7px 14px;
+    display:flex; align-items:center; justify-content:space-between; gap:10px;
   }
-  .eyebrow{
-    font-family:'Baloo 2', sans-serif;
-    font-size:12px; font-weight:700; letter-spacing:.06em; text-transform:uppercase;
-    color:var(--text-faint);
-    display:flex; align-items:center; gap:6px;
+  #topStrip .wordmark{
+    font-family:'Baloo 2', sans-serif; font-weight:700; font-size:13px; color:var(--text);
+    display:flex; align-items:center; gap:5px; white-space:nowrap;
   }
-  .eyebrow::before{content:"📗"; font-size:13px;}
-  h1{
-    font-family:'Baloo 2', sans-serif;
-    font-weight:700;
-    font-size:26px;
-    line-height:1.15;
-    margin:2px 0 14px;
-    letter-spacing:-.01em;
-    color:var(--text);
-  }
-  h1 em{font-style:normal; color:var(--green);}
-
-  .stat-bar{display:flex; align-items:center; gap:14px; flex-wrap:wrap;}
-  .stat{display:flex; align-items:center; gap:5px; font-family:'Baloo 2', sans-serif; font-size:15px;}
-  .stat .val{font-weight:700; color:var(--text);}
-  .flame{color:var(--gold-deep); font-size:17px; line-height:1; font-style:normal;}
-  .flame::before{content:"🔥";}
-  .streak-zero .val{color:var(--text-faint);}
-  .streak-zero .flame{filter:grayscale(1); opacity:.5;}
-
-  .hearts{display:flex; gap:3px;}
-  .heart{width:16px; height:16px; position:relative;}
-  .heart svg{width:100%; height:100%;}
-  .heart.full svg path{fill:var(--red);}
-  .heart.empty svg path{fill:none; stroke:var(--card-border); stroke-width:6;}
-
-  .goal-ring{width:32px; height:32px; position:relative; flex:0 0 auto;}
-  .goal-ring svg{transform:rotate(-90deg);}
-  .goal-ring .bg{stroke:var(--card-border);}
-  .goal-ring .fg{stroke:var(--blue); transition:stroke-dashoffset .4s ease;}
-  .goal-ring .center{
-    position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
-    font-family:'Baloo 2', sans-serif; font-weight:700; font-size:9px; color:var(--blue-deep);
-  }
-
-  .xp-wrap{flex:1 1 140px; min-width:130px;}
-  .xp-top{display:flex; justify-content:space-between; font-family:'Baloo 2', sans-serif; font-size:12px; font-weight:700; color:var(--text-soft); margin-bottom:4px;}
-  .xp-top .lvl{color:var(--gold-deep);}
-  .xp-track{height:10px; background:var(--bg-soft); border-radius:99px; overflow:hidden; border:2px solid var(--card-border);}
+  #topStrip .wordmark::before{content:"📗"; font-size:13px;}
+  .xp-block{display:flex; align-items:center; gap:8px; flex:1; max-width:220px;}
+  .xp-block .lvl{font-family:'Baloo 2', sans-serif; font-weight:700; font-size:12px; color:var(--gold-deep); white-space:nowrap;}
+  .xp-track{flex:1; height:6px; background:var(--bg-soft); border-radius:99px; overflow:hidden; border:1.5px solid var(--card-border);}
   .xp-fill{height:100%; background:var(--gold); border-radius:99px; width:0%; transition:width .5s ease;}
+  .xp-num{font-family:'IBM Plex Mono', monospace; font-size:10px; color:var(--text-faint); white-space:nowrap;}
 
-  .path-section{padding:20px 18px 6px;}
-  .path-section-label{
-    font-family:'Baloo 2', sans-serif; font-size:13px; font-weight:700; letter-spacing:.02em;
-    color:var(--text-soft); margin-bottom:8px;
+  .engine-banner{
+    margin:8px 14px 0; padding:9px 12px; border-radius:12px;
+    font-family:'Baloo 2', sans-serif; font-size:12px; font-weight:700; line-height:1.4;
+    display:flex; align-items:center; gap:8px;
   }
-  .path-map{position:relative; padding:12px 0 4px;}
-  .path-map::before{
-    content:""; position:absolute; left:50%; top:8px; bottom:8px; width:6px;
-    background:var(--card-border); border-radius:99px; transform:translateX(-3px); z-index:0;
+  .engine-banner.loading{background:#EEF8FF; color:var(--blue-deep);}
+  .engine-banner.ready{display:none;}
+  .engine-banner.error{background:var(--red-light); color:var(--red-deep);}
+  .dot{width:7px; height:7px; border-radius:50%; background:currentColor; flex:0 0 auto; animation:pulse 1.4s ease-in-out infinite;}
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.35;}}
+
+  /* ---------- Views ---------- */
+  main{padding:0 14px;}
+  .view[hidden]{display:none;}
+
+  /* Path view */
+  .path-intro{
+    font-size:12.5px; color:var(--text-soft); padding:12px 2px 2px; line-height:1.5;
   }
   .unit-divider{
     position:relative; z-index:1; display:flex; align-items:center; justify-content:space-between;
     background:var(--bg); border:2px solid var(--card-border); border-radius:14px;
-    padding:8px 14px; margin:18px auto 14px; max-width:88%;
+    padding:8px 14px; margin:16px auto 12px; max-width:94%;
     font-family:'Baloo 2', sans-serif;
   }
-  .unit-divider .unit-name{font-size:13px; font-weight:700; color:var(--text); letter-spacing:.01em;}
-  .unit-divider .unit-count{font-size:12px; font-weight:700; color:var(--green-deep); background:var(--green-light); padding:2px 8px; border-radius:99px;}
-  .path-row{position:relative; z-index:1; display:flex; margin:10px 0; width:100%;}
-  .path-row .slot{width:220px; max-width:60%; display:flex; flex-direction:column; align-items:center; gap:6px;}
+  .unit-divider .unit-name{font-size:12.5px; font-weight:700; color:var(--text);}
+  .unit-divider .unit-count{font-size:11.5px; font-weight:700; color:var(--lilac-deep); background:var(--lilac-light); padding:2px 8px; border-radius:99px;}
+  .path-map{position:relative; padding:4px 0 16px;}
+  .path-map::before{
+    content:""; position:absolute; left:50%; top:8px; bottom:8px; width:6px;
+    background:var(--card-border); border-radius:99px; transform:translateX(-3px); z-index:0;
+  }
+  .path-row{position:relative; z-index:1; display:flex; margin:8px 0; width:100%;}
+  .path-row .slot{width:220px; max-width:60%; display:flex; flex-direction:column; align-items:center; gap:4px;}
   .path-row:nth-child(odd){justify-content:flex-start;}
   .path-row:nth-child(even){justify-content:flex-end;}
   .node-btn{
-    width:62px; height:62px; border-radius:50%;
-    border:none; background:var(--card-border);
+    width:52px; height:52px; border-radius:50%; border:none; background:var(--card-border);
     display:flex; align-items:center; justify-content:center;
-    font-family:'Baloo 2', sans-serif; font-weight:700; font-size:20px;
-    color:#fff; cursor:pointer; position:relative;
-    box-shadow:0 6px 0 #CCCCCC;
-    transition:transform .08s;
+    font-family:'Baloo 2', sans-serif; font-weight:700; font-size:17px; color:#fff;
+    cursor:pointer; position:relative; box-shadow:0 5px 0 #CCCCCC; transition:transform .08s;
   }
-  .node-btn:active{transform:translateY(4px); box-shadow:0 2px 0 #CCCCCC;}
-  .node-btn.locked{background:var(--card-border); color:var(--text-faint); cursor:not-allowed; box-shadow:0 6px 0 #D2D2D2;}
-  .node-btn.locked::after{content:"🔒"; font-size:16px; position:absolute; bottom:-6px; right:-4px;
-    background:#fff; border-radius:50%; width:22px; height:22px; display:flex; align-items:center; justify-content:center;
+  .node-btn:active:not(:disabled){transform:translateY(4px); box-shadow:0 1px 0 #CCCCCC;}
+  .node-btn.locked{background:var(--card-border); color:var(--text-faint); cursor:not-allowed; box-shadow:0 5px 0 #D2D2D2;}
+  .node-btn.locked::after{content:"🔒"; font-size:13px; position:absolute; bottom:-5px; right:-3px;
+    background:#fff; border-radius:50%; width:19px; height:19px; display:flex; align-items:center; justify-content:center;
     box-shadow:0 2px 0 var(--card-border);}
-  .node-btn.current{background:var(--green); box-shadow:0 6px 0 var(--green-deep);}
+  .node-btn.current{background:var(--lilac); box-shadow:0 5px 0 var(--lilac-deep);}
   .node-btn.current::before{
-    content:""; position:absolute; inset:-8px; border-radius:50%;
-    border:3px solid var(--green); opacity:.5;
+    content:""; position:absolute; inset:-7px; border-radius:50%; border:3px solid var(--lilac); opacity:.5;
     animation:ringpulse 1.6s ease-out infinite;
   }
-  .node-btn.done{background:var(--gold); box-shadow:0 6px 0 var(--gold-deep); font-size:24px;}
-  @keyframes ringpulse{
-    0%{transform:scale(1); opacity:.5;}
-    100%{transform:scale(1.4); opacity:0;}
-  }
-  .node-label{font-family:'Baloo 2', sans-serif; font-weight:700; font-size:11.5px; color:var(--text-soft); text-align:center; max-width:120px; line-height:1.3;}
+  .node-btn.done{background:var(--gold); box-shadow:0 5px 0 var(--gold-deep); font-size:21px;}
+  @keyframes ringpulse{0%{transform:scale(1); opacity:.5;} 100%{transform:scale(1.4); opacity:0;}}
+  .node-label{font-family:'Baloo 2', sans-serif; font-weight:700; font-size:10.5px; color:var(--text-soft); text-align:center; max-width:110px; line-height:1.25;}
 
-  main{padding:8px 18px 0;}
-  .card{
-    background:var(--bg);
-    border:2px solid var(--card-border);
-    border-radius:20px;
-    box-shadow:0 3px 0 var(--card-border);
-    padding:20px 18px;
-    margin-top:8px;
+  /* Learn view */
+  .learn-kicker{
+    font-family:'Baloo 2', sans-serif; font-size:11.5px; font-weight:700; letter-spacing:.04em;
+    text-transform:uppercase; color:var(--lilac-deep); margin:12px 0 6px;
   }
-  .lesson-kicker{
-    font-family:'Baloo 2', sans-serif; font-size:12px; font-weight:700; letter-spacing:.04em;
-    text-transform:uppercase; color:var(--blue-deep); margin-bottom:6px;
-    display:flex; justify-content:space-between; align-items:center;
-  }
-  .xp-tag{color:var(--gold-deep);}
-  .lesson-title{
-    font-family:'Baloo 2', sans-serif; font-weight:700; font-size:22px;
-    margin:0 0 10px; line-height:1.2; color:var(--text);
-  }
-  .lesson-instructions{font-size:15px; line-height:1.6; color:var(--text);}
-  .lesson-instructions code{
+  .learn-title{font-family:'Baloo 2', sans-serif; font-weight:700; font-size:21px; margin:0 0 10px; line-height:1.2;}
+  .learn-body{font-size:15px; line-height:1.6;}
+  .learn-body code{
     font-family:'IBM Plex Mono', monospace; background:var(--bg-soft); padding:2px 6px;
-    border-radius:6px; font-size:13.5px; color:var(--blue-deep); border:1px solid var(--card-border);
+    border-radius:6px; font-size:13.5px; color:var(--lilac-deep); border:1px solid var(--card-border);
   }
   .preload-note{
-    margin-top:12px; font-size:13px; color:var(--text-soft);
+    margin-top:12px; font-size:12.5px; color:var(--text-soft);
     background:#EEF8FF; border-radius:10px; padding:9px 12px; border-left:4px solid var(--blue);
   }
-
-  .hint-toggle{
-    margin-top:14px; background:none; border:none; padding:0;
-    font-family:'Baloo 2', sans-serif; font-size:13.5px; font-weight:700;
-    color:var(--blue); cursor:pointer;
+  .go-practice{
+    display:block; width:100%; margin-top:20px; padding:14px; border:none; border-radius:16px;
+    background:var(--lilac); box-shadow:0 4px 0 var(--lilac-deep); color:#fff;
+    font-family:'Baloo 2', sans-serif; font-weight:700; font-size:15px; cursor:pointer;
   }
+  .go-practice:active{transform:translateY(4px); box-shadow:none;}
+
+  /* Practice view */
+  .practice-sticky{
+    position:sticky; top:38px; z-index:20; background:var(--bg);
+    margin:0 -14px; padding:10px 14px 8px; border-bottom:2px solid var(--card-border);
+  }
+  .practice-recap{display:flex; align-items:center; justify-content:space-between; gap:10px;}
+  .practice-recap .info{min-width:0;}
+  .practice-recap .kicker{font-family:'Baloo 2', sans-serif; font-size:10.5px; font-weight:700; color:var(--lilac-deep); text-transform:uppercase;}
+  .practice-recap .ttl{font-family:'Baloo 2', sans-serif; font-size:14.5px; font-weight:700; color:var(--text);
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+  #practiceInstructions{
+    display:block; font-size:13.5px; line-height:1.55; margin-top:8px; color:var(--text);
+  }
+  #practiceInstructions code{
+    font-family:'IBM Plex Mono', monospace; background:var(--bg-soft); padding:1px 5px;
+    border-radius:5px; font-size:12.5px; color:var(--lilac-deep); border:1px solid var(--card-border);
+  }
+
+  .mini-row{display:flex; gap:8px; margin-top:12px; flex-wrap:wrap;}
+  button.action.small{
+    font-size:12px; padding:8px 14px; border-radius:12px;
+  }
+  button.action.small:active:not(:disabled){transform:translateY(3px); box-shadow:none !important;}
+  button.action.hint-btn{background:#0B5FA5; box-shadow:0 3px 0 #073F70; color:#fff;}
+  button.action.help-btn{background:var(--bg); border:2px solid var(--card-border); box-shadow:0 3px 0 var(--card-border); color:var(--blue-deep);}
+  button.action.answer-btn{background:var(--gold); box-shadow:0 4px 0 var(--gold-deep); color:var(--text);}
   .hint-box{
-    display:none; margin-top:8px; font-size:13.5px; color:var(--text-soft);
+    display:none; margin-top:8px; font-size:13px; color:var(--text-soft);
     background:#EEF8FF; border-radius:10px; padding:10px 12px; line-height:1.5;
   }
   .hint-box.show{display:block;}
 
-  .console-label{
-    margin-top:18px; display:flex; justify-content:space-between; align-items:center;
-  }
-  .console-label span{
-    font-family:'Baloo 2', sans-serif; font-size:11.5px; font-weight:700;
-    letter-spacing:.04em; text-transform:uppercase; color:var(--text-faint);
-  }
-  .hearts-inline{display:flex; align-items:center; gap:5px;}
-  .hearts-inline .lbl{font-family:'Baloo 2', sans-serif; font-size:11px; font-weight:700; color:var(--text-faint);}
-
+  .console-label{margin-top:12px; font-family:'Baloo 2', sans-serif; font-size:11px; font-weight:700; letter-spacing:.04em; text-transform:uppercase; color:var(--text-faint);}
   textarea#code{
-    width:100%; margin-top:6px;
-    background:#2B2F38; color:#E7E3D5;
+    width:100%; margin-top:5px; background:#2B2F38; color:#E7E3D5;
     font-family:'IBM Plex Mono', monospace; font-size:14px; line-height:1.55;
-    border:none; border-radius:14px; padding:14px;
-    min-height:120px; resize:vertical;
-    tab-size:2;
+    border:none; border-radius:14px; padding:13px; min-height:110px; resize:vertical; tab-size:2;
   }
   textarea#code:focus{outline:3px solid var(--blue);}
 
-  .btn-row{display:flex; gap:10px; margin-top:14px; flex-wrap:wrap;}
+  .btn-row{display:flex; gap:9px; margin-top:12px; flex-wrap:wrap;}
   button.action{
-    font-family:'Baloo 2', sans-serif; font-size:14px; font-weight:700;
-    padding:12px 20px; border-radius:16px; border:none;
-    cursor:pointer; color:#fff;
-    transition:transform .08s, box-shadow .08s;
+    font-family:'Baloo 2', sans-serif; font-size:13.5px; font-weight:700;
+    padding:11px 18px; border-radius:15px; border:none; cursor:pointer; color:#fff;
+    transition:transform .08s;
   }
-  button.action:active:not(:disabled){transform:translateY(4px); box-shadow:0 0 0 transparent !important;}
+  button.action:active:not(:disabled){transform:translateY(4px); box-shadow:none !important;}
   button.run{background:var(--blue); box-shadow:0 4px 0 var(--blue-deep);}
-  button.check{background:var(--green); box-shadow:0 4px 0 var(--green-deep);}
-  button.reset{background:var(--bg); color:var(--text-soft); border:2px solid var(--card-border); box-shadow:0 4px 0 var(--card-border);}
+  button.check{background:var(--lilac); box-shadow:0 4px 0 var(--lilac-deep);}
+  button.ghost{background:var(--bg); color:var(--text-soft); border:2px solid var(--card-border); box-shadow:0 4px 0 var(--card-border);}
   button.action:disabled{opacity:.4; cursor:not-allowed; box-shadow:none;}
 
   .output{
-    margin-top:12px; background:#2B2F38; color:#D7D2C2;
+    margin-top:11px; background:#2B2F38; color:#D7D2C2;
     font-family:'IBM Plex Mono', monospace; font-size:12.5px; line-height:1.5;
     padding:12px 14px; border-radius:14px; white-space:pre-wrap; word-break:break-word;
-    min-height:20px; display:none;
+    min-height:18px; display:none;
   }
   .output.show{display:block;}
   .output .err{color:#FF8A80;}
 
   .feedback{
-    margin-top:12px; padding:12px 14px; border-radius:14px; font-size:14px; font-weight:700;
-    font-family:'Nunito', sans-serif; display:none; line-height:1.5;
+    margin-top:11px; padding:11px 14px; border-radius:14px; font-size:13.5px; font-weight:700;
+    display:none; line-height:1.5;
   }
   .feedback.show{display:block;}
-  .feedback.ok{background:var(--green-light); color:var(--green-deep);}
+  .feedback.ok{background:var(--lilac-light); color:var(--lilac-deep);}
   .feedback.bad{background:var(--red-light); color:var(--red-deep);}
-  .feedback.out{background:var(--red-light); color:var(--red-deep);}
 
-  .nav-row{display:flex; justify-content:space-between; margin-top:20px; gap:10px;}
+  .scroll-cue{
+    text-align:center; margin-top:56px; font-size:11px; color:var(--text-faint);
+    font-family:'Baloo 2', sans-serif; font-weight:700; letter-spacing:.04em;
+  }
+  .nav-row{display:flex; justify-content:space-between; margin:10px 0 16px; gap:10px;}
   .nav-row button{flex:1;}
 
-  .engine-banner{
-    margin:10px 18px 0; padding:12px 14px; border-radius:14px;
-    font-family:'Baloo 2', sans-serif; font-size:13px; font-weight:700; line-height:1.5;
-    display:flex; align-items:center; gap:9px;
+  /* ---------- Bottom icon nav ---------- */
+  #bottomNav{
+    position:fixed; bottom:0; left:0; right:0; z-index:40;
+    background:var(--bg); border-top:2px solid var(--card-border);
+    display:flex; padding:6px max(6px, env(safe-area-inset-bottom)) calc(6px + env(safe-area-inset-bottom));
   }
-  .engine-banner.loading{background:#EEF8FF; color:var(--blue-deep);}
-  .engine-banner.ready{background:var(--green-light); color:var(--green-deep); display:none;}
-  .engine-banner.error{background:var(--red-light); color:var(--red-deep);}
-  .dot{width:8px; height:8px; border-radius:50%; background:currentColor; flex:0 0 auto;
-    animation:pulse 1.4s ease-in-out infinite;}
-  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.35;}}
-
-  footer{
-    margin:26px 18px 0; font-size:12px; color:var(--text-faint);
-    font-family:'Nunito', sans-serif; line-height:1.6; border-top:2px solid var(--card-border);
-    padding-top:14px;
+  #bottomNav button{
+    flex:1; background:none; border:none; cursor:pointer; padding:6px 4px;
+    display:flex; flex-direction:column; align-items:center; gap:2px;
+    font-family:'Baloo 2', sans-serif; font-size:10px; font-weight:700; color:var(--text-faint);
   }
+  #bottomNav button .ic{font-size:19px; line-height:1;}
+  #bottomNav button.active{color:var(--lilac-deep);}
 
+  /* ---------- Celebration ---------- */
   .celebrate-overlay{
     position:fixed; inset:0; background:rgba(60,60,60,.5); z-index:100;
     display:flex; align-items:center; justify-content:center;
@@ -259,160 +233,185 @@
   .celebrate-overlay.show{opacity:1; pointer-events:auto;}
   .celebrate-card{
     background:var(--bg); border:2px solid var(--card-border); border-radius:24px;
-    box-shadow:0 6px 0 var(--card-border);
-    padding:32px 28px; max-width:300px; text-align:center;
+    box-shadow:0 6px 0 var(--card-border); padding:30px 26px; max-width:300px; text-align:center;
     transform:scale(.8) translateY(10px); transition:transform .35s cubic-bezier(.34,1.56,.64,1);
   }
   .celebrate-overlay.show .celebrate-card{transform:scale(1) translateY(0);}
-  .celebrate-mark{font-size:46px; margin-bottom:6px;}
+  .celebrate-mark{font-size:42px; margin-bottom:6px;}
   .celebrate-mark::before{content:"🎉";}
-  .celebrate-title{font-family:'Baloo 2', sans-serif; font-weight:700; font-size:21px; margin:2px 0 10px; color:var(--text);}
-  .celebrate-xp{
-    font-family:'Baloo 2', sans-serif; font-size:16px; color:var(--gold-deep);
-    font-weight:700; margin-bottom:6px;
-  }
-  .celebrate-sub{font-size:13px; color:var(--text-soft); margin-bottom:18px; line-height:1.5;}
+  .celebrate-title{font-family:'Baloo 2', sans-serif; font-weight:700; font-size:20px; margin:2px 0 8px; color:var(--text);}
+  .celebrate-xp{font-family:'Baloo 2', sans-serif; font-size:15px; color:var(--gold-deep); font-weight:700; margin-bottom:14px;}
   .celebrate-levelup{
-    font-family:'Baloo 2', sans-serif; font-size:12.5px; font-weight:700; color:var(--blue-deep);
-    background:#EEF8FF; border-radius:12px; padding:8px 10px; margin-bottom:16px; display:none;
+    font-family:'Baloo 2', sans-serif; font-size:12px; font-weight:700; color:var(--lilac-deep);
+    background:var(--lilac-light); border-radius:12px; padding:8px 10px; margin-bottom:14px; display:none;
   }
   .celebrate-levelup.show{display:block;}
   .celebrate-close{
-    font-family:'Baloo 2', sans-serif; font-size:15px; font-weight:700;
-    background:var(--green); color:#fff; border:none; box-shadow:0 4px 0 var(--green-deep);
-    border-radius:16px;
-    padding:12px 28px; cursor:pointer;
+    font-family:'Baloo 2', sans-serif; font-size:14px; font-weight:700;
+    background:var(--lilac); color:#fff; border:none; box-shadow:0 4px 0 var(--lilac-deep);
+    border-radius:15px; padding:11px 26px; cursor:pointer;
   }
   .celebrate-close:active{transform:translateY(4px); box-shadow:none;}
 
-  @media (prefers-reduced-motion: reduce){
-    .dot, .node-btn.current::before{animation:none;}
+  .help-card{max-width:340px; text-align:left;}
+  .help-card .celebrate-title{text-align:left;}
+  #helpBody{font-size:13.5px; line-height:1.6; color:var(--text); margin-bottom:18px;}
+  #helpBody code{
+    display:inline-block; font-family:'IBM Plex Mono', monospace; background:var(--bg-soft);
+    padding:1px 5px; border-radius:5px; font-size:12.5px; color:var(--lilac-deep);
+    border:1px solid var(--card-border); margin-top:2px;
   }
+  #helpBody b{color:var(--text);}
+  .help-card .celebrate-close{display:block; width:100%;}
+
+  @media (prefers-reduced-motion: reduce){ .dot, .node-btn.current::before{animation:none;} }
 </style>
 </head>
 <body>
-<div class="wrap">
 
-  <header>
-    <div class="eyebrow">Field Notes</div>
-    <h1>Learn R <em>for survey data</em></h1>
-    <div class="stat-bar" id="statBar">
-      <div class="stat streak" id="streakStat">
-        <span class="flame">▲</span><span class="val" id="streakVal">0</span><span>day streak</span>
-      </div>
-      <div class="hearts" id="headerHearts"></div>
-      <div class="xp-wrap">
-        <div class="xp-top"><span class="lvl" id="lvlLabel">Level 1</span><span id="xpLabel">0 / 150 XP</span></div>
-        <div class="xp-track"><div class="xp-fill" id="xpFill"></div></div>
-      </div>
-      <div class="goal-ring">
-        <svg width="30" height="30" viewBox="0 0 30 30">
-          <circle class="bg" cx="15" cy="15" r="12" fill="none" stroke-width="4"/>
-          <circle class="fg" id="goalRingFg" cx="15" cy="15" r="12" fill="none" stroke-width="4"
-            stroke-dasharray="75.4" stroke-dashoffset="75.4" stroke-linecap="round"/>
-        </svg>
-        <div class="center" id="goalRingLabel">0/1</div>
-      </div>
+  <div id="topStrip">
+    <div class="wordmark">Field Notes</div>
+    <div class="xp-block">
+      <span class="lvl" id="lvlLabel">Lv 1</span>
+      <div class="xp-track"><div class="xp-fill" id="xpFill"></div></div>
+      <span class="xp-num" id="xpNum">0/150</span>
     </div>
-  </header>
+  </div>
 
   <div class="engine-banner loading" id="engineBanner">
     <span class="dot"></span>
-    <span id="engineText">Starting the R engine and installing dplyr + purrr (first load can take 30–60s)…</span>
+    <span id="engineText">Starting R and installing dplyr, purrr, forcats, here (30–70s first time)…</span>
   </div>
 
-  <section class="path-section">
-    <div class="path-section-label">Your path</div>
-    <div class="path-map" id="pathMap"></div>
-  </section>
+  <main class="wrap">
+    <section class="view" id="view-path">
+      <div class="path-intro">Learn R for survey data, tidyverse-first. Tap any unlocked lesson to begin.</div>
+      <div class="path-map" id="pathMap"></div>
+    </section>
 
-  <main>
-    <div class="card">
-      <div class="lesson-kicker">
-        <span id="lessonKicker">Lesson 1 of 6</span>
-        <span class="xp-tag" id="lessonXpTag">+50 XP</span>
+    <section class="view" id="view-learn" hidden>
+      <div class="learn-kicker" id="learnKicker">Lesson 1 of 40</div>
+      <h2 class="learn-title" id="learnTitle"></h2>
+      <div class="learn-body" id="learnInstructions"></div>
+      <div class="preload-note" id="learnPreload" style="display:none;"></div>
+      <button class="go-practice" id="goPracticeBtn">Start practicing →</button>
+    </section>
+
+    <section class="view" id="view-practice" hidden>
+      <div class="practice-sticky">
+        <div class="practice-recap">
+          <div class="info">
+            <div class="kicker" id="practiceKicker">Lesson 1</div>
+            <div class="ttl" id="practiceTitle"></div>
+          </div>
+        </div>
+        <div id="practiceInstructions"></div>
       </div>
-      <h2 class="lesson-title" id="lessonTitle"></h2>
-      <div class="lesson-instructions" id="lessonInstructions"></div>
-      <div class="preload-note" id="preloadNote" style="display:none;"></div>
-      <button class="hint-toggle" id="hintToggle">Show hint (−20 XP)</button>
+
+      <div class="mini-row">
+        <button class="action small hint-btn" id="hintToggle">Show hint</button>
+        <button class="action small help-btn" id="helpBtn">Help</button>
+      </div>
       <div class="hint-box" id="hintBox"></div>
 
-      <div class="console-label">
-        <span>Your code</span>
-        <div class="hearts-inline"><span class="lbl">attempts</span><div class="hearts" id="lessonHearts"></div></div>
-      </div>
+      <div class="console-label">Your code</div>
       <textarea id="code" spellcheck="false" autocapitalize="off" autocorrect="off"></textarea>
 
       <div class="btn-row">
         <button class="action run" id="runBtn" disabled>Run code</button>
         <button class="action check" id="checkBtn" disabled>Check answer</button>
-        <button class="action reset" id="resetBtn">Reset</button>
+        <button class="action answer-btn" id="answerBtn">Display answer</button>
       </div>
 
       <div class="output" id="output"></div>
       <div class="feedback" id="feedback"></div>
 
+      <div class="scroll-cue">▾ more ▾</div>
       <div class="nav-row">
-        <button class="action reset" id="prevBtn">← Previous</button>
-        <button class="action reset" id="nextBtn">Next →</button>
+        <button class="action ghost" id="prevBtn">← Prev</button>
+        <button class="action ghost" id="nextBtn">Next →</button>
       </div>
-    </div>
+    </section>
   </main>
 
-  <footer>
-    Runs on webR (R compiled to WebAssembly). If the engine can't load here, save this file
-    and open it in a browser, or host it on GitHub Pages — same file, no changes needed.
-  </footer>
-</div>
+  <nav id="bottomNav">
+    <button data-view="path"><span class="ic">🗺️</span>Path</button>
+    <button data-view="learn"><span class="ic">📖</span>Learn</button>
+    <button data-view="practice"><span class="ic">⌨️</span>Practice</button>
+  </nav>
 
-<div class="celebrate-overlay" id="celebrateOverlay">
-  <div class="celebrate-card">
-    <div class="celebrate-mark">✓</div>
-    <div class="celebrate-title" id="celebrateTitle">Logged.</div>
-    <div class="celebrate-xp" id="celebrateXp">+50 XP</div>
-    <div class="celebrate-sub" id="celebrateSub">Streak and level tracked automatically.</div>
-    <div class="celebrate-levelup" id="celebrateLevelup">Level up! You're now Level 2.</div>
-    <button class="celebrate-close" id="celebrateClose">Continue</button>
+  <div class="celebrate-overlay" id="celebrateOverlay">
+    <div class="celebrate-card">
+      <div class="celebrate-mark"></div>
+      <div class="celebrate-title" id="celebrateTitle">Logged.</div>
+      <div class="celebrate-xp" id="celebrateXp">+50 XP</div>
+      <div class="celebrate-levelup" id="celebrateLevelup">Level up! You're now Level 2.</div>
+      <button class="celebrate-close" id="celebrateClose">Continue</button>
+    </div>
   </div>
-</div>
+
+  <div class="celebrate-overlay" id="helpOverlay">
+    <div class="celebrate-card help-card">
+      <div class="celebrate-title">How it works</div>
+      <div id="helpBody"></div>
+      <button class="celebrate-close" id="helpClose">Got it</button>
+    </div>
+  </div>
 
 <script type="module">
-  const LESSONS = [
+const LESSONS = [
     {
       title: "Vectors & indexing",
+      id: "vectors-indexing",
       short: "Vectors",
       unit: "Tidyverse Foundations",
-      instructions: `You're logging ages from a five-person pilot survey. Plain vectors work the
-        same way in tidyverse code as anywhere else in R.<br><br>
-        1. Create a vector <code>ages</code> containing <code>22, 35, 41, 29, 58</code>.<br>
+      instructions: `You're logging ages from a small pilot survey. Plain vectors work the same
+        way in tidyverse code as anywhere else in R.<br><br>
+        1. Create a vector <code>ages</code> containing <code>22, 35, 41</code>.<br>
         2. Create <code>first_two</code> holding just the first two ages, using indexing.`,
       starter: `ages <- c()\n\nfirst_two <- ages[]\n`,
-      hint: "Combine values with c(22, 35, 41, 29, 58). To grab the first two elements of a vector, index it with [1:2].",
-      check: `exists("ages") && exists("first_two") && identical(sort(ages), sort(c(22,35,41,29,58))) && identical(first_two, ages[1:2])`
+      solution: `ages <- c(22, 35, 41)
+
+first_two <- ages[1:2]
+`,
+      hint: "Combine values with c(22, 35, 41). To grab the first two elements of a vector, index it with [1:2].",
+      help: `<b>c()</b> combines values into a vector. <b>[ ]</b> indexes/selects elements by position.<br><br>
+Example:<br><code>fruits <- c("apple", "pear", "fig")<br>fruits[2]  # "pear"</code>`,
+      check: `exists("ages") && exists("first_two") && identical(sort(ages), sort(c(22,35,41))) && identical(first_two, ages[1:2])`
     },
     {
       title: "Building a tibble",
+      id: "building-a-tibble",
       short: "Tibbles",
       unit: "Tidyverse Foundations",
       instructions: `Tidyverse workflows use <b>tibbles</b> instead of base data frames — same idea,
         nicer printing, stricter behavior.<br><br>
-        1. Create a tibble <code>pilot</code> with columns <code>id</code> (1 through 5),
-        <code>age</code> (<code>22, 35, 41, 29, 58</code>), and
-        <code>region</code> (<code>"North","South","North","East","South"</code>), using
-        <code>tibble()</code>.<br>
+        1. Create a tibble <code>pilot</code> with columns <code>id</code> (1 through 3),
+        <code>age</code> (<code>22, 35, 41</code>), and
+        <code>region</code> (<code>"North","South","North"</code>), using <code>tibble()</code>.<br>
         2. Use <code>select()</code> to create <code>age_region</code>: just the
         <code>age</code> and <code>region</code> columns.`,
       preload: `dplyr and tibble are loaded and ready to use.`,
       starter: `pilot <- tibble(\n  id = ,\n  age = ,\n  region = \n)\n\nage_region <- pilot |> select()\n`,
-      hint: 'tibble(id = 1:5, age = c(...), region = c(...)). Then pilot |> select(age, region).',
+      solution: `pilot <- tibble(
+  id = 1:3,
+  age = c(22, 35, 41),
+  region = c("North", "South", "North")
+)
+
+age_region <- pilot |> select(age, region)
+`,
+      hint: 'tibble(id = 1:3, age = c(...), region = c(...)). Then pilot |> select(age, region).',
+      help: `<b>tibble()</b> builds a data table column by column. <b>select()</b> picks specific columns out of it.<br><br>
+Example:<br><code>animals <- tibble(name = c("cat","dog"), legs = c(4,4))<br>animals |> select(name)</code>`,
       check: `exists("pilot") && exists("age_region") &&
-        isTRUE(all.equal(pilot$id, 1:5)) && isTRUE(all.equal(pilot$age, c(22,35,41,29,58))) &&
-        identical(pilot$region, c("North","South","North","East","South")) &&
+        isTRUE(all.equal(pilot$id, 1:3)) && isTRUE(all.equal(pilot$age, c(22,35,41))) &&
+        identical(pilot$region, c("North","South","North")) &&
         isTRUE(all.equal(as.data.frame(age_region), as.data.frame(pilot[, c("age","region")]), check.attributes = FALSE))`
     },
     {
       title: "Filtering rows with filter()",
+      id: "filtering-rows-with-filter",
       short: "filter()",
       unit: "Tidyverse Foundations",
       instructions: `A <code>pilot</code> tibble is already loaded (id, age, region, satisfaction).
@@ -426,12 +425,17 @@
         satisfaction = c(4,5,2,3,5,4,3,5)
       )`,
       starter: `south_only <- pilot |> filter(region == "___")\n`,
+      solution: `south_only <- pilot |> filter(region == "South")
+`,
       hint: 'pilot |> filter(region == "South") — filter() keeps rows matching the condition.',
+      help: `<b>filter()</b> keeps only the rows that match a condition.<br><br>
+Example:<br><code>pets <- tibble(name = c("Rex","Milo"), age = c(2,7))<br>pets |> filter(age > 5)</code>`,
       check: `exists("south_only") &&
         isTRUE(all.equal(as.data.frame(south_only), as.data.frame(pilot |> dplyr::filter(region == "South")), check.attributes = FALSE))`
     },
     {
       title: "A function + purrr::map_dbl()",
+      id: "a-function-purrr-map-dbl",
       short: "purrr",
       unit: "Tidyverse Foundations",
       instructions: `A <code>scores</code> vector of 1–5 satisfaction ratings is loaded.<br><br>
@@ -440,25 +444,40 @@
         2. Apply it to every value in <code>scores</code> with <code>map_dbl()</code> (the
         tidyverse's typed alternative to <code>sapply()</code>), storing the result in
         <code>scores100</code>.`,
-      preload: `Preloaded: scores — 10 satisfaction ratings on a 1–5 scale. purrr is loaded.`,
-      setup: `scores <- c(4,5,2,3,5,4,3,5,1,2)`,
+      preload: `Preloaded: scores — 3 satisfaction ratings on a 1–5 scale. purrr is loaded.`,
+      setup: `scores <- c(4,2,5)`,
       starter: `rescale100 <- function(x) {\n  \n}\n\nscores100 <- scores |> map_dbl(rescale100)\n`,
+      solution: `rescale100 <- function(x) {
+  (x - 1) / 4 * 100
+}
+
+scores100 <- scores |> map_dbl(rescale100)
+`,
       hint: 'Function body: (x - 1) / 4 * 100. Then: scores |> map_dbl(rescale100).',
+      help: `A <b>function()</b> packages up reusable steps. <b>map_dbl()</b> applies a function to every element of a vector and returns a numeric vector back.<br><br>
+Example:<br><code>add_ten <- function(x) x + 10<br>c(1,2,3) |> map_dbl(add_ten)</code>`,
       check: `exists("rescale100") && exists("scores100") &&
         isTRUE(all.equal(scores100, (scores - 1) / 4 * 100, check.attributes = FALSE))`
     },
     {
       title: "Descriptive stats with summarise()",
+      id: "descriptive-stats-with-summarise",
       short: "summarise()",
       unit: "Tidyverse Foundations",
-      instructions: `A <code>pilot</code> tibble with an <code>income</code> column (12
-        respondents) is loaded.<br><br>
+      instructions: `A <code>pilot</code> tibble with an <code>income</code> column is loaded.<br><br>
         Create <code>income_stats</code>: a tibble with <code>mean_income</code> and
         <code>sd_income</code> (each rounded to 1 decimal place), using <code>summarise()</code>.`,
-      preload: `Preloaded: pilot — 12 household income values.`,
-      setup: `pilot <- tibble(income = c(38200,45900,52100,29800,61200,47500,33900,58700,41200,36500,49800,55300))`,
+      preload: `Preloaded: pilot — 6 household income values.`,
+      setup: `pilot <- tibble(income = c(38200,45900,52100,29800,61200,47500))`,
       starter: `income_stats <- pilot |> summarise(\n  mean_income = round(mean(income), ),\n  sd_income = round(sd(income), )\n)\n`,
+      solution: `income_stats <- pilot |> summarise(
+  mean_income = round(mean(income), 1),
+  sd_income = round(sd(income), 1)
+)
+`,
       hint: 'pilot |> summarise(mean_income = round(mean(income), 1), sd_income = round(sd(income), 1))',
+      help: `<b>summarise()</b> collapses a table down into one row of summary values.<br><br>
+Example:<br><code>tibble(temp = c(18,21,19)) |> summarise(avg = mean(temp))</code>`,
       check: `exists("income_stats") &&
         isTRUE(all.equal(as.data.frame(income_stats),
         data.frame(mean_income = round(mean(pilot$income),1), sd_income = round(sd(pilot$income),1)),
@@ -466,20 +485,26 @@
     },
     {
       title: "Recoding with if_else()",
+      id: "recoding-with-if-else",
       short: "if_else()",
       unit: "Tidyverse Foundations",
       instructions: `A <code>pilot</code> tibble with an <code>age</code> column is loaded.<br><br>
         Create <code>pilot2</code>: the same data with a new column <code>age_group</code> —
         <code>"Under 40"</code> below 40, otherwise <code>"40+"</code> — using
         <code>mutate()</code> and <code>if_else()</code>.`,
-      preload: `Preloaded: pilot — 8 respondent ages.`,
-      setup: `pilot <- tibble(age = c(22,35,41,29,58,31,47,26))`,
+      preload: `Preloaded: pilot — 4 respondent ages.`,
+      setup: `pilot <- tibble(age = c(22,35,41,58))`,
       starter: `pilot2 <- pilot |> mutate(age_group = if_else(age < , "Under 40", "___"))\n`,
+      solution: `pilot2 <- pilot |> mutate(age_group = if_else(age < 40, "Under 40", "40+"))
+`,
       hint: 'mutate(age_group = if_else(age < 40, "Under 40", "40+"))',
+      help: `<b>mutate()</b> adds a new column to a table. <b>if_else()</b> picks one of two values based on a condition.<br><br>
+Example:<br><code>tibble(temp = c(15,25)) |> mutate(weather = if_else(temp > 20, "warm", "cool"))</code>`,
       check: `exists("pilot2") && identical(pilot2$age_group, dplyr::if_else(pilot$age < 40, "Under 40", "40+"))`
     },
     {
       title: "Sorting with arrange()",
+      id: "sorting-with-arrange",
       short: "arrange()",
       unit: "Working with Survey Data",
       instructions: `A <code>pilot</code> tibble (id, age, satisfaction) is loaded.<br><br>
@@ -492,12 +517,17 @@
         satisfaction = c(3,5,2,4,5,3)
       )`,
       starter: `sorted_pilot <- pilot |> arrange(___)\n`,
+      solution: `sorted_pilot <- pilot |> arrange(age)
+`,
       hint: 'pilot |> arrange(age) — arrange() sorts ascending by default.',
+      help: `<b>arrange()</b> sorts the rows of a table by a column, ascending by default.<br><br>
+Example:<br><code>tibble(name = c("Bo","Amy"), score = c(7,9)) |> arrange(score)</code>`,
       check: `exists("sorted_pilot") &&
         isTRUE(all.equal(as.data.frame(sorted_pilot), as.data.frame(pilot |> dplyr::arrange(age)), check.attributes = FALSE))`
     },
     {
       title: "Missing data in a pipeline",
+      id: "missing-data-in-a-pipeline",
       short: "Missing data",
       unit: "Working with Survey Data",
       instructions: `A <code>pilot</code> tibble has an <code>income</code> column with some
@@ -506,10 +536,17 @@
         missing, using <code>is.na()</code> and <code>sum()</code>) and <code>mean_income</code>
         (ignoring missing values, using <code>na.rm = TRUE</code>), using
         <code>summarise()</code>.`,
-      preload: `Preloaded: pilot — 6 income values, two of them NA.`,
-      setup: `pilot <- tibble(income = c(38200, NA, 52100, 29800, NA, 47500))`,
+      preload: `Preloaded: pilot — 4 income values, one of them NA.`,
+      setup: `pilot <- tibble(income = c(38200, NA, 52100, 29800))`,
       starter: `na_summary <- pilot |> summarise(\n  count_na = sum(is.na()),\n  mean_income = mean(income, )\n)\n`,
+      solution: `na_summary <- pilot |> summarise(
+  count_na = sum(is.na(income)),
+  mean_income = mean(income, na.rm = TRUE)
+)
+`,
       hint: 'summarise(count_na = sum(is.na(income)), mean_income = mean(income, na.rm = TRUE))',
+      help: `<b>is.na()</b> flags which values are missing. <b>na.rm = TRUE</b> tells a function like mean() to skip them.<br><br>
+Example:<br><code>x <- c(5, NA, 9)<br>sum(is.na(x))        # 1<br>mean(x, na.rm = TRUE) # 7</code>`,
       check: `exists("na_summary") &&
         isTRUE(all.equal(as.data.frame(na_summary),
         data.frame(count_na = sum(is.na(pilot$income)), mean_income = mean(pilot$income, na.rm = TRUE)),
@@ -517,22 +554,31 @@
     },
     {
       title: "Age brackets with case_when()",
+      id: "age-brackets-with-case-when",
       short: "case_when()",
       unit: "Working with Survey Data",
       instructions: `A <code>pilot</code> tibble with an <code>age</code> column is loaded.<br><br>
         Create <code>pilot2</code>: add a column <code>age_bracket</code> — <code>"18-29"</code>,
         <code>"30-49"</code>, or <code>"50+"</code> — using <code>mutate()</code> and
-        <code>case_when()</code>, the tidyverse's readable alternative to nested <code>ifelse()</code>
-        or <code>cut()</code>.`,
-      preload: `Preloaded: pilot — 8 respondent ages.`,
-      setup: `pilot <- tibble(age = c(22,35,41,29,58,31,47,26))`,
+        <code>case_when()</code>, the tidyverse's readable alternative to nested <code>ifelse()</code>.`,
+      preload: `Preloaded: pilot — 4 respondent ages.`,
+      setup: `pilot <- tibble(age = c(22,35,41,58))`,
       starter: `pilot2 <- pilot |> mutate(age_bracket = case_when(\n  age < 30 ~ "18-29",\n  age < 50 ~ "___",\n  TRUE ~ "___"\n))\n`,
+      solution: `pilot2 <- pilot |> mutate(age_bracket = case_when(
+  age < 30 ~ "18-29",
+  age < 50 ~ "30-49",
+  TRUE ~ "50+"
+))
+`,
       hint: 'case_when() reads top to bottom: age < 30 ~ "18-29", age < 50 ~ "30-49", TRUE ~ "50+" (the catch-all).',
+      help: `<b>case_when()</b> checks conditions top to bottom and returns the value for the first one that's TRUE.<br><br>
+Example:<br><code>tibble(temp = c(5,18,30)) |> mutate(label = case_when(<br>  temp < 10 ~ "cold", temp < 25 ~ "mild", TRUE ~ "hot"<br>))</code>`,
       check: `exists("pilot2") && identical(pilot2$age_bracket,
         dplyr::case_when(pilot$age < 30 ~ "18-29", pilot$age < 50 ~ "30-49", TRUE ~ "50+"))`
     },
     {
       title: "Cross-tabulating with count()",
+      id: "cross-tabulating-with-count",
       short: "count()",
       unit: "Working with Survey Data",
       instructions: `A <code>pilot</code> tibble with <code>region</code> and <code>support</code>
@@ -540,85 +586,108 @@
         Create <code>region_support_counts</code>: how many respondents fall into each
         region × support combination, using <code>count()</code> — the tidyverse's tidy,
         long-format alternative to <code>table()</code>.`,
-      preload: `Preloaded: pilot — 10 respondents with region and support columns.`,
+      preload: `Preloaded: pilot — 6 respondents with region and support columns.`,
       setup: `pilot <- tibble(
-        region = c("North","South","North","East","South","South","East","North","South","East"),
-        support = c("Yes","No","Yes","Yes","No","Yes","No","Yes","Yes","No")
+        region = c("North","South","North","South","South","North"),
+        support = c("Yes","No","Yes","No","Yes","Yes")
       )`,
       starter: `region_support_counts <- pilot |> count(___, ___)\n`,
+      solution: `region_support_counts <- pilot |> count(region, support)
+`,
       hint: 'pilot |> count(region, support) — count() tallies every combination of the grouping columns.',
+      help: `<b>count()</b> tallies how many rows fall into each combination of the columns you give it.<br><br>
+Example:<br><code>tibble(color = c("red","blue","red")) |> count(color)</code>`,
       check: `exists("region_support_counts") &&
         isTRUE(all.equal(as.data.frame(region_support_counts), as.data.frame(pilot |> dplyr::count(region, support)), check.attributes = FALSE))`
     },
     {
       title: "Joining two datasets with left_join()",
+      id: "joining-two-datasets-with-left-join",
       short: "left_join()",
       unit: "Working with Survey Data",
       instructions: `Survey data often arrives in separate files. Two tibbles are loaded:
         <code>demo</code> (id, age) and <code>responses</code> (id, satisfaction).<br><br>
         Combine them into <code>merged</code> using <code>left_join()</code>, joining on
         <code>id</code>.`,
-      preload: `Preloaded: demo and responses — 5 respondents each, linked by id.`,
-      setup: `demo <- tibble(id = 1:5, age = c(22,35,41,29,58))
-      responses <- tibble(id = 1:5, satisfaction = c(4,5,2,3,5))`,
+      preload: `Preloaded: demo and responses — 3 respondents each, linked by id.`,
+      setup: `demo <- tibble(id = 1:3, age = c(22,35,41))
+      responses <- tibble(id = 1:3, satisfaction = c(4,5,2))`,
       starter: `merged <- demo |> left_join(responses, by = "___")\n`,
+      solution: `merged <- demo |> left_join(responses, by = "id")
+`,
       hint: 'demo |> left_join(responses, by = "id")',
+      help: `<b>left_join()</b> attaches columns from a second table onto a first, matching rows by a shared key column.<br><br>
+Example:<br><code>people <- tibble(id = 1:2, name = c("Al","Bo"))<br>scores <- tibble(id = 1:2, score = c(88,91))<br>people |> left_join(scores, by = "id")</code>`,
       check: `exists("merged") &&
         isTRUE(all.equal(as.data.frame(merged), as.data.frame(demo |> dplyr::left_join(responses, by = "id")), check.attributes = FALSE))`
     },
     {
       title: "Checkpoint: combining filter() conditions",
+      id: "checkpoint-combining-filter-conditions",
       short: "Checkpoint",
       unit: "Working with Survey Data",
       instructions: `A <code>pilot</code> tibble (age, region, satisfaction) is loaded.<br><br>
         Create <code>high_satisfaction_south</code>: rows where <code>satisfaction</code> is 4
         or higher <b>and</b> <code>region</code> is <code>"South"</code>. In
         <code>filter()</code>, separate multiple conditions with a comma — that's an AND.`,
-      preload: `Preloaded: pilot — 8 respondents with age, region, satisfaction.`,
+      preload: `Preloaded: pilot — 6 respondents with age, region, satisfaction.`,
       setup: `pilot <- tibble(
-        id = 1:8,
-        age = c(22,35,41,29,58,31,47,26),
-        region = c("North","South","North","East","South","South","East","North"),
-        satisfaction = c(4,5,2,3,5,4,3,5)
+        id = 1:6,
+        age = c(22,35,41,29,58,31),
+        region = c("North","South","North","South","South","East"),
+        satisfaction = c(4,5,2,3,5,4)
       )`,
       starter: `high_satisfaction_south <- pilot |> filter(satisfaction >= , region == "___")\n`,
+      solution: `high_satisfaction_south <- pilot |> filter(satisfaction >= 4, region == "South")
+`,
       hint: 'pilot |> filter(satisfaction >= 4, region == "South")',
+      help: `Separating conditions with a comma inside <b>filter()</b> means every condition must be TRUE — that's an AND.<br><br>
+Example:<br><code>tibble(age = c(20,40,60), city = c("A","B","A")) |> filter(age > 30, city == "A")</code>`,
       check: `exists("high_satisfaction_south") &&
         isTRUE(all.equal(as.data.frame(high_satisfaction_south),
         as.data.frame(pilot |> dplyr::filter(satisfaction >= 4, region == "South")), check.attributes = FALSE))`
     },
     {
       title: "Frequencies & proportions",
+      id: "frequencies-proportions",
       short: "Frequencies",
       unit: "Exploring & Summarizing",
-      instructions: `A <code>pilot</code> tibble with a <code>region</code> column is
-        loaded.<br><br>
+      instructions: `A <code>pilot</code> tibble with a <code>region</code> column is loaded.<br><br>
         Create <code>region_counts</code>: a count of each region <b>plus</b> a
         <code>prop</code> column showing each as a proportion of the total, by chaining
         <code>count()</code> into <code>mutate()</code>.`,
-      preload: `Preloaded: pilot — 10 respondents' region labels.`,
-      setup: `pilot <- tibble(region = c("North","South","North","East","South","South","East","North","South","East"))`,
+      preload: `Preloaded: pilot — 6 respondents' region labels.`,
+      setup: `pilot <- tibble(region = c("North","South","North","East","South","South"))`,
       starter: `region_counts <- pilot |> count(region) |> mutate(prop = n / sum(___))\n`,
+      solution: `region_counts <- pilot |> count(region) |> mutate(prop = n / sum(n))
+`,
       hint: 'pilot |> count(region) |> mutate(prop = n / sum(n))',
+      help: `Chaining <b>count()</b> into <b>mutate()</b> turns raw tallies into proportions of the total.<br><br>
+Example:<br><code>tibble(pet = c("cat","dog","cat")) |> count(pet) |> mutate(prop = n / sum(n))</code>`,
       check: `exists("region_counts") &&
         isTRUE(all.equal(as.data.frame(region_counts),
         as.data.frame(pilot |> dplyr::count(region) |> dplyr::mutate(prop = n / sum(n))), check.attributes = FALSE))`
     },
     {
       title: "Grouped means with group_by() + summarise()",
+      id: "grouped-means-with-group-by-summarise",
       short: "group_by()",
       unit: "Exploring & Summarizing",
       instructions: `A <code>pilot</code> tibble (region, satisfaction) is loaded.<br><br>
         Create <code>region_means</code>: the average satisfaction for each region, using
         <code>group_by()</code> then <code>summarise()</code>. Add <code>.groups = "drop"</code>
         to keep the result ungrouped — standard tidyverse practice.`,
-      preload: `Preloaded: pilot — 8 respondents with region and satisfaction.`,
+      preload: `Preloaded: pilot — 6 respondents with region and satisfaction.`,
       setup: `pilot <- tibble(
-        region = c("North","South","North","East","South","South","East","North"),
-        satisfaction = c(4,5,2,3,5,4,3,5)
+        region = c("North","South","North","South","South","North"),
+        satisfaction = c(4,5,2,3,5,4)
       )`,
       starter: `region_means <- pilot |> group_by(region) |> summarise(mean_satisfaction = mean(___), .groups = "drop")\n`,
+      solution: `region_means <- pilot |> group_by(region) |> summarise(mean_satisfaction = mean(satisfaction), .groups = "drop")
+`,
       hint: 'pilot |> group_by(region) |> summarise(mean_satisfaction = mean(satisfaction), .groups = "drop")',
+      help: `<b>group_by()</b> splits a table into groups; <b>summarise()</b> then computes one value per group.<br><br>
+Example:<br><code>tibble(team = c("A","A","B"), pts = c(3,5,2)) |> group_by(team) |> summarise(avg = mean(pts))</code>`,
       check: `exists("region_means") &&
         isTRUE(all.equal(as.data.frame(region_means),
         as.data.frame(pilot |> dplyr::group_by(region) |> dplyr::summarise(mean_satisfaction = mean(satisfaction), .groups = "drop")),
@@ -626,19 +695,28 @@
     },
     {
       title: "Multiple grouped summaries",
+      id: "multiple-grouped-summaries",
       short: "Group summary",
       unit: "Exploring & Summarizing",
       instructions: `The same <code>pilot</code> tibble is loaded.<br><br>
         Create <code>region_summary</code>: mean satisfaction <b>and</b> a count of
         respondents per region, in one <code>summarise()</code> call. Use <code>n()</code> for
         the count.`,
-      preload: `Preloaded: pilot — 8 respondents with region and satisfaction.`,
+      preload: `Preloaded: pilot — 6 respondents with region and satisfaction.`,
       setup: `pilot <- tibble(
-        region = c("North","South","North","East","South","South","East","North"),
-        satisfaction = c(4,5,2,3,5,4,3,5)
+        region = c("North","South","North","South","South","North"),
+        satisfaction = c(4,5,2,3,5,4)
       )`,
       starter: `region_summary <- pilot |> group_by(region) |> summarise(\n  mean_satisfaction = mean(satisfaction),\n  n = ___(),\n  .groups = "drop"\n)\n`,
+      solution: `region_summary <- pilot |> group_by(region) |> summarise(
+  mean_satisfaction = mean(satisfaction),
+  n = n(),
+  .groups = "drop"
+)
+`,
       hint: 'n() (no arguments) counts rows within each group — put it inside the same summarise() call.',
+      help: `<b>n()</b> counts the rows within each group — use it inside <b>summarise()</b> alongside other summaries.<br><br>
+Example:<br><code>tibble(team = c("A","A","B")) |> group_by(team) |> summarise(players = n())</code>`,
       check: `exists("region_summary") &&
         isTRUE(all.equal(as.data.frame(region_summary),
         as.data.frame(pilot |> dplyr::group_by(region) |> dplyr::summarise(mean_satisfaction = mean(satisfaction), n = dplyr::n(), .groups = "drop")),
@@ -646,17 +724,25 @@
     },
     {
       title: "Quantiles with summarise()",
+      id: "quantiles-with-summarise",
       short: "Quantiles",
       unit: "Exploring & Summarizing",
-      instructions: `A <code>pilot</code> tibble with an <code>income</code> column (10
-        respondents) is loaded.<br><br>
+      instructions: `A <code>pilot</code> tibble with an <code>income</code> column is loaded.<br><br>
         Create <code>income_quartiles</code>: the 25th, 50th, and 75th percentiles as columns
         <code>q25</code>, <code>q50</code>, <code>q75</code>, using <code>summarise()</code> and
         <code>quantile()</code>.`,
-      preload: `Preloaded: pilot — 10 household income values.`,
-      setup: `pilot <- tibble(income = c(38200,45900,52100,29800,61200,47500,33900,58700,41200,36500))`,
+      preload: `Preloaded: pilot — 6 household income values.`,
+      setup: `pilot <- tibble(income = c(38200,45900,52100,29800,61200,47500))`,
       starter: `income_quartiles <- pilot |> summarise(\n  q25 = quantile(income, ),\n  q50 = quantile(income, ),\n  q75 = quantile(income, )\n)\n`,
+      solution: `income_quartiles <- pilot |> summarise(
+  q25 = quantile(income, 0.25),
+  q50 = quantile(income, 0.5),
+  q75 = quantile(income, 0.75)
+)
+`,
       hint: 'summarise(q25 = quantile(income, 0.25), q50 = quantile(income, 0.5), q75 = quantile(income, 0.75))',
+      help: `<b>quantile()</b> finds the value below which a given proportion of the data falls.<br><br>
+Example:<br><code>quantile(c(10,20,30,40), 0.5)  # median, 25</code>`,
       check: `exists("income_quartiles") &&
         isTRUE(all.equal(as.data.frame(income_quartiles),
         data.frame(q25 = unname(quantile(pilot$income,0.25)), q50 = unname(quantile(pilot$income,0.5)), q75 = unname(quantile(pilot$income,0.75))),
@@ -664,35 +750,45 @@
     },
     {
       title: "Standardizing with mutate()",
+      id: "standardizing-with-mutate",
       short: "Z-scores",
       unit: "Exploring & Summarizing",
-      instructions: `A <code>pilot</code> tibble with a <code>scores</code> column is
-        loaded.<br><br>
+      instructions: `A <code>pilot</code> tibble with a <code>scores</code> column is loaded.<br><br>
         Create <code>pilot2</code>: add a <code>z_score</code> column —
         <code>(x - mean) / sd</code> — using <code>mutate()</code>.`,
-      preload: `Preloaded: pilot — 10 satisfaction ratings.`,
-      setup: `pilot <- tibble(scores = c(4,5,2,3,5,4,3,5,1,2))`,
+      preload: `Preloaded: pilot — 5 satisfaction ratings.`,
+      setup: `pilot <- tibble(scores = c(4,5,2,3,5))`,
       starter: `pilot2 <- pilot |> mutate(z_score = (scores - ) / sd(scores))\n`,
+      solution: `pilot2 <- pilot |> mutate(z_score = (scores - mean(scores)) / sd(scores))
+`,
       hint: 'mutate(z_score = (scores - mean(scores)) / sd(scores))',
+      help: `Standardizing subtracts the mean and divides by the standard deviation, producing a z-score.<br><br>
+Example:<br><code>x <- c(4,8,12)<br>(x - mean(x)) / sd(x)</code>`,
       check: `exists("pilot2") && isTRUE(all.equal(pilot2$z_score, (pilot$scores - mean(pilot$scores)) / sd(pilot$scores)))`
     },
     {
       title: "Correlation with summarise() + pull()",
+      id: "correlation-with-summarise-pull",
       short: "Correlation",
       unit: "Exploring & Summarizing",
-      instructions: `A <code>pilot</code> tibble with <code>age</code> and
-        <code>satisfaction</code> columns is loaded.<br><br>
+      instructions: `A <code>pilot</code> tibble with <code>age</code> and <code>satisfaction</code>
+        columns is loaded.<br><br>
         Create <code>age_satisfaction_cor</code>: the Pearson correlation between them. Use
         <code>summarise()</code> with <code>cor()</code>, then <code>pull()</code> to extract
         the single value out of the resulting tibble.`,
-      preload: `Preloaded: pilot — 8 respondents with age and satisfaction.`,
-      setup: `pilot <- tibble(age = c(22,35,41,29,58,31,47,26), satisfaction = c(5,3,2,4,1,4,2,5))`,
+      preload: `Preloaded: pilot — 5 respondents with age and satisfaction.`,
+      setup: `pilot <- tibble(age = c(22,35,41,29,58), satisfaction = c(5,3,2,4,1))`,
       starter: `age_satisfaction_cor <- pilot |> summarise(cor = cor(age, satisfaction)) |> pull(___)\n`,
+      solution: `age_satisfaction_cor <- pilot |> summarise(cor = cor(age, satisfaction)) |> pull(cor)
+`,
       hint: 'pilot |> summarise(cor = cor(age, satisfaction)) |> pull(cor) — pull() grabs one column as a plain vector.',
+      help: `<b>pull()</b> extracts a single column out of a tibble as a plain vector, instead of a one-column table.<br><br>
+Example:<br><code>tibble(x = 1:3) |> summarise(total = sum(x)) |> pull(total)</code>`,
       check: `exists("age_satisfaction_cor") && isTRUE(all.equal(age_satisfaction_cor, cor(pilot$age, pilot$satisfaction), check.attributes = FALSE))`
     },
     {
       title: "Reverse-coding with mutate()",
+      id: "reverse-coding-with-mutate",
       short: "Reverse-coding",
       unit: "Applied Survey Techniques",
       instructions: `A <code>pilot</code> tibble has a survey item <code>item</code> scored
@@ -701,14 +797,19 @@
         Create <code>pilot2</code>: add <code>item_r</code>, the reverse-coded version, using
         <code>mutate()</code> and the formula <code>(max + min) - x</code>, i.e.
         <code>6 - item</code> for a 1–5 scale.`,
-      preload: `Preloaded: pilot — 8 responses on a 1–5 scale.`,
-      setup: `pilot <- tibble(item = c(2,4,1,5,3,2,4,1))`,
+      preload: `Preloaded: pilot — 4 responses on a 1–5 scale.`,
+      setup: `pilot <- tibble(item = c(2,4,1,5))`,
       starter: `pilot2 <- pilot |> mutate(item_r = - item)\n`,
+      solution: `pilot2 <- pilot |> mutate(item_r = 6 - item)
+`,
       hint: 'mutate(item_r = 6 - item)',
+      help: `Reverse-coding flips a rating scale so all items point the same direction: new = (max + min) − old.<br><br>
+Example:<br><code>x <- c(1,3,5)  # a 1-5 scale<br>6 - x</code>`,
       check: `exists("pilot2") && identical(pilot2$item_r, 6 - pilot$item)`
     },
     {
       title: "A composite scale with across()",
+      id: "a-composite-scale-with-across",
       short: "across()",
       unit: "Applied Survey Techniques",
       instructions: `Three related survey items (<code>item1</code>, <code>item2</code>,
@@ -717,18 +818,23 @@
         Create <code>items_df2</code>: add a <code>composite</code> column, the row-wise average
         of the three items, using <code>mutate()</code>, <code>rowMeans()</code>, and
         <code>across()</code> to select the item columns.`,
-      preload: `Preloaded: items_df — 6 respondents × 3 items.`,
+      preload: `Preloaded: items_df — 4 respondents × 3 items.`,
       setup: `items_df <- tibble(
-        item1 = c(4,2,5,3,4,1),
-        item2 = c(5,2,4,3,5,2),
-        item3 = c(4,1,5,4,4,2)
+        item1 = c(4,2,5,3),
+        item2 = c(5,2,4,3),
+        item3 = c(4,1,5,4)
       )`,
       starter: `items_df2 <- items_df |> mutate(composite = rowMeans(across(item1:item3)))\n`,
+      solution: `items_df2 <- items_df |> mutate(composite = rowMeans(across(item1:item3)))
+`,
       hint: 'rowMeans(across(item1:item3)) inside mutate() averages across the three item columns for every row.',
+      help: `<b>across()</b> selects a range of columns to operate on together. <b>rowMeans()</b> averages across columns, one result per row.<br><br>
+Example:<br><code>tibble(a = c(1,3), b = c(5,7)) |> mutate(avg = rowMeans(across(a:b)))</code>`,
       check: `exists("items_df2") && isTRUE(all.equal(items_df2$composite, rowMeans(items_df[, c("item1","item2","item3")])))`
     },
     {
       title: "Comparing two groups with a t-test",
+      id: "comparing-two-groups-with-a-t-test",
       short: "T-test",
       unit: "Applied Survey Techniques",
       instructions: `A <code>pilot</code> tibble has <code>region</code> (only
@@ -736,35 +842,45 @@
         <code>t.test()</code> isn't a dplyr verb — tidy data still gets handed to base
         modeling functions like this one. Create <code>t_result</code> with
         <code>t.test(satisfaction ~ region, data = pilot)</code>.`,
-      preload: `Preloaded: pilot — 10 respondents, region is North or South only.`,
+      preload: `Preloaded: pilot — 6 respondents, region is North or South only.`,
       setup: `pilot <- tibble(
-        region = c("North","South","North","South","North","South","North","South","North","South"),
-        satisfaction = c(3,5,2,4,3,5,2,4,3,5)
+        region = c("North","South","North","South","North","South"),
+        satisfaction = c(3,5,2,4,3,5)
       )`,
       starter: `t_result <- t.test(satisfaction ~ region, data = )\n`,
+      solution: `t_result <- t.test(satisfaction ~ region, data = pilot)
+`,
       hint: 't.test(satisfaction ~ region, data = pilot)',
+      help: `<b>t.test()</b> tests whether two groups' means differ more than you'd expect from chance alone.<br><br>
+Example:<br><code>t.test(height ~ group, data = tibble(<br>  height = c(160,170,165,180), group = c("A","A","B","B")<br>))</code>`,
       check: `exists("t_result") && isTRUE(all.equal(unname(t_result$statistic),
         unname(t.test(satisfaction ~ region, data = pilot)$statistic)))`
     },
     {
       title: "A simple linear regression",
+      id: "a-simple-linear-regression",
       short: "Regression",
       unit: "Applied Survey Techniques",
       instructions: `A <code>pilot</code> tibble has <code>age</code> and <code>income</code>
-        columns (10 respondents).<br><br>
+        columns.<br><br>
         Fit a simple linear model predicting income from age: create <code>model</code> with
         <code>lm(income ~ age, data = pilot)</code>.`,
-      preload: `Preloaded: pilot — age and income for 10 respondents.`,
+      preload: `Preloaded: pilot — age and income for 6 respondents.`,
       setup: `pilot <- tibble(
-        age = c(22,35,41,29,58,31,47,26,52,38),
-        income = c(31000,45900,52100,29800,61200,47500,55900,33500,58700,44200)
+        age = c(22,35,41,29,58,31),
+        income = c(31000,45900,52100,29800,61200,47500)
       )`,
       starter: `model <- lm(income ~ age, data = )\n`,
+      solution: `model <- lm(income ~ age, data = pilot)
+`,
       hint: 'model <- lm(income ~ age, data = pilot)',
+      help: `<b>lm()</b> fits a linear regression — it estimates how one variable changes as another one changes.<br><br>
+Example:<br><code>lm(y ~ x, data = tibble(x = 1:3, y = c(2,4,6)))</code>`,
       check: `exists("model") && isTRUE(all.equal(unname(coef(model)), unname(coef(lm(income ~ age, data = pilot)))))`
     },
     {
       title: "Reading model fit: R-squared",
+      id: "reading-model-fit-r-squared",
       short: "Model fit",
       unit: "Applied Survey Techniques",
       instructions: `A regression <code>model</code> predicting income from age is already
@@ -772,129 +888,410 @@
         Extract the R-squared value into <code>r_squared</code>, using <code>summary()</code>.`,
       preload: `Preloaded: model — a linear regression of income on age (same data as the previous lesson).`,
       setup: `pilot <- tibble(
-        age = c(22,35,41,29,58,31,47,26,52,38),
-        income = c(31000,45900,52100,29800,61200,47500,55900,33500,58700,44200)
+        age = c(22,35,41,29,58,31),
+        income = c(31000,45900,52100,29800,61200,47500)
       )
       model <- lm(income ~ age, data = pilot)`,
       starter: `r_squared <- summary(model)$\n`,
+      solution: `r_squared <- summary(model)$r.squared
+`,
       hint: 'summary(model)$r.squared',
+      help: `<b>summary()</b> on a fitted model returns a lot of detail; <b>$r.squared</b> pulls out just the proportion of variance explained.<br><br>
+Example:<br><code>m <- lm(y ~ x, data = tibble(x = 1:3, y = c(2,4,5)))<br>summary(m)$r.squared</code>`,
       check: `exists("r_squared") && isTRUE(all.equal(r_squared, summary(model)$r.squared))`
     },
     {
       title: "Capstone: a two-outcome region report",
+      id: "capstone-a-two-outcome-region-report",
       short: "Capstone",
       unit: "Applied Survey Techniques",
       instructions: `Bringing it together. A <code>pilot</code> tibble (region, satisfaction,
         income) is loaded.<br><br>
         Create <code>region_report</code>: mean satisfaction <b>and</b> mean income per region,
         in a single <code>group_by()</code> + <code>summarise()</code> pipeline.`,
-      preload: `Preloaded: pilot — 10 respondents with region, satisfaction, and income.`,
+      preload: `Preloaded: pilot — 6 respondents with region, satisfaction, and income.`,
       setup: `pilot <- tibble(
-        region = c("North","South","North","South","North","South","North","South","North","South"),
-        satisfaction = c(3,5,2,4,3,5,2,4,3,5),
-        income = c(31000,45900,52100,29800,61200,47500,55900,33500,58700,44200)
+        region = c("North","South","North","South","North","South"),
+        satisfaction = c(3,5,2,4,3,5),
+        income = c(31000,45900,52100,29800,61200,47500)
       )`,
       starter: `region_report <- pilot |> group_by(region) |> summarise(\n  mean_satisfaction = mean(satisfaction),\n  mean_income = mean(___),\n  .groups = "drop"\n)\n`,
+      solution: `region_report <- pilot |> group_by(region) |> summarise(
+  mean_satisfaction = mean(satisfaction),
+  mean_income = mean(income),
+  .groups = "drop"
+)
+`,
       hint: 'Add mean_income = mean(income) alongside mean_satisfaction, inside the same summarise() call.',
+      help: `Multiple summaries can live in one <b>summarise()</b> call — just add another named argument.<br><br>
+Example:<br><code>tibble(team = c("A","A","B"), pts = c(3,5,2), fouls = c(1,0,2)) |><br>  group_by(team) |> summarise(avg_pts = mean(pts), avg_fouls = mean(fouls))</code>`,
       check: `exists("region_report") &&
         isTRUE(all.equal(as.data.frame(region_report),
         as.data.frame(pilot |> dplyr::group_by(region) |> dplyr::summarise(mean_satisfaction = mean(satisfaction), mean_income = mean(income), .groups = "drop")),
         check.attributes = FALSE))`
+    },
+    {
+      title: "Reordering factors by frequency",
+      id: "reordering-factors-by-frequency",
+      short: "fct_infreq()",
+      unit: "Data Wrangling Deep Dive",
+      instructions: `A <code>pilot</code> tibble has a <code>region</code> column stored as a
+        factor.<br><br>
+        Create <code>pilot2</code>: add <code>region_ordered</code>, the same factor but with
+        levels reordered by how frequently each appears, using <code>fct_infreq()</code>.`,
+      preload: `Preloaded: pilot — region as a factor. forcats is loaded.`,
+      setup: `pilot <- tibble(region = factor(c("North","South","South","East","South")))`,
+      starter: `pilot2 <- pilot |> mutate(region_ordered = fct_infreq(___))\n`,
+      solution: `pilot2 <- pilot |> mutate(region_ordered = fct_infreq(region))
+`,
+      hint: 'mutate(region_ordered = fct_infreq(region)) — fct_infreq() puts the most common level first.',
+      help: `<b>fct_infreq()</b> reorders a factor's levels from most to least common — handy for cleaner tables and plots.<br><br>
+Example:<br><code>f <- factor(c("cat","dog","cat","cat"))<br>fct_infreq(f)</code>`,
+      check: `exists("pilot2") && identical(levels(pilot2$region_ordered), levels(forcats::fct_infreq(pilot$region)))`
+    },
+    {
+      title: "Recoding factor labels",
+      id: "recoding-factor-labels",
+      short: "fct_recode()",
+      unit: "Data Wrangling Deep Dive",
+      instructions: `A <code>pilot</code> tibble has <code>region</code> stored as abbreviated
+        codes (<code>"N"</code>, <code>"S"</code>).<br><br>
+        Create <code>pilot2</code>: add <code>region_full</code>, relabeling <code>"N"</code> to
+        <code>"North"</code> and <code>"S"</code> to <code>"South"</code>, using
+        <code>fct_recode()</code>.`,
+      preload: `Preloaded: pilot — region as a two-level factor.`,
+      setup: `pilot <- tibble(region = factor(c("N","S","N","S")))`,
+      starter: `pilot2 <- pilot |> mutate(region_full = fct_recode(region, North = "___", South = "___"))\n`,
+      solution: `pilot2 <- pilot |> mutate(region_full = fct_recode(region, North = "N", South = "S"))
+`,
+      hint: 'fct_recode(region, North = "N", South = "S") — new label on the left, old code on the right.',
+      help: `<b>fct_recode()</b> renames the levels of a factor — new label on the left, old code on the right.<br><br>
+Example:<br><code>f <- factor(c("M","F"))<br>fct_recode(f, Male = "M", Female = "F")</code>`,
+      check: `exists("pilot2") && identical(as.character(pilot2$region_full),
+        as.character(forcats::fct_recode(pilot$region, North = "N", South = "S")))`
+    },
+    {
+      title: "Working with dates",
+      id: "working-with-dates",
+      short: "Dates",
+      unit: "Data Wrangling Deep Dive",
+      instructions: `Two dates from a survey fieldwork period are loaded: <code>start_date</code>
+        and <code>end_date</code>, as base-R <code>Date</code> objects.<br><br>
+        Create <code>days_elapsed</code>: the number of days between them, using
+        <code>as.numeric()</code> on the difference (<code>end_date - start_date</code>).`,
+      preload: `Preloaded: start_date and end_date.`,
+      setup: `start_date <- as.Date("2026-03-01")
+      end_date <- as.Date("2026-03-15")`,
+      starter: `days_elapsed <- as.numeric(end_date - ___)\n`,
+      solution: `days_elapsed <- as.numeric(end_date - start_date)
+`,
+      hint: 'as.numeric(end_date - start_date) — subtracting two Dates gives a difftime, and as.numeric() turns it into a plain number.',
+      help: `<b>as.Date()</b> parses text into a real date. Subtracting two dates gives the number of days between them.<br><br>
+Example:<br><code>as.Date("2026-01-10") - as.Date("2026-01-01")  # 9 days</code>`,
+      check: `exists("days_elapsed") && isTRUE(all.equal(days_elapsed, as.numeric(end_date - start_date)))`
+    },
+    {
+      title: "Filling missing values with coalesce()",
+      id: "filling-missing-values-with-coalesce",
+      short: "coalesce()",
+      unit: "Data Wrangling Deep Dive",
+      instructions: `A <code>pilot</code> tibble has an <code>income</code> column with a
+        missing value.<br><br>
+        Create <code>pilot2</code>: add <code>income_filled</code>, replacing any
+        <code>NA</code> with <code>0</code>, using <code>coalesce()</code>.`,
+      preload: `Preloaded: pilot — 3 income values, one missing.`,
+      setup: `pilot <- tibble(income = c(38200, NA, 52100))`,
+      starter: `pilot2 <- pilot |> mutate(income_filled = coalesce(income, ___))\n`,
+      solution: `pilot2 <- pilot |> mutate(income_filled = coalesce(income, 0))
+`,
+      hint: 'coalesce(income, 0) — returns income where it exists, and 0 wherever it was NA.',
+      help: `<b>coalesce()</b> returns the first non-missing value — a quick way to fill NAs with a default.<br><br>
+Example:<br><code>x <- c(5, NA, 8)<br>coalesce(x, 0)  # 5 0 8</code>`,
+      check: `exists("pilot2") && isTRUE(all.equal(pilot2$income_filled, dplyr::coalesce(pilot$income, 0)))`
+    },
+    {
+      title: "Finding unmatched rows with anti_join()",
+      id: "finding-unmatched-rows-with-anti-join",
+      short: "anti_join()",
+      unit: "Data Wrangling Deep Dive",
+      instructions: `Two tibbles are loaded: <code>invited</code> (everyone invited to the
+        survey) and <code>responded</code> (everyone who actually responded), both with an
+        <code>id</code> column.<br><br>
+        Create <code>non_respondents</code>: the invited respondents who never replied, using
+        <code>anti_join()</code>.`,
+      preload: `Preloaded: invited (4 rows) and responded (2 rows), linked by id.`,
+      setup: `invited <- tibble(id = 1:4, name = c("A","B","C","D"))
+      responded <- tibble(id = c(1,3))`,
+      starter: `non_respondents <- invited |> anti_join(responded, by = "___")\n`,
+      solution: `non_respondents <- invited |> anti_join(responded, by = "id")
+`,
+      hint: 'invited |> anti_join(responded, by = "id") — keeps rows in invited that have no match in responded.',
+      help: `<b>anti_join()</b> keeps only the rows in the first table that have <i>no</i> match in the second — the opposite of a join that keeps matches.<br><br>
+Example:<br><code>a <- tibble(id = 1:3)<br>b <- tibble(id = 2)<br>a |> anti_join(b, by = "id")  # ids 1 and 3</code>`,
+      check: `exists("non_respondents") && isTRUE(all.equal(as.data.frame(non_respondents), as.data.frame(invited |> dplyr::anti_join(responded, by = "id")), check.attributes = FALSE))`
+    },
+    {
+      title: "Anonymous functions with a lambda",
+      id: "anonymous-functions-with-a-lambda",
+      short: "Lambda",
+      unit: "Iteration & Functions",
+      instructions: `A <code>scores</code> vector is loaded.<br><br>
+        Create <code>doubled</code>: each score doubled, using <code>map_dbl()</code> with the
+        compact anonymous-function syntax <code>\\(x) ...</code> instead of writing a separate
+        named function.`,
+      preload: `Preloaded: scores — 3 values.`,
+      setup: `scores <- c(2,4,6)`,
+      starter: `doubled <- scores |> map_dbl(\\(x) x * ___)\n`,
+      solution: `doubled <- scores |> map_dbl(\\(x) x * 2)
+`,
+      hint: 'scores |> map_dbl(\\(x) x * 2) — \\(x) defines a quick one-off function inline.',
+      help: `<code>\\(x) ...</code> is shorthand for a quick, one-off function — no need to name it separately first.<br><br>
+Example:<br><code>c(1,2,3) |> map_dbl(\\(x) x + 100)</code>`,
+      check: `exists("doubled") && isTRUE(all.equal(doubled, scores * 2, check.attributes = FALSE))`
+    },
+    {
+      title: "Iterating over two vectors with map2_dbl()",
+      id: "iterating-over-two-vectors-with-map2-dbl",
+      short: "map2_dbl()",
+      unit: "Iteration & Functions",
+      instructions: `Two vectors are loaded: <code>pre</code> and <code>post</code> test scores
+        for the same 3 respondents.<br><br>
+        Create <code>gains</code>: the improvement for each respondent (<code>post - pre</code>),
+        using <code>map2_dbl()</code> to combine the two vectors element-by-element.`,
+      preload: `Preloaded: pre and post — 3 respondents each.`,
+      setup: `pre <- c(2,4,6)
+      post <- c(3,5,8)`,
+      starter: `gains <- map2_dbl(pre, post, \\(x, y) y - ___)\n`,
+      solution: `gains <- map2_dbl(pre, post, \\(x, y) y - x)
+`,
+      hint: 'map2_dbl(pre, post, \\(x, y) y - x) — x comes from the first vector, y from the second, matched by position.',
+      help: `<b>map2_dbl()</b> walks two vectors together, position by position, applying a function to each pair.<br><br>
+Example:<br><code>map2_dbl(c(1,2), c(10,20), \\(x, y) x + y)  # 11 22</code>`,
+      check: `exists("gains") && isTRUE(all.equal(gains, post - pre, check.attributes = FALSE))`
+    },
+    {
+      title: "Folding a vector with reduce()",
+      id: "folding-a-vector-with-reduce",
+      short: "reduce()",
+      unit: "Iteration & Functions",
+      instructions: `A <code>values</code> vector is loaded.<br><br>
+        Create <code>total</code>: the sum of all values, built up by combining them two at a
+        time with <code>reduce()</code>, the same idea behind many iterative summaries, not
+        just totals.`,
+      preload: `Preloaded: values — 3 numbers.`,
+      setup: `values <- c(2,4,6)`,
+      starter: `total <- values |> reduce(___)\n`,
+      solution: `total <- values |> reduce(\`+\`)
+`,
+      hint: "values |> reduce(`+`) — reduce() applies + between elements one pair at a time until one value is left.",
+      help: `<b>reduce()</b> repeatedly combines elements two at a time until a single value is left.<br><br>
+Example:<br><code>c(1,2,3,4) |> reduce(\`*\`)  # 24</code>`,
+      check: `exists("total") && isTRUE(all.equal(total, sum(values), check.attributes = FALSE))`
+    },
+    {
+      title: "A function with a default argument",
+      id: "a-function-with-a-default-argument",
+      short: "Default args",
+      unit: "Iteration & Functions",
+      instructions: `A <code>scores</code> vector (1–5 scale) is loaded.<br><br>
+        Write <code>rescale</code>: a function with one argument <code>x</code> and a second
+        argument <code>max_val</code> that defaults to <code>5</code>, returning
+        <code>x / max_val * 100</code>. Then apply it to <code>scores</code> with
+        <code>map_dbl()</code>, storing the result in <code>scores100</code>.`,
+      preload: `Preloaded: scores — 3 values on a 1–5 scale.`,
+      setup: `scores <- c(2,4,5)`,
+      starter: `rescale <- function(x, max_val = ___) {\n  x / max_val * 100\n}\n\nscores100 <- scores |> map_dbl(rescale)\n`,
+      solution: `rescale <- function(x, max_val = 5) {
+  x / max_val * 100
+}
+
+scores100 <- scores |> map_dbl(rescale)
+`,
+      hint: 'function(x, max_val = 5) { x / max_val * 100 } — giving max_val a default means callers can omit it.',
+      help: `Giving an argument a default value (like <code>max_val = 5</code>) means callers can leave it out entirely and get that value automatically.<br><br>
+Example:<br><code>greet <- function(name, greeting = "Hi") paste(greeting, name)<br>greet("Sam")  # "Hi Sam"</code>`,
+      check: `exists("rescale") && exists("scores100") &&
+        isTRUE(all.equal(formals(rescale)$max_val, 5)) &&
+        isTRUE(all.equal(scores100, scores / 5 * 100, check.attributes = FALSE))`
+    },
+    {
+      title: "Project-relative paths with here()",
+      id: "project-relative-paths-with-here",
+      short: "here()",
+      unit: "Project Organization & Good Practice",
+      instructions: `Never hard-code an absolute path like <code>"C:/Users/name/project/data"</code>
+        — it only works on your machine. The <code>here</code> package builds paths relative to
+        the project root instead.<br><br>
+        Create <code>file_path</code>: the path to <code>survey.csv</code> inside a
+        <code>data/raw</code> folder, using <code>here()</code>.`,
+      preload: `here is loaded.`,
+      starter: `file_path <- here("data", "raw", "___")\n`,
+      solution: `file_path <- here("data", "raw", "survey.csv")
+`,
+      hint: 'here("data", "raw", "survey.csv") — here() joins the pieces and anchors them to the project root, wherever the project actually lives on disk.',
+      help: `<b>here()</b> builds a file path starting from your project's root folder, so the same code works on any machine.<br><br>
+Example:<br><code>here("outputs", "plot.png")</code>`,
+      check: `exists("file_path") && grepl("data/raw/survey.csv", file_path, fixed = TRUE)`
+    },
+    {
+      title: "Raw data stays read-only",
+      id: "raw-data-stays-read-only",
+      short: "Raw vs processed",
+      unit: "Project Organization & Good Practice",
+      instructions: `In a well-organized project, one data folder should never be edited or
+        overwritten by hand — all cleaning happens in a script that reads from it and writes
+        somewhere else.<br><br>
+        Create <code>read_only_folder</code>: the name of that folder (a single lowercase word).`,
+      starter: `read_only_folder <- "___"\n`,
+      solution: `read_only_folder <- "raw"
+`,
+      hint: 'The convention is data/raw/ — cleaning scripts read from raw and write to data/processed/. The answer is "raw".',
+      help: `This one's a convention, not a function: keep <code>data/raw/</code> untouched, and write any cleaned-up output to a separate folder like <code>data/processed/</code>.`,
+      check: `exists("read_only_folder") && tolower(trimws(read_only_folder)) == "raw"`
+    },
+    {
+      title: "Naming a pipeline script",
+      id: "naming-a-pipeline-script",
+      short: "Script naming",
+      unit: "Project Organization & Good Practice",
+      instructions: `A conventional analysis pipeline splits work into numbered scripts —
+        <code>01_import.R</code>, <code>02_clean.R</code>, <code>03_analyze.R</code>,
+        <code>04_visualize.R</code> — so the run order is obvious without reading any code.<br><br>
+        Create <code>modeling_script</code>: the filename of the script where models and
+        summary statistics belong.`,
+      starter: `modeling_script <- "___"\n`,
+      solution: `modeling_script <- "03_analyze.R"
+`,
+      hint: 'Models, tests, and summary statistics belong in the analysis step: "03_analyze.R".',
+      help: `Also a convention: numbering scripts (<code>01_</code>, <code>02_</code>...) makes the intended run order obvious at a glance, without opening any file.`,
+      check: `exists("modeling_script") && tolower(trimws(modeling_script)) == "03_analyze.r"`
+    },
+    {
+      title: "Reproducibility tools",
+      id: "reproducibility-tools",
+      short: "renv & Git",
+      unit: "Project Organization & Good Practice",
+      instructions: `Two tools make a project reproducible long after it was written.<br><br>
+        Create <code>pins_versions</code>: the R package that snapshots exact package versions
+        so a project installs identically later.<br><br>
+        Create <code>tracks_history</code>: the version-control system used even for solo
+        projects.`,
+      starter: `pins_versions <- "___"\n\ntracks_history <- "___"\n`,
+      solution: `pins_versions <- "renv"
+
+tracks_history <- "Git"
+`,
+      hint: 'pins_versions is "renv". tracks_history is "Git".',
+      help: `<b>renv</b> records the exact package versions a project uses, so it reinstalls identically later. <b>Git</b> tracks every change to your files over time, even for solo projects.`,
+      check: `exists("pins_versions") && exists("tracks_history") &&
+        tolower(trimws(pins_versions)) == "renv" && tolower(trimws(tracks_history)) == "git"`
+    },
+    {
+      title: "Running code from the console",
+      id: "running-code-from-the-console",
+      short: "Run shortcuts",
+      unit: "RStudio Shortcuts",
+      instructions: `Two of the most-used RStudio shortcuts.<br><br>
+        Create <code>run_line</code>: the shortcut to run the current line or selection.<br><br>
+        Create <code>run_script</code>: the shortcut to run the entire script.<br><br>
+        Use the Windows/Linux form (Ctrl) — Mac's Cmd works too and is accepted.`,
+      starter: `run_line <- "___"\n\nrun_script <- "___"\n`,
+      solution: `run_line <- "Ctrl+Enter"
+
+run_script <- "Ctrl+Shift+Enter"
+`,
+      hint: 'run_line is "Ctrl+Enter" (Cmd+Enter on Mac). run_script is "Ctrl+Shift+Enter" (Cmd+Shift+Enter on Mac).',
+      help: `These are keyboard shortcuts, not R functions — pressing them in the RStudio source editor runs code without needing to click anything.`,
+      check: `exists("run_line") && exists("run_script") &&
+        tolower(gsub(" ", "", run_line)) %in% c("ctrl+enter","cmd+enter","command+enter") &&
+        tolower(gsub(" ", "", run_script)) %in% c("ctrl+shift+enter","cmd+shift+enter","command+shift+enter")`
+    },
+    {
+      title: "Navigating & the document outline",
+      id: "navigating-the-document-outline",
+      short: "Navigating",
+      unit: "RStudio Shortcuts",
+      instructions: `Three shortcuts for working in long scripts.<br><br>
+        Create <code>insert_section</code>: inserts a foldable section header.<br><br>
+        Create <code>show_outline</code>: opens the document outline to jump between
+        sections.<br><br>
+        Create <code>restart_r</code>: restarts the R session — the single best habit for
+        catching a script that secretly depends on leftover objects.`,
+      starter: `insert_section <- "___"\n\nshow_outline <- "___"\n\nrestart_r <- "___"\n`,
+      solution: `insert_section <- "Ctrl+Shift+R"
+
+show_outline <- "Ctrl+Shift+O"
+
+restart_r <- "Ctrl+Shift+F10"
+`,
+      hint: 'insert_section is "Ctrl+Shift+R". show_outline is "Ctrl+Shift+O". restart_r is "Ctrl+Shift+F10".',
+      help: `Shortcuts for navigating structure: folding code into sections, jumping around via the outline panel, and restarting R to clear out leftover objects.`,
+      check: `exists("insert_section") && exists("show_outline") && exists("restart_r") &&
+        tolower(gsub(" ", "", insert_section)) %in% c("ctrl+shift+r","cmd+shift+r","command+shift+r") &&
+        tolower(gsub(" ", "", show_outline)) %in% c("ctrl+shift+o","cmd+shift+o","command+shift+o") &&
+        tolower(gsub(" ", "", restart_r)) %in% c("ctrl+shift+f10","cmd+shift+f10","command+shift+f10")`
+    },
+    {
+      title: "Pipe & assignment shortcuts",
+      id: "pipe-assignment-shortcuts",
+      short: "Pipe shortcut",
+      unit: "RStudio Shortcuts",
+      instructions: `Two shortcuts that save constant retyping in tidyverse code.<br><br>
+        Create <code>insert_pipe</code>: inserts the native pipe <code>|&gt;</code>.<br><br>
+        Create <code>insert_assign</code>: inserts the assignment operator <code>&lt;-</code>.`,
+      starter: `insert_pipe <- "___"\n\ninsert_assign <- "___"\n`,
+      solution: `insert_pipe <- "Ctrl+Shift+M"
+
+insert_assign <- "Alt+-"
+`,
+      hint: 'insert_pipe is "Ctrl+Shift+M" (Cmd+Shift+M on Mac). insert_assign is "Alt+-" (Option+- on Mac).',
+      help: `Shortcuts that insert text for you automatically: the pipe operator and the assignment arrow, without typing each character by hand.`,
+      check: `exists("insert_pipe") && exists("insert_assign") &&
+        tolower(gsub(" ", "", insert_pipe)) %in% c("ctrl+shift+m","cmd+shift+m","command+shift+m") &&
+        tolower(gsub(" ", "", insert_assign)) %in% c("alt+-","option+-","opt+-")`
     }
   ];
+
   const XP_PER_LESSON = 50;
-  const XP_HINT_PENALTY = 20;
+  const XP_HINT_PENALTY = 15;
+  const XP_ANSWER_PENALTY = 25;
   const XP_PER_LEVEL = 150;
-  const HEARTS_MAX = 3;
-  const DAILY_GOAL = 1;
 
   let current = 0;
   let completed = new Set();
   let xp = 0;
-  let streak = 0;
-  let lastActiveDate = null;
-  let todayCompletions = [];
+  let view = "path";
   let webR = null;
   let engineReady = false;
-
-  let heartsRemaining = HEARTS_MAX;
   let hintUsedThisAttempt = false;
+  let answerUsedThisAttempt = false;
+  let answerShown = false;
+  let preAnswerCode = "";
 
   const $ = (id) => document.getElementById(id);
-  const todayStr = () => new Date().toISOString().slice(0,10);
 
   async function loadProgress() {
     try {
-      const res = await window.storage.get("r-field-notes:progress");
-      if (res && res.value) {
-        const p = JSON.parse(res.value);
+      const raw = localStorage.getItem("r-field-notes:progress");
+      if (raw) {
+        const p = JSON.parse(raw);
         completed = new Set(p.completed || []);
         xp = p.xp || 0;
-        streak = p.streak || 0;
-        lastActiveDate = p.lastActiveDate || null;
-        todayCompletions = p.todayCompletions || [];
       }
-    } catch (e) { /* no saved progress yet */ }
+    } catch (e) { /* localStorage unavailable (e.g. private browsing, or this preview sandbox) — progress just won't persist */ }
   }
   async function saveProgress() {
     try {
-      await window.storage.set("r-field-notes:progress", JSON.stringify({
-        completed: Array.from(completed), xp, streak, lastActiveDate, todayCompletions
-      }));
+      localStorage.setItem("r-field-notes:progress", JSON.stringify({ completed: Array.from(completed), xp }));
     } catch (e) { console.warn("Could not save progress", e); }
   }
 
-  function todaysCount() {
-    const t = todayStr();
-    return todayCompletions.filter(d => d === t).length;
-  }
-
-  function registerCompletionForStreakAndGoal() {
-    const t = todayStr();
-    if (lastActiveDate === t) {
-      // already active today
-    } else if (lastActiveDate) {
-      const prev = new Date(lastActiveDate);
-      const diffDays = Math.round((new Date(t) - prev) / 86400000);
-      streak = diffDays === 1 ? streak + 1 : 1;
-    } else {
-      streak = 1;
-    }
-    lastActiveDate = t;
-    todayCompletions.push(t);
-  }
-
   function renderStats() {
-    $("streakVal").textContent = streak;
-    $("streakStat").classList.toggle("streak-zero", streak === 0);
-
     const level = Math.floor(xp / XP_PER_LEVEL) + 1;
     const xpIntoLevel = xp % XP_PER_LEVEL;
-    $("lvlLabel").textContent = `Level ${level}`;
-    $("xpLabel").textContent = `${xpIntoLevel} / ${XP_PER_LEVEL} XP`;
+    $("lvlLabel").textContent = `Lv ${level}`;
+    $("xpNum").textContent = `${xpIntoLevel}/${XP_PER_LEVEL}`;
     $("xpFill").style.width = `${(xpIntoLevel / XP_PER_LEVEL) * 100}%`;
-
-    const count = todaysCount();
-    const pct = Math.min(count / DAILY_GOAL, 1);
-    const circumference = 75.4;
-    $("goalRingFg").setAttribute("stroke-dashoffset", String(circumference * (1 - pct)));
-    $("goalRingLabel").textContent = `${Math.min(count, DAILY_GOAL)}/${DAILY_GOAL}`;
-
-    renderHeartSet($("headerHearts"), Math.min(heartsRemaining, HEARTS_MAX), HEARTS_MAX, 14);
-  }
-
-  function heartSvg() {
-    return `<svg viewBox="0 0 32 29"><path d="M16 29 2.6 16.4C-1.8 12 .3 3.6 7.3 1.6c4-1.1 7.4.6 8.7 3.4 1.3-2.8 4.7-4.5 8.7-3.4 7 2 9.1 10.4 4.7 14.8L16 29z"/></svg>`;
-  }
-  function renderHeartSet(container, filled, total, size) {
-    container.innerHTML = "";
-    for (let i = 0; i < total; i++) {
-      const h = document.createElement("div");
-      h.className = "heart " + (i < filled ? "full" : "empty");
-      h.style.width = size + "px"; h.style.height = size + "px";
-      h.innerHTML = heartSvg();
-      container.appendChild(h);
-    }
   }
 
   function renderPathMap() {
@@ -904,31 +1301,27 @@
     LESSONS.forEach((l, i) => {
       if (l.unit !== lastUnit) {
         lastUnit = l.unit;
+        const doneInUnit = LESSONS.filter((x) => x.unit === l.unit && completed.has(x.id)).length;
+        const totalInUnit = LESSONS.filter((x) => x.unit === l.unit).length;
         const divider = document.createElement("div");
         divider.className = "unit-divider";
-        const doneInUnit = LESSONS.filter((x, xi) => x.unit === l.unit && completed.has(xi)).length;
-        const totalInUnit = LESSONS.filter((x) => x.unit === l.unit).length;
         divider.innerHTML = `<span class="unit-name">${l.unit}</span><span class="unit-count">${doneInUnit}/${totalInUnit}</span>`;
         map.appendChild(divider);
       }
-      const unlocked = i === 0 || completed.has(i - 1) || completed.has(i);
+      const unlocked = i === 0 || completed.has(LESSONS[i - 1].id) || completed.has(l.id);
       const row = document.createElement("div");
       row.className = "path-row";
       const slot = document.createElement("div");
       slot.className = "slot";
-
       const btn = document.createElement("button");
-      btn.className = "node-btn " + (completed.has(i) ? "done" : (i === current ? "current" : (unlocked ? "" : "locked")));
-      btn.textContent = completed.has(i) ? "✓" : String(i + 1);
+      btn.className = "node-btn " + (completed.has(l.id) ? "done" : (i === current && view !== "path" ? "current" : (unlocked ? "" : "locked")));
+      btn.textContent = completed.has(l.id) ? "✓" : String(i + 1);
       btn.disabled = !unlocked;
-      btn.addEventListener("click", () => { if (unlocked) goTo(i); });
-
+      btn.addEventListener("click", () => { if (unlocked) { current = i; renderLesson(); switchView("learn"); } });
       const label = document.createElement("div");
       label.className = "node-label";
       label.textContent = l.short;
-
-      slot.appendChild(btn);
-      slot.appendChild(label);
+      slot.appendChild(btn); slot.appendChild(label);
       row.appendChild(slot);
       map.appendChild(row);
     });
@@ -936,41 +1329,35 @@
 
   function renderLesson() {
     const l = LESSONS[current];
-    $("lessonKicker").textContent = `Lesson ${current + 1} of ${LESSONS.length}`;
-    $("lessonXpTag").textContent = completed.has(current) ? "Logged ✓" : `+${XP_PER_LESSON} XP`;
-    $("lessonTitle").textContent = l.title;
-    $("lessonInstructions").innerHTML = l.instructions;
-    const pre = $("preloadNote");
+    hintUsedThisAttempt = false;
+    answerUsedThisAttempt = false;
+    answerShown = false;
+    preAnswerCode = "";
+
+    $("learnKicker").textContent = `Lesson ${current + 1} of ${LESSONS.length} · ${l.unit}`;
+    $("learnTitle").textContent = l.title;
+    $("learnInstructions").innerHTML = l.instructions;
+    const pre = $("learnPreload");
     if (l.preload) { pre.style.display = "block"; pre.textContent = l.preload; }
     else { pre.style.display = "none"; }
+
+    $("practiceKicker").textContent = `Lesson ${current + 1}`;
+    $("practiceTitle").textContent = l.title;
+    $("practiceInstructions").innerHTML = l.instructions + (l.preload ? `<div class="preload-note">${l.preload}</div>` : "");
+
     $("hintBox").classList.remove("show");
     $("hintBox").textContent = l.hint;
-    $("hintToggle").textContent = `Show hint (−${XP_HINT_PENALTY} XP)`;
+    $("hintToggle").textContent = "Show hint";
+    $("answerBtn").textContent = "Display answer";
+
     $("code").value = l.starter;
-    $("output").classList.remove("show");
-    $("output").textContent = "";
+    $("output").classList.remove("show"); $("output").textContent = "";
     $("feedback").classList.remove("show");
     $("prevBtn").disabled = current === 0;
     $("nextBtn").textContent = current === LESSONS.length - 1 ? "Restart ↻" : "Next →";
 
-    heartsRemaining = HEARTS_MAX;
-    hintUsedThisAttempt = false;
-    renderHeartSet($("lessonHearts"), heartsRemaining, HEARTS_MAX, 13);
-    updateCheckAvailability();
-
     renderPathMap();
-    renderStats();
     prepareEnvironment();
-  }
-
-  function updateCheckAvailability() {
-    $("checkBtn").disabled = !engineReady || heartsRemaining <= 0;
-    if (heartsRemaining <= 0) {
-      const fb = $("feedback");
-      fb.classList.add("show", "out");
-      fb.classList.remove("ok", "bad");
-      fb.textContent = "Out of attempts for this lesson. Hit Reset to refill and try again.";
-    }
   }
 
   async function prepareEnvironment() {
@@ -979,52 +1366,45 @@
       await webR.evalR('rm(list=ls())');
       const l = LESSONS[current];
       if (l.setup) await webR.evalR(l.setup);
-    } catch (e) {
-      console.warn("Environment setup issue", e);
-    }
+    } catch (e) { console.warn("Environment setup issue", e); }
   }
 
-  function goTo(i) {
-    if (i === LESSONS.length) i = 0;
-    current = i;
-    renderLesson();
+  function goTo(i) { if (i === LESSONS.length) i = 0; current = i; renderLesson(); }
+
+  function switchView(name) {
+    view = name;
+    ["path","learn","practice"].forEach((v) => { $("view-" + v).hidden = (v !== name); });
+    document.querySelectorAll("#bottomNav button").forEach((b) => b.classList.toggle("active", b.dataset.view === name));
+    window.scrollTo(0, 0);
+    if (name === "path") renderPathMap();
   }
 
   async function initEngine() {
-    const banner = $("engineBanner");
-    const text = $("engineText");
+    const banner = $("engineBanner"); const text = $("engineText");
     try {
       const { WebR } = await import('https://webr.r-wasm.org/latest/webr.mjs');
       webR = new WebR();
       await webR.init();
-
-      text.textContent = "R is running — now installing dplyr + purrr (this is the slow part, ~20–40s)…";
-      await webR.installPackages(['dplyr', 'purrr']);
-      await webR.evalR('library(dplyr); library(purrr); library(tibble)');
-
+      text.textContent = "R is running — installing dplyr, purrr, forcats, here…";
+      await webR.installPackages(['dplyr', 'purrr', 'forcats', 'here']);
+      await webR.evalR('library(dplyr); library(purrr); library(tibble); library(forcats); library(here)');
       engineReady = true;
-      banner.classList.remove("loading");
-      banner.classList.add("ready");
-      $("runBtn").disabled = false;
-      updateCheckAvailability();
+      banner.classList.remove("loading"); banner.classList.add("ready");
+      $("runBtn").disabled = false; $("checkBtn").disabled = false;
       await prepareEnvironment();
     } catch (e) {
       console.error(e);
-      banner.classList.remove("loading");
-      banner.classList.add("error");
-      text.innerHTML = "The R engine or tidyverse packages couldn't load here — likely a network restriction in this preview. " +
-        "Save this file and open it directly in a browser (or host it on GitHub Pages) and it should run normally.";
+      banner.classList.remove("loading"); banner.classList.add("error");
+      text.innerHTML = "R or its packages couldn't load here — likely a network restriction in this preview. " +
+        "Save this file and open it in a browser, or host it on GitHub Pages, and it should run normally.";
     }
   }
 
   async function runR(code) {
-    const capture = await webR.captureR(code, {
-      captureStreams: true, captureConditions: true, withAutoprint: true,
-    });
+    const capture = await webR.captureR(code, { captureStreams: true, captureConditions: true, withAutoprint: true });
     let text = "";
     for (const msg of capture.output) {
-      if (msg.type === "stdout") text += msg.data + "\n";
-      else if (msg.type === "stderr") text += msg.data + "\n";
+      if (msg.type === "stdout" || msg.type === "stderr") text += msg.data + "\n";
     }
     try { capture.result?.free?.(); } catch (_) {}
     return text.trim();
@@ -1032,9 +1412,6 @@
 
   function showCelebration(xpAwarded, leveledUp, newLevel) {
     $("celebrateXp").textContent = `+${xpAwarded} XP`;
-    $("celebrateSub").textContent = streak > 1
-      ? `${streak}-day streak. Keep it going.`
-      : `First lesson logged today — streak started.`;
     const lu = $("celebrateLevelup");
     if (leveledUp) { lu.textContent = `Level up! You're now Level ${newLevel}.`; lu.classList.add("show"); }
     else { lu.classList.remove("show"); }
@@ -1042,33 +1419,49 @@
   }
   $("celebrateClose").addEventListener("click", () => $("celebrateOverlay").classList.remove("show"));
 
+  $("goPracticeBtn").addEventListener("click", () => switchView("practice"));
+
   $("hintToggle").addEventListener("click", () => {
     const box = $("hintBox");
     const showing = box.classList.toggle("show");
-    $("hintToggle").textContent = showing ? "Hide hint" : `Show hint (−${XP_HINT_PENALTY} XP)`;
+    $("hintToggle").textContent = showing ? "Hide hint" : "Show hint";
     if (showing) hintUsedThisAttempt = true;
+  });
+
+  $("helpBtn").addEventListener("click", () => {
+    $("helpBody").innerHTML = LESSONS[current].help;
+    $("helpOverlay").classList.add("show");
+  });
+  $("helpClose").addEventListener("click", () => $("helpOverlay").classList.remove("show"));
+
+  $("answerBtn").addEventListener("click", () => {
+    const codeBox = $("code");
+    if (!answerShown) {
+      preAnswerCode = codeBox.value;
+      codeBox.value = LESSONS[current].solution;
+      answerShown = true;
+      answerUsedThisAttempt = true;
+      $("answerBtn").textContent = "Hide answer";
+    } else {
+      codeBox.value = preAnswerCode;
+      answerShown = false;
+      $("answerBtn").textContent = "Display answer";
+    }
   });
 
   $("runBtn").addEventListener("click", async () => {
     if (!engineReady) return;
-    const out = $("output");
-    out.classList.add("show");
-    out.textContent = "Running…";
+    const out = $("output"); out.classList.add("show"); out.textContent = "Running…";
     try {
-      const code = $("code").value;
-      const result = await runR(code);
-      out.textContent = result.length ? result : "(no console output — your code ran, but produced nothing to print. That's fine if you just assigned variables.)";
-    } catch (e) {
-      out.innerHTML = `<span class="err">Error: ${(e.message || e).toString()}</span>`;
-    }
+      const result = await runR($("code").value);
+      out.textContent = result.length ? result : "(no console output — that's fine if you just assigned variables.)";
+    } catch (e) { out.innerHTML = `<span class="err">Error: ${(e.message || e).toString()}</span>`; }
   });
 
   $("checkBtn").addEventListener("click", async () => {
-    if (!engineReady || heartsRemaining <= 0) return;
+    if (!engineReady) return;
     const fb = $("feedback");
-    fb.classList.remove("ok", "bad", "out");
-    fb.classList.add("show");
-    fb.textContent = "Checking…";
+    fb.classList.remove("ok", "bad"); fb.classList.add("show"); fb.textContent = "Checking…";
     try {
       const code = $("code").value;
       await webR.evalR(code);
@@ -1079,60 +1472,39 @@
       const passed = jsVal.type === "logical" ? jsVal.values[0] === true : false;
 
       if (passed) {
-        fb.classList.add("ok");
-        fb.textContent = "Correct — nicely done. That's logged.";
-        if (!completed.has(current)) {
-          completed.add(current);
-          const awarded = hintUsedThisAttempt ? (XP_PER_LESSON - XP_HINT_PENALTY) : XP_PER_LESSON;
+        fb.classList.add("ok"); fb.textContent = "Correct — nicely done. That's logged.";
+        if (!completed.has(l.id)) {
+          completed.add(l.id);
+          const penalty = answerUsedThisAttempt ? XP_ANSWER_PENALTY : (hintUsedThisAttempt ? XP_HINT_PENALTY : 0);
+          const awarded = XP_PER_LESSON - penalty;
           const prevLevel = Math.floor(xp / XP_PER_LEVEL) + 1;
           xp += awarded;
           const newLevel = Math.floor(xp / XP_PER_LEVEL) + 1;
-          registerCompletionForStreakAndGoal();
           await saveProgress();
-          renderPathMap();
-          renderStats();
-          $("lessonXpTag").textContent = "Logged ✓";
+          renderStats(); renderPathMap();
           showCelebration(awarded, newLevel > prevLevel, newLevel);
         }
       } else {
-        heartsRemaining -= 1;
-        renderHeartSet($("lessonHearts"), heartsRemaining, HEARTS_MAX, 13);
-        renderStats();
         fb.classList.add("bad");
-        fb.textContent = heartsRemaining > 0
-          ? `Not quite yet — ${heartsRemaining} attempt${heartsRemaining === 1 ? "" : "s"} left. Check your variable names and values, or open the hint.`
-          : "Out of attempts. Hit Reset to refill and try again.";
-        updateCheckAvailability();
+        fb.textContent = "Not quite yet — check your variable names and values, or open the hint.";
       }
     } catch (e) {
-      heartsRemaining -= 1;
-      renderHeartSet($("lessonHearts"), heartsRemaining, HEARTS_MAX, 13);
-      renderStats();
-      fb.classList.add("bad");
-      fb.textContent = `Your code has an error: ${(e.message || e).toString()}`;
-      updateCheckAvailability();
+      fb.classList.add("bad"); fb.textContent = `Your code has an error: ${(e.message || e).toString()}`;
     }
-  });
-
-  $("resetBtn").addEventListener("click", () => {
-    $("code").value = LESSONS[current].starter;
-    $("output").classList.remove("show");
-    $("feedback").classList.remove("show");
-    heartsRemaining = HEARTS_MAX;
-    hintUsedThisAttempt = false;
-    renderHeartSet($("lessonHearts"), heartsRemaining, HEARTS_MAX, 13);
-    updateCheckAvailability();
-    renderStats();
-    prepareEnvironment();
   });
 
   $("prevBtn").addEventListener("click", () => { if (current > 0) goTo(current - 1); });
   $("nextBtn").addEventListener("click", () => { goTo(current + 1 === LESSONS.length ? 0 : current + 1); });
 
+  document.querySelectorAll("#bottomNav button").forEach((b) => {
+    b.addEventListener("click", () => switchView(b.dataset.view));
+  });
+
   (async function boot() {
     await loadProgress();
     renderStats();
     renderLesson();
+    switchView("path");
     initEngine();
   })();
 </script>
