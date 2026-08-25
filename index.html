@@ -152,21 +152,17 @@
     border-radius:5px; font-size:12.5px; color:var(--lilac-deep); border:1px solid var(--card-border);
   }
 
-  .mini-row{display:flex; gap:8px; margin-top:12px; flex-wrap:wrap;}
-  .diff-row{display:flex; gap:6px; margin-top:14px;}
-  .diff-btn{
-    flex:1; font-family:'Baloo 2', sans-serif; font-size:11.5px; font-weight:700;
-    padding:7px 4px; border-radius:11px; border:2px solid var(--card-border);
-    background:var(--bg); color:var(--text-soft); cursor:pointer;
-  }
-  .diff-btn.active{background:var(--lilac); border-color:var(--lilac-deep); color:#fff;}
+  .mini-row{display:flex; gap:5px; margin-top:12px; flex-wrap:nowrap;}
   button.action.small{
-    font-size:12px; padding:8px 14px; border-radius:12px;
+    flex:1 1 0; min-width:0; font-size:10.5px; padding:7px 3px; border-radius:10px;
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis; text-align:center;
   }
   button.action.small:active:not(:disabled){transform:translateY(3px); box-shadow:none !important;}
   button.action.hint-btn{background:#0B5FA5; box-shadow:0 3px 0 #073F70; color:#fff;}
   button.action.help-btn{background:var(--bg); border:2px solid var(--card-border); box-shadow:0 3px 0 var(--card-border); color:var(--blue-deep);}
   button.action.answer-btn{background:var(--gold); box-shadow:0 4px 0 var(--gold-deep); color:var(--text);}
+  button.action.diff-btn{background:var(--bg); border:2px solid var(--card-border); box-shadow:0 3px 0 var(--card-border); color:var(--text-soft);}
+  button.action.diff-btn.active{background:var(--lilac); border-color:var(--lilac-deep); box-shadow:0 3px 0 var(--lilac-deep); color:#fff;}
   .hint-box{
     display:none; margin-top:8px; font-size:13px; color:var(--text-soft);
     background:#EEF8FF; border-radius:10px; padding:10px 12px; line-height:1.5;
@@ -321,16 +317,13 @@
       </div>
 
       <div class="mini-row">
-        <button class="action small hint-btn" id="hintToggle">Show hint</button>
+        <button class="action small hint-btn" id="hintToggle">Hint</button>
         <button class="action small help-btn" id="helpBtn">Help</button>
+        <button class="action small diff-btn" data-diff="easy" style="display:none;">Easy</button>
+        <button class="action small diff-btn" data-diff="medium" style="display:none;">Medium</button>
+        <button class="action small diff-btn" data-diff="hard" style="display:none;">Hard</button>
       </div>
       <div class="hint-box" id="hintBox"></div>
-
-      <div class="diff-row" id="diffRow" style="display:none;">
-        <button class="diff-btn" data-diff="easy">Easy</button>
-        <button class="diff-btn" data-diff="medium">Medium</button>
-        <button class="diff-btn" data-diff="hard">Hard</button>
-      </div>
 
       <div class="console-label">Your code</div>
       <textarea id="code" spellcheck="false" autocapitalize="off" autocorrect="off"></textarea>
@@ -1856,11 +1849,11 @@ insert_assign <- "Alt+-"
 
     $("hintBox").classList.remove("show");
     $("hintBox").textContent = l.hint;
-    $("hintToggle").textContent = "Show hint";
+    $("hintToggle").textContent = "Hint";
     $("answerBtn").textContent = "Display answer";
 
     const hasTiers = !!(l.starterMedium || l.starterHard);
-    $("diffRow").style.display = hasTiers ? "flex" : "none";
+    document.querySelectorAll(".diff-btn").forEach((b) => { b.style.display = hasTiers ? "" : "none"; });
     document.querySelectorAll(".diff-btn").forEach((b) => b.classList.toggle("active", b.dataset.diff === difficulty));
 
     $("code").value = hasTiers ? starterForDifficulty(l, difficulty) : l.starter;
@@ -1983,7 +1976,7 @@ paste(.__out_lines, collapse = "\\n")`;
   $("hintToggle").addEventListener("click", () => {
     const box = $("hintBox");
     const showing = box.classList.toggle("show");
-    $("hintToggle").textContent = showing ? "Hide hint" : "Show hint";
+    $("hintToggle").textContent = showing ? "Hide hint" : "Hint";
     if (showing) hintUsedThisAttempt = true;
   });
 
