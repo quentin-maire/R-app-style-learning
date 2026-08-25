@@ -6,13 +6,13 @@ No server, no install, no account — open the page and R runs on-device.
 Installable to an Android home screen as a lightweight app once hosted
 over `https://`.
 
-50 short lessons, written in **tidyverse style** throughout (`tibble()`,
-`dplyr`/`purrr`/`forcats`/`stringr` verbs, `ggplot2`, and the native `|>`
-pipe — no base-R subsetting or `data.frame()` except where there's
-genuinely no tidyverse equivalent, like plain vector indexing). Organized
-into 10 units, built around a running "pilot survey" dataset, plus a
-project-workflow unit and an RStudio-shortcuts unit that aren't tied to
-the dataset at all.
+62 short lessons, written in **tidyverse style** throughout (`tibble()`,
+`dplyr`/`purrr`/`forcats`/`stringr` verbs, `ggplot2`, `ggalluvial`, and the
+native `|>` pipe — no base-R subsetting or `data.frame()` except where
+there's genuinely no tidyverse equivalent, like plain vector indexing).
+Organized into 13 units, built around a running "pilot survey" dataset,
+plus a project-workflow unit and an RStudio-shortcuts unit that aren't
+tied to the dataset at all.
 
 **Unit 1 — Tidyverse Foundations**
 Vectors & indexing · `tibble()` + `select()` · `filter()` · a function +
@@ -56,6 +56,20 @@ cleaning free-text with `str_trim()` + `str_to_lower()`
 A first scatter plot with `geom_point()` · `geom_col()` bar charts ·
 mapping `color` in `aes()` · titles with `labs()` · small multiples with
 `facet_wrap()`
+
+**Unit 11 — Tidying with janitor**
+`clean_names()` · quick frequency tables with `tabyl()` · finding
+duplicates with `get_dupes()` · dropping empty columns with
+`remove_empty()` · totals rows with `adorn_totals()`
+
+**Unit 12 — Post-Estimation with marginaleffects**
+Average marginal effects with `avg_slopes()` · `predictions()` ·
+`avg_predictions()` · `avg_comparisons()`
+
+**Unit 13 — Flow Diagrams with ggalluvial**
+A first alluvial (Sankey-style) plot with `geom_alluvium()` +
+`geom_stratum()` · coloring flows with `aes(fill = ...)` · labeling
+strata with `geom_text()` + `after_stat()`
 
 The path map groups lessons visually by unit, and shows a lock icon on
 lessons that come later than where you've currently progressed — but it's
@@ -135,36 +149,45 @@ the file contents. That means:
 
 ## On package installs, load time, and risk
 
-The app installs six packages from webR's WASM package repository at
-startup: `dplyr`, `purrr`, `forcats`, `here`, `stringr`, and `ggplot2`
-(not the full `tidyverse` meta-package, and deliberately not `tidyr`).
-This is a heavy combination, and it's worth understanding the two
-different kinds of risk involved:
+The app installs nine packages from webR's WASM package repository at
+startup: `dplyr`, `purrr`, `forcats`, `here`, `stringr`, `ggplot2`,
+`janitor`, `marginaleffects`, and `ggalluvial` (not the full `tidyverse`
+meta-package, and deliberately not `tidyr`). This is a lot, and it's worth
+understanding the different kinds of risk stacked up here:
 
 - **Install weight.** `dplyr` and `ggplot2` alone each pull in real
   dependency chains (rlang, vctrs, tibble, pillar, tidyselect, scales,
   gtable, isoband, and more). `stringr` depends on `stringi`, historically
-  the trickiest compiled package to get working in WebAssembly — it
-  generally does have a WASM build in webR's repository, but it's the
-  single most likely package here to fail to install on a given webR
-  release. Combined, **expect first load to take 1–3 minutes**, possibly
-  longer on a slow connection. The browser caches everything after a
-  successful first load, so subsequent visits should be much quicker.
-- **Plot rendering.** Unlike every other lesson (which only checks data
-  values), the ggplot2 lessons try to actually draw the plot on-screen
-  using webR's graphics-capture API when you hit **Run**. This is newer,
-  less-documented territory than the rest of the app, and its exact
-  behavior can vary across webR versions. If a plot fails to render, the
-  app is built to degrade gracefully — the Run output area will say so,
-  and the lesson can still be completed normally, because **Check**
-  validates the underlying `ggplot` object directly and never depends on
-  whether the image actually drew.
+  the trickiest compiled package to get working in WebAssembly. `janitor`
+  is lightweight and low-risk. `marginaleffects` and `ggalluvial` are both
+  mostly pure R with no evidence either way of WASM-specific problems —
+  reasonable bets, not verified ones. Combined, **expect first load to
+  take 1–4 minutes**, possibly longer on a slow connection. The browser
+  caches everything after a successful first load, so subsequent visits
+  should be much quicker.
+- **API stability.** `marginaleffects`'s core function names have changed
+  across past versions (it used to be called `marginaleffects()`, now
+  `slopes()`/`avg_slopes()`). The four lessons in that unit use what's
+  believed to be the current stable API (`avg_slopes()`, `predictions()`,
+  `avg_predictions()`, `avg_comparisons()`), called with minimal
+  arguments specifically to reduce the chance of an argument-syntax
+  mismatch — but this hasn't been tested against a live install.
+- **Plot rendering.** The `ggplot2` and `ggalluvial` lessons try to
+  actually draw the plot on-screen when you hit **Run**, by having R open
+  a `png()` graphics device, run your code, close the device, and hand
+  the resulting PNG file back to JavaScript via webR's virtual filesystem
+  (`webR.FS.readFile()`), which then draws it onto a canvas. If a plot
+  fails to render, the app degrades gracefully — the Run output area will
+  say so, and the lesson can still be completed normally, because
+  **Check** validates the underlying `ggplot` object directly through a
+  separate code path and never depends on whether the image actually
+  drew.
 
-If either of these turns out to be a real blocker in practice, the
-straightforward fallback is to drop the `Strings & Regex` and/or
-`Visualization with ggplot2` units from the `LESSONS` array and remove the
-corresponding packages from the `installPackages()` call — everything else
-in the app is unaffected by removing a unit.
+If any of these turns out to be a real blocker in practice, the
+straightforward fallback is to drop the offending unit from the `LESSONS`
+array and remove the corresponding package from the `installPackages()`
+call — every unit is independent, and removing one doesn't affect any
+other.
 
 ## Hosting on GitHub Pages
 

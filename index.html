@@ -153,6 +153,13 @@
   }
 
   .mini-row{display:flex; gap:8px; margin-top:12px; flex-wrap:wrap;}
+  .diff-row{display:flex; gap:6px; margin-top:14px;}
+  .diff-btn{
+    flex:1; font-family:'Baloo 2', sans-serif; font-size:11.5px; font-weight:700;
+    padding:7px 4px; border-radius:11px; border:2px solid var(--card-border);
+    background:var(--bg); color:var(--text-soft); cursor:pointer;
+  }
+  .diff-btn.active{background:var(--lilac); border-color:var(--lilac-deep); color:#fff;}
   button.action.small{
     font-size:12px; padding:8px 14px; border-radius:12px;
   }
@@ -285,7 +292,7 @@
 
   <div class="engine-banner loading" id="engineBanner">
     <span class="dot"></span>
-    <span id="engineText">Starting R and installing dplyr, purrr, forcats, here, stringr, ggplot2 (1–3 min first time)…</span>
+    <span id="engineText">Starting R and installing dplyr, purrr, forcats, here, stringr, ggplot2, janitor, marginaleffects, ggalluvial (1–4 min first time)…</span>
   </div>
 
   <main class="wrap">
@@ -318,6 +325,12 @@
         <button class="action small help-btn" id="helpBtn">Help</button>
       </div>
       <div class="hint-box" id="hintBox"></div>
+
+      <div class="diff-row" id="diffRow" style="display:none;">
+        <button class="diff-btn" data-diff="easy">Easy</button>
+        <button class="diff-btn" data-diff="medium">Medium</button>
+        <button class="diff-btn" data-diff="hard">Hard</button>
+      </div>
 
       <div class="console-label">Your code</div>
       <textarea id="code" spellcheck="false" autocapitalize="off" autocorrect="off"></textarea>
@@ -387,6 +400,8 @@ const LESSONS = [
         1. Create a vector <code>ages</code> containing <code>22, 35, 41</code>.<br>
         2. Create <code>first_two</code> holding just the first two ages, using indexing.`,
       starter: `ages <- c()\n\nfirst_two <- ages[]\n`,
+      starterMedium: `# Create a vector called ages with 22, 35, 41\nages <- \n\n# Create first_two: the first two values of ages, using indexing\nfirst_two <- \n`,
+      starterHard: `# 1. Create a vector called ages containing 22, 35, 41\n# 2. Create first_two: the first two elements of ages\n`,
       solution: `ages <- c(22, 35, 41)
 
 first_two <- ages[1:2]
@@ -410,6 +425,8 @@ Example:<br><code>fruits <- c("apple", "pear", "fig")<br>fruits[2]  # "pear"</co
         <code>age</code> and <code>region</code> columns.`,
       preload: `dplyr and tibble are loaded and ready to use.`,
       starter: `pilot <- tibble(\n  id = ,\n  age = ,\n  region = \n)\n\nage_region <- pilot |> select()\n`,
+      starterMedium: `# Build pilot: a tibble with id (1:3), age (22,35,41), region ("North","South","North")\npilot <- \n\n# Create age_region: just the age and region columns of pilot\nage_region <- \n`,
+      starterHard: `# 1. Create a tibble called pilot with columns id, age, region\n# 2. Create age_region: select just age and region from pilot\n`,
       solution: `pilot <- tibble(
   id = 1:3,
   age = c(22, 35, 41),
@@ -442,6 +459,8 @@ Example:<br><code>animals <- tibble(name = c("cat","dog"), legs = c(4,4))<br>ani
         satisfaction = c(4,5,2,3,5,4,3,5)
       )`,
       starter: `south_only <- pilot |> filter(region == "___")\n`,
+      starterMedium: `# Create south_only: rows of pilot where region is "South"\nsouth_only <- \n`,
+      starterHard: `# Create south_only: keep only the rows of pilot where region equals South\n`,
       solution: `south_only <- pilot |> filter(region == "South")
 `,
       hint: 'pilot |> filter(region == "South") — filter() keeps rows matching the condition.',
@@ -464,6 +483,8 @@ Example:<br><code>pets <- tibble(name = c("Rex","Milo"), age = c(2,7))<br>pets |
       preload: `Preloaded: scores — 3 satisfaction ratings on a 1–5 scale. purrr is loaded.`,
       setup: `scores <- c(4,2,5)`,
       starter: `rescale100 <- function(x) {\n  \n}\n\nscores100 <- scores |> map_dbl(rescale100)\n`,
+      starterMedium: `# Write rescale100(x): convert a 1-5 score to a 0-100 scale using (x - 1) / 4 * 100\nrescale100 <- function(x) {\n  \n}\n\n# Apply rescale100 to every value in scores\nscores100 <- \n`,
+      starterHard: `# 1. Write a function rescale100 that converts a 1-5 score to a 0-100 scale\n# 2. Apply it to scores using map_dbl(), storing the result in scores100\n`,
       solution: `rescale100 <- function(x) {
   (x - 1) / 4 * 100
 }
@@ -487,6 +508,8 @@ Example:<br><code>add_ten <- function(x) x + 10<br>c(1,2,3) |> map_dbl(add_ten)<
       preload: `Preloaded: pilot — 6 household income values.`,
       setup: `pilot <- tibble(income = c(38200,45900,52100,29800,61200,47500))`,
       starter: `income_stats <- pilot |> summarise(\n  mean_income = round(mean(income), ),\n  sd_income = round(sd(income), )\n)\n`,
+      starterMedium: `# Create income_stats: mean_income and sd_income (each rounded to 1 decimal place), using summarise()\nincome_stats <- \n`,
+      starterHard: `# Summarize pilot's income column: mean and standard deviation, each rounded to 1 decimal place\n`,
       solution: `income_stats <- pilot |> summarise(
   mean_income = round(mean(income), 1),
   sd_income = round(sd(income), 1)
@@ -512,6 +535,8 @@ Example:<br><code>tibble(temp = c(18,21,19)) |> summarise(avg = mean(temp))</cod
       preload: `Preloaded: pilot — 4 respondent ages.`,
       setup: `pilot <- tibble(age = c(22,35,41,58))`,
       starter: `pilot2 <- pilot |> mutate(age_group = if_else(age < , "Under 40", "___"))\n`,
+      starterMedium: `# Create pilot2: add age_group ("Under 40" or "40+") using mutate() + if_else()\npilot2 <- \n`,
+      starterHard: `# Add a column age_group to pilot: "Under 40" if age is below 40, otherwise "40+"\n`,
       solution: `pilot2 <- pilot |> mutate(age_group = if_else(age < 40, "Under 40", "40+"))
 `,
       hint: 'mutate(age_group = if_else(age < 40, "Under 40", "40+"))',
@@ -1361,6 +1386,7 @@ insert_assign <- "Alt+-"
       id: "your-first-ggplot-a-scatter-plot",
       short: "geom_point()",
       unit: "Visualization with ggplot2",
+      hasPlot: true,
       instructions: `A <code>pilot</code> tibble (age, satisfaction) is loaded.<br><br>
         Create <code>p</code>: a scatter plot of <code>satisfaction</code> against
         <code>age</code>, using <code>ggplot()</code> with <code>aes()</code> and
@@ -1382,6 +1408,7 @@ insert_assign <- "Alt+-"
       id: "a-bar-chart-with-geom-col",
       short: "geom_col()",
       unit: "Visualization with ggplot2",
+      hasPlot: true,
       instructions: `A <code>region_counts</code> tibble (region, n) is loaded — already summarized,
         one row per region.<br><br>
         Create <code>p</code>: a bar chart of <code>n</code> by <code>region</code>, using
@@ -1401,6 +1428,7 @@ insert_assign <- "Alt+-"
       id: "mapping-color-with-aes",
       short: "color aes",
       unit: "Visualization with ggplot2",
+      hasPlot: true,
       instructions: `A <code>pilot</code> tibble (age, satisfaction, region) is loaded.<br><br>
         Create <code>p</code>: the same scatter plot as before, but with points colored by
         <code>region</code> — add <code>color = region</code> inside <code>aes()</code>.`,
@@ -1422,6 +1450,7 @@ insert_assign <- "Alt+-"
       id: "adding-titles-with-labs",
       short: "labs()",
       unit: "Visualization with ggplot2",
+      hasPlot: true,
       instructions: `A base scatter plot, <code>p_base</code>, is already built and loaded.<br><br>
         Create <code>p</code>: <code>p_base</code> with a title and clearer axis labels added
         via <code>+ labs(title = ..., x = ..., y = ...)</code>.`,
@@ -1442,6 +1471,7 @@ insert_assign <- "Alt+-"
       id: "small-multiples-with-facet-wrap",
       short: "facet_wrap()",
       unit: "Visualization with ggplot2",
+      hasPlot: true,
       instructions: `A <code>pilot</code> tibble (age, satisfaction, region) is loaded.<br><br>
         Create <code>p</code>: the scatter plot split into one small panel per region, using
         <code>+ facet_wrap(~region)</code>.`,
@@ -1457,6 +1487,266 @@ insert_assign <- "Alt+-"
       help: `<b>facet_wrap()</b> splits one plot into a grid of small panels, one per level of a variable — great for comparing groups side by side instead of overlaying them.<br><br>
         Example:<br><code>ggplot(mtcars, aes(x = wt, y = mpg)) + geom_point() + facet_wrap(~cyl)</code>`,
       check: `exists("p") && inherits(p, "ggplot") && !is.null(p$facet) && !inherits(p$facet, "FacetNull")`
+    },
+    {
+      title: "Cleaning column names with clean_names()",
+      id: "cleaning-column-names-with-clean-names",
+      short: "clean_names()",
+      unit: "Tidying with janitor",
+      instructions: `A messy tibble <code>messy_df</code> is loaded with awkward column names —
+        spaces, capitals, and a parenthesis.<br><br>
+        Create <code>clean_df</code>: the same data with tidy, consistent column names, using
+        <code>clean_names()</code>.`,
+      preload: `Preloaded: messy_df — columns "Respondent ID" and "Age (years)". janitor is loaded.`,
+      setup: `messy_df <- tibble(\`Respondent ID\` = 1:3, \`Age (years)\` = c(22,35,41))`,
+      starter: `clean_df <- messy_df |> clean_names(___)\n`,
+      hint: 'messy_df |> clean_names() — no arguments needed for the default snake_case style.',
+      solution: `clean_df <- messy_df |> clean_names()\n`,
+      help: `<b>clean_names()</b> converts messy column names (spaces, punctuation, mixed case) into
+        consistent snake_case, so every column can be referenced without backticks.<br><br>
+        Example:<br><code>tibble(\`First Name\` = "A") |> clean_names()  # column becomes first_name</code>`,
+      check: `exists("clean_df") && identical(names(clean_df), names(janitor::clean_names(messy_df)))`
+    },
+    {
+      title: "Quick frequency tables with tabyl()",
+      id: "quick-frequency-tables-with-tabyl",
+      short: "tabyl()",
+      unit: "Tidying with janitor",
+      instructions: `A <code>pilot</code> tibble with a <code>region</code> column is loaded.<br><br>
+        Create <code>region_tabyl</code>: a frequency table of region with counts and
+        percentages, using <code>tabyl()</code> — janitor's quick alternative to
+        <code>count()</code> for a fast one-way summary.`,
+      preload: `Preloaded: pilot — 5 respondents' region labels.`,
+      setup: `pilot <- tibble(region = c("North","South","North","South","South"))`,
+      starter: `region_tabyl <- pilot |> tabyl(___)\n`,
+      hint: 'pilot |> tabyl(region)',
+      solution: `region_tabyl <- pilot |> tabyl(region)\n`,
+      help: `<b>tabyl()</b> builds a one-line frequency table with counts and percentages already
+        calculated — handy for a fast look at a categorical survey variable.<br><br>
+        Example:<br><code>tibble(x = c("a","b","a")) |> tabyl(x)</code>`,
+      check: `exists("region_tabyl") && isTRUE(all.equal(as.data.frame(region_tabyl)[,1:2], as.data.frame(janitor::tabyl(pilot, region))[,1:2], check.attributes = FALSE))`
+    },
+    {
+      title: "Finding duplicate rows with get_dupes()",
+      id: "finding-duplicate-rows-with-get-dupes",
+      short: "get_dupes()",
+      unit: "Tidying with janitor",
+      instructions: `A <code>pilot</code> tibble is loaded where respondent <code>id</code> 2 was
+        accidentally entered twice.<br><br>
+        Create <code>dupes</code>: the duplicated rows (and a count of how many times each
+        appears), using <code>get_dupes()</code> on the <code>id</code> column.`,
+      preload: `Preloaded: pilot — 4 rows, one id duplicated.`,
+      setup: `pilot <- tibble(id = c(1,2,2,3), age = c(22,35,35,41))`,
+      starter: `dupes <- pilot |> get_dupes(___)\n`,
+      hint: 'pilot |> get_dupes(id) — flags every row sharing a duplicated id value.',
+      solution: `dupes <- pilot |> get_dupes(id)\n`,
+      help: `<b>get_dupes()</b> returns every row involved in a duplicate (by the column(s) you name),
+        plus a count of how many times that combination appears — much faster than eyeballing a
+        table for repeats.<br><br>
+        Example:<br><code>tibble(id = c(1,1,2)) |> get_dupes(id)</code>`,
+      check: `exists("dupes") && isTRUE(all.equal(as.data.frame(dupes)[, c("id","age")], as.data.frame(janitor::get_dupes(pilot, id))[, c("id","age")], check.attributes = FALSE))`
+    },
+    {
+      title: "Dropping empty columns with remove_empty()",
+      id: "dropping-empty-columns-with-remove-empty",
+      short: "remove_empty()",
+      unit: "Tidying with janitor",
+      instructions: `A <code>pilot</code> tibble is loaded with a <code>notes</code> column that's
+        entirely <code>NA</code> — dead weight left over from a survey export.<br><br>
+        Create <code>clean_pilot</code>: the same data with any fully-empty columns dropped,
+        using <code>remove_empty("cols")</code>.`,
+      preload: `Preloaded: pilot — id, notes (all NA), age.`,
+      setup: `pilot <- tibble(id = c(1,2,3), notes = c(NA,NA,NA), age = c(22,35,41))`,
+      starter: `clean_pilot <- pilot |> remove_empty("___")\n`,
+      hint: 'pilot |> remove_empty("cols") — use "rows" instead to drop fully-empty rows.',
+      solution: `clean_pilot <- pilot |> remove_empty("cols")\n`,
+      help: `<b>remove_empty()</b> drops rows or columns that are entirely <code>NA</code> — pass
+        <code>"rows"</code>, <code>"cols"</code>, or both.<br><br>
+        Example:<br><code>tibble(a = c(1,2), b = c(NA,NA)) |> remove_empty("cols")  # drops b</code>`,
+      check: `exists("clean_pilot") && identical(names(clean_pilot), names(janitor::remove_empty(pilot, "cols")))`
+    },
+    {
+      title: "Adding totals with adorn_totals()",
+      id: "adding-totals-with-adorn-totals",
+      short: "adorn_totals()",
+      unit: "Tidying with janitor",
+      instructions: `A <code>pilot</code> tibble with a <code>region</code> column is loaded.<br><br>
+        Create <code>region_report</code>: a <code>tabyl()</code> of region with a "Total" row
+        added at the bottom, by chaining in <code>adorn_totals("row")</code>.`,
+      preload: `Preloaded: pilot — 5 respondents' region labels.`,
+      setup: `pilot <- tibble(region = c("North","South","North","South","South"))`,
+      starter: `region_report <- pilot |> tabyl(region) |> adorn_totals("___")\n`,
+      hint: 'pilot |> tabyl(region) |> adorn_totals("row")',
+      solution: `region_report <- pilot |> tabyl(region) |> adorn_totals("row")\n`,
+      help: `<b>adorn_totals()</b> adds a totals row (or column) onto a tabyl or similar summary
+        table — a common last step before sharing a report table.<br><br>
+        Example:<br><code>tibble(x = c("a","b","a")) |> tabyl(x) |> adorn_totals("row")</code>`,
+      check: `exists("region_report") && nrow(region_report) == (nrow(janitor::tabyl(pilot, region)) + 1) && "Total" %in% as.character(region_report[[1]])`
+    },
+    {
+      title: "Average marginal effects with avg_slopes()",
+      id: "average-marginal-effects-with-avg-slopes",
+      short: "avg_slopes()",
+      unit: "Post-Estimation with marginaleffects",
+      instructions: `A regression <code>model</code> predicting income from age is loaded.<br><br>
+        Create <code>ame</code>: the average marginal effect (AME) of age on income, using
+        <code>avg_slopes()</code>.`,
+      preload: `Preloaded: pilot and model — a linear regression of income on age. marginaleffects is loaded.`,
+      setup: `pilot <- tibble(
+        age = c(22,35,41,29,58,31),
+        income = c(31000,45900,52100,29800,61200,47500)
+      )
+      model <- lm(income ~ age, data = pilot)`,
+      starter: `ame <- avg_slopes(___)\n`,
+      hint: 'avg_slopes(model) — with no other arguments, this reports the AME for every predictor in the model.',
+      solution: `ame <- avg_slopes(model)\n`,
+      help: `<b>avg_slopes()</b> reports the average marginal effect: how much the outcome changes,
+        on average, for a one-unit change in a predictor — the AME.<br><br>
+        Example:<br><code>m <- lm(mpg ~ wt, data = mtcars)<br>avg_slopes(m)</code>`,
+      check: `exists("ame") && isTRUE(all.equal(as.numeric(ame$estimate), as.numeric(marginaleffects::avg_slopes(model)$estimate)))`
+    },
+    {
+      title: "Predicted values with predictions()",
+      id: "predicted-values-with-predictions",
+      short: "predictions()",
+      unit: "Post-Estimation with marginaleffects",
+      instructions: `The same regression <code>model</code> is loaded.<br><br>
+        Create <code>preds</code>: the model's predicted income for every respondent in the
+        data, using <code>predictions()</code>.`,
+      preload: `Preloaded: pilot and model — a linear regression of income on age.`,
+      setup: `pilot <- tibble(
+        age = c(22,35,41,29,58,31),
+        income = c(31000,45900,52100,29800,61200,47500)
+      )
+      model <- lm(income ~ age, data = pilot)`,
+      starter: `preds <- predictions(___)\n`,
+      hint: 'predictions(model) — one predicted value per row of the original data by default.',
+      solution: `preds <- predictions(model)\n`,
+      help: `<b>predictions()</b> returns the model's fitted value for every observation — like
+        <code>predict()</code>, but with standard errors and confidence intervals attached.<br><br>
+        Example:<br><code>m <- lm(mpg ~ wt, data = mtcars)<br>predictions(m)</code>`,
+      check: `exists("preds") && isTRUE(all.equal(as.numeric(preds$estimate), as.numeric(marginaleffects::predictions(model)$estimate)))`
+    },
+    {
+      title: "Average predictions with avg_predictions()",
+      id: "average-predictions-with-avg-predictions",
+      short: "avg_predictions()",
+      unit: "Post-Estimation with marginaleffects",
+      instructions: `The same regression <code>model</code> is loaded.<br><br>
+        Create <code>avg_pred</code>: the model's average predicted income across the whole
+        sample, using <code>avg_predictions()</code>.`,
+      preload: `Preloaded: pilot and model — a linear regression of income on age.`,
+      setup: `pilot <- tibble(
+        age = c(22,35,41,29,58,31),
+        income = c(31000,45900,52100,29800,61200,47500)
+      )
+      model <- lm(income ~ age, data = pilot)`,
+      starter: `avg_pred <- avg_predictions(___)\n`,
+      hint: 'avg_predictions(model) — collapses predictions() down to a single average value.',
+      solution: `avg_pred <- avg_predictions(model)\n`,
+      help: `<b>avg_predictions()</b> is <code>predictions()</code> averaged into a single summary
+        row — the model's typical prediction across the sample, with a standard error.<br><br>
+        Example:<br><code>m <- lm(mpg ~ wt, data = mtcars)<br>avg_predictions(m)</code>`,
+      check: `exists("avg_pred") && isTRUE(all.equal(as.numeric(avg_pred$estimate), as.numeric(marginaleffects::avg_predictions(model)$estimate)))`
+    },
+    {
+      title: "Comparisons with avg_comparisons()",
+      id: "comparisons-with-avg-comparisons",
+      short: "avg_comparisons()",
+      unit: "Post-Estimation with marginaleffects",
+      instructions: `The same regression <code>model</code> is loaded.<br><br>
+        Create <code>comparison</code>: a summary of how the predicted outcome changes across
+        typical values of each predictor, using <code>avg_comparisons()</code>.`,
+      preload: `Preloaded: pilot and model — a linear regression of income on age.`,
+      setup: `pilot <- tibble(
+        age = c(22,35,41,29,58,31),
+        income = c(31000,45900,52100,29800,61200,47500)
+      )
+      model <- lm(income ~ age, data = pilot)`,
+      starter: `comparison <- avg_comparisons(___)\n`,
+      hint: 'avg_comparisons(model) — with no extra arguments, this uses sensible default contrasts for every predictor.',
+      solution: `comparison <- avg_comparisons(model)\n`,
+      help: `<b>avg_comparisons()</b> is the general-purpose sibling of avg_slopes() — it reports how
+        predictions change between meaningful contrasts (e.g. a one-unit or one-category shift),
+        which also works for categorical predictors where a "slope" doesn't quite make sense.<br><br>
+        Example:<br><code>m <- lm(mpg ~ wt, data = mtcars)<br>avg_comparisons(m)</code>`,
+      check: `exists("comparison") && isTRUE(all.equal(as.numeric(comparison$estimate), as.numeric(marginaleffects::avg_comparisons(model)$estimate)))`
+    },
+    {
+      title: "Your first alluvial plot",
+      id: "your-first-alluvial-plot",
+      short: "geom_alluvium()",
+      unit: "Flow Diagrams with ggalluvial",
+      hasPlot: true,
+      instructions: `A <code>flow_data</code> tibble summarizing respondents by region and vote
+        is loaded.<br><br>
+        Create <code>p</code>: an alluvial (flow) diagram connecting <code>region</code> to
+        <code>vote</code>, sized by count, using <code>aes(axis1 = ..., axis2 = ..., y = ...)</code>
+        with <code>geom_alluvium()</code> and <code>geom_stratum()</code>.`,
+      preload: `Preloaded: flow_data — region, vote, and a count column n. ggalluvial is loaded. Hit Run to see the plot.`,
+      setup: `flow_data <- tibble(
+        region = c("North","South","East"),
+        vote = c("Yes","No","Yes"),
+        n = c(10,15,8)
+      )`,
+      starter: `p <- ggplot(flow_data, aes(axis1 = region, axis2 = vote, y = ___)) +\n  geom_alluvium() + geom_stratum()\np\n`,
+      hint: 'aes(axis1 = region, axis2 = vote, y = n) — axis1/axis2 are the two categories being connected, y is the flow size.',
+      solution: `p <- ggplot(flow_data, aes(axis1 = region, axis2 = vote, y = n)) +\n  geom_alluvium() + geom_stratum()\np\n`,
+      help: `<b>geom_alluvium()</b> draws the flowing ribbons between categories; <b>geom_stratum()</b>
+        draws the boxes at each axis. Together they make a Sankey-style flow diagram.<br><br>
+        Example:<br><code>ggplot(data, aes(axis1 = group1, axis2 = group2, y = freq)) +<br>  geom_alluvium() + geom_stratum()</code>`,
+      check: `exists("p") && inherits(p, "ggplot") &&
+        any(sapply(p$layers, function(ly) "GeomAlluvium" %in% class(ly$geom))) &&
+        any(sapply(p$layers, function(ly) "GeomStratum" %in% class(ly$geom)))`
+    },
+    {
+      title: "Coloring flows with aes(fill = ...)",
+      id: "coloring-flows-with-aes-fill",
+      short: "fill aes",
+      unit: "Flow Diagrams with ggalluvial",
+      hasPlot: true,
+      instructions: `The same <code>flow_data</code> tibble is loaded.<br><br>
+        Create <code>p</code>: the same alluvial plot, but with the ribbons colored by
+        <code>region</code> — add <code>fill = region</code> inside <code>aes()</code>.`,
+      preload: `Preloaded: flow_data — region, vote, and count n. Hit Run to see the plot.`,
+      setup: `flow_data <- tibble(
+        region = c("North","South","East"),
+        vote = c("Yes","No","Yes"),
+        n = c(10,15,8)
+      )`,
+      starter: `p <- ggplot(flow_data, aes(axis1 = region, axis2 = vote, y = n, fill = ___)) +\n  geom_alluvium() + geom_stratum()\np\n`,
+      hint: 'aes(..., fill = region) — colors each ribbon by its starting category.',
+      solution: `p <- ggplot(flow_data, aes(axis1 = region, axis2 = vote, y = n, fill = region)) +\n  geom_alluvium() + geom_stratum()\np\n`,
+      help: `Just like any other ggplot2 layer, <b>fill</b> inside <code>aes()</code> maps a column to
+        color — here it makes each flow's origin category visually distinct.<br><br>
+        Example:<br><code>aes(axis1 = group1, axis2 = group2, y = freq, fill = group1)</code>`,
+      check: `exists("p") && inherits(p, "ggplot") && identical(rlang::as_label(p$mapping$fill), "region")`
+    },
+    {
+      title: "Labeling strata with geom_text()",
+      id: "labeling-strata-with-geom-text",
+      short: "Stratum labels",
+      unit: "Flow Diagrams with ggalluvial",
+      hasPlot: true,
+      instructions: `A base alluvial plot, <code>p_base</code>, is already built and loaded.<br><br>
+        Create <code>p</code>: <code>p_base</code> with text labels on each stratum box, by
+        adding <code>geom_text(stat = "stratum", aes(label = after_stat(stratum)))</code>.`,
+      preload: `Preloaded: p_base — an alluvial plot (region → vote). Hit Run to see the plot.`,
+      setup: `flow_data <- tibble(
+        region = c("North","South","East"),
+        vote = c("Yes","No","Yes"),
+        n = c(10,15,8)
+      )
+      p_base <- ggplot(flow_data, aes(axis1 = region, axis2 = vote, y = n)) +
+        geom_alluvium() + geom_stratum()`,
+      starter: `p <- p_base + geom_text(stat = "___", aes(label = after_stat(stratum)))\np\n`,
+      hint: 'geom_text(stat = "stratum", aes(label = after_stat(stratum))) — the "stratum" stat computes the label positions for you.',
+      solution: `p <- p_base + geom_text(stat = "stratum", aes(label = after_stat(stratum)))\np\n`,
+      help: `<b>after_stat()</b> lets you map an aesthetic (here, the text label) to a value computed
+        by the stat itself, rather than a raw column in your data — "stratum" is the label the
+        stratum stat calculates for each box.<br><br>
+        Example:<br><code>p_base + geom_text(stat = "stratum", aes(label = after_stat(stratum)))</code>`,
+      check: `exists("p") && inherits(p, "ggplot") && length(p$layers) >= 3 && any(sapply(p$layers, function(ly) "GeomText" %in% class(ly$geom)))`
     }
   ];
 
@@ -1464,10 +1754,12 @@ insert_assign <- "Alt+-"
   const XP_HINT_PENALTY = 15;
   const XP_ANSWER_PENALTY = 25;
   const XP_PER_LEVEL = 150;
+  const DIFFICULTY_BONUS = { easy: 0, medium: 10, hard: 25 };
 
   let current = 0;
   let completed = new Set();
   let xp = 0;
+  let difficulty = "easy";
   let view = "path";
   let webR = null;
   let engineReady = false;
@@ -1485,12 +1777,13 @@ insert_assign <- "Alt+-"
         const p = JSON.parse(raw);
         completed = new Set(p.completed || []);
         xp = p.xp || 0;
+        if (p.difficulty && DIFFICULTY_BONUS.hasOwnProperty(p.difficulty)) difficulty = p.difficulty;
       }
     } catch (e) { /* localStorage unavailable (e.g. private browsing, or this preview sandbox) — progress just won't persist */ }
   }
   async function saveProgress() {
     try {
-      localStorage.setItem("r-field-notes:progress", JSON.stringify({ completed: Array.from(completed), xp }));
+      localStorage.setItem("r-field-notes:progress", JSON.stringify({ completed: Array.from(completed), xp, difficulty }));
     } catch (e) { console.warn("Could not save progress", e); }
   }
 
@@ -1537,6 +1830,12 @@ insert_assign <- "Alt+-"
     });
   }
 
+  function starterForDifficulty(l, diff) {
+    if (diff === "medium" && l.starterMedium) return l.starterMedium;
+    if (diff === "hard" && l.starterHard) return l.starterHard;
+    return l.starter;
+  }
+
   function renderLesson() {
     const l = LESSONS[current];
     hintUsedThisAttempt = false;
@@ -1560,7 +1859,11 @@ insert_assign <- "Alt+-"
     $("hintToggle").textContent = "Show hint";
     $("answerBtn").textContent = "Display answer";
 
-    $("code").value = l.starter;
+    const hasTiers = !!(l.starterMedium || l.starterHard);
+    $("diffRow").style.display = hasTiers ? "flex" : "none";
+    document.querySelectorAll(".diff-btn").forEach((b) => b.classList.toggle("active", b.dataset.diff === difficulty));
+
+    $("code").value = hasTiers ? starterForDifficulty(l, difficulty) : l.starter;
     $("output").classList.remove("show"); $("output").textContent = "";
     $("plotCanvas").classList.remove("show");
     $("feedback").classList.remove("show");
@@ -1596,9 +1899,9 @@ insert_assign <- "Alt+-"
       const { WebR } = await import('https://webr.r-wasm.org/latest/webr.mjs');
       webR = new WebR();
       await webR.init();
-      text.textContent = "R is running — installing dplyr, purrr, forcats, here, stringr, ggplot2 (this is the slow part)…";
-      await webR.installPackages(['dplyr', 'purrr', 'forcats', 'here', 'stringr', 'ggplot2']);
-      await webR.evalR('library(dplyr); library(purrr); library(tibble); library(forcats); library(here); library(stringr); library(ggplot2)');
+      text.textContent = "R is running — installing dplyr, purrr, forcats, here, stringr, ggplot2, janitor, marginaleffects, ggalluvial (this is the slow part)…";
+      await webR.installPackages(['dplyr', 'purrr', 'forcats', 'here', 'stringr', 'ggplot2', 'janitor', 'marginaleffects', 'ggalluvial']);
+      await webR.evalR('library(dplyr); library(purrr); library(tibble); library(forcats); library(here); library(stringr); library(ggplot2); library(janitor); library(marginaleffects); library(ggalluvial)');
       engineReady = true;
       banner.classList.remove("loading"); banner.classList.add("ready");
       $("runBtn").disabled = false; $("checkBtn").disabled = false;
@@ -1611,26 +1914,53 @@ insert_assign <- "Alt+-"
     }
   }
 
-  async function runR(code) {
-    const capture = await webR.captureR(code, { captureStreams: true, captureConditions: true, withAutoprint: true, captureGraphics: true });
-    let text = "";
-    for (const msg of capture.output) {
-      if (msg.type === "stdout" || msg.type === "stderr") text += msg.data + "\n";
-    }
-    let images = [];
-    try { if (capture.images && capture.images.length) images = capture.images; } catch (_) {}
-    try { capture.result?.free?.(); } catch (_) {}
-    return { text: text.trim(), images };
+  async function readRString(rExpr) {
+    const result = await webR.evalR(rExpr);
+    const jsVal = await result.toJs();
+    try { result.free?.(); } catch (_) {}
+    if (jsVal && jsVal.values && jsVal.values.length) return jsVal.values[0];
+    return null;
   }
 
-  function drawPlot(imageBitmap) {
-    const canvas = $("plotCanvas");
+  async function runR(code) {
+    const wrapped = `.__out_lines <- capture.output({\n${code}\n})\npaste(.__out_lines, collapse = "\\n")`;
+    const text = (await readRString(wrapped)) || "";
+    return { text: text.trim(), imageBytes: null };
+  }
+
+  async function runRWithPlot(code) {
+    const wrapped = `.__png_path <- tempfile(fileext = ".png")
+grDevices::png(.__png_path, width = 720, height = 480, res = 120, bg = "white")
+.__out_lines <- capture.output({
+${code}
+})
+grDevices::dev.off()
+.__has_plot <- file.exists(.__png_path) && isTRUE(file.info(.__png_path)$size > 0)
+paste(.__out_lines, collapse = "\\n")`;
+    const text = (await readRString(wrapped)) || "";
+
+    let imageBytes = null;
     try {
-      canvas.width = imageBitmap.width;
-      canvas.height = imageBitmap.height;
+      const hasPlot = await readRString(".__has_plot");
+      if (hasPlot === true || hasPlot === "TRUE") {
+        const path = await readRString(".__png_path");
+        if (path) imageBytes = await webR.FS.readFile(path);
+      }
+    } catch (e) { console.warn("Could not read plot file", e); }
+
+    return { text: text.trim(), imageBytes };
+  }
+
+  async function drawPlotFromBytes(bytes) {
+    try {
+      const blob = new Blob([bytes], { type: "image/png" });
+      const bitmap = await createImageBitmap(blob);
+      const canvas = $("plotCanvas");
+      canvas.width = bitmap.width;
+      canvas.height = bitmap.height;
       const ctx = canvas.getContext("2d");
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.drawImage(imageBitmap, 0, 0);
+      ctx.drawImage(bitmap, 0, 0);
       canvas.classList.add("show");
       return true;
     } catch (e) {
@@ -1699,16 +2029,34 @@ insert_assign <- "Alt+-"
     }
   });
 
+  document.querySelectorAll(".diff-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      difficulty = btn.dataset.diff;
+      document.querySelectorAll(".diff-btn").forEach((b) => b.classList.toggle("active", b === btn));
+      const l = LESSONS[current];
+      $("code").value = starterForDifficulty(l, difficulty);
+      answerShown = false;
+      $("answerBtn").textContent = "Display answer";
+      $("output").classList.remove("show");
+      $("plotCanvas").classList.remove("show");
+      $("feedback").classList.remove("show");
+      saveProgress();
+    });
+  });
+
   $("runBtn").addEventListener("click", async () => {
     if (!engineReady) return;
     const out = $("output"); out.classList.add("show"); out.textContent = "Running…";
     $("plotCanvas").classList.remove("show");
     try {
-      const { text, images } = await runR($("code").value);
+      const l = LESSONS[current];
+      const { text, imageBytes } = l.hasPlot
+        ? await runRWithPlot($("code").value)
+        : await runR($("code").value);
+
       let plotted = false;
-      if (images.length) {
-        plotted = drawPlot(images[images.length - 1]);
-      }
+      if (imageBytes) plotted = await drawPlotFromBytes(imageBytes);
+
       if (text.length) {
         out.textContent = text;
         out.classList.add("show");
@@ -1717,9 +2065,9 @@ insert_assign <- "Alt+-"
       } else {
         out.textContent = "(no console output — that's fine if you just assigned variables.)";
       }
-      if (images.length && !plotted) {
+      if (l.hasPlot && !plotted) {
         out.classList.add("show");
-        out.textContent += (out.textContent ? "\n\n" : "") + "(a plot was generated but couldn't be displayed in this preview — the Check button doesn't depend on this, so grading still works.)";
+        out.textContent += (out.textContent ? "\n\n" : "") + "(the plot couldn't be rendered in this preview — Check still validates it correctly, so grading isn't affected.)";
       }
     } catch (e) { out.innerHTML = `<span class="err">Error: ${(e.message || e).toString()}</span>`; }
   });
@@ -1741,8 +2089,10 @@ insert_assign <- "Alt+-"
         fb.classList.add("ok"); fb.textContent = "Correct — nicely done. That's logged.";
         if (!completed.has(l.id)) {
           completed.add(l.id);
+          const hasTiers = !!(l.starterMedium || l.starterHard);
+          const diffBonus = (hasTiers && difficulty !== "easy") ? (DIFFICULTY_BONUS[difficulty] || 0) : 0;
           const penalty = answerUsedThisAttempt ? XP_ANSWER_PENALTY : (hintUsedThisAttempt ? XP_HINT_PENALTY : 0);
-          const awarded = XP_PER_LESSON - penalty;
+          const awarded = Math.max(0, XP_PER_LESSON + diffBonus - penalty);
           const prevLevel = Math.floor(xp / XP_PER_LEVEL) + 1;
           xp += awarded;
           const newLevel = Math.floor(xp / XP_PER_LEVEL) + 1;
