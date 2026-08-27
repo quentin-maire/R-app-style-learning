@@ -552,6 +552,11 @@ Example:<br><code>tibble(temp = c(15,25)) |> mutate(weather = if_else(temp > 20,
         satisfaction = c(3,5,2,4,5,3)
       )`,
       starter: `sorted_pilot <- pilot |> arrange(___)\n`,
+      starterMedium: `# Create sorted_pilot: pilot sorted by age, using arrange()
+sorted_pilot <- 
+`,
+      starterHard: `# Sort pilot by age, youngest to oldest
+`,
       solution: `sorted_pilot <- pilot |> arrange(age)
 `,
       hint: 'pilot |> arrange(age) — arrange() sorts ascending by default.',
@@ -574,6 +579,11 @@ Example:<br><code>tibble(name = c("Bo","Amy"), score = c(7,9)) |> arrange(score)
       preload: `Preloaded: pilot — 4 income values, one of them NA.`,
       setup: `pilot <- tibble(income = c(38200, NA, 52100, 29800))`,
       starter: `na_summary <- pilot |> summarise(\n  count_na = sum(is.na()),\n  mean_income = mean(income, )\n)\n`,
+      starterMedium: `# Create na_summary: count_na and mean_income (ignoring NAs), using summarise()
+na_summary <- 
+`,
+      starterHard: `# Summarize pilot's income: how many are missing, and the mean ignoring missing values
+`,
       solution: `na_summary <- pilot |> summarise(
   count_na = sum(is.na(income)),
   mean_income = mean(income, na.rm = TRUE)
@@ -599,6 +609,11 @@ Example:<br><code>x <- c(5, NA, 9)<br>sum(is.na(x))        # 1<br>mean(x, na.rm 
       preload: `Preloaded: pilot — 4 respondent ages.`,
       setup: `pilot <- tibble(age = c(22,35,41,58))`,
       starter: `pilot2 <- pilot |> mutate(age_bracket = case_when(\n  age < 30 ~ "18-29",\n  age < 50 ~ "___",\n  TRUE ~ "___"\n))\n`,
+      starterMedium: `# Create pilot2: add age_bracket ("18-29","30-49","50+") using mutate() + case_when()
+pilot2 <- 
+`,
+      starterHard: `# Add age_bracket to pilot: "18-29", "30-49", or "50+" based on age
+`,
       solution: `pilot2 <- pilot |> mutate(age_bracket = case_when(
   age < 30 ~ "18-29",
   age < 50 ~ "30-49",
@@ -627,6 +642,11 @@ Example:<br><code>tibble(temp = c(5,18,30)) |> mutate(label = case_when(<br>  te
         support = c("Yes","No","Yes","No","Yes","Yes")
       )`,
       starter: `region_support_counts <- pilot |> count(___, ___)\n`,
+      starterMedium: `# Create region_support_counts: counts of every region x support combination, using count()
+region_support_counts <- 
+`,
+      starterHard: `# Count how many respondents fall into each region x support combination
+`,
       solution: `region_support_counts <- pilot |> count(region, support)
 `,
       hint: 'pilot |> count(region, support) — count() tallies every combination of the grouping columns.',
@@ -648,6 +668,11 @@ Example:<br><code>tibble(color = c("red","blue","red")) |> count(color)</code>`,
       setup: `demo <- tibble(id = 1:3, age = c(22,35,41))
       responses <- tibble(id = 1:3, satisfaction = c(4,5,2))`,
       starter: `merged <- demo |> left_join(responses, by = "___")\n`,
+      starterMedium: `# Create merged: demo joined with responses by id, using left_join()
+merged <- 
+`,
+      starterHard: `# Join demo and responses together by id
+`,
       solution: `merged <- demo |> left_join(responses, by = "id")
 `,
       hint: 'demo |> left_join(responses, by = "id")',
@@ -673,6 +698,11 @@ Example:<br><code>people <- tibble(id = 1:2, name = c("Al","Bo"))<br>scores <- t
         satisfaction = c(4,5,2,3,5,4)
       )`,
       starter: `high_satisfaction_south <- pilot |> filter(satisfaction >= , region == "___")\n`,
+      starterMedium: `# Create high_satisfaction_south: satisfaction >= 4 AND region == "South", using filter()
+high_satisfaction_south <- 
+`,
+      starterHard: `# Keep only rows where satisfaction is 4+ and region is South
+`,
       solution: `high_satisfaction_south <- pilot |> filter(satisfaction >= 4, region == "South")
 `,
       hint: 'pilot |> filter(satisfaction >= 4, region == "South")',
@@ -694,6 +724,11 @@ Example:<br><code>tibble(age = c(20,40,60), city = c("A","B","A")) |> filter(age
       preload: `Preloaded: pilot — 6 respondents' region labels.`,
       setup: `pilot <- tibble(region = c("North","South","North","East","South","South"))`,
       starter: `region_counts <- pilot |> count(region) |> mutate(prop = n / sum(___))\n`,
+      starterMedium: `# Create region_counts: counts of region plus a prop column, using count() + mutate()
+region_counts <- 
+`,
+      starterHard: `# Count each region, then add each count's share of the total
+`,
       solution: `region_counts <- pilot |> count(region) |> mutate(prop = n / sum(n))
 `,
       hint: 'pilot |> count(region) |> mutate(prop = n / sum(n))',
@@ -718,6 +753,11 @@ Example:<br><code>tibble(pet = c("cat","dog","cat")) |> count(pet) |> mutate(pro
         satisfaction = c(4,5,2,3,5,4)
       )`,
       starter: `region_means <- pilot |> group_by(region) |> summarise(mean_satisfaction = mean(___), .groups = "drop")\n`,
+      starterMedium: `# Create region_means: average satisfaction per region, using group_by() + summarise()
+region_means <- 
+`,
+      starterHard: `# Compute average satisfaction for each region
+`,
       solution: `region_means <- pilot |> group_by(region) |> summarise(mean_satisfaction = mean(satisfaction), .groups = "drop")
 `,
       hint: 'pilot |> group_by(region) |> summarise(mean_satisfaction = mean(satisfaction), .groups = "drop")',
@@ -743,6 +783,11 @@ Example:<br><code>tibble(team = c("A","A","B"), pts = c(3,5,2)) |> group_by(team
         satisfaction = c(4,5,2,3,5,4)
       )`,
       starter: `region_summary <- pilot |> group_by(region) |> summarise(\n  mean_satisfaction = mean(satisfaction),\n  n = ___(),\n  .groups = "drop"\n)\n`,
+      starterMedium: `# Create region_summary: mean satisfaction and count per region, in one summarise() call
+region_summary <- 
+`,
+      starterHard: `# For each region, compute mean satisfaction and count of respondents
+`,
       solution: `region_summary <- pilot |> group_by(region) |> summarise(
   mean_satisfaction = mean(satisfaction),
   n = n(),
@@ -769,6 +814,11 @@ Example:<br><code>tibble(team = c("A","A","B")) |> group_by(team) |> summarise(p
       preload: `Preloaded: pilot — 6 household income values.`,
       setup: `pilot <- tibble(income = c(38200,45900,52100,29800,61200,47500))`,
       starter: `income_quartiles <- pilot |> summarise(\n  q25 = quantile(income, ),\n  q50 = quantile(income, ),\n  q75 = quantile(income, )\n)\n`,
+      starterMedium: `# Create income_quartiles: q25, q50, q75 of income, using summarise() + quantile()
+income_quartiles <- 
+`,
+      starterHard: `# Compute the 25th, 50th, and 75th percentiles of income
+`,
       solution: `income_quartiles <- pilot |> summarise(
   q25 = quantile(income, 0.25),
   q50 = quantile(income, 0.5),
@@ -794,6 +844,11 @@ Example:<br><code>quantile(c(10,20,30,40), 0.5)  # median, 25</code>`,
       preload: `Preloaded: pilot — 5 satisfaction ratings.`,
       setup: `pilot <- tibble(scores = c(4,5,2,3,5))`,
       starter: `pilot2 <- pilot |> mutate(z_score = (scores - ) / sd(scores))\n`,
+      starterMedium: `# Create pilot2: add z_score = (scores - mean) / sd, using mutate()
+pilot2 <- 
+`,
+      starterHard: `# Add a z_score column to pilot: standardize the scores column
+`,
       solution: `pilot2 <- pilot |> mutate(z_score = (scores - mean(scores)) / sd(scores))
 `,
       hint: 'mutate(z_score = (scores - mean(scores)) / sd(scores))',
@@ -814,6 +869,11 @@ Example:<br><code>x <- c(4,8,12)<br>(x - mean(x)) / sd(x)</code>`,
       preload: `Preloaded: pilot — 5 respondents with age and satisfaction.`,
       setup: `pilot <- tibble(age = c(22,35,41,29,58), satisfaction = c(5,3,2,4,1))`,
       starter: `age_satisfaction_cor <- pilot |> summarise(cor = cor(age, satisfaction)) |> pull(___)\n`,
+      starterMedium: `# Create age_satisfaction_cor: correlation between age and satisfaction, using summarise() + pull()
+age_satisfaction_cor <- 
+`,
+      starterHard: `# Compute the correlation between age and satisfaction as a single number
+`,
       solution: `age_satisfaction_cor <- pilot |> summarise(cor = cor(age, satisfaction)) |> pull(cor)
 `,
       hint: 'pilot |> summarise(cor = cor(age, satisfaction)) |> pull(cor) — pull() grabs one column as a plain vector.',
@@ -835,6 +895,11 @@ Example:<br><code>tibble(x = 1:3) |> summarise(total = sum(x)) |> pull(total)</c
       preload: `Preloaded: pilot — 4 responses on a 1–5 scale.`,
       setup: `pilot <- tibble(item = c(2,4,1,5))`,
       starter: `pilot2 <- pilot |> mutate(item_r = - item)\n`,
+      starterMedium: `# Create pilot2: add item_r, the reverse-coded item (6 - item), using mutate()
+pilot2 <- 
+`,
+      starterHard: `# Add item_r to pilot: item reverse-coded for a 1-5 scale
+`,
       solution: `pilot2 <- pilot |> mutate(item_r = 6 - item)
 `,
       hint: 'mutate(item_r = 6 - item)',
@@ -860,6 +925,11 @@ Example:<br><code>x <- c(1,3,5)  # a 1-5 scale<br>6 - x</code>`,
         item3 = c(4,1,5,4)
       )`,
       starter: `items_df2 <- items_df |> mutate(composite = rowMeans(across(item1:item3)))\n`,
+      starterMedium: `# Create items_df2: add composite, the row-wise average of item1:item3, using mutate() + rowMeans() + across()
+items_df2 <- 
+`,
+      starterHard: `# Add a composite column to items_df: the average of item1, item2, item3 for each row
+`,
       solution: `items_df2 <- items_df |> mutate(composite = rowMeans(across(item1:item3)))
 `,
       hint: 'rowMeans(across(item1:item3)) inside mutate() averages across the three item columns for every row.',
@@ -883,6 +953,11 @@ Example:<br><code>tibble(a = c(1,3), b = c(5,7)) |> mutate(avg = rowMeans(across
         satisfaction = c(3,5,2,4,3,5)
       )`,
       starter: `t_result <- t.test(satisfaction ~ region, data = )\n`,
+      starterMedium: `# Create t_result: a t-test comparing satisfaction between regions
+t_result <- 
+`,
+      starterHard: `# Run a t-test comparing satisfaction between the two regions
+`,
       solution: `t_result <- t.test(satisfaction ~ region, data = pilot)
 `,
       hint: 't.test(satisfaction ~ region, data = pilot)',
@@ -906,6 +981,11 @@ Example:<br><code>t.test(height ~ group, data = tibble(<br>  height = c(160,170,
         income = c(31000,45900,52100,29800,61200,47500)
       )`,
       starter: `model <- lm(income ~ age, data = )\n`,
+      starterMedium: `# Create model: a linear regression of income on age
+model <- 
+`,
+      starterHard: `# Fit a linear model predicting income from age
+`,
       solution: `model <- lm(income ~ age, data = pilot)
 `,
       hint: 'model <- lm(income ~ age, data = pilot)',
@@ -928,6 +1008,11 @@ Example:<br><code>lm(y ~ x, data = tibble(x = 1:3, y = c(2,4,6)))</code>`,
       )
       model <- lm(income ~ age, data = pilot)`,
       starter: `r_squared <- summary(model)$\n`,
+      starterMedium: `# Create r_squared: the model's R-squared value, using summary()
+r_squared <- 
+`,
+      starterHard: `# Extract R-squared from the model
+`,
       solution: `r_squared <- summary(model)$r.squared
 `,
       hint: 'summary(model)$r.squared',
@@ -951,6 +1036,11 @@ Example:<br><code>m <- lm(y ~ x, data = tibble(x = 1:3, y = c(2,4,5)))<br>summar
         income = c(31000,45900,52100,29800,61200,47500)
       )`,
       starter: `region_report <- pilot |> group_by(region) |> summarise(\n  mean_satisfaction = mean(satisfaction),\n  mean_income = mean(___),\n  .groups = "drop"\n)\n`,
+      starterMedium: `# Create region_report: mean satisfaction and mean income per region, in one summarise() call
+region_report <- 
+`,
+      starterHard: `# For each region, compute mean satisfaction and mean income
+`,
       solution: `region_report <- pilot |> group_by(region) |> summarise(
   mean_satisfaction = mean(satisfaction),
   mean_income = mean(income),
@@ -977,6 +1067,11 @@ Example:<br><code>tibble(team = c("A","A","B"), pts = c(3,5,2), fouls = c(1,0,2)
       preload: `Preloaded: pilot — region as a factor. forcats is loaded.`,
       setup: `pilot <- tibble(region = factor(c("North","South","South","East","South")))`,
       starter: `pilot2 <- pilot |> mutate(region_ordered = fct_infreq(___))\n`,
+      starterMedium: `# Create pilot2: add region_ordered, region releveled by frequency, using mutate() + fct_infreq()
+pilot2 <- 
+`,
+      starterHard: `# Add region_ordered to pilot: region's levels reordered by frequency
+`,
       solution: `pilot2 <- pilot |> mutate(region_ordered = fct_infreq(region))
 `,
       hint: 'mutate(region_ordered = fct_infreq(region)) — fct_infreq() puts the most common level first.',
@@ -997,6 +1092,11 @@ Example:<br><code>f <- factor(c("cat","dog","cat","cat"))<br>fct_infreq(f)</code
       preload: `Preloaded: pilot — region as a two-level factor.`,
       setup: `pilot <- tibble(region = factor(c("N","S","N","S")))`,
       starter: `pilot2 <- pilot |> mutate(region_full = fct_recode(region, North = "___", South = "___"))\n`,
+      starterMedium: `# Create pilot2: add region_full, "N"->"North" and "S"->"South", using mutate() + fct_recode()
+pilot2 <- 
+`,
+      starterHard: `# Add region_full to pilot: relabel "N" as "North" and "S" as "South"
+`,
       solution: `pilot2 <- pilot |> mutate(region_full = fct_recode(region, North = "N", South = "S"))
 `,
       hint: 'fct_recode(region, North = "N", South = "S") — new label on the left, old code on the right.',
@@ -1018,6 +1118,11 @@ Example:<br><code>f <- factor(c("M","F"))<br>fct_recode(f, Male = "M", Female = 
       setup: `start_date <- as.Date("2026-03-01")
       end_date <- as.Date("2026-03-15")`,
       starter: `days_elapsed <- as.numeric(end_date - ___)\n`,
+      starterMedium: `# Create days_elapsed: number of days between start_date and end_date
+days_elapsed <- 
+`,
+      starterHard: `# Compute the number of days between start_date and end_date
+`,
       solution: `days_elapsed <- as.numeric(end_date - start_date)
 `,
       hint: 'as.numeric(end_date - start_date) — subtracting two Dates gives a difftime, and as.numeric() turns it into a plain number.',
@@ -1037,6 +1142,11 @@ Example:<br><code>as.Date("2026-01-10") - as.Date("2026-01-01")  # 9 days</code>
       preload: `Preloaded: pilot — 3 income values, one missing.`,
       setup: `pilot <- tibble(income = c(38200, NA, 52100))`,
       starter: `pilot2 <- pilot |> mutate(income_filled = coalesce(income, ___))\n`,
+      starterMedium: `# Create pilot2: add income_filled, income with NA replaced by 0, using mutate() + coalesce()
+pilot2 <- 
+`,
+      starterHard: `# Add income_filled to pilot: income with any NA replaced by 0
+`,
       solution: `pilot2 <- pilot |> mutate(income_filled = coalesce(income, 0))
 `,
       hint: 'coalesce(income, 0) — returns income where it exists, and 0 wherever it was NA.',
@@ -1058,6 +1168,11 @@ Example:<br><code>x <- c(5, NA, 8)<br>coalesce(x, 0)  # 5 0 8</code>`,
       setup: `invited <- tibble(id = 1:4, name = c("A","B","C","D"))
       responded <- tibble(id = c(1,3))`,
       starter: `non_respondents <- invited |> anti_join(responded, by = "___")\n`,
+      starterMedium: `# Create non_respondents: rows in invited with no match in responded, using anti_join()
+non_respondents <- 
+`,
+      starterHard: `# Find the invited respondents who never appear in responded
+`,
       solution: `non_respondents <- invited |> anti_join(responded, by = "id")
 `,
       hint: 'invited |> anti_join(responded, by = "id") — keeps rows in invited that have no match in responded.',
@@ -1077,6 +1192,11 @@ Example:<br><code>a <- tibble(id = 1:3)<br>b <- tibble(id = 2)<br>a |> anti_join
       preload: `Preloaded: scores — 3 values.`,
       setup: `scores <- c(2,4,6)`,
       starter: `doubled <- scores |> map_dbl(\\(x) x * ___)\n`,
+      starterMedium: `# Create doubled: each score doubled, using map_dbl() with a \\(x) lambda
+doubled <- 
+`,
+      starterHard: `# Double every value in scores
+`,
       solution: `doubled <- scores |> map_dbl(\\(x) x * 2)
 `,
       hint: 'scores |> map_dbl(\\(x) x * 2) — \\(x) defines a quick one-off function inline.',
@@ -1097,6 +1217,11 @@ Example:<br><code>c(1,2,3) |> map_dbl(\\(x) x + 100)</code>`,
       setup: `pre <- c(2,4,6)
       post <- c(3,5,8)`,
       starter: `gains <- map2_dbl(pre, post, \\(x, y) y - ___)\n`,
+      starterMedium: `# Create gains: post - pre for each pair, using map2_dbl()
+gains <- 
+`,
+      starterHard: `# Compute post minus pre for each matched pair
+`,
       solution: `gains <- map2_dbl(pre, post, \\(x, y) y - x)
 `,
       hint: 'map2_dbl(pre, post, \\(x, y) y - x) — x comes from the first vector, y from the second, matched by position.',
@@ -1116,6 +1241,11 @@ Example:<br><code>map2_dbl(c(1,2), c(10,20), \\(x, y) x + y)  # 11 22</code>`,
       preload: `Preloaded: values — 3 numbers.`,
       setup: `values <- c(2,4,6)`,
       starter: `total <- values |> reduce(___)\n`,
+      starterMedium: `# Create total: the sum of values, using reduce()
+total <- 
+`,
+      starterHard: `# Sum all the values in values, using reduce() instead of sum()
+`,
       solution: `total <- values |> reduce(\`+\`)
 `,
       hint: "values |> reduce(`+`) — reduce() applies + between elements one pair at a time until one value is left.",
@@ -1136,6 +1266,17 @@ Example:<br><code>c(1,2,3,4) |> reduce(\`*\`)  # 24</code>`,
       preload: `Preloaded: scores — 3 values on a 1–5 scale.`,
       setup: `scores <- c(2,4,5)`,
       starter: `rescale <- function(x, max_val = ___) {\n  x / max_val * 100\n}\n\nscores100 <- scores |> map_dbl(rescale)\n`,
+      starterMedium: `# Write rescale(x, max_val = 5): x / max_val * 100
+rescale <- function(x, max_val = ) {
+  
+}
+
+# Apply rescale to scores
+scores100 <- 
+`,
+      starterHard: `# 1. Write rescale(x, max_val = 5) that returns x / max_val * 100
+# 2. Apply it to scores, storing the result in scores100
+`,
       solution: `rescale <- function(x, max_val = 5) {
   x / max_val * 100
 }
@@ -1296,6 +1437,11 @@ insert_assign <- "Alt+-"
       preload: `Preloaded: responses — 4 open-text answers. stringr is loaded.`,
       setup: `responses <- c("The price is too high", "Great service", "Loved the price point", "Not interested")`,
       starter: `mentions_price <- str_detect(responses, "___")\n`,
+      starterMedium: `# Create mentions_price: TRUE wherever a response mentions "price", using str_detect()
+mentions_price <- 
+`,
+      starterHard: `# Flag which responses mention "price"
+`,
       solution: `mentions_price <- str_detect(responses, "price")\n`,
       hint: 'str_detect(responses, "price") — TRUE wherever that text appears anywhere in the string.',
       help: `<b>str_detect()</b> checks whether a pattern appears anywhere inside each string, returning TRUE/FALSE.<br><br>
@@ -1314,6 +1460,11 @@ insert_assign <- "Alt+-"
       preload: `Preloaded: emails — 3 email addresses.`,
       setup: `emails <- c("alice@uni.edu", "bob@school.org", "cleo@college.ac.uk")`,
       starter: `domains <- str_extract(emails, "___")\n`,
+      starterMedium: `# Create domains: the text after @ in each email, using str_extract()
+domains <- 
+`,
+      starterHard: `# Extract the domain (after @) from each email
+`,
       hint: 'str_extract(emails, "[^@]+$") — the pattern matches everything after the last @.',
       solution: `domains <- str_extract(emails, "[^@]+$")\n`,
       help: `<b>str_extract()</b> pulls out the part of a string that matches a pattern (a regular expression).<br><br>
@@ -1332,6 +1483,11 @@ insert_assign <- "Alt+-"
       preload: `Preloaded: addresses — 3 street addresses.`,
       setup: `addresses <- c("123 Main St", "45 Oak St", "7 Pine St")`,
       starter: `full_addresses <- str_replace_all(addresses, "St", "___")\n`,
+      starterMedium: `# Create full_addresses: "St" replaced with "Street" everywhere, using str_replace_all()
+full_addresses <- 
+`,
+      starterHard: `# Replace every "St" with "Street" in addresses
+`,
       hint: 'str_replace_all(addresses, "St", "Street") — replaces every occurrence, not just the first.',
       solution: `full_addresses <- str_replace_all(addresses, "St", "Street")\n`,
       help: `<b>str_replace_all()</b> swaps every match of a pattern for replacement text. (<b>str_replace()</b> — no "_all" — only replaces the first match.)<br><br>
@@ -1350,6 +1506,11 @@ insert_assign <- "Alt+-"
       preload: `Preloaded: names_raw — 3 names.`,
       setup: `names_raw <- c("Smith, John", "Doe, Jane", "Lee, Priya")`,
       starter: `name_parts <- str_split(names_raw, "___")\n`,
+      starterMedium: `# Create name_parts: each name split on ", ", using str_split()
+name_parts <- 
+`,
+      starterHard: `# Split each name in names_raw on the comma-space
+`,
       hint: 'str_split(names_raw, ", ") — splits on the comma-space, returning a list with one element per name.',
       solution: `name_parts <- str_split(names_raw, ", ")\n`,
       help: `<b>str_split()</b> breaks each string into pieces wherever the pattern occurs, returning a list (one vector of pieces per input string).<br><br>
@@ -1368,6 +1529,11 @@ insert_assign <- "Alt+-"
       preload: `Preloaded: raw_responses — 3 messy free-text answers.`,
       setup: `raw_responses <- c("  Yes ", "NO", " Maybe  ")`,
       starter: `clean_responses <- raw_responses |> str_trim() |> str_to_lower(___)\n`,
+      starterMedium: `# Create clean_responses: raw_responses trimmed and lowercased
+clean_responses <- 
+`,
+      starterHard: `# Trim whitespace and lowercase every response in raw_responses
+`,
       hint: 'raw_responses |> str_trim() |> str_to_lower() — str_to_lower() takes no extra arguments here.',
       solution: `clean_responses <- raw_responses |> str_trim() |> str_to_lower()\n`,
       help: `<b>str_trim()</b> removes leading/trailing whitespace. <b>str_to_lower()</b> lowercases everything — piping the two together is a common first cleaning step for open-text data.<br><br>
@@ -1387,6 +1553,12 @@ insert_assign <- "Alt+-"
       preload: `Preloaded: pilot — 6 respondents. ggplot2 is loaded. Hit Run to see the plot.`,
       setup: `pilot <- tibble(age = c(22,35,41,29,58,31), satisfaction = c(4,5,2,3,5,4))`,
       starter: `p <- ggplot(pilot, aes(x = ___, y = ___)) + geom_point()\np\n`,
+      starterMedium: `# Create p: a scatter plot of satisfaction vs age, using ggplot() + geom_point()
+p <- 
+p
+`,
+      starterHard: `# Plot satisfaction against age as a scatter plot
+`,
       hint: 'ggplot(pilot, aes(x = age, y = satisfaction)) + geom_point() — then print p (or just leave it as the last line) to see it.',
       solution: `p <- ggplot(pilot, aes(x = age, y = satisfaction)) + geom_point()\np\n`,
       help: `<b>ggplot()</b> starts a plot from a data frame. <b>aes()</b> maps columns to visual properties (x, y, color...). <b>geom_point()</b> draws each row as a point.<br><br>
@@ -1410,6 +1582,12 @@ insert_assign <- "Alt+-"
       preload: `Preloaded: region_counts — 3 regions. Hit Run to see the plot.`,
       setup: `region_counts <- tibble(region = c("North","South","East"), n = c(4,6,3))`,
       starter: `p <- ggplot(region_counts, aes(x = region, y = ___)) + geom_col()\np\n`,
+      starterMedium: `# Create p: a bar chart of n by region, using geom_col()
+p <- 
+p
+`,
+      starterHard: `# Plot n by region as a bar chart
+`,
       hint: 'ggplot(region_counts, aes(x = region, y = n)) + geom_col()',
       solution: `p <- ggplot(region_counts, aes(x = region, y = n)) + geom_col()\np\n`,
       help: `<b>geom_col()</b> draws bars whose height comes directly from a column in your data (use this when you've already counted/summarized). <b>geom_bar()</b> counts raw rows for you instead.<br><br>
@@ -1432,6 +1610,12 @@ insert_assign <- "Alt+-"
         region = c("North","South","North","East","South","South")
       )`,
       starter: `p <- ggplot(pilot, aes(x = age, y = satisfaction, color = ___)) + geom_point()\np\n`,
+      starterMedium: `# Create p: the age/satisfaction scatter plot, colored by region
+p <- 
+p
+`,
+      starterHard: `# Plot satisfaction vs age, colored by region
+`,
       hint: 'aes(x = age, y = satisfaction, color = region) — color (or colour) works just like x and y inside aes().',
       solution: `p <- ggplot(pilot, aes(x = age, y = satisfaction, color = region)) + geom_point()\np\n`,
       help: `Any <b>aes()</b> argument — x, y, color, size, shape — maps a column to a visual channel, and ggplot2 handles the legend and scaling automatically.<br><br>
@@ -1451,6 +1635,12 @@ insert_assign <- "Alt+-"
       setup: `pilot <- tibble(age = c(22,35,41,29,58,31), satisfaction = c(4,5,2,3,5,4))
       p_base <- ggplot(pilot, aes(x = age, y = satisfaction)) + geom_point()`,
       starter: `p <- p_base + labs(title = "___", x = "Age", y = "Satisfaction")\np\n`,
+      starterMedium: `# Create p: p_base with a title and axis labels, using labs()
+p <- 
+p
+`,
+      starterHard: `# Add a title and axis labels to p_base
+`,
       hint: 'p_base + labs(title = "Age vs Satisfaction", x = "Age", y = "Satisfaction") — any exact title text is fine as long as it is non-empty.',
       solution: `p <- p_base + labs(title = "Age vs Satisfaction", x = "Age", y = "Satisfaction")\np\n`,
       help: `<b>labs()</b> adds or overrides labels — title, subtitle, axis names, legend name — without touching the data or geoms.<br><br>
@@ -1475,6 +1665,12 @@ insert_assign <- "Alt+-"
         region = c("North","South","North","East","South","South")
       )`,
       starter: `p <- ggplot(pilot, aes(x = age, y = satisfaction)) + geom_point() + facet_wrap(~___)\np\n`,
+      starterMedium: `# Create p: the scatter plot split into one panel per region, using facet_wrap()
+p <- 
+p
+`,
+      starterHard: `# Plot satisfaction vs age, split into one panel per region
+`,
       hint: 'facet_wrap(~region) — the tilde comes before the column name, no quotes needed.',
       solution: `p <- ggplot(pilot, aes(x = age, y = satisfaction)) + geom_point() + facet_wrap(~region)\np\n`,
       help: `<b>facet_wrap()</b> splits one plot into a grid of small panels, one per level of a variable — great for comparing groups side by side instead of overlaying them.<br><br>
@@ -1493,6 +1689,11 @@ insert_assign <- "Alt+-"
       preload: `Preloaded: messy_df — columns "Respondent ID" and "Age (years)". janitor is loaded.`,
       setup: `messy_df <- tibble(\`Respondent ID\` = 1:3, \`Age (years)\` = c(22,35,41))`,
       starter: `clean_df <- messy_df |> clean_names(___)\n`,
+      starterMedium: `# Create clean_df: messy_df with tidy column names, using clean_names()
+clean_df <- 
+`,
+      starterHard: `# Clean up messy_df's column names
+`,
       hint: 'messy_df |> clean_names() — no arguments needed for the default snake_case style.',
       solution: `clean_df <- messy_df |> clean_names()\n`,
       help: `<b>clean_names()</b> converts messy column names (spaces, punctuation, mixed case) into
@@ -1512,6 +1713,11 @@ insert_assign <- "Alt+-"
       preload: `Preloaded: pilot — 5 respondents' region labels.`,
       setup: `pilot <- tibble(region = c("North","South","North","South","South"))`,
       starter: `region_tabyl <- pilot |> tabyl(___)\n`,
+      starterMedium: `# Create region_tabyl: a frequency table of region, using tabyl()
+region_tabyl <- 
+`,
+      starterHard: `# Build a quick frequency table of region
+`,
       hint: 'pilot |> tabyl(region)',
       solution: `region_tabyl <- pilot |> tabyl(region)\n`,
       help: `<b>tabyl()</b> builds a one-line frequency table with counts and percentages already
@@ -1531,6 +1737,11 @@ insert_assign <- "Alt+-"
       preload: `Preloaded: pilot — 4 rows, one id duplicated.`,
       setup: `pilot <- tibble(id = c(1,2,2,3), age = c(22,35,35,41))`,
       starter: `dupes <- pilot |> get_dupes(___)\n`,
+      starterMedium: `# Create dupes: duplicated rows by id, using get_dupes()
+dupes <- 
+`,
+      starterHard: `# Find the duplicated rows in pilot, by id
+`,
       hint: 'pilot |> get_dupes(id) — flags every row sharing a duplicated id value.',
       solution: `dupes <- pilot |> get_dupes(id)\n`,
       help: `<b>get_dupes()</b> returns every row involved in a duplicate (by the column(s) you name),
@@ -1551,6 +1762,11 @@ insert_assign <- "Alt+-"
       preload: `Preloaded: pilot — id, notes (all NA), age.`,
       setup: `pilot <- tibble(id = c(1,2,3), notes = c(NA,NA,NA), age = c(22,35,41))`,
       starter: `clean_pilot <- pilot |> remove_empty("___")\n`,
+      starterMedium: `# Create clean_pilot: pilot with empty columns dropped, using remove_empty()
+clean_pilot <- 
+`,
+      starterHard: `# Drop any fully-empty columns from pilot
+`,
       hint: 'pilot |> remove_empty("cols") — use "rows" instead to drop fully-empty rows.',
       solution: `clean_pilot <- pilot |> remove_empty("cols")\n`,
       help: `<b>remove_empty()</b> drops rows or columns that are entirely <code>NA</code> — pass
@@ -1569,6 +1785,11 @@ insert_assign <- "Alt+-"
       preload: `Preloaded: pilot — 5 respondents' region labels.`,
       setup: `pilot <- tibble(region = c("North","South","North","South","South"))`,
       starter: `region_report <- pilot |> tabyl(region) |> adorn_totals("___")\n`,
+      starterMedium: `# Create region_report: a tabyl of region with a totals row, using adorn_totals()
+region_report <- 
+`,
+      starterHard: `# Build a region frequency table with a totals row added
+`,
       hint: 'pilot |> tabyl(region) |> adorn_totals("row")',
       solution: `region_report <- pilot |> tabyl(region) |> adorn_totals("row")\n`,
       help: `<b>adorn_totals()</b> adds a totals row (or column) onto a tabyl or similar summary
@@ -1591,6 +1812,11 @@ insert_assign <- "Alt+-"
       )
       model <- lm(income ~ age, data = pilot)`,
       starter: `ame <- avg_slopes(___)\n`,
+      starterMedium: `# Create ame: the average marginal effect of age, using avg_slopes()
+ame <- 
+`,
+      starterHard: `# Compute the average marginal effect of age on income
+`,
       hint: 'avg_slopes(model) — with no other arguments, this reports the AME for every predictor in the model.',
       solution: `ame <- avg_slopes(model)\n`,
       help: `<b>avg_slopes()</b> reports the average marginal effect: how much the outcome changes,
@@ -1613,6 +1839,11 @@ insert_assign <- "Alt+-"
       )
       model <- lm(income ~ age, data = pilot)`,
       starter: `preds <- predictions(___)\n`,
+      starterMedium: `# Create preds: predicted income for every respondent, using predictions()
+preds <- 
+`,
+      starterHard: `# Get the model's predicted income for every respondent
+`,
       hint: 'predictions(model) — one predicted value per row of the original data by default.',
       solution: `preds <- predictions(model)\n`,
       help: `<b>predictions()</b> returns the model's fitted value for every observation — like
@@ -1635,6 +1866,11 @@ insert_assign <- "Alt+-"
       )
       model <- lm(income ~ age, data = pilot)`,
       starter: `avg_pred <- avg_predictions(___)\n`,
+      starterMedium: `# Create avg_pred: the average predicted income, using avg_predictions()
+avg_pred <- 
+`,
+      starterHard: `# Get the model's average predicted income across the sample
+`,
       hint: 'avg_predictions(model) — collapses predictions() down to a single average value.',
       solution: `avg_pred <- avg_predictions(model)\n`,
       help: `<b>avg_predictions()</b> is <code>predictions()</code> averaged into a single summary
@@ -1657,6 +1893,11 @@ insert_assign <- "Alt+-"
       )
       model <- lm(income ~ age, data = pilot)`,
       starter: `comparison <- avg_comparisons(___)\n`,
+      starterMedium: `# Create comparison: a summary of predictor contrasts, using avg_comparisons()
+comparison <- 
+`,
+      starterHard: `# Summarize how predicted income changes across typical predictor values
+`,
       hint: 'avg_comparisons(model) — with no extra arguments, this uses sensible default contrasts for every predictor.',
       solution: `comparison <- avg_comparisons(model)\n`,
       help: `<b>avg_comparisons()</b> is the general-purpose sibling of avg_slopes() — it reports how
@@ -1683,6 +1924,12 @@ insert_assign <- "Alt+-"
         n = c(10,15,8)
       )`,
       starter: `p <- ggplot(flow_data, aes(axis1 = region, axis2 = vote, y = ___)) +\n  geom_alluvium() + geom_stratum()\np\n`,
+      starterMedium: `# Create p: an alluvial plot from region to vote, sized by n
+p <- 
+p
+`,
+      starterHard: `# Plot an alluvial diagram connecting region to vote, sized by n
+`,
       hint: 'aes(axis1 = region, axis2 = vote, y = n) — axis1/axis2 are the two categories being connected, y is the flow size.',
       solution: `p <- ggplot(flow_data, aes(axis1 = region, axis2 = vote, y = n)) +\n  geom_alluvium() + geom_stratum()\np\n`,
       help: `<b>geom_alluvium()</b> draws the flowing ribbons between categories; <b>geom_stratum()</b>
@@ -1708,6 +1955,12 @@ insert_assign <- "Alt+-"
         n = c(10,15,8)
       )`,
       starter: `p <- ggplot(flow_data, aes(axis1 = region, axis2 = vote, y = n, fill = ___)) +\n  geom_alluvium() + geom_stratum()\np\n`,
+      starterMedium: `# Create p: the alluvial plot, ribbons colored by region
+p <- 
+p
+`,
+      starterHard: `# Plot the alluvial diagram, colored by region
+`,
       hint: 'aes(..., fill = region) — colors each ribbon by its starting category.',
       solution: `p <- ggplot(flow_data, aes(axis1 = region, axis2 = vote, y = n, fill = region)) +\n  geom_alluvium() + geom_stratum()\np\n`,
       help: `Just like any other ggplot2 layer, <b>fill</b> inside <code>aes()</code> maps a column to
@@ -1733,6 +1986,12 @@ insert_assign <- "Alt+-"
       p_base <- ggplot(flow_data, aes(axis1 = region, axis2 = vote, y = n)) +
         geom_alluvium() + geom_stratum()`,
       starter: `p <- p_base + geom_text(stat = "___", aes(label = after_stat(stratum)))\np\n`,
+      starterMedium: `# Create p: p_base with stratum labels added, using geom_text()
+p <- 
+p
+`,
+      starterHard: `# Add text labels to each stratum box in p_base
+`,
       hint: 'geom_text(stat = "stratum", aes(label = after_stat(stratum))) — the "stratum" stat computes the label positions for you.',
       solution: `p <- p_base + geom_text(stat = "stratum", aes(label = after_stat(stratum)))\np\n`,
       help: `<b>after_stat()</b> lets you map an aesthetic (here, the text label) to a value computed
@@ -1740,6 +1999,1021 @@ insert_assign <- "Alt+-"
         stratum stat calculates for each box.<br><br>
         Example:<br><code>p_base + geom_text(stat = "stratum", aes(label = after_stat(stratum)))</code>`,
       check: `exists("p") && inherits(p, "ggplot") && length(p$layers) >= 3 && any(sapply(p$layers, function(ly) "GeomText" %in% class(ly$geom)))`
+    },
+    {
+      title: "Tidying coefficients with tidy()",
+      id: "tidying-coefficients-with-tidy",
+      short: "tidy()",
+      unit: "Tidy Models with broom",
+      instructions: `A regression <code>model</code> predicting income from age is loaded.<br><br>
+        Create <code>tidy_model</code>: a tidy data frame of the model's coefficients, using
+        <code>tidy()</code>.`,
+      preload: `Preloaded: pilot and model — a linear regression of income on age. broom is loaded.`,
+      setup: `pilot <- tibble(age = c(22,35,41,29,58,31), income = c(31000,45900,52100,29800,61200,47500))
+      model <- lm(income ~ age, data = pilot)`,
+      starter: `tidy_model <- tidy(___)\n`,
+      starterMedium: `# Create tidy_model: model's coefficients as a tidy tibble, using tidy()
+tidy_model <- 
+`,
+      starterHard: `# Tidy the model's coefficients into a data frame
+`,
+      hint: "tidy(model) — broom's tidy() turns model coefficients into a tibble with term, estimate, std.error, statistic, and p.value columns.",
+      solution: `tidy_model <- tidy(model)\n`,
+      help: `<b>tidy()</b> is broom's core function — it converts a model object into a standard
+        tibble of per-term statistics (estimate, std.error, etc.), the same shape regardless of
+        what kind of model you fit.<br><br>
+        Example:<br><code>m <- lm(mpg ~ wt, data = mtcars)<br>tidy(m)</code>`,
+      check: `exists("tidy_model") && isTRUE(all.equal(as.numeric(tidy_model$estimate), as.numeric(broom::tidy(model)$estimate)))`
+    },
+    {
+      title: "Model-level fit statistics with glance()",
+      id: "model-level-fit-statistics-with-glance",
+      short: "glance()",
+      unit: "Tidy Models with broom",
+      instructions: `The same <code>model</code> is loaded.<br><br>
+        Create <code>model_glance</code>: one row of overall model-fit statistics (R-squared,
+        AIC, and more), using <code>glance()</code>.`,
+      preload: `Preloaded: pilot and model.`,
+      setup: `pilot <- tibble(age = c(22,35,41,29,58,31), income = c(31000,45900,52100,29800,61200,47500))
+      model <- lm(income ~ age, data = pilot)`,
+      starter: `model_glance <- glance(___)\n`,
+      starterMedium: `# Create model_glance: one row of overall model fit stats, using glance()
+model_glance <- 
+`,
+      starterHard: `# Summarize the model's overall fit in one row
+`,
+      hint: "glance(model) — returns exactly one row summarizing the whole model.",
+      solution: `model_glance <- glance(model)\n`,
+      help: `<b>glance()</b> returns exactly one row per model, summarizing overall fit —
+        r.squared, AIC, BIC, and similar — a quick way to compare several models side by
+        side.<br><br>
+        Example:<br><code>glance(lm(mpg ~ wt, data = mtcars))</code>`,
+      check: `exists("model_glance") && isTRUE(all.equal(as.numeric(model_glance$r.squared), as.numeric(broom::glance(model)$r.squared)))`
+    },
+    {
+      title: "Row-level predictions with augment()",
+      id: "row-level-predictions-with-augment",
+      short: "augment()",
+      unit: "Tidy Models with broom",
+      instructions: `The same <code>model</code> is loaded.<br><br>
+        Create <code>model_augment</code>: the original data with fitted values and residuals
+        attached, one row per observation, using <code>augment()</code>.`,
+      preload: `Preloaded: pilot and model.`,
+      setup: `pilot <- tibble(age = c(22,35,41,29,58,31), income = c(31000,45900,52100,29800,61200,47500))
+      model <- lm(income ~ age, data = pilot)`,
+      starter: `model_augment <- augment(___)\n`,
+      starterMedium: `# Create model_augment: original data with fitted values/residuals attached, using augment()
+model_augment <- 
+`,
+      starterHard: `# Attach fitted values and residuals onto the original data
+`,
+      hint: "augment(model)",
+      solution: `model_augment <- augment(model)\n`,
+      help: `<b>augment()</b> adds model-derived columns (.fitted, .resid, and more) onto the
+        original data, one row per observation — handy for residual diagnostics.<br><br>
+        Example:<br><code>augment(lm(mpg ~ wt, data = mtcars))</code>`,
+      check: `exists("model_augment") && isTRUE(all.equal(as.numeric(model_augment$.fitted), as.numeric(broom::augment(model)$.fitted)))`
+    },
+    {
+      title: "Your first correlation plot",
+      id: "your-first-correlation-plot",
+      short: "corrplot()",
+      unit: "Visualizing Correlations with corrplot",
+      hasPlot: true,
+      instructions: `A <code>pilot</code> tibble with three numeric columns (age, income,
+        satisfaction) is loaded.<br><br>
+        Create <code>corr_matrix</code>: the correlation matrix of all three columns, using
+        <code>cor()</code>. Then visualize it with <code>corrplot(corr_matrix)</code>.`,
+      preload: `Preloaded: pilot — 6 respondents, age/income/satisfaction. corrplot is loaded. Hit Run to see the plot.`,
+      setup: `pilot <- tibble(
+        age = c(22,35,41,29,58,31),
+        income = c(31000,45900,52100,29800,61200,47500),
+        satisfaction = c(4,5,2,3,5,4)
+      )`,
+      starter: `corr_matrix <- cor(___)\ncorrplot(corr_matrix)\n`,
+      starterMedium: `# Create corr_matrix: correlation matrix of pilot, then visualize it
+corr_matrix <- 
+corrplot(corr_matrix)
+`,
+      starterHard: `# Compute pilot's correlation matrix and visualize it
+`,
+      hint: "cor(pilot) computes correlations between every pair of numeric columns; corrplot(corr_matrix) visualizes them.",
+      solution: `corr_matrix <- cor(pilot)\ncorrplot(corr_matrix)\n`,
+      help: `<b>cor()</b> computes a correlation matrix from a data frame's numeric columns.
+        <b>corrplot()</b> turns that matrix into a color-coded visual grid — much faster to
+        scan than a table of numbers.<br><br>
+        Example:<br><code>m <- cor(mtcars[, c("mpg","wt","hp")])<br>corrplot(m)</code>`,
+      check: `exists("corr_matrix") && isTRUE(all.equal(as.matrix(corr_matrix), as.matrix(cor(pilot)), check.attributes = FALSE))`
+    },
+    {
+      title: "Handling missing data in a correlation matrix",
+      id: "handling-missing-data-in-a-correlation-matrix",
+      short: "NA handling",
+      unit: "Visualizing Correlations with corrplot",
+      hasPlot: true,
+      instructions: `The same three columns are loaded, but <code>income</code> has one missing
+        value.<br><br>
+        Create <code>corr_matrix</code>: the correlation matrix computed using only complete
+        cases, via <code>cor(..., use = "complete.obs")</code>. Then visualize it with
+        <code>corrplot()</code>.`,
+      preload: `Preloaded: pilot — one missing income value. Hit Run to see the plot.`,
+      setup: `pilot <- tibble(
+        age = c(22,35,41,29,58,31),
+        income = c(31000,NA,52100,29800,61200,47500),
+        satisfaction = c(4,5,2,3,5,4)
+      )`,
+      starter: `corr_matrix <- cor(pilot, use = "___")\ncorrplot(corr_matrix)\n`,
+      starterMedium: `# Create corr_matrix: correlations using complete cases only, then visualize it
+corr_matrix <- 
+corrplot(corr_matrix)
+`,
+      starterHard: `# Compute pilot's correlation matrix, handling the missing value, and visualize it
+`,
+      hint: 'cor(pilot, use = "complete.obs") drops any row with a missing value before computing correlations.',
+      solution: `corr_matrix <- cor(pilot, use = "complete.obs")\ncorrplot(corr_matrix)\n`,
+      help: `The <b>use</b> argument tells cor() how to handle NAs — "complete.obs" drops any row
+        with a missing value in any column before computing.<br><br>
+        Example:<br><code>cor(data_with_nas, use = "complete.obs")</code>`,
+      check: `exists("corr_matrix") && isTRUE(all.equal(as.matrix(corr_matrix), as.matrix(cor(pilot, use = "complete.obs")), check.attributes = FALSE))`
+    },
+    {
+      title: "Summarizing panel coverage with overview_tab()",
+      id: "summarizing-panel-coverage-with-overview-tab",
+      short: "overview_tab()",
+      unit: "Panel Data Overviews with overviewR",
+      instructions: `A <code>panel_data</code> tibble tracking countries across survey waves is
+        loaded.<br><br>
+        Create <code>coverage</code>: a summary of which years each country was observed, using
+        <code>overview_tab()</code>.`,
+      preload: `Preloaded: panel_data — country and year columns. overviewR is loaded.`,
+      setup: `panel_data <- tibble(country = c("A","A","B","B","B"), year = c(2010,2011,2010,2011,2012))`,
+      starter: `coverage <- overview_tab(dat = panel_data, id = ___, wave = ___)\n`,
+      starterMedium: `# Create coverage: which years each country was observed, using overview_tab()
+coverage <- 
+`,
+      starterHard: `# Summarize panel_data's coverage by country and year
+`,
+      hint: "overview_tab(dat = panel_data, id = country, wave = year)",
+      solution: `coverage <- overview_tab(dat = panel_data, id = country, wave = year)\n`,
+      help: `<b>overview_tab()</b> summarizes how many waves/periods each unit (like a country)
+        appears in — a quick sanity check before running any panel model.<br><br>
+        Example:<br><code>overview_tab(dat = my_panel, id = country, wave = year)</code>`,
+      check: `exists("coverage") && is.data.frame(coverage) && nrow(coverage) > 0`
+    },
+    {
+      title: "Checking missing data with overview_na()",
+      id: "checking-missing-data-with-overview-na",
+      short: "overview_na()",
+      unit: "Panel Data Overviews with overviewR",
+      instructions: `A <code>panel_data</code> tibble has some missing GDP values.<br><br>
+        Create <code>na_summary</code>: an overview of missingness in the <code>gdp</code>
+        column, using <code>overview_na()</code>.`,
+      preload: `Preloaded: panel_data — country, year, gdp (some missing).`,
+      setup: `panel_data <- tibble(country = c("A","A","B","B"), year = c(2010,2011,2010,2011), gdp = c(100,NA,120,NA))`,
+      starter: `na_summary <- overview_na(dat = panel_data, id = ___, variable = "___")\n`,
+      starterMedium: `# Create na_summary: missingness in gdp by country, using overview_na()
+na_summary <- 
+`,
+      starterHard: `# Summarize missing gdp values by country
+`,
+      hint: 'overview_na(dat = panel_data, id = country, variable = "gdp")',
+      solution: `na_summary <- overview_na(dat = panel_data, id = country, variable = "gdp")\n`,
+      help: `<b>overview_na()</b> reports how much of a variable is missing, broken down by unit
+        — a fast way to spot which countries or respondents have incomplete data.<br><br>
+        Example:<br><code>overview_na(dat = my_panel, id = country, variable = "gdp")</code>`,
+      check: `exists("na_summary") && is.data.frame(na_summary) && nrow(na_summary) > 0`
+    },
+    {
+      title: "A cleaner model summary with summ()",
+      id: "a-cleaner-model-summary-with-summ",
+      short: "summ()",
+      unit: "Regression Reporting with jtools",
+      instructions: `A regression <code>model</code> is loaded.<br><br>
+        Create <code>model_summary</code>: jtools' cleaner regression summary, using
+        <code>summ()</code>.`,
+      preload: `Preloaded: pilot and model. jtools is loaded.`,
+      setup: `pilot <- tibble(age = c(22,35,41,29,58,31), income = c(31000,45900,52100,29800,61200,47500))
+      model <- lm(income ~ age, data = pilot)`,
+      starter: `model_summary <- summ(___)\n`,
+      starterMedium: `# Create model_summary: jtools' cleaner model summary, using summ()
+model_summary <- 
+`,
+      starterHard: `# Get a cleaner summary of the model
+`,
+      hint: "summ(model)",
+      solution: `model_summary <- summ(model)\n`,
+      help: `<b>summ()</b> is jtools' drop-in replacement for base R's summary(model) — same
+        information, more readable output, with easy options for robust standard errors and
+        standardized coefficients.<br><br>
+        Example:<br><code>summ(lm(mpg ~ wt, data = mtcars))</code>`,
+      check: `exists("model_summary") && inherits(model_summary, "summ")`
+    },
+    {
+      title: "Visualizing an effect with effect_plot()",
+      id: "visualizing-an-effect-with-effect-plot",
+      short: "effect_plot()",
+      unit: "Regression Reporting with jtools",
+      hasPlot: true,
+      instructions: `The same <code>model</code> is loaded.<br><br>
+        Create <code>p</code>: a plot of the predicted relationship between age and income,
+        using <code>effect_plot()</code>.`,
+      preload: `Preloaded: pilot and model. Hit Run to see the plot.`,
+      setup: `pilot <- tibble(age = c(22,35,41,29,58,31), income = c(31000,45900,52100,29800,61200,47500))
+      model <- lm(income ~ age, data = pilot)`,
+      starter: `p <- effect_plot(model, pred = ___)\np\n`,
+      starterMedium: `# Create p: the model's predicted effect of age, using effect_plot()
+p <- 
+p
+`,
+      starterHard: `# Plot the model's predicted effect of age
+`,
+      hint: "effect_plot(model, pred = age) — shows the model's predicted line across the range of age, holding other predictors fixed.",
+      solution: `p <- effect_plot(model, pred = age)\np\n`,
+      help: `<b>effect_plot()</b> draws the model's predicted relationship for one predictor as a
+        ggplot, which is often clearer than reading coefficients alone.<br><br>
+        Example:<br><code>effect_plot(lm(mpg ~ wt, data = mtcars), pred = wt)</code>`,
+      check: `exists("p") && inherits(p, "ggplot")`
+    },
+    {
+      title: "Tidy model output with model_parameters()",
+      id: "tidy-model-output-with-model-parameters",
+      short: "model_parameters()",
+      unit: "Model Parameters with parameters",
+      instructions: `A regression <code>model</code> is loaded.<br><br>
+        Create <code>params</code>: a tidy table of the model's coefficients, using
+        <code>model_parameters()</code>.`,
+      preload: `Preloaded: pilot and model. parameters is loaded.`,
+      setup: `pilot <- tibble(age = c(22,35,41,29,58,31), income = c(31000,45900,52100,29800,61200,47500))
+      model <- lm(income ~ age, data = pilot)`,
+      starter: `params <- model_parameters(___)\n`,
+      starterMedium: `# Create params: a tidy table of the model's coefficients, using model_parameters()
+params <- 
+`,
+      starterHard: `# Tidy the model's coefficients
+`,
+      hint: "model_parameters(model)",
+      solution: `params <- model_parameters(model)\n`,
+      help: `<b>model_parameters()</b> (from the easystats "parameters" package) is another take
+        on tidying model output — similar spirit to broom::tidy(), with a slightly different
+        column set and formatting philosophy.<br><br>
+        Example:<br><code>model_parameters(lm(mpg ~ wt, data = mtcars))</code>`,
+      check: `exists("params") && nrow(as.data.frame(params)) == length(coef(model))`
+    },
+    {
+      title: "Standardized coefficients",
+      id: "standardized-coefficients",
+      short: "standardize",
+      unit: "Model Parameters with parameters",
+      instructions: `The same <code>model</code> is loaded.<br><br>
+        Create <code>params_std</code>: the model's <b>standardized</b> coefficients (in
+        standard-deviation units, useful for comparing predictors on different scales), using
+        <code>model_parameters(model, standardize = "refit")</code>.`,
+      preload: `Preloaded: pilot and model.`,
+      setup: `pilot <- tibble(age = c(22,35,41,29,58,31), income = c(31000,45900,52100,29800,61200,47500))
+      model <- lm(income ~ age, data = pilot)`,
+      starter: `params_std <- model_parameters(model, standardize = "___")\n`,
+      starterMedium: `# Create params_std: standardized coefficients, using model_parameters(standardize="refit")
+params_std <- 
+`,
+      starterHard: `# Get the model's standardized coefficients
+`,
+      hint: 'model_parameters(model, standardize = "refit")',
+      solution: `params_std <- model_parameters(model, standardize = "refit")\n`,
+      help: `Standardized coefficients rescale every variable to mean 0, SD 1 before fitting, so
+        coefficients become comparable in size even when the original variables are on very
+        different scales (like age in years vs. income in dollars).<br><br>
+        Example:<br><code>model_parameters(m, standardize = "refit")</code>`,
+      check: `exists("params_std") && nrow(as.data.frame(params_std)) == length(coef(model))`
+    },
+    {
+      title: "Calibrating a fuzzy-set condition",
+      id: "calibrating-a-fuzzy-set-condition",
+      short: "calibrate()",
+      unit: "Comparative Methods with QCA",
+      instructions: `A numeric variable <code>gdp</code> (GDP per capita for 5 countries) is
+        loaded.<br><br>
+        Create <code>gdp_fuzzy</code>: gdp converted into fuzzy-set membership scores between 0
+        and 1, using <code>calibrate()</code>. Use thresholds of 20 (fully out), 50 (crossover),
+        and 80 (fully in).`,
+      preload: `Preloaded: gdp — 5 values. QCA is loaded.`,
+      setup: `gdp <- c(15, 28, 42, 60, 85)`,
+      starter: `gdp_fuzzy <- calibrate(gdp, thresholds = c(___, 50, ___))\n`,
+      starterMedium: `# Create gdp_fuzzy: gdp calibrated to fuzzy-set scores (0-1), using calibrate()
+gdp_fuzzy <- 
+`,
+      starterHard: `# Calibrate gdp into fuzzy-set membership scores
+`,
+      hint: "calibrate(gdp, thresholds = c(20, 50, 80)) — three thresholds mark full non-membership, the crossover point, and full membership.",
+      solution: `gdp_fuzzy <- calibrate(gdp, thresholds = c(20, 50, 80))\n`,
+      help: `<b>calibrate()</b> converts a raw numeric variable into fuzzy-set membership scores
+        (0 to 1) based on three anchor points: where membership is fully out, the 50% crossover,
+        and where it's fully in — the first step of any QCA analysis.<br><br>
+        Example:<br><code>calibrate(income, thresholds = c(20000, 40000, 60000))</code>`,
+      check: `exists("gdp_fuzzy") && is.numeric(gdp_fuzzy) && all(gdp_fuzzy >= 0 & gdp_fuzzy <= 1, na.rm = TRUE)`
+    },
+    {
+      title: "Building a truth table with truthTable()",
+      id: "building-a-truth-table-with-truthtable",
+      short: "truthTable()",
+      unit: "Comparative Methods with QCA",
+      instructions: `A calibrated dataset <code>qca_data</code> (fuzzy-set conditions and an
+        outcome) is loaded.<br><br>
+        Create <code>tt</code>: a truth table showing every combination of conditions and how
+        consistently it leads to the outcome, using <code>truthTable()</code>.`,
+      preload: `Preloaded: qca_data — conditions A, B and outcome OUT, already calibrated.`,
+      setup: `qca_data <- data.frame(A = c(0.9,0.1,0.8,0.2), B = c(0.8,0.2,0.1,0.9), OUT = c(0.9,0.1,0.6,0.4))`,
+      starter: `tt <- truthTable(qca_data, outcome = "___")\n`,
+      starterMedium: `# Create tt: a truth table of qca_data for outcome OUT, using truthTable()
+tt <- 
+`,
+      starterHard: `# Build a truth table for qca_data's outcome OUT
+`,
+      hint: 'truthTable(qca_data, outcome = "OUT")',
+      solution: `tt <- truthTable(qca_data, outcome = "OUT")\n`,
+      help: `<b>truthTable()</b> lists every logically possible combination of the calibrated
+        conditions and reports how consistently each one is associated with the outcome — the
+        basis for the minimization step that follows in a full QCA.<br><br>
+        Example:<br><code>truthTable(qca_data, outcome = "OUT")</code>`,
+      check: `exists("tt") && !is.null(tt)`
+    },
+    {
+      title: "The dissimilarity index",
+      id: "the-dissimilarity-index",
+      short: "dissimilarity()",
+      unit: "Segregation Measures with segregation",
+      instructions: `A <code>seg_data</code> tibble with school, group, and count columns is
+        loaded.<br><br>
+        Create <code>diss</code>: the dissimilarity index between groups across schools, using
+        <code>dissimilarity()</code>.`,
+      preload: `Preloaded: seg_data — 2 schools, 2 groups, counts. segregation is loaded.`,
+      setup: `seg_data <- tibble(school = c("A","A","B","B"), group = c("White","Black","White","Black"), n = c(80,20,30,70))`,
+      starter: `diss <- dissimilarity(seg_data, group = "___", unit = "___", weight = "n")\n`,
+      starterMedium: `# Create diss: the dissimilarity index for seg_data, using dissimilarity()
+diss <- 
+`,
+      starterHard: `# Compute the dissimilarity index between groups in seg_data
+`,
+      hint: 'dissimilarity(seg_data, group = "group", unit = "school", weight = "n")',
+      solution: `diss <- dissimilarity(seg_data, group = "group", unit = "school", weight = "n")\n`,
+      help: `<b>dissimilarity()</b> computes the classic Duncan dissimilarity index — the share
+        of one group that would need to move between units to achieve an even distribution.<br><br>
+        Example:<br><code>dissimilarity(data, group = "race", unit = "neighborhood", weight = "n")</code>`,
+      check: `exists("diss") && isTRUE(all.equal(as.numeric(diss$est), as.numeric(segregation::dissimilarity(seg_data, group = "group", unit = "school", weight = "n")$est)))`
+    },
+    {
+      title: "The mutual information index",
+      id: "the-mutual-information-index",
+      short: "mutual_total()",
+      unit: "Segregation Measures with segregation",
+      instructions: `The same <code>seg_data</code> tibble is loaded.<br><br>
+        Create <code>mutual_info</code>: the mutual information index (M), a more decomposable
+        alternative to dissimilarity, using <code>mutual_total()</code>.`,
+      preload: `Preloaded: seg_data — same as the previous lesson.`,
+      setup: `seg_data <- tibble(school = c("A","A","B","B"), group = c("White","Black","White","Black"), n = c(80,20,30,70))`,
+      starter: `mutual_info <- mutual_total(seg_data, group = "group", unit = "___", weight = "n")\n`,
+      starterMedium: `# Create mutual_info: the mutual information index for seg_data, using mutual_total()
+mutual_info <- 
+`,
+      starterHard: `# Compute the mutual information index for seg_data
+`,
+      hint: 'mutual_total(seg_data, group = "group", unit = "school", weight = "n")',
+      solution: `mutual_info <- mutual_total(seg_data, group = "group", unit = "school", weight = "n")\n`,
+      help: `<b>mutual_total()</b> computes the M index — unlike dissimilarity, it can be
+        decomposed into within- and between-group components, which is part of why it's become
+        popular in recent segregation research.<br><br>
+        Example:<br><code>mutual_total(data, group = "race", unit = "neighborhood", weight = "n")</code>`,
+      check: `exists("mutual_info") && isTRUE(all.equal(as.numeric(mutual_info$est), as.numeric(segregation::mutual_total(seg_data, group = "group", unit = "school", weight = "n")$est)))`
+    },
+    {
+      title: "Declaring a survey design with svydesign()",
+      id: "declaring-a-survey-design-with-svydesign",
+      short: "svydesign()",
+      unit: "Complex Survey Design with survey",
+      instructions: `A <code>pilot</code> tibble with sampling weights is loaded.<br><br>
+        Create <code>design</code>: a survey design object using those weights, via
+        <code>svydesign()</code>. Use <code>ids = ~1</code> (no clustering) and
+        <code>weights = ~weight</code>.`,
+      preload: `Preloaded: pilot — 6 respondents with a weight column. survey is loaded.`,
+      setup: `pilot <- tibble(
+        id = 1:6,
+        weight = c(1,1,2,1,2,1),
+        region = c("North","South","North","South","South","North"),
+        satisfaction = c(4,5,2,3,5,4)
+      )`,
+      starter: `design <- svydesign(ids = ~1, weights = ~___, data = pilot)\n`,
+      starterMedium: `# Create design: a survey design using pilot's weight column, using svydesign()
+design <- 
+`,
+      starterHard: `# Declare a survey design for pilot, using the weight column
+`,
+      hint: "svydesign(ids = ~1, weights = ~weight, data = pilot)",
+      solution: `design <- svydesign(ids = ~1, weights = ~weight, data = pilot)\n`,
+      help: `<b>svydesign()</b> tells R about your sample design — weights, clustering,
+        stratification — before any survey-aware analysis. Every other svy* function needs this
+        design object.<br><br>
+        Example:<br><code>svydesign(ids = ~1, weights = ~wt, data = df)</code>`,
+      check: `exists("design") && inherits(design, "survey.design")`
+    },
+    {
+      title: "Weighted means with svymean()",
+      id: "weighted-means-with-svymean",
+      short: "svymean()",
+      unit: "Complex Survey Design with survey",
+      instructions: `The same survey <code>design</code> is loaded.<br><br>
+        Create <code>weighted_mean</code>: the survey-weighted mean of satisfaction, using
+        <code>svymean()</code>.`,
+      preload: `Preloaded: pilot and design.`,
+      setup: `pilot <- tibble(
+        id = 1:6,
+        weight = c(1,1,2,1,2,1),
+        region = c("North","South","North","South","South","North"),
+        satisfaction = c(4,5,2,3,5,4)
+      )
+      design <- svydesign(ids = ~1, weights = ~weight, data = pilot)`,
+      starter: `weighted_mean <- svymean(~___, design)\n`,
+      starterMedium: `# Create weighted_mean: the weighted mean of satisfaction, using svymean()
+weighted_mean <- 
+`,
+      starterHard: `# Compute the survey-weighted mean of satisfaction
+`,
+      hint: "svymean(~satisfaction, design)",
+      solution: `weighted_mean <- svymean(~satisfaction, design)\n`,
+      help: `<b>svymean()</b> computes a mean that properly accounts for the sampling weights —
+        different (and more correct) than plain mean(pilot$satisfaction) whenever weights
+        vary.<br><br>
+        Example:<br><code>svymean(~income, design)</code>`,
+      check: `exists("weighted_mean") && isTRUE(all.equal(as.numeric(coef(weighted_mean)), as.numeric(coef(survey::svymean(~satisfaction, design)))))`
+    },
+    {
+      title: "A weighted regression with svyglm()",
+      id: "a-weighted-regression-with-svyglm",
+      short: "svyglm()",
+      unit: "Complex Survey Design with survey",
+      instructions: `The same survey <code>design</code> is loaded.<br><br>
+        Create <code>model</code>: a survey-weighted regression of satisfaction on region, using
+        <code>svyglm()</code>.`,
+      preload: `Preloaded: pilot and design.`,
+      setup: `pilot <- tibble(
+        id = 1:6,
+        weight = c(1,1,2,1,2,1),
+        region = c("North","South","North","South","South","North"),
+        satisfaction = c(4,5,2,3,5,4)
+      )
+      design <- svydesign(ids = ~1, weights = ~weight, data = pilot)`,
+      starter: `model <- svyglm(satisfaction ~ region, design = ___)\n`,
+      starterMedium: `# Create model: a survey-weighted regression of satisfaction on region, using svyglm()
+model <- 
+`,
+      starterHard: `# Fit a survey-weighted regression of satisfaction on region
+`,
+      hint: "svyglm(satisfaction ~ region, design = design)",
+      solution: `model <- svyglm(satisfaction ~ region, design = design)\n`,
+      help: `<b>svyglm()</b> fits a regression using the survey design's weights (and
+        clustering/stratification, if any) — plain lm()/glm() would silently ignore all of
+        that.<br><br>
+        Example:<br><code>svyglm(y ~ x, design = design)</code>`,
+      check: `exists("model") && isTRUE(all.equal(unname(coef(model)), unname(coef(survey::svyglm(satisfaction ~ region, design = design)))))`
+    },
+    {
+      title: "Subgroup estimates with svyby()",
+      id: "subgroup-estimates-with-svyby",
+      short: "svyby()",
+      unit: "Complex Survey Design with survey",
+      instructions: `The same survey <code>design</code> is loaded.<br><br>
+        Create <code>region_means</code>: the weighted mean satisfaction broken down by region,
+        using <code>svyby()</code>.`,
+      preload: `Preloaded: pilot and design.`,
+      setup: `pilot <- tibble(
+        id = 1:6,
+        weight = c(1,1,2,1,2,1),
+        region = c("North","South","North","South","South","North"),
+        satisfaction = c(4,5,2,3,5,4)
+      )
+      design <- svydesign(ids = ~1, weights = ~weight, data = pilot)`,
+      starter: `region_means <- svyby(~satisfaction, ~region, design, ___)\n`,
+      starterMedium: `# Create region_means: weighted mean satisfaction by region, using svyby()
+region_means <- 
+`,
+      starterHard: `# Compute weighted mean satisfaction, broken down by region
+`,
+      hint: "svyby(~satisfaction, ~region, design, svymean)",
+      solution: `region_means <- svyby(~satisfaction, ~region, design, svymean)\n`,
+      help: `<b>svyby()</b> applies a survey function (like svymean) separately within each level
+        of a grouping variable — the survey-aware equivalent of group_by() + summarise().<br><br>
+        Example:<br><code>svyby(~income, ~region, design, svymean)</code>`,
+      check: `exists("region_means") && isTRUE(all.equal(as.numeric(region_means$satisfaction), as.numeric(survey::svyby(~satisfaction, ~region, design, survey::svymean)$satisfaction)))`
+    }
+  ,
+    {
+      title: "Creating labelled data with labelled()",
+      id: "creating-labelled-data-with-labelled",
+      short: "labelled()",
+      unit: "Reading Labelled Data with haven",
+      instructions: `SPSS/Stata files store categorical variables as numbers with attached value
+        labels (e.g. <code>1</code> means "Male"). haven represents that in R with a
+        <b>labelled</b> vector — exactly what you'd get after <code>read_sav()</code> on a real
+        SPSS file.<br><br>
+        Create <code>gender</code>: a labelled vector <code>c(1, 2, 1, 2)</code> where 1 means
+        <code>"Male"</code> and 2 means <code>"Female"</code>, using <code>labelled()</code>.`,
+      preload: `haven is loaded.`,
+      starter: `gender <- labelled(c(1, 2, 1, 2), labels = c(Male = ___, Female = ___))\n`,
+      starterMedium: `# Create gender: a labelled vector c(1,2,1,2) with 1=Male, 2=Female
+gender <- 
+`,
+      starterHard: `# Build a labelled vector for gender: codes 1/2 meaning Male/Female
+`,
+      hint: "labelled(c(1,2,1,2), labels = c(Male = 1, Female = 2)) — the label name goes on the left, the numeric code on the right.",
+      solution: `gender <- labelled(c(1, 2, 1, 2), labels = c(Male = 1, Female = 2))\n`,
+      help: `<b>labelled()</b> creates the same kind of vector haven produces when it reads a
+        real SPSS/Stata/SAS file — the raw numeric codes stay intact, with the value labels
+        attached as metadata rather than replacing the numbers outright.<br><br>
+        Example:<br><code>labelled(c(1,0,1), labels = c(Yes = 1, No = 0))</code>`,
+      check: `exists("gender") && inherits(gender, "haven_labelled") && identical(as.numeric(gender), c(1,2,1,2))`
+    },
+    {
+      title: "Converting labels to factors with as_factor()",
+      id: "converting-labels-to-factors-with-as-factor",
+      short: "as_factor()",
+      unit: "Reading Labelled Data with haven",
+      instructions: `A labelled <code>gender</code> vector (like you'd get straight from
+        <code>read_sav()</code>) is loaded.<br><br>
+        Create <code>gender_factor</code>: the same data converted into a proper R factor using
+        its labels ("Male"/"Female") instead of raw codes, using <code>as_factor()</code>.`,
+      preload: `Preloaded: gender — a labelled vector, values 1/2 meaning Male/Female.`,
+      setup: `gender <- labelled(c(1, 2, 1, 2), labels = c(Male = 1, Female = 2))`,
+      starter: `gender_factor <- as_factor(___)\n`,
+      starterMedium: `# Create gender_factor: gender converted to a factor using its labels
+gender_factor <- 
+`,
+      starterHard: `# Convert gender's labelled codes into a proper factor
+`,
+      hint: "as_factor(gender) — turns the numeric codes into the labelled text values.",
+      solution: `gender_factor <- as_factor(gender)\n`,
+      help: `<b>as_factor()</b> is the crucial first step after importing SPSS/Stata data —
+        it turns the labelled numeric codes into a proper R factor using the attached labels, so
+        the rest of your tidyverse code can work with "Male"/"Female" directly instead of 1/2.<br><br>
+        Example:<br><code>as_factor(labelled(c(1,0), labels = c(Yes = 1, No = 0)))</code>`,
+      check: `exists("gender_factor") && identical(as.character(gender_factor), as.character(haven::as_factor(gender)))`
+    },
+    {
+      title: "Dropping labels with zap_labels()",
+      id: "dropping-labels-with-zap-labels",
+      short: "zap_labels()",
+      unit: "Reading Labelled Data with haven",
+      instructions: `The same labelled <code>gender</code> vector is loaded.<br><br>
+        Create <code>gender_plain</code>: the same numeric codes with the label metadata
+        stripped away, using <code>zap_labels()</code> — sometimes useful when a labelled
+        vector confuses a function expecting plain numbers.`,
+      preload: `Preloaded: gender — a labelled vector.`,
+      setup: `gender <- labelled(c(1, 2, 1, 2), labels = c(Male = 1, Female = 2))`,
+      starter: `gender_plain <- zap_labels(___)\n`,
+      starterMedium: `# Create gender_plain: gender with label metadata removed
+gender_plain <- 
+`,
+      starterHard: `# Strip the label metadata from gender
+`,
+      hint: "zap_labels(gender) — keeps the raw numbers, drops the label attributes.",
+      solution: `gender_plain <- zap_labels(gender)\n`,
+      help: `<b>zap_labels()</b> removes haven's label metadata, leaving a plain numeric vector —
+        the opposite move from as_factor(), useful when you specifically want the raw codes
+        back.<br><br>
+        Example:<br><code>zap_labels(labelled(c(1,0), labels = c(Yes = 1, No = 0)))</code>`,
+      check: `exists("gender_plain") && !inherits(gender_plain, "haven_labelled") && identical(as.numeric(gender_plain), as.numeric(gender))`
+    },
+    {
+      title: "Cronbach's alpha with alpha()",
+      id: "cronbachs-alpha-with-alpha",
+      short: "alpha()",
+      unit: "Scale Reliability with psych",
+      instructions: `An <code>items_df</code> tibble with three related survey items is
+        loaded — the same kind of data you'd build a composite scale from.<br><br>
+        Create <code>reliability</code>: the internal-consistency reliability of the three
+        items as a scale, using <code>alpha()</code>.`,
+      preload: `Preloaded: items_df — 6 respondents × 3 items. psych is loaded.`,
+      setup: `items_df <- tibble(
+        item1 = c(4,2,5,3,4,1),
+        item2 = c(5,2,4,3,5,2),
+        item3 = c(4,1,5,4,4,2)
+      )`,
+      starter: `reliability <- alpha(___)\n`,
+      starterMedium: `# Create reliability: Cronbach's alpha for items_df, using alpha()
+reliability <- 
+`,
+      starterHard: `# Compute Cronbach's alpha for items_df
+`,
+      hint: "alpha(items_df) — runs Cronbach's alpha across all the columns you give it.",
+      solution: `reliability <- alpha(items_df)\n`,
+      help: `<b>alpha()</b> computes Cronbach's alpha — how consistently a set of items measures
+        the same underlying construct. The overall coefficient lives at
+        <code>reliability$total$raw_alpha</code> once you've run it.<br><br>
+        Example:<br><code>alpha(items_df)$total$raw_alpha</code>`,
+      check: `exists("reliability") && !is.null(reliability$total$raw_alpha) && is.numeric(reliability$total$raw_alpha)`
+    },
+    {
+      title: "A one-factor PCA with principal()",
+      id: "a-one-factor-pca-with-principal",
+      short: "principal()",
+      unit: "Scale Reliability with psych",
+      instructions: `The same <code>items_df</code> tibble is loaded.<br><br>
+        Create <code>pca_result</code>: a one-component principal component analysis of the
+        three items, using <code>principal()</code> with <code>nfactors = 1</code>.`,
+      preload: `Preloaded: items_df — 6 respondents × 3 items.`,
+      setup: `items_df <- tibble(
+        item1 = c(4,2,5,3,4,1),
+        item2 = c(5,2,4,3,5,2),
+        item3 = c(4,1,5,4,4,2)
+      )`,
+      starter: `pca_result <- principal(items_df, nfactors = ___)\n`,
+      starterMedium: `# Create pca_result: a one-component PCA of items_df, using principal()
+pca_result <- 
+`,
+      starterHard: `# Run a one-component PCA on items_df
+`,
+      hint: "principal(items_df, nfactors = 1) — asks for a single underlying component.",
+      solution: `pca_result <- principal(items_df, nfactors = 1)\n`,
+      help: `<b>principal()</b> runs a principal component analysis — useful for checking whether
+        a set of items really does hang together as a single dimension before you average them
+        into a composite scale.<br><br>
+        Example:<br><code>principal(items_df, nfactors = 1)</code>`,
+      check: `exists("pca_result") && inherits(pca_result, "principal")`
+    },
+    {
+      title: "Quick variable summaries with describe()",
+      id: "quick-variable-summaries-with-describe",
+      short: "describe()",
+      unit: "Scale Reliability with psych",
+      instructions: `The same <code>items_df</code> tibble is loaded.<br><br>
+        Create <code>item_stats</code>: descriptive statistics (mean, SD, skew, and more) for
+        every item at once, using <code>describe()</code>.`,
+      preload: `Preloaded: items_df — 6 respondents × 3 items.`,
+      setup: `items_df <- tibble(
+        item1 = c(4,2,5,3,4,1),
+        item2 = c(5,2,4,3,5,2),
+        item3 = c(4,1,5,4,4,2)
+      )`,
+      starter: `item_stats <- describe(___)\n`,
+      starterMedium: `# Create item_stats: descriptive statistics for every item, using describe()
+item_stats <- 
+`,
+      starterHard: `# Get descriptive statistics for every column in items_df
+`,
+      hint: "describe(items_df) — one row of summary statistics per column.",
+      solution: `item_stats <- describe(items_df)\n`,
+      help: `<b>describe()</b> gives a richer one-line-per-variable summary than base R's
+        summary() — mean, SD, skew, kurtosis, and range all at once, which is why it's a common
+        first step before deciding whether items belong in the same scale.<br><br>
+        Example:<br><code>describe(items_df)</code>`,
+      check: `exists("item_stats") && nrow(item_stats) == ncol(items_df)`
+    }
+  ,
+    {
+      title: "A random-intercept model with lmer()",
+      id: "a-random-intercept-model-with-lmer",
+      short: "lmer()",
+      unit: "Multilevel Models with lme4",
+      instructions: `A <code>nested_data</code> tibble has students nested within schools —
+        the classic setup for a multilevel model.<br><br>
+        Create <code>model</code>: a random-intercept model letting the average score vary by
+        school, using <code>lmer()</code> with <code>(1 | school)</code>.`,
+      preload: `Preloaded: nested_data — 9 students in 3 schools. lme4 is loaded.`,
+      setup: `nested_data <- tibble(
+        school = rep(c("A","B","C"), each = 3),
+        student_score = c(75,80,78, 60,65,62, 90,88,92)
+      )`,
+      starter: `model <- lmer(student_score ~ 1 + (1 | ___), data = nested_data)\n`,
+      starterMedium: `# Create model: a random-intercept model of student_score by school, using lmer()
+model <- 
+`,
+      starterHard: `# Fit a random-intercept model letting average score vary by school
+`,
+      hint: "lmer(student_score ~ 1 + (1 | school), data = nested_data) — (1 | school) lets each school have its own average.",
+      solution: `model <- lmer(student_score ~ 1 + (1 | school), data = nested_data)\n`,
+      help: `<b>lmer()</b> fits a multilevel (mixed-effects) model. <code>(1 | school)</code> adds
+        a random intercept — every school gets its own baseline instead of forcing everyone
+        into one overall average, which is the whole point when data isn't independent within
+        groups.<br><br>
+        Example:<br><code>lmer(score ~ 1 + (1 | class_id), data = students)</code>`,
+      check: `exists("model") && inherits(model, "lmerMod")`
+    },
+    {
+      title: "Adding a predictor to a multilevel model",
+      id: "adding-a-predictor-to-a-multilevel-model",
+      short: "lmer() + predictor",
+      unit: "Multilevel Models with lme4",
+      instructions: `The same <code>nested_data</code> now has an <code>hours_studied</code>
+        column.<br><br>
+        Create <code>model2</code>: the same random-intercept model, but now with
+        <code>hours_studied</code> as a fixed-effect predictor.`,
+      preload: `Preloaded: nested_data — 9 students in 3 schools, plus hours_studied.`,
+      setup: `nested_data <- tibble(
+        school = rep(c("A","B","C"), each = 3),
+        hours_studied = c(4,6,5, 2,3,2, 7,8,6),
+        student_score = c(75,80,78, 60,65,62, 90,88,92)
+      )`,
+      starter: `model2 <- lmer(student_score ~ ___ + (1 | school), data = nested_data)\n`,
+      starterMedium: `# Create model2: the random-intercept model with hours_studied added as a predictor
+model2 <- 
+`,
+      starterHard: `# Add hours_studied as a predictor to the random-intercept model
+`,
+      hint: "lmer(student_score ~ hours_studied + (1 | school), data = nested_data)",
+      solution: `model2 <- lmer(student_score ~ hours_studied + (1 | school), data = nested_data)\n`,
+      help: `Predictors go on the fixed-effects side of the formula, just like a normal lm() —
+        the random-effects term <code>(1 | school)</code> tacks on separately to say those
+        intercepts vary by group.<br><br>
+        Example:<br><code>lmer(score ~ x + (1 | class_id), data = students)</code>`,
+      check: `exists("model2") && isTRUE(all.equal(unname(lme4::fixef(model2)), unname(lme4::fixef(lmer(student_score ~ hours_studied + (1 | school), data = nested_data))), tolerance = 1e-4))`
+    },
+    {
+      title: "Extracting random effects with ranef()",
+      id: "extracting-random-effects-with-ranef",
+      short: "ranef()",
+      unit: "Multilevel Models with lme4",
+      instructions: `The random-intercept <code>model</code> is already loaded.<br><br>
+        Create <code>school_effects</code>: each school's estimated deviation from the overall
+        average, using <code>ranef()</code>.`,
+      preload: `Preloaded: nested_data and model.`,
+      setup: `nested_data <- tibble(
+        school = rep(c("A","B","C"), each = 3),
+        student_score = c(75,80,78, 60,65,62, 90,88,92)
+      )
+      model <- lmer(student_score ~ 1 + (1 | school), data = nested_data)`,
+      starter: `school_effects <- ranef(___)\n`,
+      starterMedium: `# Create school_effects: each school's estimated deviation, using ranef()
+school_effects <- 
+`,
+      starterHard: `# Extract each school's random effect from model
+`,
+      hint: "ranef(model) — returns one estimated deviation per school.",
+      solution: `school_effects <- ranef(model)\n`,
+      help: `<b>ranef()</b> pulls out the estimated random effects — how far each school's
+        intercept sits above or below the overall average, after accounting for how much data
+        each school contributed.<br><br>
+        Example:<br><code>ranef(model)</code>`,
+      check: `exists("school_effects") && !is.null(school_effects) && length(school_effects) > 0`
+    },
+    {
+      title: "Fixed effects with fixef()",
+      id: "fixed-effects-with-fixef",
+      short: "fixef()",
+      unit: "Multilevel Models with lme4",
+      instructions: `The <code>model2</code> with an hours_studied predictor is loaded.<br><br>
+        Create <code>fixed_effects</code>: the fixed-effect coefficients (the overall intercept
+        and slope, shared across all schools), using <code>fixef()</code>.`,
+      preload: `Preloaded: nested_data and model2.`,
+      setup: `nested_data <- tibble(
+        school = rep(c("A","B","C"), each = 3),
+        hours_studied = c(4,6,5, 2,3,2, 7,8,6),
+        student_score = c(75,80,78, 60,65,62, 90,88,92)
+      )
+      model2 <- lmer(student_score ~ hours_studied + (1 | school), data = nested_data)`,
+      starter: `fixed_effects <- fixef(___)\n`,
+      starterMedium: `# Create fixed_effects: the model's fixed-effect coefficients, using fixef()
+fixed_effects <- 
+`,
+      starterHard: `# Extract the fixed-effect coefficients from model2
+`,
+      hint: "fixef(model2)",
+      solution: `fixed_effects <- fixef(model2)\n`,
+      help: `<b>fixef()</b> extracts the fixed-effect coefficients — the part of the model that's
+        the same for every group, as opposed to ranef()'s group-specific deviations.<br><br>
+        Example:<br><code>fixef(model2)</code>`,
+      check: `exists("fixed_effects") && isTRUE(all.equal(unname(fixed_effects), unname(lme4::fixef(model2)), tolerance = 1e-4))`
+    },
+    {
+      title: "Declaring survival data with Surv()",
+      id: "declaring-survival-data-with-surv",
+      short: "Surv()",
+      unit: "Event History Analysis with survival",
+      instructions: `An <code>event_data</code> tibble tracks time-to-event data — e.g. months
+        until a respondent left a job, with some respondents still employed at the study's end
+        (censored).<br><br>
+        Create <code>surv_obj</code>: a survival object combining time and event status, using
+        <code>Surv()</code>. <code>status</code> is 1 if the event happened, 0 if censored.`,
+      preload: `Preloaded: event_data — 5 respondents with time and status. survival is loaded.`,
+      setup: `event_data <- tibble(time = c(5,8,12,3,15), status = c(1,0,1,1,0))`,
+      starter: `surv_obj <- Surv(event_data$time, event_data$___)\n`,
+      starterMedium: `# Create surv_obj: a survival object from event_data's time and status
+surv_obj <- 
+`,
+      starterHard: `# Build a survival object from event_data's time and status
+`,
+      hint: "Surv(event_data$time, event_data$status)",
+      solution: `surv_obj <- Surv(event_data$time, event_data$status)\n`,
+      help: `<b>Surv()</b> bundles a time and an event indicator into the special object every
+        survival-analysis function expects — it's how R represents "this person left after 8
+        months" versus "this person was still there when we stopped watching."<br><br>
+        Example:<br><code>Surv(time = c(10,20), event = c(1,0))</code>`,
+      check: `exists("surv_obj") && inherits(surv_obj, "Surv")`
+    },
+    {
+      title: "A Kaplan-Meier curve with survfit()",
+      id: "a-kaplan-meier-curve-with-survfit",
+      short: "survfit()",
+      unit: "Event History Analysis with survival",
+      instructions: `The <code>event_data</code> tibble is loaded.<br><br>
+        Create <code>km_fit</code>: a Kaplan-Meier estimate of the survival curve, using
+        <code>survfit()</code> on the formula <code>Surv(time, status) ~ 1</code>.`,
+      preload: `Preloaded: event_data — 5 respondents.`,
+      setup: `event_data <- tibble(time = c(5,8,12,3,15), status = c(1,0,1,1,0))`,
+      starter: `km_fit <- survfit(Surv(time, status) ~ ___, data = event_data)\n`,
+      starterMedium: `# Create km_fit: a Kaplan-Meier curve for event_data, using survfit()
+km_fit <- 
+`,
+      starterHard: `# Fit a Kaplan-Meier survival curve for event_data
+`,
+      hint: "survfit(Surv(time, status) ~ 1, data = event_data) — ~ 1 means no grouping, just one overall curve.",
+      solution: `km_fit <- survfit(Surv(time, status) ~ 1, data = event_data)\n`,
+      help: `<b>survfit()</b> computes the Kaplan-Meier estimator — the step-function estimate of
+        the probability of "surviving" (not yet experiencing the event) past each time point.<br><br>
+        Example:<br><code>survfit(Surv(time, status) ~ 1, data = df)</code>`,
+      check: `exists("km_fit") && inherits(km_fit, "survfit")`
+    },
+    {
+      title: "A Cox model with coxph()",
+      id: "a-cox-model-with-coxph",
+      short: "coxph()",
+      unit: "Event History Analysis with survival",
+      instructions: `An <code>event_data</code> tibble now includes a <code>group</code>
+        column.<br><br>
+        Create <code>cox_model</code>: a Cox proportional hazards model estimating how
+        <code>group</code> affects the hazard of the event, using <code>coxph()</code>.`,
+      preload: `Preloaded: event_data — time, status, and a two-level group column.`,
+      setup: `event_data <- tibble(
+        time = c(5,8,12,3,15,9),
+        status = c(1,0,1,1,0,1),
+        group = c("A","A","A","B","B","B")
+      )`,
+      starter: `cox_model <- coxph(Surv(time, status) ~ ___, data = event_data)\n`,
+      starterMedium: `# Create cox_model: a Cox model of survival by group, using coxph()
+cox_model <- 
+`,
+      starterHard: `# Fit a Cox proportional hazards model of survival by group
+`,
+      hint: "coxph(Surv(time, status) ~ group, data = event_data)",
+      solution: `cox_model <- coxph(Surv(time, status) ~ group, data = event_data)\n`,
+      help: `<b>coxph()</b> fits the Cox proportional hazards model — the standard way to model
+        how predictors affect the risk (hazard) of an event over time, without assuming a
+        specific shape for the baseline hazard.<br><br>
+        Example:<br><code>coxph(Surv(time, status) ~ x, data = df)</code>`,
+      check: `exists("cox_model") && isTRUE(all.equal(unname(coef(cox_model)), unname(coef(survival::coxph(Surv(time, status) ~ group, data = event_data))), tolerance = 1e-4))`
+    },
+    {
+      title: "R-squared with r2()",
+      id: "r-squared-with-r2",
+      short: "r2()",
+      unit: "Model Diagnostics with performance",
+      instructions: `A regression <code>model</code> is loaded.<br><br>
+        Create <code>fit_stats</code>: the model's R-squared, using <code>r2()</code> — part of
+        the "performance" package's model-checking toolkit.`,
+      preload: `Preloaded: pilot and model — a linear regression of income on age. performance is loaded.`,
+      setup: `pilot <- tibble(age = c(22,35,41,29,58,31), income = c(31000,45900,52100,29800,61200,47500))
+      model <- lm(income ~ age, data = pilot)`,
+      starter: `fit_stats <- r2(___)\n`,
+      starterMedium: `# Create fit_stats: the model's R-squared, using r2()
+fit_stats <- 
+`,
+      starterHard: `# Get the model's R-squared
+`,
+      hint: "r2(model)",
+      solution: `fit_stats <- r2(model)\n`,
+      help: `<b>r2()</b> reports R-squared in a consistent way across many model types — for a
+        plain lm() it matches summary(model)$r.squared, but the same function also works for
+        mixed models, GLMs, and more.<br><br>
+        Example:<br><code>r2(lm(mpg ~ wt, data = mtcars))</code>`,
+      check: `exists("fit_stats") && !is.null(fit_stats$R2) && isTRUE(all.equal(as.numeric(fit_stats$R2), as.numeric(summary(model)$r.squared), tolerance = 1e-6))`
+    },
+    {
+      title: "Checking collinearity with check_collinearity()",
+      id: "checking-collinearity-with-check-collinearity",
+      short: "check_collinearity()",
+      unit: "Model Diagnostics with performance",
+      instructions: `A regression <code>model</code> with two predictors is loaded.<br><br>
+        Create <code>vif_check</code>: a variance inflation factor (VIF) check for
+        multicollinearity between the predictors, using <code>check_collinearity()</code>.`,
+      preload: `Preloaded: pilot and model — income predicted by age and education_years.`,
+      setup: `pilot <- tibble(
+        age = c(22,35,41,29,58,31),
+        education_years = c(12,16,14,12,18,16),
+        income = c(31000,45900,52100,29800,61200,47500)
+      )
+      model <- lm(income ~ age + education_years, data = pilot)`,
+      starter: `vif_check <- check_collinearity(___)\n`,
+      starterMedium: `# Create vif_check: a collinearity check for model, using check_collinearity()
+vif_check <- 
+`,
+      starterHard: `# Check model's predictors for collinearity
+`,
+      hint: "check_collinearity(model)",
+      solution: `vif_check <- check_collinearity(model)\n`,
+      help: `<b>check_collinearity()</b> flags predictors that are too correlated with each
+        other to reliably separate their individual effects — a standard diagnostic reviewers
+        increasingly expect before trusting a multiple regression's coefficients.<br><br>
+        Example:<br><code>check_collinearity(lm(y ~ x1 + x2, data = df))</code>`,
+      check: `exists("vif_check") && nrow(as.data.frame(vif_check)) > 0`
+    },
+    {
+      title: "Testing residual normality with check_normality()",
+      id: "testing-residual-normality-with-check-normality",
+      short: "check_normality()",
+      unit: "Model Diagnostics with performance",
+      instructions: `The same regression <code>model</code> is loaded.<br><br>
+        Create <code>normality_test</code>: a check of whether the model's residuals are
+        normally distributed, using <code>check_normality()</code>.`,
+      preload: `Preloaded: pilot and model.`,
+      setup: `pilot <- tibble(
+        age = c(22,35,41,29,58,31),
+        education_years = c(12,16,14,12,18,16),
+        income = c(31000,45900,52100,29800,61200,47500)
+      )
+      model <- lm(income ~ age + education_years, data = pilot)`,
+      starter: `normality_test <- check_normality(___)\n`,
+      starterMedium: `# Create normality_test: a residual normality check, using check_normality()
+normality_test <- 
+`,
+      starterHard: `# Check whether model's residuals are normally distributed
+`,
+      hint: "check_normality(model)",
+      solution: `normality_test <- check_normality(model)\n`,
+      help: `<b>check_normality()</b> tests whether a regression's residuals depart from
+        normality — one of the standard assumption checks behind a linear model's p-values and
+        confidence intervals.<br><br>
+        Example:<br><code>check_normality(lm(y ~ x, data = df))</code>`,
+      check: `exists("normality_test") && !is.null(normality_test)`
+    },
+    {
+      title: "Building a network with graph_from_data_frame()",
+      id: "building-a-network-with-graph-from-data-frame",
+      short: "graph_from_data_frame()",
+      unit: "Social Network Analysis with igraph",
+      instructions: `An <code>edges</code> tibble lists who is connected to whom.<br><br>
+        Create <code>net</code>: an undirected network object from that edge list, using
+        <code>graph_from_data_frame()</code> with <code>directed = FALSE</code>.`,
+      preload: `Preloaded: edges — 3 connections among 3 people. igraph is loaded.`,
+      setup: `edges <- tibble(from = c("Alice","Alice","Bob"), to = c("Bob","Carol","Carol"))`,
+      starter: `net <- graph_from_data_frame(edges, directed = ___)\n`,
+      starterMedium: `# Create net: an undirected network from edges, using graph_from_data_frame()
+net <- 
+`,
+      starterHard: `# Build an undirected network from the edges data
+`,
+      hint: "graph_from_data_frame(edges, directed = FALSE)",
+      solution: `net <- graph_from_data_frame(edges, directed = FALSE)\n`,
+      help: `<b>graph_from_data_frame()</b> builds an igraph network object straight from an
+        edge list — a "from"/"to" table is the most common way social network data arrives.<br><br>
+        Example:<br><code>graph_from_data_frame(edges, directed = FALSE)</code>`,
+      check: `exists("net") && inherits(net, "igraph")`
+    },
+    {
+      title: "Degree centrality with degree()",
+      id: "degree-centrality-with-degree",
+      short: "degree()",
+      unit: "Social Network Analysis with igraph",
+      instructions: `The <code>net</code> network is loaded.<br><br>
+        Create <code>centrality</code>: how many connections each person has, using
+        <code>degree()</code> — the simplest measure of network centrality.`,
+      preload: `Preloaded: net — a 3-person undirected network.`,
+      setup: `edges <- tibble(from = c("Alice","Alice","Bob"), to = c("Bob","Carol","Carol"))
+      net <- graph_from_data_frame(edges, directed = FALSE)`,
+      starter: `centrality <- degree(___)\n`,
+      starterMedium: `# Create centrality: each person's degree centrality, using degree()
+centrality <- 
+`,
+      starterHard: `# Compute degree centrality for everyone in net
+`,
+      hint: "degree(net) — returns one value per person, named by their identifier.",
+      solution: `centrality <- degree(net)\n`,
+      help: `<b>degree()</b> counts how many edges touch each node — the most basic centrality
+        measure, and usually the first thing computed in any social network analysis.<br><br>
+        Example:<br><code>degree(net)</code>`,
+      check: `exists("centrality") && isTRUE(all.equal(sum(centrality), sum(igraph::degree(net))))`
+    },
+    {
+      title: "Visualizing a network",
+      id: "visualizing-a-network",
+      short: "plot(net)",
+      unit: "Social Network Analysis with igraph",
+      hasPlot: true,
+      instructions: `The <code>net</code> network is loaded.<br><br>
+        Create <code>edge_count</code>: the number of edges in the network, using
+        <code>ecount()</code>. Then visualize the network with <code>plot(net)</code>.`,
+      preload: `Preloaded: net — a 3-person undirected network. Hit Run to see the plot.`,
+      setup: `edges <- tibble(from = c("Alice","Alice","Bob"), to = c("Bob","Carol","Carol"))
+      net <- graph_from_data_frame(edges, directed = FALSE)`,
+      starter: `edge_count <- ecount(___)\nplot(net)\n`,
+      starterMedium: `# Create edge_count: the number of edges in net, then visualize it
+edge_count <- 
+plot(net)
+`,
+      starterHard: `# Count net's edges and visualize the network
+`,
+      hint: "ecount(net) counts the edges; plot(net) draws the network diagram.",
+      solution: `edge_count <- ecount(net)\nplot(net)\n`,
+      help: `<b>ecount()</b> counts a network's edges (as <b>vcount()</b> counts its nodes).
+        <b>plot()</b> on an igraph object draws the classic node-and-line network diagram
+        directly, no extra setup required.<br><br>
+        Example:<br><code>ecount(net)<br>plot(net)</code>`,
+      check: `exists("edge_count") && identical(edge_count, igraph::ecount(net))`
     }
   ];
 
@@ -1749,12 +3023,32 @@ insert_assign <- "Alt+-"
   const XP_PER_LEVEL = 150;
   const DIFFICULTY_BONUS = { easy: 0, medium: 10, hard: 25 };
 
+  // Packages installed lazily, the first time a lesson from that unit is opened —
+  // keeps the original boot-time install list unchanged as new units get added.
+  const UNIT_PACKAGES = {
+    "Tidy Models with broom": ["broom"],
+    "Visualizing Correlations with corrplot": ["corrplot"],
+    "Panel Data Overviews with overviewR": ["overviewR"],
+    "Regression Reporting with jtools": ["jtools"],
+    "Model Parameters with parameters": ["parameters"],
+    "Comparative Methods with QCA": ["QCA"],
+    "Segregation Measures with segregation": ["segregation"],
+    "Complex Survey Design with survey": ["survey"],
+    "Reading Labelled Data with haven": ["haven"],
+    "Scale Reliability with psych": ["psych"],
+    "Multilevel Models with lme4": ["lme4"],
+    "Event History Analysis with survival": ["survival"],
+    "Model Diagnostics with performance": ["performance"],
+    "Social Network Analysis with igraph": ["igraph"]
+  };
+
   let current = 0;
   let completed = new Set();
   let xp = 0;
   let difficulty = "easy";
   let view = "path";
   let webR = null;
+  let installedPackages = new Set();
   let engineReady = false;
   let hintUsedThisAttempt = false;
   let answerUsedThisAttempt = false;
@@ -1867,11 +3161,35 @@ insert_assign <- "Alt+-"
     prepareEnvironment();
   }
 
+  async function ensureUnitPackages(unit) {
+    const needed = (UNIT_PACKAGES[unit] || []).filter((p) => !installedPackages.has(p));
+    if (!needed.length || !engineReady) return true;
+    const banner = $("engineBanner"); const text = $("engineText");
+    banner.classList.remove("ready", "error"); banner.classList.add("loading");
+    text.textContent = `Installing ${needed.join(", ")} for this unit (first time only)…`;
+    $("runBtn").disabled = true; $("checkBtn").disabled = true;
+    let ok = true;
+    try {
+      await webR.installPackages(needed);
+      await webR.evalR(needed.map((p) => `library(${p})`).join("; "));
+      needed.forEach((p) => installedPackages.add(p));
+      banner.classList.remove("loading"); banner.classList.add("ready");
+    } catch (e) {
+      console.error("Unit package install failed", e);
+      ok = false;
+      banner.classList.remove("loading"); banner.classList.add("error");
+      text.innerHTML = `Couldn't install ${needed.join(", ")} for this unit — likely a network restriction here, or no WASM build available. Other units are unaffected.`;
+    }
+    $("runBtn").disabled = false; $("checkBtn").disabled = false;
+    return ok;
+  }
+
   async function prepareEnvironment() {
     if (!engineReady) return;
+    const l = LESSONS[current];
+    await ensureUnitPackages(l.unit);
     try {
       await webR.evalR('rm(list=ls())');
-      const l = LESSONS[current];
       if (l.setup) await webR.evalR(l.setup);
     } catch (e) { console.warn("Environment setup issue", e); }
   }
@@ -1895,6 +3213,7 @@ insert_assign <- "Alt+-"
       text.textContent = "R is running — installing dplyr, purrr, forcats, here, stringr, ggplot2, janitor, marginaleffects, ggalluvial (this is the slow part)…";
       await webR.installPackages(['dplyr', 'purrr', 'forcats', 'here', 'stringr', 'ggplot2', 'janitor', 'marginaleffects', 'ggalluvial']);
       await webR.evalR('library(dplyr); library(purrr); library(tibble); library(forcats); library(here); library(stringr); library(ggplot2); library(janitor); library(marginaleffects); library(ggalluvial)');
+      installedPackages = new Set(['dplyr', 'purrr', 'forcats', 'here', 'stringr', 'ggplot2', 'janitor', 'marginaleffects', 'ggalluvial']);
       engineReady = true;
       banner.classList.remove("loading"); banner.classList.add("ready");
       $("runBtn").disabled = false; $("checkBtn").disabled = false;

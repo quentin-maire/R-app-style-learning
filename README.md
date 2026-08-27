@@ -6,11 +6,11 @@ No server, no install, no account — open the page and R runs on-device.
 Installable to an Android home screen as a lightweight app once hosted
 over `https://`.
 
-62 short lessons, written in **tidyverse style** throughout (`tibble()`,
+100 short lessons, written in **tidyverse style** throughout (`tibble()`,
 `dplyr`/`purrr`/`forcats`/`stringr` verbs, `ggplot2`, `ggalluvial`, and the
 native `|>` pipe — no base-R subsetting or `data.frame()` except where
 there's genuinely no tidyverse equivalent, like plain vector indexing).
-Organized into 13 units, built around a running "pilot survey" dataset,
+Organized into 27 units, built around a running "pilot survey" dataset,
 plus a project-workflow unit and an RStudio-shortcuts unit that aren't
 tied to the dataset at all.
 
@@ -71,6 +71,62 @@ A first alluvial (Sankey-style) plot with `geom_alluvium()` +
 `geom_stratum()` · coloring flows with `aes(fill = ...)` · labeling
 strata with `geom_text()` + `after_stat()`
 
+**Unit 14 — Tidy Models with broom**
+Tidying coefficients with `tidy()` · model-level fit stats with
+`glance()` · row-level predictions with `augment()`
+
+**Unit 15 — Visualizing Correlations with corrplot**
+A first correlation plot · handling missing data with
+`cor(..., use = "complete.obs")`
+
+**Unit 16 — Panel Data Overviews with overviewR**
+Summarizing panel coverage with `overview_tab()` · checking missing data
+with `overview_na()`
+
+**Unit 17 — Regression Reporting with jtools**
+A cleaner model summary with `summ()` · visualizing an effect with
+`effect_plot()`
+
+**Unit 18 — Model Parameters with parameters**
+Tidy output with `model_parameters()` · standardized coefficients
+
+**Unit 19 — Comparative Methods with QCA**
+Calibrating a fuzzy-set condition · building a truth table with
+`truthTable()`
+
+**Unit 20 — Segregation Measures with segregation**
+The dissimilarity index · the mutual information index with
+`mutual_total()`
+
+**Unit 21 — Complex Survey Design with survey**
+Declaring a design with `svydesign()` · weighted means with `svymean()` ·
+a weighted regression with `svyglm()` · subgroup estimates with `svyby()`
+
+**Unit 22 — Reading Labelled Data with haven**
+Creating labelled data with `labelled()` · converting labels to factors
+with `as_factor()` · dropping labels with `zap_labels()`
+
+**Unit 23 — Scale Reliability with psych**
+Cronbach's alpha with `alpha()` · a one-factor PCA with `principal()` ·
+quick variable summaries with `describe()`
+
+**Unit 24 — Multilevel Models with lme4**
+A random-intercept model with `lmer()` · adding a fixed-effect predictor ·
+extracting random effects with `ranef()` · fixed effects with `fixef()`
+
+**Unit 25 — Event History Analysis with survival**
+Declaring survival data with `Surv()` · a Kaplan-Meier curve with
+`survfit()` · a Cox model with `coxph()`
+
+**Unit 26 — Model Diagnostics with performance**
+R-squared with `r2()` · checking collinearity with
+`check_collinearity()` · testing residual normality with
+`check_normality()`
+
+**Unit 27 — Social Network Analysis with igraph**
+Building a network with `graph_from_data_frame()` · degree centrality
+with `degree()` · visualizing a network with `plot()`
+
 The path map groups lessons visually by unit, and shows a lock icon on
 lessons that come later than where you've currently progressed — but it's
 advisory, not a hard gate. Tapping *any* lesson, locked or not, opens it;
@@ -120,9 +176,23 @@ code box:
 
 ## Progression
 
-- **XP & levels** — 50 XP per lesson on first completion, minus a hint or
-  answer penalty if either was used. 150 XP per level, shown as a compact
-  bar in the top strip.
+- **Easy / Medium / Hard** — 93 of the 100 lessons offer three starting
+  points for the same code box: Easy pre-builds a skeleton with blanks
+  for arguments; Medium gives a plain-English comment and an empty
+  assignment line, so you write the full function call yourself; Hard
+  gives only a one-line task description, so you write everything —
+  operators, piping, quotes, function names, all of it. All three tiers
+  share the same `solution`/`check`/`hint`/`help` — only how much
+  scaffolding you start with changes. The seven lessons without tiers
+  (Project Organization's identification questions, RStudio Shortcuts)
+  are just typing a short answer string, so there's no scaffolding to
+  fade in the first place — the difficulty selector doesn't appear on
+  those. Completing on Medium or Hard adds a small XP bonus (see below);
+  your difficulty choice persists across lessons and visits.
+- **XP & levels** — 50 XP per lesson on first completion, plus a
+  difficulty bonus (+10 Medium, +25 Hard) if the lesson has tiers and
+  wasn't done on Easy, minus a hint or answer penalty if either was used.
+  150 XP per level, shown as a compact bar in the top strip.
 - **Completion celebration** — a short overlay confirms XP earned and any
   level-up.
 
@@ -189,6 +259,79 @@ array and remove the corresponding package from the `installPackages()`
 call — every unit is independent, and removing one doesn't affect any
 other.
 
+### Lazy per-unit installs (units 14–21)
+
+Nine packages at boot is already a lot. Rather than keep adding to that
+list forever, units 14 onward (`broom`, `corrplot`, `overviewR`,
+`jtools`, `parameters`, `QCA`, `segregation`, `survey`) install lazily —
+only the first time a student actually opens a lesson from that specific
+unit, via the `UNIT_PACKAGES` map near the top of the `<script>` block.
+The original nine boot-time packages are unchanged. This means:
+
+- Boot time is unaffected by adding more of these units.
+- If one lazy package fails to install (network issue, no WASM build,
+  whatever), only that unit is affected — the engine banner shows an
+  error scoped to that unit, and every other unit keeps working normally.
+- Adding another package-specific unit in the future just means adding
+  one line to `UNIT_PACKAGES` and writing the lessons — no changes needed
+  to the boot sequence.
+
+**Confidence levels for units 14–21**, since these lean on function names
+and package internals I have varying certainty about:
+
+- **broom, survey** — high confidence. Long-established packages with
+  very stable, extremely well-documented core function signatures
+  (`tidy()`/`glance()`/`augment()`; `svydesign()`/`svymean()`/`svyglm()`/
+  `svyby()`).
+- **corrplot** — high confidence in the core call, though correlation
+  plots don't produce a checkable R object the way a model or a `ggplot`
+  does — `Check` in this unit validates the underlying correlation
+  matrix, not the plot's exact visual style.
+- **overviewR, jtools, parameters, segregation** — moderate confidence.
+  I'm reasonably sure of the core functions; less sure of every argument
+  name. Where the internal object structure was uncertain, checks use
+  looser, more structural comparisons (e.g. `is.data.frame(...) &&
+  nrow(...) > 0`) rather than exact-value ones, specifically to avoid
+  rejecting a genuinely correct answer.
+- **QCA** — the lowest confidence in this batch. `calibrate()`'s exact
+  threshold syntax is the one function signature here I'm least certain
+  I've recalled precisely. If the reference call itself is wrong, no
+  amount of check-writing care fixes that — worth testing this unit
+  first if you're going to test any of the new ones.
+- **haven, psych** — high confidence. Both are long-established, and
+  `labelled()`/`as_factor()`/`zap_labels()` and
+  `alpha()`/`principal()`/`describe()` are core, extremely stable
+  functions in each package respectively.
+- **survival** — high confidence, and lowest install risk of any unit so
+  far: it's one of R's "recommended" packages, often bundled with R
+  itself, so it may install near-instantly or even already be present.
+- **lme4** — moderate-high confidence on syntax (`lmer()`'s formula
+  style — `y ~ x + (1 | group)` — is very stable and long-established),
+  moderate uncertainty on WASM install weight, since it has compiled C++
+  code (via RcppEigen) and a real dependency chain (Matrix, minqa,
+  nloptr). Widely used enough that a WASM build plausibly exists, but
+  untested from here.
+- **performance** — moderate confidence on the core functions; lower
+  confidence on `check_collinearity()`/`check_normality()`'s exact
+  return structure, so those two checks are deliberately loose
+  (existence/non-null) rather than value-based.
+- **igraph** — moderate-high confidence on the core functions
+  (`graph_from_data_frame()`, `degree()`, `ecount()`), which are stable
+  and long-documented. Some C code under the hood, but igraph is popular
+  enough elsewhere (including other WASM/JS contexts) that I'd guess it
+  installs cleanly, though that's a guess, not a verified fact.
+
+**Not built (held pending your call):** `descriptio` (PEM function) — I
+don't have solid confidence in its exact API and didn't want to guess.
+`intsvy` — depends on `Hmisc`, a genuinely heavy package that adds real
+install weight and risk on top of everything else. Table-formatting
+packages for publication (`stargazer`, `modelsummary`, `texreg`,
+`sjPlot::tab_model()`) — these mostly produce complex formatted-table or
+HTML-widget output rather than a clean R object, which doesn't fit this
+app's check-by-inspecting-the-object model well; possible to build with a
+looser check, but held off rather than force a weak fit. All of these can
+be added later following the same lazy-install pattern as units 14–27.
+
 ## Hosting on GitHub Pages
 
 1. Push this repo to GitHub as-is (`index.html` at the root).
@@ -216,7 +359,9 @@ block in `index.html`. Each lesson is one object:
   instructions: "HTML string shown in the Learn view and (always visible) in Practice",
   preload: "Optional note describing preloaded variables",
   setup: "Optional R code run silently before the student sees the lesson",
-  starter: "Starter code shown in the editor",
+  starter: "Starter code shown in the editor (Easy tier)",
+  starterMedium: "Optional — Medium tier: a comment + blank assignment line, no skeleton",
+  starterHard: "Optional — Hard tier: just a task comment, everything else blank",
   solution: "Fully correct R code — written into the box by 'Display answer'",
   hint: "Shown when the student taps 'Show hint'",
   help: "HTML shown in the 'Help' popup — explain the function(s) used, plus a standalone example different from the exercise",
@@ -228,7 +373,9 @@ Add, remove, or reorder objects in the array — nothing else needs to
 change. The `check` expression runs after the student's code, so it can
 reference any variable the student was asked to create. If a lesson
 introduces a new unit name, the path map will automatically render a new
-section divider for it.
+section divider for it. Adding `starterMedium`/`starterHard` to a lesson
+is enough on its own to make the Easy/Medium/Hard selector appear for
+it — no other wiring needed; leaving both out keeps a lesson single-tier.
 
 ## Notes
 
