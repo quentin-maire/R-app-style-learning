@@ -6,11 +6,11 @@ No server, no install, no account — open the page and R runs on-device.
 Installable to an Android home screen as a lightweight app once hosted
 over `https://`.
 
-100 short lessons, written in **tidyverse style** throughout (`tibble()`,
+111 short lessons, written in **tidyverse style** throughout (`tibble()`,
 `dplyr`/`purrr`/`forcats`/`stringr` verbs, `ggplot2`, `ggalluvial`, and the
 native `|>` pipe — no base-R subsetting or `data.frame()` except where
 there's genuinely no tidyverse equivalent, like plain vector indexing).
-Organized into 27 units, built around a running "pilot survey" dataset,
+Organized into 31 units, built around a running "pilot survey" dataset,
 plus a project-workflow unit and an RStudio-shortcuts unit that aren't
 tied to the dataset at all.
 
@@ -126,6 +126,21 @@ R-squared with `r2()` · checking collinearity with
 **Unit 27 — Social Network Analysis with igraph**
 Building a network with `graph_from_data_frame()` · degree centrality
 with `degree()` · visualizing a network with `plot()`
+
+**Unit 28 — Multiple Imputation with mice**
+Creating imputations with `mice()` · extracting a completed dataset with
+`complete()` · pooling model results across imputations with `pool()`
+
+**Unit 29 — Missing Data with naniar**
+Summarizing missingness with `miss_var_summary()` · visualizing it with
+`vis_miss()` · a per-variable bar chart with `gg_miss_var()`
+
+**Unit 30 — Text Analysis with tidytext**
+Tokenizing text with `unnest_tokens()` · removing stop words with
+`anti_join()` · counting word frequencies with `count()`
+
+**Unit 31 — Publication Tables with modelsummary**
+Comparing two models with `modelsummary()` · naming models in the table
 
 The path map groups lessons visually by unit, and shows a lock icon on
 lessons that come later than where you've currently progressed — but it's
@@ -321,6 +336,21 @@ and package internals I have varying certainty about:
   enough elsewhere (including other WASM/JS contexts) that I'd guess it
   installs cleanly, though that's a guess, not a verified fact.
 
+- **mice, naniar, tidytext** — high confidence. All three have very
+  stable, well-documented core workflows (`mice()`/`complete()`/`pool()`;
+  `miss_var_summary()`/`vis_miss()`/`gg_miss_var()`;
+  `unnest_tokens()`/`anti_join(stop_words)`/`count()`), and I'm confident
+  in the exact syntax used.
+- **modelsummary** — the lowest confidence in this batch. I'm using
+  `output = "data.frame"` specifically to get a checkable plain object
+  instead of a rendered table, but I'm only moderately sure how column
+  naming behaves in that output mode — which is why both checks in this
+  unit are structural (row/column counts) rather than value-based. If
+  the underlying data.frame shape differs from what I expect, the
+  reference `solution` call itself should still succeed (it's the same
+  function call either way), so worst case the check is too loose rather
+  than wrongly rejecting a correct answer.
+
 **Not built (held pending your call):** `descriptio` (PEM function) — I
 don't have solid confidence in its exact API and didn't want to guess.
 `intsvy` — depends on `Hmisc`, a genuinely heavy package that adds real
@@ -356,6 +386,7 @@ block in `index.html`. Each lesson is one object:
   id: "stable-slug-id — used to track completion, don't change once students have progress saved",
   short: "1-2 word label shown on the path map node",
   unit: "Unit name — must exactly match other lessons in the same unit",
+  packages: "Array of package names the SOLUTION code calls, e.g. ['dplyr'] — [] means base R only. Purely informational, shown as chips on Learn and Practice; never used for grading.",
   instructions: "HTML string shown in the Learn view and (always visible) in Practice",
   preload: "Optional note describing preloaded variables",
   setup: "Optional R code run silently before the student sees the lesson",

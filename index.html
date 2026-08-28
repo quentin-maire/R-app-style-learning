@@ -118,6 +118,13 @@
     text-transform:uppercase; color:var(--lilac-deep); margin:12px 0 6px;
   }
   .learn-title{font-family:'Baloo 2', sans-serif; font-weight:700; font-size:21px; margin:0 0 10px; line-height:1.2;}
+  .pkg-row{display:flex; flex-wrap:wrap; gap:5px; margin-bottom:10px;}
+  .pkg-chip{
+    font-family:'IBM Plex Mono', monospace; font-size:10.5px; font-weight:500;
+    background:var(--bg-soft); border:1px solid var(--card-border); border-radius:7px;
+    padding:2px 8px; color:var(--text-soft); white-space:nowrap;
+  }
+  .pkg-chip.base{font-style:italic; color:var(--text-faint);}
   .learn-body{font-size:15px; line-height:1.6;}
   .learn-body code{
     font-family:'IBM Plex Mono', monospace; background:var(--bg-soft); padding:2px 6px;
@@ -300,6 +307,7 @@
     <section class="view" id="view-learn" hidden>
       <div class="learn-kicker" id="learnKicker">Lesson 1 of 40</div>
       <h2 class="learn-title" id="learnTitle"></h2>
+      <div class="pkg-row" id="learnPkgRow"></div>
       <div class="learn-body" id="learnInstructions"></div>
       <div class="preload-note" id="learnPreload" style="display:none;"></div>
       <button class="go-practice" id="goPracticeBtn">Start practicing →</button>
@@ -311,6 +319,7 @@
           <div class="info">
             <div class="kicker" id="practiceKicker">Lesson 1</div>
             <div class="ttl" id="practiceTitle"></div>
+            <div class="pkg-row" id="practicePkgRow"></div>
           </div>
         </div>
         <div id="practiceInstructions"></div>
@@ -386,6 +395,7 @@ const LESSONS = [
     {
       title: "Vectors & indexing",
       id: "vectors-indexing",
+      packages: [],
       short: "Vectors",
       unit: "Tidyverse Foundations",
       instructions: `You're logging ages from a small pilot survey. Plain vectors work the same
@@ -407,6 +417,7 @@ Example:<br><code>fruits <- c("apple", "pear", "fig")<br>fruits[2]  # "pear"</co
     {
       title: "Building a tibble",
       id: "building-a-tibble",
+      packages: ["tibble", "dplyr"],
       short: "Tibbles",
       unit: "Tidyverse Foundations",
       instructions: `Tidyverse workflows use <b>tibbles</b> instead of base data frames — same idea,
@@ -439,6 +450,7 @@ Example:<br><code>animals <- tibble(name = c("cat","dog"), legs = c(4,4))<br>ani
     {
       title: "Filtering rows with filter()",
       id: "filtering-rows-with-filter",
+      packages: ["dplyr"],
       short: "filter()",
       unit: "Tidyverse Foundations",
       instructions: `A <code>pilot</code> tibble is already loaded (id, age, region, satisfaction).
@@ -465,6 +477,7 @@ Example:<br><code>pets <- tibble(name = c("Rex","Milo"), age = c(2,7))<br>pets |
     {
       title: "A function + purrr::map_dbl()",
       id: "a-function-purrr-map-dbl",
+      packages: ["purrr"],
       short: "purrr",
       unit: "Tidyverse Foundations",
       instructions: `A <code>scores</code> vector of 1–5 satisfaction ratings is loaded.<br><br>
@@ -493,6 +506,7 @@ Example:<br><code>add_ten <- function(x) x + 10<br>c(1,2,3) |> map_dbl(add_ten)<
     {
       title: "Descriptive stats with summarise()",
       id: "descriptive-stats-with-summarise",
+      packages: ["dplyr"],
       short: "summarise()",
       unit: "Tidyverse Foundations",
       instructions: `A <code>pilot</code> tibble with an <code>income</code> column is loaded.<br><br>
@@ -519,6 +533,7 @@ Example:<br><code>tibble(temp = c(18,21,19)) |> summarise(avg = mean(temp))</cod
     {
       title: "Recoding with if_else()",
       id: "recoding-with-if-else",
+      packages: ["dplyr"],
       short: "if_else()",
       unit: "Tidyverse Foundations",
       instructions: `A <code>pilot</code> tibble with an <code>age</code> column is loaded.<br><br>
@@ -540,6 +555,7 @@ Example:<br><code>tibble(temp = c(15,25)) |> mutate(weather = if_else(temp > 20,
     {
       title: "Sorting with arrange()",
       id: "sorting-with-arrange",
+      packages: ["dplyr"],
       short: "arrange()",
       unit: "Working with Survey Data",
       instructions: `A <code>pilot</code> tibble (id, age, satisfaction) is loaded.<br><br>
@@ -568,6 +584,7 @@ Example:<br><code>tibble(name = c("Bo","Amy"), score = c(7,9)) |> arrange(score)
     {
       title: "Missing data in a pipeline",
       id: "missing-data-in-a-pipeline",
+      packages: ["dplyr"],
       short: "Missing data",
       unit: "Working with Survey Data",
       instructions: `A <code>pilot</code> tibble has an <code>income</code> column with some
@@ -600,6 +617,7 @@ Example:<br><code>x <- c(5, NA, 9)<br>sum(is.na(x))        # 1<br>mean(x, na.rm 
     {
       title: "Age brackets with case_when()",
       id: "age-brackets-with-case-when",
+      packages: ["dplyr"],
       short: "case_when()",
       unit: "Working with Survey Data",
       instructions: `A <code>pilot</code> tibble with an <code>age</code> column is loaded.<br><br>
@@ -629,6 +647,7 @@ Example:<br><code>tibble(temp = c(5,18,30)) |> mutate(label = case_when(<br>  te
     {
       title: "Cross-tabulating with count()",
       id: "cross-tabulating-with-count",
+      packages: ["dplyr"],
       short: "count()",
       unit: "Working with Survey Data",
       instructions: `A <code>pilot</code> tibble with <code>region</code> and <code>support</code>
@@ -658,6 +677,7 @@ Example:<br><code>tibble(color = c("red","blue","red")) |> count(color)</code>`,
     {
       title: "Joining two datasets with left_join()",
       id: "joining-two-datasets-with-left-join",
+      packages: ["dplyr"],
       short: "left_join()",
       unit: "Working with Survey Data",
       instructions: `Survey data often arrives in separate files. Two tibbles are loaded:
@@ -684,6 +704,7 @@ Example:<br><code>people <- tibble(id = 1:2, name = c("Al","Bo"))<br>scores <- t
     {
       title: "Checkpoint: combining filter() conditions",
       id: "checkpoint-combining-filter-conditions",
+      packages: ["dplyr"],
       short: "Checkpoint",
       unit: "Working with Survey Data",
       instructions: `A <code>pilot</code> tibble (age, region, satisfaction) is loaded.<br><br>
@@ -715,6 +736,7 @@ Example:<br><code>tibble(age = c(20,40,60), city = c("A","B","A")) |> filter(age
     {
       title: "Frequencies & proportions",
       id: "frequencies-proportions",
+      packages: ["dplyr"],
       short: "Frequencies",
       unit: "Exploring & Summarizing",
       instructions: `A <code>pilot</code> tibble with a <code>region</code> column is loaded.<br><br>
@@ -741,6 +763,7 @@ Example:<br><code>tibble(pet = c("cat","dog","cat")) |> count(pet) |> mutate(pro
     {
       title: "Grouped means with group_by() + summarise()",
       id: "grouped-means-with-group-by-summarise",
+      packages: ["dplyr"],
       short: "group_by()",
       unit: "Exploring & Summarizing",
       instructions: `A <code>pilot</code> tibble (region, satisfaction) is loaded.<br><br>
@@ -771,6 +794,7 @@ Example:<br><code>tibble(team = c("A","A","B"), pts = c(3,5,2)) |> group_by(team
     {
       title: "Multiple grouped summaries",
       id: "multiple-grouped-summaries",
+      packages: ["dplyr"],
       short: "Group summary",
       unit: "Exploring & Summarizing",
       instructions: `The same <code>pilot</code> tibble is loaded.<br><br>
@@ -805,6 +829,7 @@ Example:<br><code>tibble(team = c("A","A","B")) |> group_by(team) |> summarise(p
     {
       title: "Quantiles with summarise()",
       id: "quantiles-with-summarise",
+      packages: ["dplyr"],
       short: "Quantiles",
       unit: "Exploring & Summarizing",
       instructions: `A <code>pilot</code> tibble with an <code>income</code> column is loaded.<br><br>
@@ -836,6 +861,7 @@ Example:<br><code>quantile(c(10,20,30,40), 0.5)  # median, 25</code>`,
     {
       title: "Standardizing with mutate()",
       id: "standardizing-with-mutate",
+      packages: ["dplyr"],
       short: "Z-scores",
       unit: "Exploring & Summarizing",
       instructions: `A <code>pilot</code> tibble with a <code>scores</code> column is loaded.<br><br>
@@ -859,6 +885,7 @@ Example:<br><code>x <- c(4,8,12)<br>(x - mean(x)) / sd(x)</code>`,
     {
       title: "Correlation with summarise() + pull()",
       id: "correlation-with-summarise-pull",
+      packages: ["dplyr"],
       short: "Correlation",
       unit: "Exploring & Summarizing",
       instructions: `A <code>pilot</code> tibble with <code>age</code> and <code>satisfaction</code>
@@ -884,6 +911,7 @@ Example:<br><code>tibble(x = 1:3) |> summarise(total = sum(x)) |> pull(total)</c
     {
       title: "Reverse-coding with mutate()",
       id: "reverse-coding-with-mutate",
+      packages: ["dplyr"],
       short: "Reverse-coding",
       unit: "Applied Survey Techniques",
       instructions: `A <code>pilot</code> tibble has a survey item <code>item</code> scored
@@ -910,6 +938,7 @@ Example:<br><code>x <- c(1,3,5)  # a 1-5 scale<br>6 - x</code>`,
     {
       title: "A composite scale with across()",
       id: "a-composite-scale-with-across",
+      packages: ["dplyr"],
       short: "across()",
       unit: "Applied Survey Techniques",
       instructions: `Three related survey items (<code>item1</code>, <code>item2</code>,
@@ -940,6 +969,7 @@ Example:<br><code>tibble(a = c(1,3), b = c(5,7)) |> mutate(avg = rowMeans(across
     {
       title: "Comparing two groups with a t-test",
       id: "comparing-two-groups-with-a-t-test",
+      packages: [],
       short: "T-test",
       unit: "Applied Survey Techniques",
       instructions: `A <code>pilot</code> tibble has <code>region</code> (only
@@ -969,6 +999,7 @@ Example:<br><code>t.test(height ~ group, data = tibble(<br>  height = c(160,170,
     {
       title: "A simple linear regression",
       id: "a-simple-linear-regression",
+      packages: [],
       short: "Regression",
       unit: "Applied Survey Techniques",
       instructions: `A <code>pilot</code> tibble has <code>age</code> and <code>income</code>
@@ -996,6 +1027,7 @@ Example:<br><code>lm(y ~ x, data = tibble(x = 1:3, y = c(2,4,6)))</code>`,
     {
       title: "Reading model fit: R-squared",
       id: "reading-model-fit-r-squared",
+      packages: [],
       short: "Model fit",
       unit: "Applied Survey Techniques",
       instructions: `A regression <code>model</code> predicting income from age is already
@@ -1023,6 +1055,7 @@ Example:<br><code>m <- lm(y ~ x, data = tibble(x = 1:3, y = c(2,4,5)))<br>summar
     {
       title: "Capstone: a two-outcome region report",
       id: "capstone-a-two-outcome-region-report",
+      packages: ["dplyr"],
       short: "Capstone",
       unit: "Applied Survey Techniques",
       instructions: `Bringing it together. A <code>pilot</code> tibble (region, satisfaction,
@@ -1058,6 +1091,7 @@ Example:<br><code>tibble(team = c("A","A","B"), pts = c(3,5,2), fouls = c(1,0,2)
     {
       title: "Reordering factors by frequency",
       id: "reordering-factors-by-frequency",
+      packages: ["dplyr", "forcats"],
       short: "fct_infreq()",
       unit: "Data Wrangling Deep Dive",
       instructions: `A <code>pilot</code> tibble has a <code>region</code> column stored as a
@@ -1082,6 +1116,7 @@ Example:<br><code>f <- factor(c("cat","dog","cat","cat"))<br>fct_infreq(f)</code
     {
       title: "Recoding factor labels",
       id: "recoding-factor-labels",
+      packages: ["dplyr", "forcats"],
       short: "fct_recode()",
       unit: "Data Wrangling Deep Dive",
       instructions: `A <code>pilot</code> tibble has <code>region</code> stored as abbreviated
@@ -1108,6 +1143,7 @@ Example:<br><code>f <- factor(c("M","F"))<br>fct_recode(f, Male = "M", Female = 
     {
       title: "Working with dates",
       id: "working-with-dates",
+      packages: [],
       short: "Dates",
       unit: "Data Wrangling Deep Dive",
       instructions: `Two dates from a survey fieldwork period are loaded: <code>start_date</code>
@@ -1133,6 +1169,7 @@ Example:<br><code>as.Date("2026-01-10") - as.Date("2026-01-01")  # 9 days</code>
     {
       title: "Filling missing values with coalesce()",
       id: "filling-missing-values-with-coalesce",
+      packages: ["dplyr"],
       short: "coalesce()",
       unit: "Data Wrangling Deep Dive",
       instructions: `A <code>pilot</code> tibble has an <code>income</code> column with a
@@ -1157,6 +1194,7 @@ Example:<br><code>x <- c(5, NA, 8)<br>coalesce(x, 0)  # 5 0 8</code>`,
     {
       title: "Finding unmatched rows with anti_join()",
       id: "finding-unmatched-rows-with-anti-join",
+      packages: ["dplyr"],
       short: "anti_join()",
       unit: "Data Wrangling Deep Dive",
       instructions: `Two tibbles are loaded: <code>invited</code> (everyone invited to the
@@ -1183,6 +1221,7 @@ Example:<br><code>a <- tibble(id = 1:3)<br>b <- tibble(id = 2)<br>a |> anti_join
     {
       title: "Anonymous functions with a lambda",
       id: "anonymous-functions-with-a-lambda",
+      packages: ["purrr"],
       short: "Lambda",
       unit: "Iteration & Functions",
       instructions: `A <code>scores</code> vector is loaded.<br><br>
@@ -1207,6 +1246,7 @@ Example:<br><code>c(1,2,3) |> map_dbl(\\(x) x + 100)</code>`,
     {
       title: "Iterating over two vectors with map2_dbl()",
       id: "iterating-over-two-vectors-with-map2-dbl",
+      packages: ["purrr"],
       short: "map2_dbl()",
       unit: "Iteration & Functions",
       instructions: `Two vectors are loaded: <code>pre</code> and <code>post</code> test scores
@@ -1232,6 +1272,7 @@ Example:<br><code>map2_dbl(c(1,2), c(10,20), \\(x, y) x + y)  # 11 22</code>`,
     {
       title: "Folding a vector with reduce()",
       id: "folding-a-vector-with-reduce",
+      packages: ["purrr"],
       short: "reduce()",
       unit: "Iteration & Functions",
       instructions: `A <code>values</code> vector is loaded.<br><br>
@@ -1256,6 +1297,7 @@ Example:<br><code>c(1,2,3,4) |> reduce(\`*\`)  # 24</code>`,
     {
       title: "A function with a default argument",
       id: "a-function-with-a-default-argument",
+      packages: ["purrr"],
       short: "Default args",
       unit: "Iteration & Functions",
       instructions: `A <code>scores</code> vector (1–5 scale) is loaded.<br><br>
@@ -1293,6 +1335,7 @@ Example:<br><code>greet <- function(name, greeting = "Hi") paste(greeting, name)
     {
       title: "Project-relative paths with here()",
       id: "project-relative-paths-with-here",
+      packages: ["here"],
       short: "here()",
       unit: "Project Organization & Good Practice",
       instructions: `Never hard-code an absolute path like <code>"C:/Users/name/project/data"</code>
@@ -1312,6 +1355,7 @@ Example:<br><code>here("outputs", "plot.png")</code>`,
     {
       title: "Raw data stays read-only",
       id: "raw-data-stays-read-only",
+      packages: [],
       short: "Raw vs processed",
       unit: "Project Organization & Good Practice",
       instructions: `In a well-organized project, one data folder should never be edited or
@@ -1328,6 +1372,7 @@ Example:<br><code>here("outputs", "plot.png")</code>`,
     {
       title: "Naming a pipeline script",
       id: "naming-a-pipeline-script",
+      packages: [],
       short: "Script naming",
       unit: "Project Organization & Good Practice",
       instructions: `A conventional analysis pipeline splits work into numbered scripts —
@@ -1345,6 +1390,7 @@ Example:<br><code>here("outputs", "plot.png")</code>`,
     {
       title: "Reproducibility tools",
       id: "reproducibility-tools",
+      packages: [],
       short: "renv & Git",
       unit: "Project Organization & Good Practice",
       instructions: `Two tools make a project reproducible long after it was written.<br><br>
@@ -1365,6 +1411,7 @@ tracks_history <- "Git"
     {
       title: "Running code from the console",
       id: "running-code-from-the-console",
+      packages: [],
       short: "Run shortcuts",
       unit: "RStudio Shortcuts",
       instructions: `Two of the most-used RStudio shortcuts.<br><br>
@@ -1385,6 +1432,7 @@ run_script <- "Ctrl+Shift+Enter"
     {
       title: "Navigating & the document outline",
       id: "navigating-the-document-outline",
+      packages: [],
       short: "Navigating",
       unit: "RStudio Shortcuts",
       instructions: `Three shortcuts for working in long scripts.<br><br>
@@ -1410,6 +1458,7 @@ restart_r <- "Ctrl+Shift+F10"
     {
       title: "Pipe & assignment shortcuts",
       id: "pipe-assignment-shortcuts",
+      packages: [],
       short: "Pipe shortcut",
       unit: "RStudio Shortcuts",
       instructions: `Two shortcuts that save constant retyping in tidyverse code.<br><br>
@@ -1429,6 +1478,7 @@ insert_assign <- "Alt+-"
     {
       title: "Detecting a pattern with str_detect()",
       id: "detecting-a-pattern-with-str-detect",
+      packages: ["stringr"],
       short: "str_detect()",
       unit: "Strings & Regex",
       instructions: `A vector of open-text survey responses, <code>responses</code>, is loaded.<br><br>
@@ -1451,6 +1501,7 @@ mentions_price <-
     {
       title: "Extracting matches with str_extract()",
       id: "extracting-matches-with-str-extract",
+      packages: ["stringr"],
       short: "str_extract()",
       unit: "Strings & Regex",
       instructions: `A vector of respondent emails, <code>emails</code>, is loaded.<br><br>
@@ -1474,6 +1525,7 @@ domains <-
     {
       title: "Cleaning text with str_replace_all()",
       id: "cleaning-text-with-str-replace-all",
+      packages: ["stringr"],
       short: "str_replace_all()",
       unit: "Strings & Regex",
       instructions: `A vector of addresses, <code>addresses</code>, is loaded, using the abbreviation
@@ -1497,6 +1549,7 @@ full_addresses <-
     {
       title: "Splitting text with str_split()",
       id: "splitting-text-with-str-split",
+      packages: ["stringr"],
       short: "str_split()",
       unit: "Strings & Regex",
       instructions: `A vector of full names in <code>"Last, First"</code> format,
@@ -1520,6 +1573,7 @@ name_parts <-
     {
       title: "Standardizing text",
       id: "standardizing-text",
+      packages: ["stringr"],
       short: "str_trim + lower",
       unit: "Strings & Regex",
       instructions: `A vector of raw survey answers, <code>raw_responses</code>, has inconsistent
@@ -1543,6 +1597,7 @@ clean_responses <-
     {
       title: "Your first ggplot: a scatter plot",
       id: "your-first-ggplot-a-scatter-plot",
+      packages: ["ggplot2"],
       short: "geom_point()",
       unit: "Visualization with ggplot2",
       hasPlot: true,
@@ -1571,6 +1626,7 @@ p
     {
       title: "A bar chart with geom_col()",
       id: "a-bar-chart-with-geom-col",
+      packages: ["ggplot2"],
       short: "geom_col()",
       unit: "Visualization with ggplot2",
       hasPlot: true,
@@ -1597,6 +1653,7 @@ p
     {
       title: "Mapping color with aes()",
       id: "mapping-color-with-aes",
+      packages: ["ggplot2"],
       short: "color aes",
       unit: "Visualization with ggplot2",
       hasPlot: true,
@@ -1625,6 +1682,7 @@ p
     {
       title: "Adding titles with labs()",
       id: "adding-titles-with-labs",
+      packages: ["ggplot2"],
       short: "labs()",
       unit: "Visualization with ggplot2",
       hasPlot: true,
@@ -1652,6 +1710,7 @@ p
     {
       title: "Small multiples with facet_wrap()",
       id: "small-multiples-with-facet-wrap",
+      packages: ["ggplot2"],
       short: "facet_wrap()",
       unit: "Visualization with ggplot2",
       hasPlot: true,
@@ -1680,6 +1739,7 @@ p
     {
       title: "Cleaning column names with clean_names()",
       id: "cleaning-column-names-with-clean-names",
+      packages: ["janitor"],
       short: "clean_names()",
       unit: "Tidying with janitor",
       instructions: `A messy tibble <code>messy_df</code> is loaded with awkward column names —
@@ -1704,6 +1764,7 @@ clean_df <-
     {
       title: "Quick frequency tables with tabyl()",
       id: "quick-frequency-tables-with-tabyl",
+      packages: ["janitor"],
       short: "tabyl()",
       unit: "Tidying with janitor",
       instructions: `A <code>pilot</code> tibble with a <code>region</code> column is loaded.<br><br>
@@ -1728,6 +1789,7 @@ region_tabyl <-
     {
       title: "Finding duplicate rows with get_dupes()",
       id: "finding-duplicate-rows-with-get-dupes",
+      packages: ["janitor"],
       short: "get_dupes()",
       unit: "Tidying with janitor",
       instructions: `A <code>pilot</code> tibble is loaded where respondent <code>id</code> 2 was
@@ -1753,6 +1815,7 @@ dupes <-
     {
       title: "Dropping empty columns with remove_empty()",
       id: "dropping-empty-columns-with-remove-empty",
+      packages: ["janitor"],
       short: "remove_empty()",
       unit: "Tidying with janitor",
       instructions: `A <code>pilot</code> tibble is loaded with a <code>notes</code> column that's
@@ -1777,6 +1840,7 @@ clean_pilot <-
     {
       title: "Adding totals with adorn_totals()",
       id: "adding-totals-with-adorn-totals",
+      packages: ["janitor"],
       short: "adorn_totals()",
       unit: "Tidying with janitor",
       instructions: `A <code>pilot</code> tibble with a <code>region</code> column is loaded.<br><br>
@@ -1800,6 +1864,7 @@ region_report <-
     {
       title: "Average marginal effects with avg_slopes()",
       id: "average-marginal-effects-with-avg-slopes",
+      packages: ["marginaleffects"],
       short: "avg_slopes()",
       unit: "Post-Estimation with marginaleffects",
       instructions: `A regression <code>model</code> predicting income from age is loaded.<br><br>
@@ -1827,6 +1892,7 @@ ame <-
     {
       title: "Predicted values with predictions()",
       id: "predicted-values-with-predictions",
+      packages: ["marginaleffects"],
       short: "predictions()",
       unit: "Post-Estimation with marginaleffects",
       instructions: `The same regression <code>model</code> is loaded.<br><br>
@@ -1854,6 +1920,7 @@ preds <-
     {
       title: "Average predictions with avg_predictions()",
       id: "average-predictions-with-avg-predictions",
+      packages: ["marginaleffects"],
       short: "avg_predictions()",
       unit: "Post-Estimation with marginaleffects",
       instructions: `The same regression <code>model</code> is loaded.<br><br>
@@ -1881,6 +1948,7 @@ avg_pred <-
     {
       title: "Comparisons with avg_comparisons()",
       id: "comparisons-with-avg-comparisons",
+      packages: ["marginaleffects"],
       short: "avg_comparisons()",
       unit: "Post-Estimation with marginaleffects",
       instructions: `The same regression <code>model</code> is loaded.<br><br>
@@ -1909,6 +1977,7 @@ comparison <-
     {
       title: "Your first alluvial plot",
       id: "your-first-alluvial-plot",
+      packages: ["ggplot2", "ggalluvial"],
       short: "geom_alluvium()",
       unit: "Flow Diagrams with ggalluvial",
       hasPlot: true,
@@ -1942,6 +2011,7 @@ p
     {
       title: "Coloring flows with aes(fill = ...)",
       id: "coloring-flows-with-aes-fill",
+      packages: ["ggplot2", "ggalluvial"],
       short: "fill aes",
       unit: "Flow Diagrams with ggalluvial",
       hasPlot: true,
@@ -1971,6 +2041,7 @@ p
     {
       title: "Labeling strata with geom_text()",
       id: "labeling-strata-with-geom-text",
+      packages: ["ggplot2", "ggalluvial"],
       short: "Stratum labels",
       unit: "Flow Diagrams with ggalluvial",
       hasPlot: true,
@@ -2003,6 +2074,7 @@ p
     {
       title: "Tidying coefficients with tidy()",
       id: "tidying-coefficients-with-tidy",
+      packages: ["broom"],
       short: "tidy()",
       unit: "Tidy Models with broom",
       instructions: `A regression <code>model</code> predicting income from age is loaded.<br><br>
@@ -2028,6 +2100,7 @@ tidy_model <-
     {
       title: "Model-level fit statistics with glance()",
       id: "model-level-fit-statistics-with-glance",
+      packages: ["broom"],
       short: "glance()",
       unit: "Tidy Models with broom",
       instructions: `The same <code>model</code> is loaded.<br><br>
@@ -2053,6 +2126,7 @@ model_glance <-
     {
       title: "Row-level predictions with augment()",
       id: "row-level-predictions-with-augment",
+      packages: ["broom"],
       short: "augment()",
       unit: "Tidy Models with broom",
       instructions: `The same <code>model</code> is loaded.<br><br>
@@ -2077,6 +2151,7 @@ model_augment <-
     {
       title: "Your first correlation plot",
       id: "your-first-correlation-plot",
+      packages: ["corrplot"],
       short: "corrplot()",
       unit: "Visualizing Correlations with corrplot",
       hasPlot: true,
@@ -2108,6 +2183,7 @@ corrplot(corr_matrix)
     {
       title: "Handling missing data in a correlation matrix",
       id: "handling-missing-data-in-a-correlation-matrix",
+      packages: ["corrplot"],
       short: "NA handling",
       unit: "Visualizing Correlations with corrplot",
       hasPlot: true,
@@ -2139,6 +2215,7 @@ corrplot(corr_matrix)
     {
       title: "Summarizing panel coverage with overview_tab()",
       id: "summarizing-panel-coverage-with-overview-tab",
+      packages: ["overviewR"],
       short: "overview_tab()",
       unit: "Panel Data Overviews with overviewR",
       instructions: `A <code>panel_data</code> tibble tracking countries across survey waves is
@@ -2163,6 +2240,7 @@ coverage <-
     {
       title: "Checking missing data with overview_na()",
       id: "checking-missing-data-with-overview-na",
+      packages: ["overviewR"],
       short: "overview_na()",
       unit: "Panel Data Overviews with overviewR",
       instructions: `A <code>panel_data</code> tibble has some missing GDP values.<br><br>
@@ -2186,6 +2264,7 @@ na_summary <-
     {
       title: "A cleaner model summary with summ()",
       id: "a-cleaner-model-summary-with-summ",
+      packages: ["jtools"],
       short: "summ()",
       unit: "Regression Reporting with jtools",
       instructions: `A regression <code>model</code> is loaded.<br><br>
@@ -2211,6 +2290,7 @@ model_summary <-
     {
       title: "Visualizing an effect with effect_plot()",
       id: "visualizing-an-effect-with-effect-plot",
+      packages: ["jtools"],
       short: "effect_plot()",
       unit: "Regression Reporting with jtools",
       hasPlot: true,
@@ -2237,6 +2317,7 @@ p
     {
       title: "Tidy model output with model_parameters()",
       id: "tidy-model-output-with-model-parameters",
+      packages: ["parameters"],
       short: "model_parameters()",
       unit: "Model Parameters with parameters",
       instructions: `A regression <code>model</code> is loaded.<br><br>
@@ -2262,6 +2343,7 @@ params <-
     {
       title: "Standardized coefficients",
       id: "standardized-coefficients",
+      packages: ["parameters"],
       short: "standardize",
       unit: "Model Parameters with parameters",
       instructions: `The same <code>model</code> is loaded.<br><br>
@@ -2288,6 +2370,7 @@ params_std <-
     {
       title: "Calibrating a fuzzy-set condition",
       id: "calibrating-a-fuzzy-set-condition",
+      packages: ["QCA"],
       short: "calibrate()",
       unit: "Comparative Methods with QCA",
       instructions: `A numeric variable <code>gdp</code> (GDP per capita for 5 countries) is
@@ -2314,6 +2397,7 @@ gdp_fuzzy <-
     {
       title: "Building a truth table with truthTable()",
       id: "building-a-truth-table-with-truthtable",
+      packages: ["QCA"],
       short: "truthTable()",
       unit: "Comparative Methods with QCA",
       instructions: `A calibrated dataset <code>qca_data</code> (fuzzy-set conditions and an
@@ -2339,6 +2423,7 @@ tt <-
     {
       title: "The dissimilarity index",
       id: "the-dissimilarity-index",
+      packages: ["segregation"],
       short: "dissimilarity()",
       unit: "Segregation Measures with segregation",
       instructions: `A <code>seg_data</code> tibble with school, group, and count columns is
@@ -2363,6 +2448,7 @@ diss <-
     {
       title: "The mutual information index",
       id: "the-mutual-information-index",
+      packages: ["segregation"],
       short: "mutual_total()",
       unit: "Segregation Measures with segregation",
       instructions: `The same <code>seg_data</code> tibble is loaded.<br><br>
@@ -2387,6 +2473,7 @@ mutual_info <-
     {
       title: "Declaring a survey design with svydesign()",
       id: "declaring-a-survey-design-with-svydesign",
+      packages: ["survey"],
       short: "svydesign()",
       unit: "Complex Survey Design with survey",
       instructions: `A <code>pilot</code> tibble with sampling weights is loaded.<br><br>
@@ -2417,6 +2504,7 @@ design <-
     {
       title: "Weighted means with svymean()",
       id: "weighted-means-with-svymean",
+      packages: ["survey"],
       short: "svymean()",
       unit: "Complex Survey Design with survey",
       instructions: `The same survey <code>design</code> is loaded.<br><br>
@@ -2447,6 +2535,7 @@ weighted_mean <-
     {
       title: "A weighted regression with svyglm()",
       id: "a-weighted-regression-with-svyglm",
+      packages: ["survey"],
       short: "svyglm()",
       unit: "Complex Survey Design with survey",
       instructions: `The same survey <code>design</code> is loaded.<br><br>
@@ -2477,6 +2566,7 @@ model <-
     {
       title: "Subgroup estimates with svyby()",
       id: "subgroup-estimates-with-svyby",
+      packages: ["survey"],
       short: "svyby()",
       unit: "Complex Survey Design with survey",
       instructions: `The same survey <code>design</code> is loaded.<br><br>
@@ -2507,6 +2597,7 @@ region_means <-
     {
       title: "Creating labelled data with labelled()",
       id: "creating-labelled-data-with-labelled",
+      packages: ["haven"],
       short: "labelled()",
       unit: "Reading Labelled Data with haven",
       instructions: `SPSS/Stata files store categorical variables as numbers with attached value
@@ -2533,6 +2624,7 @@ gender <-
     {
       title: "Converting labels to factors with as_factor()",
       id: "converting-labels-to-factors-with-as-factor",
+      packages: ["haven"],
       short: "as_factor()",
       unit: "Reading Labelled Data with haven",
       instructions: `A labelled <code>gender</code> vector (like you'd get straight from
@@ -2558,6 +2650,7 @@ gender_factor <-
     {
       title: "Dropping labels with zap_labels()",
       id: "dropping-labels-with-zap-labels",
+      packages: ["haven"],
       short: "zap_labels()",
       unit: "Reading Labelled Data with haven",
       instructions: `The same labelled <code>gender</code> vector is loaded.<br><br>
@@ -2583,6 +2676,7 @@ gender_plain <-
     {
       title: "Cronbach's alpha with alpha()",
       id: "cronbachs-alpha-with-alpha",
+      packages: ["psych"],
       short: "alpha()",
       unit: "Scale Reliability with psych",
       instructions: `An <code>items_df</code> tibble with three related survey items is
@@ -2612,6 +2706,7 @@ reliability <-
     {
       title: "A one-factor PCA with principal()",
       id: "a-one-factor-pca-with-principal",
+      packages: ["psych"],
       short: "principal()",
       unit: "Scale Reliability with psych",
       instructions: `The same <code>items_df</code> tibble is loaded.<br><br>
@@ -2640,6 +2735,7 @@ pca_result <-
     {
       title: "Quick variable summaries with describe()",
       id: "quick-variable-summaries-with-describe",
+      packages: ["psych"],
       short: "describe()",
       unit: "Scale Reliability with psych",
       instructions: `The same <code>items_df</code> tibble is loaded.<br><br>
@@ -2669,6 +2765,7 @@ item_stats <-
     {
       title: "A random-intercept model with lmer()",
       id: "a-random-intercept-model-with-lmer",
+      packages: ["lme4"],
       short: "lmer()",
       unit: "Multilevel Models with lme4",
       instructions: `A <code>nested_data</code> tibble has students nested within schools —
@@ -2698,6 +2795,7 @@ model <-
     {
       title: "Adding a predictor to a multilevel model",
       id: "adding-a-predictor-to-a-multilevel-model",
+      packages: ["lme4"],
       short: "lmer() + predictor",
       unit: "Multilevel Models with lme4",
       instructions: `The same <code>nested_data</code> now has an <code>hours_studied</code>
@@ -2727,6 +2825,7 @@ model2 <-
     {
       title: "Extracting random effects with ranef()",
       id: "extracting-random-effects-with-ranef",
+      packages: ["lme4"],
       short: "ranef()",
       unit: "Multilevel Models with lme4",
       instructions: `The random-intercept <code>model</code> is already loaded.<br><br>
@@ -2755,6 +2854,7 @@ school_effects <-
     {
       title: "Fixed effects with fixef()",
       id: "fixed-effects-with-fixef",
+      packages: ["lme4"],
       short: "fixef()",
       unit: "Multilevel Models with lme4",
       instructions: `The <code>model2</code> with an hours_studied predictor is loaded.<br><br>
@@ -2783,6 +2883,7 @@ fixed_effects <-
     {
       title: "Declaring survival data with Surv()",
       id: "declaring-survival-data-with-surv",
+      packages: ["survival"],
       short: "Surv()",
       unit: "Event History Analysis with survival",
       instructions: `An <code>event_data</code> tibble tracks time-to-event data — e.g. months
@@ -2809,6 +2910,7 @@ surv_obj <-
     {
       title: "A Kaplan-Meier curve with survfit()",
       id: "a-kaplan-meier-curve-with-survfit",
+      packages: ["survival"],
       short: "survfit()",
       unit: "Event History Analysis with survival",
       instructions: `The <code>event_data</code> tibble is loaded.<br><br>
@@ -2832,6 +2934,7 @@ km_fit <-
     {
       title: "A Cox model with coxph()",
       id: "a-cox-model-with-coxph",
+      packages: ["survival"],
       short: "coxph()",
       unit: "Event History Analysis with survival",
       instructions: `An <code>event_data</code> tibble now includes a <code>group</code>
@@ -2861,6 +2964,7 @@ cox_model <-
     {
       title: "R-squared with r2()",
       id: "r-squared-with-r2",
+      packages: ["performance"],
       short: "r2()",
       unit: "Model Diagnostics with performance",
       instructions: `A regression <code>model</code> is loaded.<br><br>
@@ -2886,6 +2990,7 @@ fit_stats <-
     {
       title: "Checking collinearity with check_collinearity()",
       id: "checking-collinearity-with-check-collinearity",
+      packages: ["performance"],
       short: "check_collinearity()",
       unit: "Model Diagnostics with performance",
       instructions: `A regression <code>model</code> with two predictors is loaded.<br><br>
@@ -2915,6 +3020,7 @@ vif_check <-
     {
       title: "Testing residual normality with check_normality()",
       id: "testing-residual-normality-with-check-normality",
+      packages: ["performance"],
       short: "check_normality()",
       unit: "Model Diagnostics with performance",
       instructions: `The same regression <code>model</code> is loaded.<br><br>
@@ -2944,6 +3050,7 @@ normality_test <-
     {
       title: "Building a network with graph_from_data_frame()",
       id: "building-a-network-with-graph-from-data-frame",
+      packages: ["igraph"],
       short: "graph_from_data_frame()",
       unit: "Social Network Analysis with igraph",
       instructions: `An <code>edges</code> tibble lists who is connected to whom.<br><br>
@@ -2967,6 +3074,7 @@ net <-
     {
       title: "Degree centrality with degree()",
       id: "degree-centrality-with-degree",
+      packages: ["igraph"],
       short: "degree()",
       unit: "Social Network Analysis with igraph",
       instructions: `The <code>net</code> network is loaded.<br><br>
@@ -2991,6 +3099,7 @@ centrality <-
     {
       title: "Visualizing a network",
       id: "visualizing-a-network",
+      packages: ["igraph"],
       short: "plot(net)",
       unit: "Social Network Analysis with igraph",
       hasPlot: true,
@@ -3014,6 +3123,272 @@ plot(net)
         directly, no extra setup required.<br><br>
         Example:<br><code>ecount(net)<br>plot(net)</code>`,
       check: `exists("edge_count") && identical(edge_count, igraph::ecount(net))`
+    }
+  ,
+    {
+      title: "Creating multiple imputations with mice()",
+      id: "creating-imputations-with-mice",
+      packages: ["mice"],
+      short: "mice()",
+      unit: "Multiple Imputation with mice",
+      instructions: `A <code>survey_data</code> tibble has missing values in age and
+        income.<br><br>
+        Create <code>imp</code>: 5 imputed versions of the dataset, using <code>mice()</code>.
+        Set <code>printFlag = FALSE</code> to keep the console quiet.`,
+      preload: `Preloaded: survey_data — 6 respondents, some missing. mice is loaded.`,
+      setup: `survey_data <- tibble(age = c(22,35,NA,29,58,31), income = c(31000,NA,52100,29800,61200,47500))`,
+      starter: `imp <- mice(survey_data, m = ___, printFlag = FALSE)\n`,
+      starterMedium: `# Create imp: 5 imputed versions of survey_data, using mice()\nimp <- \n`,
+      starterHard: `# Generate 5 multiply-imputed versions of survey_data\n`,
+      hint: "mice(survey_data, m = 5, printFlag = FALSE) — m is how many imputed datasets to generate.",
+      solution: `imp <- mice(survey_data, m = 5, printFlag = FALSE)\n`,
+      help: `<b>mice()</b> generates several plausible completed versions of a dataset with
+        missing values, each filling in the gaps slightly differently based on patterns in the
+        rest of the data — the standard modern approach to missing data, rather than just
+        dropping incomplete rows.<br><br>
+        Example:<br><code>mice(df, m = 5, printFlag = FALSE)</code>`,
+      check: `exists("imp") && inherits(imp, "mids")`
+    },
+    {
+      title: "Extracting a completed dataset with complete()",
+      id: "extracting-a-completed-dataset-with-complete",
+      packages: ["mice"],
+      short: "complete()",
+      unit: "Multiple Imputation with mice",
+      instructions: `The imputation object <code>imp</code> is loaded.<br><br>
+        Create <code>completed_data</code>: one fully completed dataset (the first imputation),
+        using <code>complete()</code>.`,
+      preload: `Preloaded: survey_data and imp.`,
+      setup: `survey_data <- tibble(age = c(22,35,NA,29,58,31), income = c(31000,NA,52100,29800,61200,47500))
+      imp <- mice(survey_data, m = 5, printFlag = FALSE)`,
+      starter: `completed_data <- complete(___)\n`,
+      starterMedium: `# Create completed_data: the first completed (imputed) dataset, using complete()\ncompleted_data <- \n`,
+      starterHard: `# Extract one fully completed dataset from imp\n`,
+      hint: "complete(imp) — by default returns the first of the imputed datasets.",
+      solution: `completed_data <- complete(imp)\n`,
+      help: `<b>complete()</b> pulls one (or all) of the imputed datasets back out as a normal,
+        NA-free data frame, ready to analyze like any other tibble.<br><br>
+        Example:<br><code>complete(imp)</code>`,
+      check: `exists("completed_data") && !any(is.na(completed_data$age)) && !any(is.na(completed_data$income))`
+    },
+    {
+      title: "Pooling model results with pool()",
+      id: "pooling-model-results-with-pool",
+      packages: ["mice"],
+      short: "pool()",
+      unit: "Multiple Imputation with mice",
+      instructions: `The imputation object <code>imp</code> is loaded.<br><br>
+        Fit a regression on every imputed dataset with <code>with()</code>, then combine the
+        results into one set of estimates using <code>pool()</code>.`,
+      preload: `Preloaded: survey_data and imp.`,
+      setup: `survey_data <- tibble(age = c(22,35,NA,29,58,31), income = c(31000,NA,52100,29800,61200,47500))
+      imp <- mice(survey_data, m = 5, printFlag = FALSE)`,
+      starter: `fit <- with(imp, lm(income ~ age))\npooled <- pool(___)\n`,
+      starterMedium: `# Fit lm(income ~ age) on every imputed dataset with with(), then combine with pool()\nfit <- with(imp, lm(income ~ age))\npooled <- \n`,
+      starterHard: `# Fit income ~ age across all imputations and pool the results\n`,
+      hint: "pool(fit) — combines the model estimates across all the imputed datasets into one result, accounting for the extra uncertainty from imputation.",
+      solution: `fit <- with(imp, lm(income ~ age))\npooled <- pool(fit)\n`,
+      help: `<b>with()</b> re-fits the same model separately on each imputed dataset.
+        <b>pool()</b> then combines those separate results into a single set of estimates and
+        standard errors — Rubin's rules for multiple imputation, applied automatically.<br><br>
+        Example:<br><code>fit <- with(imp, lm(y ~ x))<br>pool(fit)</code>`,
+      check: `exists("pooled") && inherits(pooled, "mipo")`
+    },
+    {
+      title: "Summarizing missingness with miss_var_summary()",
+      id: "summarizing-missingness-with-miss-var-summary",
+      packages: ["naniar"],
+      short: "miss_var_summary()",
+      unit: "Missing Data with naniar",
+      instructions: `A <code>survey_data</code> tibble has missing values.<br><br>
+        Create <code>na_summary</code>: a table of how much each variable is missing (count and
+        percent), using <code>miss_var_summary()</code>.`,
+      preload: `Preloaded: survey_data — 6 respondents, some missing. naniar is loaded.`,
+      setup: `survey_data <- tibble(age = c(22,35,NA,29,58,31), income = c(31000,NA,52100,29800,61200,47500))`,
+      starter: `na_summary <- miss_var_summary(___)\n`,
+      starterMedium: `# Create na_summary: count and percent missing per variable, using miss_var_summary()\nna_summary <- \n`,
+      starterHard: `# Summarize how much each column in survey_data is missing\n`,
+      hint: "miss_var_summary(survey_data)",
+      solution: `na_summary <- miss_var_summary(survey_data)\n`,
+      help: `<b>miss_var_summary()</b> gives one row per variable with the count and percent
+        missing — a fast first look before deciding how to handle the gaps.<br><br>
+        Example:<br><code>miss_var_summary(df)</code>`,
+      check: `exists("na_summary") && isTRUE(all.equal(as.data.frame(na_summary), as.data.frame(naniar::miss_var_summary(survey_data)), check.attributes = FALSE))`
+    },
+    {
+      title: "Visualizing missingness with vis_miss()",
+      id: "visualizing-missingness-with-vis-miss",
+      packages: ["naniar"],
+      short: "vis_miss()",
+      unit: "Missing Data with naniar",
+      hasPlot: true,
+      instructions: `The <code>survey_data</code> tibble is loaded.<br><br>
+        Create <code>p</code>: a heatmap-style visualization of exactly where the missing
+        values are, using <code>vis_miss()</code>.`,
+      preload: `Preloaded: survey_data. Hit Run to see the plot.`,
+      setup: `survey_data <- tibble(age = c(22,35,NA,29,58,31), income = c(31000,NA,52100,29800,61200,47500))`,
+      starter: `p <- vis_miss(___)\np\n`,
+      starterMedium: `# Create p: a heatmap of where survey_data's missing values are, using vis_miss()\np <- \np\n`,
+      starterHard: `# Visualize where the missing values are in survey_data\n`,
+      hint: "vis_miss(survey_data)",
+      solution: `p <- vis_miss(survey_data)\np\n`,
+      help: `<b>vis_miss()</b> draws a grid with one row per observation and one column per
+        variable, shading in exactly which cells are missing — patterns like whether
+        missingness clusters in certain respondents jump out visually.<br><br>
+        Example:<br><code>vis_miss(df)</code>`,
+      check: `exists("p") && inherits(p, "ggplot")`
+    },
+    {
+      title: "Missingness by variable with gg_miss_var()",
+      id: "missingness-by-variable-with-gg-miss-var",
+      packages: ["naniar"],
+      short: "gg_miss_var()",
+      unit: "Missing Data with naniar",
+      hasPlot: true,
+      instructions: `The <code>survey_data</code> tibble is loaded.<br><br>
+        Create <code>p</code>: a bar chart of how many values are missing in each variable,
+        using <code>gg_miss_var()</code>.`,
+      preload: `Preloaded: survey_data. Hit Run to see the plot.`,
+      setup: `survey_data <- tibble(age = c(22,35,NA,29,58,31), income = c(31000,NA,52100,29800,61200,47500))`,
+      starter: `p <- gg_miss_var(___)\np\n`,
+      starterMedium: `# Create p: a bar chart of missing counts per variable, using gg_miss_var()\np <- \np\n`,
+      starterHard: `# Plot how many values are missing in each column of survey_data\n`,
+      hint: "gg_miss_var(survey_data)",
+      solution: `p <- gg_miss_var(survey_data)\np\n`,
+      help: `<b>gg_miss_var()</b> is a quick ggplot bar chart of missing-value counts, one bar per
+        variable — often clearer than a table when there are many columns.<br><br>
+        Example:<br><code>gg_miss_var(df)</code>`,
+      check: `exists("p") && inherits(p, "ggplot")`
+    },
+    {
+      title: "Tokenizing text with unnest_tokens()",
+      id: "tokenizing-text-with-unnest-tokens",
+      packages: ["tidytext"],
+      short: "unnest_tokens()",
+      unit: "Text Analysis with tidytext",
+      instructions: `A <code>responses</code> tibble has open-text survey answers.<br><br>
+        Create <code>tokens</code>: one row per word instead of one row per response, using
+        <code>unnest_tokens()</code>.`,
+      preload: `Preloaded: responses — 2 open-text answers. tidytext is loaded.`,
+      setup: `responses <- tibble(id = 1:2, text = c("The survey process was smooth and quick", "Long survey but very thorough process"))`,
+      starter: `tokens <- responses |> unnest_tokens(word, ___)\n`,
+      starterMedium: `# Create tokens: responses split into one row per word, using unnest_tokens()\ntokens <- \n`,
+      starterHard: `# Split responses' text column into one row per word\n`,
+      hint: 'responses |> unnest_tokens(word, text) — "word" is the name of the new column, "text" is the column being split.',
+      solution: `tokens <- responses |> unnest_tokens(word, text)\n`,
+      help: `<b>unnest_tokens()</b> splits a text column into one row per word (or sentence, or
+        other unit) — the standard first step in tidy text analysis, since every downstream
+        tidyverse verb then just works on words like any other data.<br><br>
+        Example:<br><code>df |> unnest_tokens(word, text)</code>`,
+      check: `exists("tokens") && isTRUE(all.equal(as.data.frame(tokens), as.data.frame(responses |> tidytext::unnest_tokens(word, text)), check.attributes = FALSE))`
+    },
+    {
+      title: "Removing stop words with anti_join()",
+      id: "removing-stop-words-with-anti-join",
+      packages: ["dplyr", "tidytext"],
+      short: "Stop words",
+      unit: "Text Analysis with tidytext",
+      instructions: `The tokenized <code>tokens</code> tibble is loaded, along with tidytext's
+        built-in <code>stop_words</code> list ("the", "and", "was", and similar).<br><br>
+        Create <code>tokens_clean</code>: tokens with all stop words removed, using
+        <code>anti_join()</code>.`,
+      preload: `Preloaded: tokens — one row per word. stop_words is tidytext's built-in list of common words.`,
+      setup: `responses <- tibble(id = 1:2, text = c("The survey process was smooth and quick", "Long survey but very thorough process"))
+      tokens <- responses |> unnest_tokens(word, text)`,
+      starter: `tokens_clean <- tokens |> anti_join(stop_words, by = "___")\n`,
+      starterMedium: `# Create tokens_clean: tokens with stop words removed, using anti_join() with stop_words\ntokens_clean <- \n`,
+      starterHard: `# Remove stop words from tokens using the built-in stop_words list\n`,
+      hint: 'tokens |> anti_join(stop_words, by = "word") — removes any row whose word appears in the stop_words list.',
+      solution: `tokens_clean <- tokens |> anti_join(stop_words, by = "word")\n`,
+      help: `<b>anti_join()</b> here keeps only the words that do <i>not</i> match anything in
+        stop_words — a fast way to strip out "the", "and", "was" and other words that carry
+        little meaning before counting or modeling.<br><br>
+        Example:<br><code>tokens |> anti_join(stop_words, by = "word")</code>`,
+      check: `exists("tokens_clean") && isTRUE(all.equal(as.data.frame(tokens_clean), as.data.frame(tokens |> dplyr::anti_join(tidytext::stop_words, by = "word")), check.attributes = FALSE))`
+    },
+    {
+      title: "Counting word frequencies",
+      id: "counting-word-frequencies",
+      packages: ["dplyr"],
+      short: "count(word)",
+      unit: "Text Analysis with tidytext",
+      instructions: `The cleaned <code>tokens_clean</code> tibble is loaded.<br><br>
+        Create <code>word_counts</code>: how often each word appears, sorted from most to least
+        common, using <code>count()</code>.`,
+      preload: `Preloaded: tokens_clean — stop words already removed.`,
+      setup: `responses <- tibble(id = 1:2, text = c("The survey process was smooth and quick", "Long survey but very thorough process"))
+      tokens <- responses |> unnest_tokens(word, text)
+      tokens_clean <- tokens |> anti_join(stop_words, by = "word")`,
+      starter: `word_counts <- tokens_clean |> count(word, sort = ___)\n`,
+      starterMedium: `# Create word_counts: word frequencies, most common first, using count()\nword_counts <- \n`,
+      starterHard: `# Count word frequencies in tokens_clean, sorted most to least common\n`,
+      hint: "tokens_clean |> count(word, sort = TRUE)",
+      solution: `word_counts <- tokens_clean |> count(word, sort = TRUE)\n`,
+      help: `<b>count(..., sort = TRUE)</b> tallies how often each value appears and orders the
+        result from most to least frequent — the natural last step after tokenizing and
+        cleaning, to see which words actually dominate the text.<br><br>
+        Example:<br><code>tokens |> count(word, sort = TRUE)</code>`,
+      check: `exists("word_counts") && isTRUE(all.equal(as.data.frame(word_counts), as.data.frame(tokens_clean |> dplyr::count(word, sort = TRUE)), check.attributes = FALSE))`
+    },
+    {
+      title: "Comparing two models with modelsummary()",
+      id: "comparing-models-with-modelsummary",
+      packages: ["modelsummary"],
+      short: "modelsummary()",
+      unit: "Publication Tables with modelsummary",
+      instructions: `Two regression models predicting income are loaded — one using just age,
+        one adding education.<br><br>
+        Create <code>comparison_table</code>: a side-by-side comparison of both models as a
+        plain data frame, using <code>modelsummary(list(model1, model2), output =
+        "data.frame")</code>.`,
+      preload: `Preloaded: pilot, model1, model2. modelsummary is loaded.`,
+      setup: `pilot <- tibble(
+        age = c(22,35,41,29,58,31),
+        education_years = c(12,16,14,12,18,16),
+        income = c(31000,45900,52100,29800,61200,47500)
+      )
+      model1 <- lm(income ~ age, data = pilot)
+      model2 <- lm(income ~ age + education_years, data = pilot)`,
+      starter: `comparison_table <- modelsummary(list(model1, model2), output = "___")\n`,
+      starterMedium: `# Create comparison_table: model1 and model2 side by side, using modelsummary()\ncomparison_table <- \n`,
+      starterHard: `# Build a side-by-side comparison table of model1 and model2\n`,
+      hint: 'modelsummary(list(model1, model2), output = "data.frame") — the "data.frame" output keeps the table as plain data instead of rendering it as HTML/LaTeX.',
+      solution: `comparison_table <- modelsummary(list(model1, model2), output = "data.frame")\n`,
+      help: `<b>modelsummary()</b> builds the kind of side-by-side regression table expected in a
+        published paper — coefficients, standard errors, and fit statistics for multiple models
+        in one table. <code>output = "data.frame"</code> keeps it as plain data here; normally
+        you'd render it straight to Word, LaTeX, or HTML.<br><br>
+        Example:<br><code>modelsummary(list(m1, m2))</code>`,
+      check: `exists("comparison_table") && is.data.frame(comparison_table) && nrow(comparison_table) > 0 && ncol(comparison_table) >= 3`
+    },
+    {
+      title: "Naming models in the table",
+      id: "naming-models-in-a-table",
+      packages: ["modelsummary"],
+      short: "Named models",
+      unit: "Publication Tables with modelsummary",
+      instructions: `The same two models are loaded.<br><br>
+        Create <code>comparison_table</code>: the same comparison, but with readable model
+        names instead of "Model 1"/"Model 2" — pass a <b>named list</b> to
+        <code>modelsummary()</code>.`,
+      preload: `Preloaded: pilot, model1, model2.`,
+      setup: `pilot <- tibble(
+        age = c(22,35,41,29,58,31),
+        education_years = c(12,16,14,12,18,16),
+        income = c(31000,45900,52100,29800,61200,47500)
+      )
+      model1 <- lm(income ~ age, data = pilot)
+      model2 <- lm(income ~ age + education_years, data = pilot)`,
+      starter: `comparison_table <- modelsummary(list("Age only" = model1, "___" = model2), output = "data.frame")\n`,
+      starterMedium: `# Create comparison_table: model1 and model2 with readable names, using modelsummary()\ncomparison_table <- \n`,
+      starterHard: `# Build a named side-by-side comparison table of model1 and model2\n`,
+      hint: 'modelsummary(list("Age only" = model1, "Age + education" = model2), output = "data.frame") — the list\'s names become the table\'s column headers.',
+      solution: `comparison_table <- modelsummary(list("Age only" = model1, "Age + education" = model2), output = "data.frame")\n`,
+      help: `Naming the elements of the list you pass to modelsummary() — instead of leaving them
+        unnamed — is what controls the column headers in the final table, so readers see "Age
+        only" and "Age + education" instead of generic model numbers.<br><br>
+        Example:<br><code>modelsummary(list("Baseline" = m1, "Full model" = m2))</code>`,
+      check: `exists("comparison_table") && is.data.frame(comparison_table) && nrow(comparison_table) > 0 && ncol(comparison_table) >= 3`
     }
   ];
 
@@ -3039,7 +3414,11 @@ plot(net)
     "Multilevel Models with lme4": ["lme4"],
     "Event History Analysis with survival": ["survival"],
     "Model Diagnostics with performance": ["performance"],
-    "Social Network Analysis with igraph": ["igraph"]
+    "Social Network Analysis with igraph": ["igraph"],
+    "Multiple Imputation with mice": ["mice"],
+    "Missing Data with naniar": ["naniar"],
+    "Text Analysis with tidytext": ["tidytext"],
+    "Publication Tables with modelsummary": ["modelsummary"]
   };
 
   let current = 0;
@@ -3123,6 +3502,24 @@ plot(net)
     return l.starter;
   }
 
+  function renderPkgRow(containerId, pkgs) {
+    const el = $(containerId);
+    el.innerHTML = "";
+    if (!pkgs || !pkgs.length) {
+      const chip = document.createElement("span");
+      chip.className = "pkg-chip base";
+      chip.textContent = "Base R — no packages needed";
+      el.appendChild(chip);
+      return;
+    }
+    pkgs.forEach((p) => {
+      const chip = document.createElement("span");
+      chip.className = "pkg-chip";
+      chip.textContent = p;
+      el.appendChild(chip);
+    });
+  }
+
   function renderLesson() {
     const l = LESSONS[current];
     hintUsedThisAttempt = false;
@@ -3132,6 +3529,7 @@ plot(net)
 
     $("learnKicker").textContent = `Lesson ${current + 1} of ${LESSONS.length} · ${l.unit}`;
     $("learnTitle").textContent = l.title;
+    renderPkgRow("learnPkgRow", l.packages);
     $("learnInstructions").innerHTML = l.instructions;
     const pre = $("learnPreload");
     if (l.preload) { pre.style.display = "block"; pre.textContent = l.preload; }
@@ -3139,6 +3537,7 @@ plot(net)
 
     $("practiceKicker").textContent = `Lesson ${current + 1}`;
     $("practiceTitle").textContent = l.title;
+    renderPkgRow("practicePkgRow", l.packages);
     $("practiceInstructions").innerHTML = l.instructions + (l.preload ? `<div class="preload-note">${l.preload}</div>` : "");
 
     $("hintBox").classList.remove("show");
