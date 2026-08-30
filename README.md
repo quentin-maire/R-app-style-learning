@@ -6,140 +6,166 @@ No server, no install, no account — open the page and R runs on-device.
 Installable to an Android home screen as a lightweight app once hosted
 over `https://`.
 
-111 short lessons, written in **tidyverse style** throughout (`tibble()`,
-`dplyr`/`purrr`/`forcats`/`stringr` verbs, `ggplot2`, `ggalluvial`, and the
-native `|>` pipe — no base-R subsetting or `data.frame()` except where
-there's genuinely no tidyverse equivalent, like plain vector indexing).
-Organized into 31 units, built around a running "pilot survey" dataset,
-plus a project-workflow unit and an RStudio-shortcuts unit that aren't
-tied to the dataset at all.
+121 short lessons, written in **tidyverse style** throughout (`tibble()`,
+`dplyr`/`purrr`/`forcats`/`stringr`/`tidyr` verbs, `ggplot2`, `ggalluvial`,
+and the native `|>` pipe — no base-R subsetting or `data.frame()` except
+where there's genuinely no tidyverse equivalent, like plain vector
+indexing). Organized into 33 units, built around a running "pilot survey"
+dataset, plus a project-workflow unit and an RStudio-shortcuts unit that
+aren't tied to the dataset at all.
 
-**Unit 1 — Tidyverse Foundations**
-Vectors & indexing · `tibble()` + `select()` · `filter()` · a function +
-`purrr::map_dbl()` · `summarise()` · `mutate()` + `if_else()`
+Units are ordered by the natural data-science workflow, grouped into five
+phases. **When adding new lessons, insert them into the phase they
+belong to — don't just append to the end of the course.** The `LESSONS`
+array in `index.html` has this same phase breakdown as a comment right
+above it, for exactly this reason.
 
-**Unit 2 — Working with Survey Data**
-`arrange()` · missing data in a pipeline · `case_when()` · cross-tabs with
-`count()` · `left_join()` · a combined-condition `filter()` checkpoint
+### Phase 1 — Software & Project Setup
 
-**Unit 3 — Exploring & Summarizing**
-`count()` + proportions · `group_by()` + `summarise()` · multiple grouped
-summaries with `n()` · quantiles · standardizing with `mutate()` ·
-correlation with `summarise()` + `pull()`
-
-**Unit 4 — Applied Survey Techniques**
-Reverse-coding with `mutate()` · a composite scale with `across()` · a
-two-group t-test · simple linear regression · reading R² · a capstone
-`group_by()` + `summarise()` report across two outcomes
-
-**Unit 5 — Data Wrangling Deep Dive**
-Reordering factors with `fct_infreq()` · relabeling with `fct_recode()` ·
-base-R dates · filling missing values with `coalesce()` · `anti_join()`
-
-**Unit 6 — Iteration & Functions**
-Anonymous functions with `\(x)` shorthand · `map2_dbl()` over two vectors ·
-folding with `reduce()` · writing a function with a default argument
-
-**Unit 7 — Project Organization & Good Practice**
+**Unit 1 — Project Organization & Good Practice**
 Project-relative paths with `here()` · why raw data stays read-only ·
 naming a numbered pipeline script · reproducibility tools (`renv`, Git)
 
-**Unit 8 — RStudio Shortcuts**
+**Unit 2 — RStudio Shortcuts**
 Running/selecting code from the console · navigating long scripts and the
 document outline · pipe (`|>`) and assignment (`<-`) shortcuts
+
+### Phase 2 — Bringing in Data
+
+**Unit 3 — Reading Labelled Data with haven**
+Creating labelled data with `labelled()` · converting labels to factors
+with `as_factor()` · dropping labels with `zap_labels()`
+
+### Phase 3 — Data Cleaning / Wrangling
+
+**Unit 4 — Tidyverse Foundations**
+Vectors & indexing · `tibble()` + `select()` · `filter()` · a function +
+`purrr::map_dbl()` · `summarise()` · `mutate()` + `if_else()`
+
+**Unit 5 — Working with Survey Data**
+`arrange()` · missing data in a pipeline · `case_when()` · cross-tabs with
+`count()` · `left_join()` · a combined-condition `filter()` checkpoint
+
+**Unit 6 — More Joins & Variable Wrangling with dplyr**
+Keeping only matches with `inner_join()` · keeping everything with
+`full_join()` · renaming with `rename()` · reordering with `relocate()`
+
+**Unit 7 — Data Wrangling Deep Dive**
+Reordering factors with `fct_infreq()` · relabeling with `fct_recode()` ·
+base-R dates · filling missing values with `coalesce()` · `anti_join()`
+
+**Unit 8 — Reshaping Data with tidyr**
+Wide to long with `pivot_longer()` · long to wide with `pivot_wider()` ·
+splitting a column with `separate()` · combining columns with `unite()` ·
+carrying values forward with `fill()` · making gaps explicit with
+`complete()`
 
 **Unit 9 — Strings & Regex**
 `str_detect()` · `str_extract()` · `str_replace_all()` · `str_split()` ·
 cleaning free-text with `str_trim()` + `str_to_lower()`
 
-**Unit 10 — Visualization with ggplot2**
-A first scatter plot with `geom_point()` · `geom_col()` bar charts ·
-mapping `color` in `aes()` · titles with `labs()` · small multiples with
-`facet_wrap()`
-
-**Unit 11 — Tidying with janitor**
+**Unit 10 — Tidying with janitor**
 `clean_names()` · quick frequency tables with `tabyl()` · finding
 duplicates with `get_dupes()` · dropping empty columns with
 `remove_empty()` · totals rows with `adorn_totals()`
 
-**Unit 12 — Post-Estimation with marginaleffects**
-Average marginal effects with `avg_slopes()` · `predictions()` ·
-`avg_predictions()` · `avg_comparisons()`
+**Unit 11 — Missing Data with naniar**
+Summarizing missingness with `miss_var_summary()` · visualizing it with
+`vis_miss()` · a per-variable bar chart with `gg_miss_var()`
 
-**Unit 13 — Flow Diagrams with ggalluvial**
+**Unit 12 — Panel Data Overviews with overviewR**
+Summarizing panel coverage with `overview_tab()` · checking missing data
+with `overview_na()`
+
+**Unit 13 — Multiple Imputation with mice**
+Creating imputations with `mice()` · extracting a completed dataset with
+`complete()` · pooling model results across imputations with `pool()`
+
+**Unit 14 — Iteration & Functions**
+Anonymous functions with `\(x)` shorthand · `map2_dbl()` over two vectors ·
+folding with `reduce()` · writing a function with a default argument
+
+### Phase 4 — Basic Analysis & Data Visualization
+
+**Unit 15 — Exploring & Summarizing**
+`count()` + proportions · `group_by()` + `summarise()` · multiple grouped
+summaries with `n()` · quantiles · standardizing with `mutate()` ·
+correlation with `summarise()` + `pull()`
+
+**Unit 16 — Visualization with ggplot2**
+A first scatter plot with `geom_point()` · `geom_col()` bar charts ·
+mapping `color` in `aes()` · titles with `labs()` · small multiples with
+`facet_wrap()`
+
+**Unit 17 — Visualizing Correlations with corrplot**
+A first correlation plot · handling missing data with
+`cor(..., use = "complete.obs")`
+
+**Unit 18 — Flow Diagrams with ggalluvial**
 A first alluvial (Sankey-style) plot with `geom_alluvium()` +
 `geom_stratum()` · coloring flows with `aes(fill = ...)` · labeling
 strata with `geom_text()` + `after_stat()`
 
-**Unit 14 — Tidy Models with broom**
+**Unit 19 — Text Analysis with tidytext**
+Tokenizing text with `unnest_tokens()` · removing stop words with
+`anti_join()` · counting word frequencies with `count()`
+
+**Unit 20 — Applied Survey Techniques**
+Reverse-coding with `mutate()` · a composite scale with `across()` · a
+two-group t-test · simple linear regression · reading R² · a capstone
+`group_by()` + `summarise()` report across two outcomes
+
+**Unit 21 — Tidy Models with broom**
 Tidying coefficients with `tidy()` · model-level fit stats with
 `glance()` · row-level predictions with `augment()`
 
-**Unit 15 — Visualizing Correlations with corrplot**
-A first correlation plot · handling missing data with
-`cor(..., use = "complete.obs")`
-
-**Unit 16 — Panel Data Overviews with overviewR**
-Summarizing panel coverage with `overview_tab()` · checking missing data
-with `overview_na()`
-
-**Unit 17 — Regression Reporting with jtools**
-A cleaner model summary with `summ()` · visualizing an effect with
-`effect_plot()`
-
-**Unit 18 — Model Parameters with parameters**
-Tidy output with `model_parameters()` · standardized coefficients
-
-**Unit 19 — Comparative Methods with QCA**
-Calibrating a fuzzy-set condition · building a truth table with
-`truthTable()`
-
-**Unit 20 — Segregation Measures with segregation**
-The dissimilarity index · the mutual information index with
-`mutual_total()`
-
-**Unit 21 — Complex Survey Design with survey**
-Declaring a design with `svydesign()` · weighted means with `svymean()` ·
-a weighted regression with `svyglm()` · subgroup estimates with `svyby()`
-
-**Unit 22 — Reading Labelled Data with haven**
-Creating labelled data with `labelled()` · converting labels to factors
-with `as_factor()` · dropping labels with `zap_labels()`
-
-**Unit 23 — Scale Reliability with psych**
+**Unit 22 — Scale Reliability with psych**
 Cronbach's alpha with `alpha()` · a one-factor PCA with `principal()` ·
 quick variable summaries with `describe()`
 
-**Unit 24 — Multilevel Models with lme4**
-A random-intercept model with `lmer()` · adding a fixed-effect predictor ·
-extracting random effects with `ranef()` · fixed effects with `fixef()`
+### Phase 5 — More Advanced Analysis
 
-**Unit 25 — Event History Analysis with survival**
-Declaring survival data with `Surv()` · a Kaplan-Meier curve with
-`survfit()` · a Cox model with `coxph()`
+**Unit 23 — Model Parameters with parameters**
+Tidy output with `model_parameters()` · standardized coefficients
+
+**Unit 24 — Regression Reporting with jtools**
+A cleaner model summary with `summ()` · visualizing an effect with
+`effect_plot()`
+
+**Unit 25 — Post-Estimation with marginaleffects**
+Average marginal effects with `avg_slopes()` · `predictions()` ·
+`avg_predictions()` · `avg_comparisons()`
 
 **Unit 26 — Model Diagnostics with performance**
 R-squared with `r2()` · checking collinearity with
 `check_collinearity()` · testing residual normality with
 `check_normality()`
 
-**Unit 27 — Social Network Analysis with igraph**
+**Unit 27 — Multilevel Models with lme4**
+A random-intercept model with `lmer()` · adding a fixed-effect predictor ·
+extracting random effects with `ranef()` · fixed effects with `fixef()`
+
+**Unit 28 — Event History Analysis with survival**
+Declaring survival data with `Surv()` · a Kaplan-Meier curve with
+`survfit()` · a Cox model with `coxph()`
+
+**Unit 29 — Complex Survey Design with survey**
+Declaring a design with `svydesign()` · weighted means with `svymean()` ·
+a weighted regression with `svyglm()` · subgroup estimates with `svyby()`
+
+**Unit 30 — Social Network Analysis with igraph**
 Building a network with `graph_from_data_frame()` · degree centrality
 with `degree()` · visualizing a network with `plot()`
 
-**Unit 28 — Multiple Imputation with mice**
-Creating imputations with `mice()` · extracting a completed dataset with
-`complete()` · pooling model results across imputations with `pool()`
+**Unit 31 — Comparative Methods with QCA**
+Calibrating a fuzzy-set condition · building a truth table with
+`truthTable()`
 
-**Unit 29 — Missing Data with naniar**
-Summarizing missingness with `miss_var_summary()` · visualizing it with
-`vis_miss()` · a per-variable bar chart with `gg_miss_var()`
+**Unit 32 — Segregation Measures with segregation**
+The dissimilarity index · the mutual information index with
+`mutual_total()`
 
-**Unit 30 — Text Analysis with tidytext**
-Tokenizing text with `unnest_tokens()` · removing stop words with
-`anti_join()` · counting word frequencies with `count()`
-
-**Unit 31 — Publication Tables with modelsummary**
+**Unit 33 — Publication Tables with modelsummary**
 Comparing two models with `modelsummary()` · naming models in the table
 
 The path map groups lessons visually by unit, and shows a lock icon on
@@ -351,16 +377,31 @@ and package internals I have varying certainty about:
   function call either way), so worst case the check is too loose rather
   than wrongly rejecting a correct answer.
 
+- **tidyr** — high confidence. `pivot_longer()`/`pivot_wider()`/
+  `separate()`/`unite()`/`fill()`/`complete()` are all long-stable, core
+  tidyr functions. This unit was deliberately left out of the original
+  build over dependency-weight concerns, but `tidyr` depends on `stringr`
+  — already installed and proven working for the Strings & Regex unit —
+  so the marginal cost of adding it now is much lower than it would have
+  been at the start.
+- **More Joins & Variable Wrangling with dplyr** — high confidence, zero
+  new install risk. `inner_join()`/`full_join()`/`rename()`/`relocate()`
+  are core `dplyr`, already boot-installed — this unit adds pure content,
+  no new package.
+
 **Not built (held pending your call):** `descriptio` (PEM function) — I
 don't have solid confidence in its exact API and didn't want to guess.
 `intsvy` — depends on `Hmisc`, a genuinely heavy package that adds real
-install weight and risk on top of everything else. Table-formatting
-packages for publication (`stargazer`, `modelsummary`, `texreg`,
-`sjPlot::tab_model()`) — these mostly produce complex formatted-table or
-HTML-widget output rather than a clean R object, which doesn't fit this
-app's check-by-inspecting-the-object model well; possible to build with a
-looser check, but held off rather than force a weak fit. All of these can
-be added later following the same lazy-install pattern as units 14–27.
+install weight and risk on top of everything else. `plm` (panel/
+longitudinal regression) — on the original sociology-package request
+list, deferred when janitor + marginaleffects were prioritized instead;
+still open, moderate risk (one dependency, `bdsmatrix`, has compiled C
+code). `stargazer`/`texreg`/`sjPlot::tab_model()` — other table-formatting
+packages in the same family as `modelsummary` (which *is* now built, via
+`output = "data.frame"` to sidestep the checkability issue); these
+alternatives weren't requested and would mostly duplicate that unit. All
+of these can be added later following the same lazy-install pattern as
+units 14–33.
 
 ## Hosting on GitHub Pages
 
@@ -407,6 +448,16 @@ introduces a new unit name, the path map will automatically render a new
 section divider for it. Adding `starterMedium`/`starterHard` to a lesson
 is enough on its own to make the Easy/Medium/Hard selector appear for
 it — no other wiring needed; leaving both out keeps a lesson single-tier.
+
+**Lessons are ordered by workflow phase, not by when they were added.**
+New lessons/units should be inserted into the phase they conceptually
+belong to (see the five phases above, or the comment directly above the
+`LESSONS` array in the code) rather than appended to the end by default.
+Since completion is tracked by lesson `id` and unlocking just looks at
+"the previous lesson in array order," inserting a lesson mid-array is
+always safe — it doesn't disturb any other lesson's completion state,
+and the newly-inserted lesson simply unlocks once whatever now sits
+before it is done.
 
 ## Notes
 
