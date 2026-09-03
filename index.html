@@ -393,17 +393,26 @@
 <script type="module">
   // Lessons are ordered by the natural data-science workflow, grouped into
   // five phases. New lessons should be inserted into the phase they belong
-  // to, not appended at the end by default:
-  //   1. Software & project setup   → Project Organization, RStudio Shortcuts
+  // to, not appended at the end by default. Unit names include every
+  // package their lessons actually call (see the `packages` field on each
+  // lesson) — keep that consistent when adding units.
+  //   1. Software & project setup   → Project Organization (here),
+  //                                   RStudio Shortcuts
   //   2. Bringing in data           → haven (and future import-focused units)
-  //   3. Data cleaning/wrangling    → Tidyverse Foundations, Working with
-  //                                   Survey Data, dplyr joins/variable
-  //                                   wrangling, Data Wrangling Deep Dive,
+  //   3. Data cleaning/wrangling    → Tidyverse Foundations (dplyr, purrr,
+  //                                   tibble), Working with Survey Data
+  //                                   (dplyr), dplyr joins/variable
+  //                                   wrangling, Recoding Variable Sets
+  //                                   (dplyr, across()), Data Wrangling Deep
+  //                                   Dive (dplyr, forcats), Factors &
+  //                                   Measurement Levels (forcats + base R),
   //                                   tidyr, stringr, janitor, naniar,
   //                                   overviewR, mice, Iteration & Functions
-  //   4. Basic analysis & viz       → Exploring & Summarizing, ggplot2,
-  //                                   corrplot, ggalluvial, tidytext,
-  //                                   Applied Survey Techniques, broom, psych
+  //                                   (purrr)
+  //   4. Basic analysis & viz       → Exploring & Summarizing (dplyr),
+  //                                   ggplot2, corrplot, ggalluvial +
+  //                                   ggplot2, tidytext + dplyr, Applied
+  //                                   Survey Techniques (dplyr), broom, psych
   //   5. More advanced analysis     → parameters, jtools, marginaleffects,
   //                                   performance, lme4, survival, survey,
   //                                   igraph, QCA, segregation, modelsummary
@@ -413,7 +422,7 @@
       id: "project-relative-paths-with-here",
       packages: ["here"],
       short: "here()",
-      unit: "Project Organization & Good Practice",
+      unit: "Project Organization & Good Practice with here",
       instructions: `Never hard-code an absolute path like <code>"C:/Users/name/project/data"</code>
         — it only works on your machine. The <code>here</code> package builds paths relative to
         the project root instead.<br><br>
@@ -433,7 +442,7 @@ Example:<br><code>here("outputs", "plot.png")</code>`,
       id: "raw-data-stays-read-only",
       packages: [],
       short: "Raw vs processed",
-      unit: "Project Organization & Good Practice",
+      unit: "Project Organization & Good Practice with here",
       instructions: `In a well-organized project, one data folder should never be edited or
         overwritten by hand — all cleaning happens in a script that reads from it and writes
         somewhere else.<br><br>
@@ -450,7 +459,7 @@ Example:<br><code>here("outputs", "plot.png")</code>`,
       id: "naming-a-pipeline-script",
       packages: [],
       short: "Script naming",
-      unit: "Project Organization & Good Practice",
+      unit: "Project Organization & Good Practice with here",
       instructions: `A conventional analysis pipeline splits work into numbered scripts —
         <code>01_import.R</code>, <code>02_clean.R</code>, <code>03_analyze.R</code>,
         <code>04_visualize.R</code> — so the run order is obvious without reading any code.<br><br>
@@ -468,7 +477,7 @@ Example:<br><code>here("outputs", "plot.png")</code>`,
       id: "reproducibility-tools",
       packages: [],
       short: "renv & Git",
-      unit: "Project Organization & Good Practice",
+      unit: "Project Organization & Good Practice with here",
       instructions: `Two tools make a project reproducible long after it was written.<br><br>
         Create <code>pins_versions</code>: the R package that snapshots exact package versions
         so a project installs identically later.<br><br>
@@ -631,11 +640,34 @@ gender_plain <-
       check: `exists("gender_plain") && !inherits(gender_plain, "haven_labelled") && identical(as.numeric(gender_plain), as.numeric(gender))`
     },
     {
+      title: "Marking special missing codes with tagged_na()",
+      id: "marking-special-missing-codes-with-tagged-na",
+      packages: ["haven"],
+      short: "tagged_na()",
+      unit: "Reading Labelled Data with haven",
+      instructions: `Real SPSS/Stata files often distinguish <i>why</i> something is missing —
+        "don't know" versus "refused" versus "not applicable" — rather than using one generic
+        missing value.<br><br>
+        Create <code>age</code>: a vector <code>c(25, ___, 40, 35)</code> where the second value
+        is a "don't know" missing value, using <code>tagged_na("d")</code>.`,
+      preload: `haven is loaded.`,
+      starter: `age <- c(25, tagged_na("___"), 40, 35)\n`,
+      starterMedium: `# Create age: 25, a "don't know" tagged missing value, 40, 35\nage <- \n`,
+      starterHard: `# Build age with a "don't know" tagged missing value as its second element\n`,
+      hint: 'tagged_na("d") — the letter is your own tag; "d" for "don\'t know" is just a convention, not a fixed keyword.',
+      solution: `age <- c(25, tagged_na("d"), 40, 35)\n`,
+      help: `<b>tagged_na()</b> creates a special missing value that still behaves like NA almost
+        everywhere, but remembers a one-character tag — exactly how SPSS/Stata track multiple
+        distinct reasons for missingness, which plain NA can't represent on its own.<br><br>
+        Example:<br><code>c(4, tagged_na("r"), 2)  # a "refused" response</code>`,
+      check: `exists("age") && is.na(age)[2] && haven::na_tag(age)[2] == "d"`
+    },
+    {
       title: "Vectors & indexing",
       id: "vectors-indexing",
       packages: [],
       short: "Vectors",
-      unit: "Tidyverse Foundations",
+      unit: "Tidyverse Foundations with dplyr, purrr & tibble",
       instructions: `You're logging ages from a small pilot survey. Plain vectors work the same
         way in tidyverse code as anywhere else in R.<br><br>
         1. Create a vector <code>ages</code> containing <code>22, 35, 41</code>.<br>
@@ -657,7 +689,7 @@ Example:<br><code>fruits <- c("apple", "pear", "fig")<br>fruits[2]  # "pear"</co
       id: "building-a-tibble",
       packages: ["tibble", "dplyr"],
       short: "Tibbles",
-      unit: "Tidyverse Foundations",
+      unit: "Tidyverse Foundations with dplyr, purrr & tibble",
       instructions: `Tidyverse workflows use <b>tibbles</b> instead of base data frames — same idea,
         nicer printing, stricter behavior.<br><br>
         1. Create a tibble <code>pilot</code> with columns <code>id</code> (1 through 3),
@@ -690,7 +722,7 @@ Example:<br><code>animals <- tibble(name = c("cat","dog"), legs = c(4,4))<br>ani
       id: "filtering-rows-with-filter",
       packages: ["dplyr"],
       short: "filter()",
-      unit: "Tidyverse Foundations",
+      unit: "Tidyverse Foundations with dplyr, purrr & tibble",
       instructions: `A <code>pilot</code> tibble is already loaded (id, age, region, satisfaction).
         <br><br>Create <code>south_only</code>: just the rows where <code>region</code> equals
         <code>"South"</code>, using <code>filter()</code>.`,
@@ -717,7 +749,7 @@ Example:<br><code>pets <- tibble(name = c("Rex","Milo"), age = c(2,7))<br>pets |
       id: "a-function-purrr-map-dbl",
       packages: ["purrr"],
       short: "purrr",
-      unit: "Tidyverse Foundations",
+      unit: "Tidyverse Foundations with dplyr, purrr & tibble",
       instructions: `A <code>scores</code> vector of 1–5 satisfaction ratings is loaded.<br><br>
         1. Write a function <code>rescale100</code> that converts a 1–5 score to a 0–100 scale:
         <code>(x - 1) / 4 * 100</code>.<br>
@@ -746,7 +778,7 @@ Example:<br><code>add_ten <- function(x) x + 10<br>c(1,2,3) |> map_dbl(add_ten)<
       id: "descriptive-stats-with-summarise",
       packages: ["dplyr"],
       short: "summarise()",
-      unit: "Tidyverse Foundations",
+      unit: "Tidyverse Foundations with dplyr, purrr & tibble",
       instructions: `A <code>pilot</code> tibble with an <code>income</code> column is loaded.<br><br>
         Create <code>income_stats</code>: a tibble with <code>mean_income</code> and
         <code>sd_income</code> (each rounded to 1 decimal place), using <code>summarise()</code>.`,
@@ -773,7 +805,7 @@ Example:<br><code>tibble(temp = c(18,21,19)) |> summarise(avg = mean(temp))</cod
       id: "recoding-with-if-else",
       packages: ["dplyr"],
       short: "if_else()",
-      unit: "Tidyverse Foundations",
+      unit: "Tidyverse Foundations with dplyr, purrr & tibble",
       instructions: `A <code>pilot</code> tibble with an <code>age</code> column is loaded.<br><br>
         Create <code>pilot2</code>: the same data with a new column <code>age_group</code> —
         <code>"Under 40"</code> below 40, otherwise <code>"40+"</code> — using
@@ -795,7 +827,7 @@ Example:<br><code>tibble(temp = c(15,25)) |> mutate(weather = if_else(temp > 20,
       id: "sorting-with-arrange",
       packages: ["dplyr"],
       short: "arrange()",
-      unit: "Working with Survey Data",
+      unit: "Working with Survey Data with dplyr",
       instructions: `A <code>pilot</code> tibble (id, age, satisfaction) is loaded.<br><br>
         Create <code>sorted_pilot</code>: the same data, ordered by <code>age</code> from
         youngest to oldest, using <code>arrange()</code>.`,
@@ -824,7 +856,7 @@ Example:<br><code>tibble(name = c("Bo","Amy"), score = c(7,9)) |> arrange(score)
       id: "missing-data-in-a-pipeline",
       packages: ["dplyr"],
       short: "Missing data",
-      unit: "Working with Survey Data",
+      unit: "Working with Survey Data with dplyr",
       instructions: `A <code>pilot</code> tibble has an <code>income</code> column with some
         missing values (<code>NA</code>) — common in real survey data.<br><br>
         Create <code>na_summary</code>: a tibble with <code>count_na</code> (how many are
@@ -857,7 +889,7 @@ Example:<br><code>x <- c(5, NA, 9)<br>sum(is.na(x))        # 1<br>mean(x, na.rm 
       id: "age-brackets-with-case-when",
       packages: ["dplyr"],
       short: "case_when()",
-      unit: "Working with Survey Data",
+      unit: "Working with Survey Data with dplyr",
       instructions: `A <code>pilot</code> tibble with an <code>age</code> column is loaded.<br><br>
         Create <code>pilot2</code>: add a column <code>age_bracket</code> — <code>"18-29"</code>,
         <code>"30-49"</code>, or <code>"50+"</code> — using <code>mutate()</code> and
@@ -887,7 +919,7 @@ Example:<br><code>tibble(temp = c(5,18,30)) |> mutate(label = case_when(<br>  te
       id: "cross-tabulating-with-count",
       packages: ["dplyr"],
       short: "count()",
-      unit: "Working with Survey Data",
+      unit: "Working with Survey Data with dplyr",
       instructions: `A <code>pilot</code> tibble with <code>region</code> and <code>support</code>
         (a "Yes"/"No" survey response) is loaded.<br><br>
         Create <code>region_support_counts</code>: how many respondents fall into each
@@ -917,7 +949,7 @@ Example:<br><code>tibble(color = c("red","blue","red")) |> count(color)</code>`,
       id: "joining-two-datasets-with-left-join",
       packages: ["dplyr"],
       short: "left_join()",
-      unit: "Working with Survey Data",
+      unit: "Working with Survey Data with dplyr",
       instructions: `Survey data often arrives in separate files. Two tibbles are loaded:
         <code>demo</code> (id, age) and <code>responses</code> (id, satisfaction).<br><br>
         Combine them into <code>merged</code> using <code>left_join()</code>, joining on
@@ -944,7 +976,7 @@ Example:<br><code>people <- tibble(id = 1:2, name = c("Al","Bo"))<br>scores <- t
       id: "checkpoint-combining-filter-conditions",
       packages: ["dplyr"],
       short: "Checkpoint",
-      unit: "Working with Survey Data",
+      unit: "Working with Survey Data with dplyr",
       instructions: `A <code>pilot</code> tibble (age, region, satisfaction) is loaded.<br><br>
         Create <code>high_satisfaction_south</code>: rows where <code>satisfaction</code> is 4
         or higher <b>and</b> <code>region</code> is <code>"South"</code>. In
@@ -1063,12 +1095,62 @@ Example:<br><code>tibble(age = c(20,40,60), city = c("A","B","A")) |> filter(age
         Example:<br><code>df |> relocate(income, .before = age)</code>`,
       check: `exists("pilot2") && identical(names(pilot2), c("income","age","region")) && isTRUE(all.equal(as.data.frame(pilot2[, c("age","region","income")]), as.data.frame(pilot), check.attributes = FALSE))`
     },
-      {
+    {
+      title: "Recoding several columns at once with across()",
+      id: "recoding-several-columns-at-once-with-across",
+      packages: ["dplyr"],
+      short: "across() recode",
+      unit: "Recoding Variable Sets with dplyr",
+      instructions: `A <code>survey_items</code> tibble has three yes/no items, each coded
+        <code>1</code> or <code>2</code>.<br><br>
+        Create <code>recoded</code>: all three columns (<code>q1</code>, <code>q2</code>,
+        <code>q3</code>) relabeled from <code>1</code>/<code>2</code> to <code>"Yes"</code>/
+        <code>"No"</code> in a single <code>mutate(across(...))</code> call, instead of writing
+        three separate lines.`,
+      preload: `Preloaded: survey_items — 3 respondents, 3 yes/no items. dplyr is loaded.`,
+      setup: `survey_items <- tibble(id = 1:3, q1 = c(1,2,1), q2 = c(2,1,2), q3 = c(1,1,2))`,
+      starter: `recoded <- survey_items |> mutate(across(q1:q3, ~ if_else(.x == ___, "Yes", "No")))\n`,
+      starterMedium: `# Create recoded: q1:q3 relabeled from 1/2 to Yes/No, using mutate(across(...))\nrecoded <- \n`,
+      starterHard: `# Recode q1, q2, and q3 from 1/2 codes to Yes/No labels, all at once\n`,
+      hint: 'mutate(across(q1:q3, ~ if_else(.x == 1, "Yes", "No"))) — .x stands for whichever column across() is currently processing.',
+      solution: `recoded <- survey_items |> mutate(across(q1:q3, ~ if_else(.x == 1, "Yes", "No")))\n`,
+      help: `<b>across()</b> lets mutate() apply the same transformation to several columns at
+        once instead of one mutate() line per column. The <code>~ ...</code> syntax defines a
+        quick inline function, where <code>.x</code> stands for whichever column is currently
+        being processed.<br><br>
+        Example:<br><code>df |> mutate(across(item1:item3, ~ .x * 10))</code>`,
+      check: `exists("recoded") && isTRUE(all.equal(as.data.frame(recoded), as.data.frame(survey_items |> dplyr::mutate(dplyr::across(q1:q3, ~ dplyr::if_else(.x == 1, "Yes", "No")))), check.attributes = FALSE))`
+    },
+    {
+      title: "Converting a column set to numeric with across(where())",
+      id: "converting-a-column-set-to-numeric-with-across-where",
+      packages: ["dplyr"],
+      short: "across(where())",
+      unit: "Recoding Variable Sets with dplyr",
+      instructions: `A <code>raw_scores</code> tibble has two item columns that arrived as text
+        instead of numbers.<br><br>
+        Create <code>numeric_scores</code>: every character column converted to numeric, using
+        <code>across(where(is.character), as.numeric)</code> — without naming the columns
+        individually.`,
+      preload: `Preloaded: raw_scores — id (numeric already), item1 and item2 (text).`,
+      setup: `raw_scores <- tibble(id = 1:3, item1 = c("4","2","5"), item2 = c("3","5","2"))`,
+      starter: `numeric_scores <- raw_scores |> mutate(across(where(___), as.numeric))\n`,
+      starterMedium: `# Create numeric_scores: every character column converted to numeric, using across(where())\nnumeric_scores <- \n`,
+      starterHard: `# Convert every character column in raw_scores to numeric\n`,
+      hint: "mutate(across(where(is.character), as.numeric)) — where(is.character) selects every character column automatically, however many there are.",
+      solution: `numeric_scores <- raw_scores |> mutate(across(where(is.character), as.numeric))\n`,
+      help: `Combining <b>across()</b> with <b>where()</b> selects columns by a test rather than
+        by name — useful when you don't want to list every column individually, or don't even
+        know in advance how many columns will need converting.<br><br>
+        Example:<br><code>df |> mutate(across(where(is.character), as.numeric))</code>`,
+      check: `exists("numeric_scores") && isTRUE(all.equal(as.data.frame(numeric_scores), as.data.frame(raw_scores |> dplyr::mutate(dplyr::across(dplyr::where(is.character), as.numeric))), check.attributes = FALSE))`
+    },
+    {
       title: "Reordering factors by frequency",
       id: "reordering-factors-by-frequency",
       packages: ["dplyr", "forcats"],
       short: "fct_infreq()",
-      unit: "Data Wrangling Deep Dive",
+      unit: "Data Wrangling Deep Dive with dplyr & forcats",
       instructions: `A <code>pilot</code> tibble has a <code>region</code> column stored as a
         factor.<br><br>
         Create <code>pilot2</code>: add <code>region_ordered</code>, the same factor but with
@@ -1093,7 +1175,7 @@ Example:<br><code>f <- factor(c("cat","dog","cat","cat"))<br>fct_infreq(f)</code
       id: "recoding-factor-labels",
       packages: ["dplyr", "forcats"],
       short: "fct_recode()",
-      unit: "Data Wrangling Deep Dive",
+      unit: "Data Wrangling Deep Dive with dplyr & forcats",
       instructions: `A <code>pilot</code> tibble has <code>region</code> stored as abbreviated
         codes (<code>"N"</code>, <code>"S"</code>).<br><br>
         Create <code>pilot2</code>: add <code>region_full</code>, relabeling <code>"N"</code> to
@@ -1120,7 +1202,7 @@ Example:<br><code>f <- factor(c("M","F"))<br>fct_recode(f, Male = "M", Female = 
       id: "working-with-dates",
       packages: [],
       short: "Dates",
-      unit: "Data Wrangling Deep Dive",
+      unit: "Data Wrangling Deep Dive with dplyr & forcats",
       instructions: `Two dates from a survey fieldwork period are loaded: <code>start_date</code>
         and <code>end_date</code>, as base-R <code>Date</code> objects.<br><br>
         Create <code>days_elapsed</code>: the number of days between them, using
@@ -1146,7 +1228,7 @@ Example:<br><code>as.Date("2026-01-10") - as.Date("2026-01-01")  # 9 days</code>
       id: "filling-missing-values-with-coalesce",
       packages: ["dplyr"],
       short: "coalesce()",
-      unit: "Data Wrangling Deep Dive",
+      unit: "Data Wrangling Deep Dive with dplyr & forcats",
       instructions: `A <code>pilot</code> tibble has an <code>income</code> column with a
         missing value.<br><br>
         Create <code>pilot2</code>: add <code>income_filled</code>, replacing any
@@ -1171,7 +1253,7 @@ Example:<br><code>x <- c(5, NA, 8)<br>coalesce(x, 0)  # 5 0 8</code>`,
       id: "finding-unmatched-rows-with-anti-join",
       packages: ["dplyr"],
       short: "anti_join()",
-      unit: "Data Wrangling Deep Dive",
+      unit: "Data Wrangling Deep Dive with dplyr & forcats",
       instructions: `Two tibbles are loaded: <code>invited</code> (everyone invited to the
         survey) and <code>responded</code> (everyone who actually responded), both with an
         <code>id</code> column.<br><br>
@@ -1192,6 +1274,126 @@ non_respondents <-
       help: `<b>anti_join()</b> keeps only the rows in the first table that have <i>no</i> match in the second — the opposite of a join that keeps matches.<br><br>
 Example:<br><code>a <- tibble(id = 1:3)<br>b <- tibble(id = 2)<br>a |> anti_join(b, by = "id")  # ids 1 and 3</code>`,
       check: `exists("non_respondents") && isTRUE(all.equal(as.data.frame(non_respondents), as.data.frame(invited |> dplyr::anti_join(responded, by = "id")), check.attributes = FALSE))`
+    },
+    {
+      title: "Defining an ordinal scale with factor(ordered = TRUE)",
+      id: "defining-an-ordinal-scale-with-factor-ordered",
+      packages: [],
+      short: "ordered factor",
+      unit: "Factors & Measurement Levels with forcats",
+      instructions: `An <code>education</code> vector has genuinely ranked categories — this is
+        an ordinal measurement, not just a set of unordered labels.<br><br>
+        Create <code>education_ord</code>: the same values as an <b>ordered</b> factor, with
+        levels running from "High school" up to "PhD", using <code>factor(..., ordered =
+        TRUE)</code>.`,
+      preload: `Preloaded: education — 5 respondents' highest qualification.`,
+      setup: `education <- c("High school", "Bachelor's", "Master's", "High school", "PhD")`,
+      starter: `education_ord <- factor(education, levels = c("High school", "Bachelor's", "Master's", "___"), ordered = TRUE)\n`,
+      starterMedium: `# Create education_ord: education as an ordered factor, High school < ... < PhD\neducation_ord <- \n`,
+      starterHard: `# Turn education into an ordered factor, from High school up to PhD\n`,
+      hint: 'factor(education, levels = c("High school","Bachelor\'s","Master\'s","PhD"), ordered = TRUE) — listing levels in rank order plus ordered = TRUE marks this as an ordinal scale.',
+      solution: `education_ord <- factor(education, levels = c("High school", "Bachelor's", "Master's", "PhD"), ordered = TRUE)\n`,
+      help: `<b>factor(..., ordered = TRUE)</b> tells R (and anyone reading your code) that a
+        variable has a genuine rank order — High school &lt; Bachelor's &lt; ... — rather than
+        being purely nominal categories with no inherent ranking. This is base R; no package
+        needed.<br><br>
+        Example:<br><code>factor(x, levels = c("Low","Medium","High"), ordered = TRUE)</code>`,
+      check: `exists("education_ord") && is.ordered(education_ord) && identical(levels(education_ord), c("High school","Bachelor's","Master's","PhD"))`
+    },
+    {
+      title: "Binning a continuous variable with cut()",
+      id: "binning-a-continuous-variable-with-cut",
+      packages: [],
+      short: "cut()",
+      unit: "Factors & Measurement Levels with forcats",
+      instructions: `A continuous <code>income</code> vector is loaded.<br><br>
+        Create <code>income_bracket</code>: income sliced into four labeled bands
+        ("Low","Lower-middle","Upper-middle","High"), using <code>cut()</code>.`,
+      preload: `Preloaded: income — 5 respondents.`,
+      setup: `income <- c(18000, 32000, 45000, 61000, 95000)`,
+      starter: `income_bracket <- cut(income, breaks = c(0, 25000, 50000, ___, Inf), labels = c("Low","Lower-middle","Upper-middle","High"))\n`,
+      starterMedium: `# Create income_bracket: income cut into 4 labeled bands, using cut()\nincome_bracket <- \n`,
+      starterHard: `# Bin income into Low / Lower-middle / Upper-middle / High bands\n`,
+      hint: 'cut(income, breaks = c(0,25000,50000,75000,Inf), labels = c("Low","Lower-middle","Upper-middle","High")) — breaks defines the boundaries, labels names the resulting bands.',
+      solution: `income_bracket <- cut(income, breaks = c(0, 25000, 50000, 75000, Inf), labels = c("Low","Lower-middle","Upper-middle","High"))\n`,
+      help: `<b>cut()</b> turns a continuous variable into a categorical (ordinal) one by slicing
+        it at the breakpoints you specify — a common step when a measurement is naturally
+        continuous but you want to treat it as bands for analysis or reporting.<br><br>
+        Example:<br><code>cut(age, breaks = c(0,18,65,Inf), labels = c("Minor","Adult","Senior"))</code>`,
+      check: `exists("income_bracket") && identical(as.character(income_bracket), as.character(cut(income, breaks = c(0,25000,50000,75000,Inf), labels = c("Low","Lower-middle","Upper-middle","High"))))`
+    },
+    {
+      title: "Setting the reference level with fct_relevel()",
+      id: "setting-the-reference-level-with-fct-relevel",
+      packages: ["forcats"],
+      short: "fct_relevel()",
+      unit: "Factors & Measurement Levels with forcats",
+      instructions: `A <code>region</code> factor is loaded. In a regression, whichever level
+        comes first becomes the reference category everything else is compared against — right
+        now that's decided by alphabetical order, not by choice.<br><br>
+        Create <code>region2</code>: the same factor with <code>"South"</code> moved to the
+        front, using <code>fct_relevel()</code>.`,
+      preload: `Preloaded: region — 5 respondents' region labels.`,
+      setup: `region <- factor(c("North","South","East","South","North"))`,
+      starter: `region2 <- fct_relevel(region, "___")\n`,
+      starterMedium: `# Create region2: region with South moved to the front, using fct_relevel()\nregion2 <- \n`,
+      starterHard: `# Make South the reference (first) level of region\n`,
+      hint: 'fct_relevel(region, "South") — moves "South" to the front of the levels, making it the reference category.',
+      solution: `region2 <- fct_relevel(region, "South")\n`,
+      help: `<b>fct_relevel()</b> changes which level comes first — and since the first level of
+        a factor becomes the reference category in a regression, choosing it deliberately
+        (rather than leaving it to alphabetical order) directly affects how your coefficients
+        should be read.<br><br>
+        Example:<br><code>fct_relevel(region, "South")</code>`,
+      check: `exists("region2") && levels(region2)[1] == "South" && setequal(levels(region2), levels(region))`
+    },
+    {
+      title: "Collapsing rare categories with fct_lump_n()",
+      id: "collapsing-rare-categories-with-fct-lump-n",
+      packages: ["forcats"],
+      short: "fct_lump_n()",
+      unit: "Factors & Measurement Levels with forcats",
+      instructions: `A <code>region</code> factor has several small categories alongside two
+        dominant ones.<br><br>
+        Create <code>region_lumped</code>: the 2 most common regions kept as-is, everything
+        else collapsed into <code>"Other"</code>, using <code>fct_lump_n()</code>.`,
+      preload: `Preloaded: region — 8 respondents across 5 regions.`,
+      setup: `region <- factor(c("North","North","North","South","South","East","West","Central"))`,
+      starter: `region_lumped <- fct_lump_n(region, n = ___)\n`,
+      starterMedium: `# Create region_lumped: the top 2 regions kept, rest collapsed to "Other", using fct_lump_n()\nregion_lumped <- \n`,
+      starterHard: `# Keep only the 2 most common regions in region, lump the rest into "Other"\n`,
+      hint: "fct_lump_n(region, n = 2) — keeps the 2 most common levels, groups everything else into \"Other\".",
+      solution: `region_lumped <- fct_lump_n(region, n = 2)\n`,
+      help: `<b>fct_lump_n()</b> automatically collapses infrequent categories into a single
+        "Other" level, keeping only the n most common — much faster than manually deciding
+        which small groups to merge, and common when a nominal variable has a long tail of tiny
+        categories.<br><br>
+        Example:<br><code>fct_lump_n(occupation, n = 5)</code>`,
+      check: `exists("region_lumped") && identical(as.character(region_lumped), as.character(forcats::fct_lump_n(region, n = 2)))`
+    },
+    {
+      title: "Making NA an explicit factor level with fct_na_value_to_level()",
+      id: "making-na-an-explicit-factor-level",
+      packages: ["forcats"],
+      short: "fct_na_value_to_level()",
+      unit: "Factors & Measurement Levels with forcats",
+      instructions: `A <code>response</code> factor has some missing values. Left as NA, they
+        can silently disappear from tables and plots — sometimes "missing" is itself meaningful
+        information worth keeping visible.<br><br>
+        Create <code>response2</code>: the same factor with NA turned into its own explicit
+        level called <code>"Missing"</code>, using <code>fct_na_value_to_level()</code>.`,
+      preload: `Preloaded: response — 5 yes/no responses, 2 missing.`,
+      setup: `response <- factor(c("Yes","No",NA,"Yes",NA))`,
+      starter: `response2 <- fct_na_value_to_level(response, level = "___")\n`,
+      starterMedium: `# Create response2: response's NAs turned into an explicit "Missing" level\nresponse2 <- \n`,
+      starterHard: `# Turn response's missing values into an explicit "Missing" factor level\n`,
+      hint: 'fct_na_value_to_level(response, level = "Missing") — turns NA into its own visible category instead of an invisible gap.',
+      solution: `response2 <- fct_na_value_to_level(response, level = "Missing")\n`,
+      help: `<b>fct_na_value_to_level()</b> converts missing values into a real, labeled factor
+        level — useful when "missing" is itself meaningful (e.g. "declined to answer") and you
+        want it visible in tables and plots rather than silently excluded.<br><br>
+        Example:<br><code>fct_na_value_to_level(x, level = "Missing")</code>`,
+      check: `exists("response2") && identical(as.character(response2), as.character(forcats::fct_na_value_to_level(response, level = "Missing")))`
     },
     {
       title: "Wide to long with pivot_longer()",
@@ -1345,7 +1547,7 @@ Example:<br><code>a <- tibble(id = 1:3)<br>b <- tibble(id = 2)<br>a |> anti_join
       id: "detecting-a-pattern-with-str-detect",
       packages: ["stringr"],
       short: "str_detect()",
-      unit: "Strings & Regex",
+      unit: "Strings & Regex with stringr",
       instructions: `A vector of open-text survey responses, <code>responses</code>, is loaded.<br><br>
         Create <code>mentions_price</code>: a logical vector that's <code>TRUE</code> wherever
         the response contains the word <code>"price"</code>, using <code>str_detect()</code>.`,
@@ -1368,7 +1570,7 @@ mentions_price <-
       id: "extracting-matches-with-str-extract",
       packages: ["stringr"],
       short: "str_extract()",
-      unit: "Strings & Regex",
+      unit: "Strings & Regex with stringr",
       instructions: `A vector of respondent emails, <code>emails</code>, is loaded.<br><br>
         Create <code>domains</code>: just the domain part after the <code>@</code> for each
         email, using <code>str_extract()</code> with the pattern <code>"[^@]+$"</code> (one or
@@ -1392,7 +1594,7 @@ domains <-
       id: "cleaning-text-with-str-replace-all",
       packages: ["stringr"],
       short: "str_replace_all()",
-      unit: "Strings & Regex",
+      unit: "Strings & Regex with stringr",
       instructions: `A vector of addresses, <code>addresses</code>, is loaded, using the abbreviation
         <code>"St"</code>.<br><br>
         Create <code>full_addresses</code>: every <code>"St"</code> replaced with
@@ -1416,7 +1618,7 @@ full_addresses <-
       id: "splitting-text-with-str-split",
       packages: ["stringr"],
       short: "str_split()",
-      unit: "Strings & Regex",
+      unit: "Strings & Regex with stringr",
       instructions: `A vector of full names in <code>"Last, First"</code> format,
         <code>names_raw</code>, is loaded.<br><br>
         Create <code>name_parts</code>: each name split into last/first pieces, using
@@ -1440,7 +1642,7 @@ name_parts <-
       id: "standardizing-text",
       packages: ["stringr"],
       short: "str_trim + lower",
-      unit: "Strings & Regex",
+      unit: "Strings & Regex with stringr",
       instructions: `A vector of raw survey answers, <code>raw_responses</code>, has inconsistent
         spacing and capitalization.<br><br>
         Create <code>clean_responses</code>: trimmed of extra whitespace and lowercased, by
@@ -1651,6 +1853,55 @@ region_report <-
       check: `exists("p") && inherits(p, "ggplot")`
     },
     {
+      title: "Flagging sentinel missing codes with replace_with_na()",
+      id: "flagging-sentinel-missing-codes-with-replace-with-na",
+      packages: ["naniar"],
+      short: "replace_with_na()",
+      unit: "Missing Data with naniar",
+      instructions: `Raw survey exports often use a placeholder code like <code>-99</code> for
+        "don't know" instead of a genuine missing value — R has no way to know that unless you
+        tell it.<br><br>
+        Create <code>clean_data</code>: every <code>-99</code> in <code>age</code> and
+        <code>satisfaction</code> converted to a real <code>NA</code>, using
+        <code>replace_with_na()</code>.`,
+      preload: `Preloaded: survey_data — age and satisfaction, -99 used as a "don't know" code.`,
+      setup: `survey_data <- tibble(age = c(22,35,-99,29), satisfaction = c(4,-99,2,5))`,
+      starter: `clean_data <- survey_data |> replace_with_na(replace = list(age = ___, satisfaction = ___))\n`,
+      starterMedium: `# Create clean_data: -99 converted to real NA in age and satisfaction, using replace_with_na()\nclean_data <- \n`,
+      starterHard: `# Convert every -99 in survey_data to a genuine NA\n`,
+      hint: "replace_with_na(replace = list(age = -99, satisfaction = -99)) — list each column and the sentinel value that should become a real NA.",
+      solution: `clean_data <- survey_data |> replace_with_na(replace = list(age = -99, satisfaction = -99))\n`,
+      help: `<b>replace_with_na()</b> converts placeholder codes (like -99 for "don't know") into
+        genuine NA, so every downstream missing-data function actually recognizes them as
+        missing instead of treating -99 as a real observed value.<br><br>
+        Example:<br><code>df |> replace_with_na(replace = list(income = -99))</code>`,
+      check: `exists("clean_data") && isTRUE(all.equal(as.data.frame(clean_data), as.data.frame(survey_data |> naniar::replace_with_na(replace = list(age = -99, satisfaction = -99))), check.attributes = FALSE))`
+    },
+    {
+      title: "Counting total missingness with n_miss() and prop_miss()",
+      id: "counting-total-missingness-with-n-miss-and-prop-miss",
+      packages: ["naniar"],
+      short: "n_miss() / prop_miss()",
+      unit: "Missing Data with naniar",
+      instructions: `A <code>survey_data</code> tibble has some missing values scattered across
+        it.<br><br>
+        Create <code>total_missing</code>: the total count of missing values in the whole
+        dataset, using <code>n_miss()</code>. Create <code>prop_missing</code>: the same as a
+        proportion, using <code>prop_miss()</code>.`,
+      preload: `Preloaded: survey_data — age and income, some missing.`,
+      setup: `survey_data <- tibble(age = c(22,NA,41,29), income = c(31000,45900,NA,29800))`,
+      starter: `total_missing <- n_miss(survey_data)\n\nprop_missing <- prop_miss(___)\n`,
+      starterMedium: `# Create total_missing (n_miss) and prop_missing (prop_miss) for the whole dataset\ntotal_missing <- \n\nprop_missing <- \n`,
+      starterHard: `# Get the total count and proportion of missing values across all of survey_data\n`,
+      hint: "n_miss(survey_data) counts every missing value in the whole data frame; prop_miss(survey_data) gives the same as a proportion.",
+      solution: `total_missing <- n_miss(survey_data)\n\nprop_missing <- prop_miss(survey_data)\n`,
+      help: `<b>n_miss()</b> and <b>prop_miss()</b> give a fast whole-dataset missingness
+        count/proportion — a top-line number worth reporting before drilling into per-variable
+        detail with miss_var_summary().<br><br>
+        Example:<br><code>n_miss(df)<br>prop_miss(df)</code>`,
+      check: `exists("total_missing") && exists("prop_missing") && identical(total_missing, naniar::n_miss(survey_data)) && isTRUE(all.equal(prop_missing, naniar::prop_miss(survey_data)))`
+    },
+    {
       title: "Summarizing panel coverage with overview_tab()",
       id: "summarizing-panel-coverage-with-overview-tab",
       packages: ["overviewR"],
@@ -1773,7 +2024,7 @@ na_summary <-
       id: "anonymous-functions-with-a-lambda",
       packages: ["purrr"],
       short: "Lambda",
-      unit: "Iteration & Functions",
+      unit: "Iteration & Functions with purrr",
       instructions: `A <code>scores</code> vector is loaded.<br><br>
         Create <code>doubled</code>: each score doubled, using <code>map_dbl()</code> with the
         compact anonymous-function syntax <code>\\(x) ...</code> instead of writing a separate
@@ -1798,7 +2049,7 @@ Example:<br><code>c(1,2,3) |> map_dbl(\\(x) x + 100)</code>`,
       id: "iterating-over-two-vectors-with-map2-dbl",
       packages: ["purrr"],
       short: "map2_dbl()",
-      unit: "Iteration & Functions",
+      unit: "Iteration & Functions with purrr",
       instructions: `Two vectors are loaded: <code>pre</code> and <code>post</code> test scores
         for the same 3 respondents.<br><br>
         Create <code>gains</code>: the improvement for each respondent (<code>post - pre</code>),
@@ -1824,7 +2075,7 @@ Example:<br><code>map2_dbl(c(1,2), c(10,20), \\(x, y) x + y)  # 11 22</code>`,
       id: "folding-a-vector-with-reduce",
       packages: ["purrr"],
       short: "reduce()",
-      unit: "Iteration & Functions",
+      unit: "Iteration & Functions with purrr",
       instructions: `A <code>values</code> vector is loaded.<br><br>
         Create <code>total</code>: the sum of all values, built up by combining them two at a
         time with <code>reduce()</code>, the same idea behind many iterative summaries, not
@@ -1849,7 +2100,7 @@ Example:<br><code>c(1,2,3,4) |> reduce(\`*\`)  # 24</code>`,
       id: "a-function-with-a-default-argument",
       packages: ["purrr"],
       short: "Default args",
-      unit: "Iteration & Functions",
+      unit: "Iteration & Functions with purrr",
       instructions: `A <code>scores</code> vector (1–5 scale) is loaded.<br><br>
         Write <code>rescale</code>: a function with one argument <code>x</code> and a second
         argument <code>max_val</code> that defaults to <code>5</code>, returning
@@ -1887,7 +2138,7 @@ Example:<br><code>greet <- function(name, greeting = "Hi") paste(greeting, name)
       id: "frequencies-proportions",
       packages: ["dplyr"],
       short: "Frequencies",
-      unit: "Exploring & Summarizing",
+      unit: "Exploring & Summarizing with dplyr",
       instructions: `A <code>pilot</code> tibble with a <code>region</code> column is loaded.<br><br>
         Create <code>region_counts</code>: a count of each region <b>plus</b> a
         <code>prop</code> column showing each as a proportion of the total, by chaining
@@ -1914,7 +2165,7 @@ Example:<br><code>tibble(pet = c("cat","dog","cat")) |> count(pet) |> mutate(pro
       id: "grouped-means-with-group-by-summarise",
       packages: ["dplyr"],
       short: "group_by()",
-      unit: "Exploring & Summarizing",
+      unit: "Exploring & Summarizing with dplyr",
       instructions: `A <code>pilot</code> tibble (region, satisfaction) is loaded.<br><br>
         Create <code>region_means</code>: the average satisfaction for each region, using
         <code>group_by()</code> then <code>summarise()</code>. Add <code>.groups = "drop"</code>
@@ -1945,7 +2196,7 @@ Example:<br><code>tibble(team = c("A","A","B"), pts = c(3,5,2)) |> group_by(team
       id: "multiple-grouped-summaries",
       packages: ["dplyr"],
       short: "Group summary",
-      unit: "Exploring & Summarizing",
+      unit: "Exploring & Summarizing with dplyr",
       instructions: `The same <code>pilot</code> tibble is loaded.<br><br>
         Create <code>region_summary</code>: mean satisfaction <b>and</b> a count of
         respondents per region, in one <code>summarise()</code> call. Use <code>n()</code> for
@@ -1980,7 +2231,7 @@ Example:<br><code>tibble(team = c("A","A","B")) |> group_by(team) |> summarise(p
       id: "quantiles-with-summarise",
       packages: ["dplyr"],
       short: "Quantiles",
-      unit: "Exploring & Summarizing",
+      unit: "Exploring & Summarizing with dplyr",
       instructions: `A <code>pilot</code> tibble with an <code>income</code> column is loaded.<br><br>
         Create <code>income_quartiles</code>: the 25th, 50th, and 75th percentiles as columns
         <code>q25</code>, <code>q50</code>, <code>q75</code>, using <code>summarise()</code> and
@@ -2012,7 +2263,7 @@ Example:<br><code>quantile(c(10,20,30,40), 0.5)  # median, 25</code>`,
       id: "standardizing-with-mutate",
       packages: ["dplyr"],
       short: "Z-scores",
-      unit: "Exploring & Summarizing",
+      unit: "Exploring & Summarizing with dplyr",
       instructions: `A <code>pilot</code> tibble with a <code>scores</code> column is loaded.<br><br>
         Create <code>pilot2</code>: add a <code>z_score</code> column —
         <code>(x - mean) / sd</code> — using <code>mutate()</code>.`,
@@ -2036,7 +2287,7 @@ Example:<br><code>x <- c(4,8,12)<br>(x - mean(x)) / sd(x)</code>`,
       id: "correlation-with-summarise-pull",
       packages: ["dplyr"],
       short: "Correlation",
-      unit: "Exploring & Summarizing",
+      unit: "Exploring & Summarizing with dplyr",
       instructions: `A <code>pilot</code> tibble with <code>age</code> and <code>satisfaction</code>
         columns is loaded.<br><br>
         Create <code>age_satisfaction_cor</code>: the Pearson correlation between them. Use
@@ -2268,7 +2519,7 @@ corrplot(corr_matrix)
       id: "your-first-alluvial-plot",
       packages: ["ggplot2", "ggalluvial"],
       short: "geom_alluvium()",
-      unit: "Flow Diagrams with ggalluvial",
+      unit: "Flow Diagrams with ggalluvial & ggplot2",
       hasPlot: true,
       instructions: `A <code>flow_data</code> tibble summarizing respondents by region and vote
         is loaded.<br><br>
@@ -2302,7 +2553,7 @@ p
       id: "coloring-flows-with-aes-fill",
       packages: ["ggplot2", "ggalluvial"],
       short: "fill aes",
-      unit: "Flow Diagrams with ggalluvial",
+      unit: "Flow Diagrams with ggalluvial & ggplot2",
       hasPlot: true,
       instructions: `The same <code>flow_data</code> tibble is loaded.<br><br>
         Create <code>p</code>: the same alluvial plot, but with the ribbons colored by
@@ -2332,7 +2583,7 @@ p
       id: "labeling-strata-with-geom-text",
       packages: ["ggplot2", "ggalluvial"],
       short: "Stratum labels",
-      unit: "Flow Diagrams with ggalluvial",
+      unit: "Flow Diagrams with ggalluvial & ggplot2",
       hasPlot: true,
       instructions: `A base alluvial plot, <code>p_base</code>, is already built and loaded.<br><br>
         Create <code>p</code>: <code>p_base</code> with text labels on each stratum box, by
@@ -2365,7 +2616,7 @@ p
       id: "tokenizing-text-with-unnest-tokens",
       packages: ["tidytext"],
       short: "unnest_tokens()",
-      unit: "Text Analysis with tidytext",
+      unit: "Text Analysis with tidytext & dplyr",
       instructions: `A <code>responses</code> tibble has open-text survey answers.<br><br>
         Create <code>tokens</code>: one row per word instead of one row per response, using
         <code>unnest_tokens()</code>.`,
@@ -2387,7 +2638,7 @@ p
       id: "removing-stop-words-with-anti-join",
       packages: ["dplyr", "tidytext"],
       short: "Stop words",
-      unit: "Text Analysis with tidytext",
+      unit: "Text Analysis with tidytext & dplyr",
       instructions: `The tokenized <code>tokens</code> tibble is loaded, along with tidytext's
         built-in <code>stop_words</code> list ("the", "and", "was", and similar).<br><br>
         Create <code>tokens_clean</code>: tokens with all stop words removed, using
@@ -2411,7 +2662,7 @@ p
       id: "counting-word-frequencies",
       packages: ["dplyr"],
       short: "count(word)",
-      unit: "Text Analysis with tidytext",
+      unit: "Text Analysis with tidytext & dplyr",
       instructions: `The cleaned <code>tokens_clean</code> tibble is loaded.<br><br>
         Create <code>word_counts</code>: how often each word appears, sorted from most to least
         common, using <code>count()</code>.`,
@@ -2435,7 +2686,7 @@ p
       id: "reverse-coding-with-mutate",
       packages: ["dplyr"],
       short: "Reverse-coding",
-      unit: "Applied Survey Techniques",
+      unit: "Applied Survey Techniques with dplyr",
       instructions: `A <code>pilot</code> tibble has a survey item <code>item</code> scored
         1–5, worded negatively — high scores mean low agreement. Reverse it so higher always
         means more agreement.<br><br>
@@ -2462,7 +2713,7 @@ Example:<br><code>x <- c(1,3,5)  # a 1-5 scale<br>6 - x</code>`,
       id: "a-composite-scale-with-across",
       packages: ["dplyr"],
       short: "across()",
-      unit: "Applied Survey Techniques",
+      unit: "Applied Survey Techniques with dplyr",
       instructions: `Three related survey items (<code>item1</code>, <code>item2</code>,
         <code>item3</code>) measuring the same construct are loaded as columns of
         <code>items_df</code>.<br><br>
@@ -2493,7 +2744,7 @@ Example:<br><code>tibble(a = c(1,3), b = c(5,7)) |> mutate(avg = rowMeans(across
       id: "comparing-two-groups-with-a-t-test",
       packages: [],
       short: "T-test",
-      unit: "Applied Survey Techniques",
+      unit: "Applied Survey Techniques with dplyr",
       instructions: `A <code>pilot</code> tibble has <code>region</code> (only
         <code>"North"</code> or <code>"South"</code>) and <code>satisfaction</code>.<br><br>
         <code>t.test()</code> isn't a dplyr verb — tidy data still gets handed to base
@@ -2523,7 +2774,7 @@ Example:<br><code>t.test(height ~ group, data = tibble(<br>  height = c(160,170,
       id: "a-simple-linear-regression",
       packages: [],
       short: "Regression",
-      unit: "Applied Survey Techniques",
+      unit: "Applied Survey Techniques with dplyr",
       instructions: `A <code>pilot</code> tibble has <code>age</code> and <code>income</code>
         columns.<br><br>
         Fit a simple linear model predicting income from age: create <code>model</code> with
@@ -2551,7 +2802,7 @@ Example:<br><code>lm(y ~ x, data = tibble(x = 1:3, y = c(2,4,6)))</code>`,
       id: "reading-model-fit-r-squared",
       packages: [],
       short: "Model fit",
-      unit: "Applied Survey Techniques",
+      unit: "Applied Survey Techniques with dplyr",
       instructions: `A regression <code>model</code> predicting income from age is already
         loaded.<br><br>
         Extract the R-squared value into <code>r_squared</code>, using <code>summary()</code>.`,
@@ -2579,7 +2830,7 @@ Example:<br><code>m <- lm(y ~ x, data = tibble(x = 1:3, y = c(2,4,5)))<br>summar
       id: "capstone-a-two-outcome-region-report",
       packages: ["dplyr"],
       short: "Capstone",
-      unit: "Applied Survey Techniques",
+      unit: "Applied Survey Techniques with dplyr",
       instructions: `Bringing it together. A <code>pilot</code> tibble (region, satisfaction,
         income) is loaded.<br><br>
         Create <code>region_report</code>: mean satisfaction <b>and</b> mean income per region,
@@ -3673,7 +3924,7 @@ mutual_info <-
     "Social Network Analysis with igraph": ["igraph"],
     "Multiple Imputation with mice": ["mice"],
     "Missing Data with naniar": ["naniar"],
-    "Text Analysis with tidytext": ["tidytext"],
+    "Text Analysis with tidytext & dplyr": ["tidytext"],
     "Publication Tables with modelsummary": ["modelsummary"],
     "Reshaping Data with tidyr": ["tidyr"]
   };
