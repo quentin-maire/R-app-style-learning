@@ -6,6 +6,9 @@ No server, no install, no account — open the page and R runs on-device.
 Installable to an Android home screen as a lightweight app once hosted
 over `https://`.
 
+**Live app:** <https://quentin-maire.github.io/R-app-style-learning/> ·
+**Source:** <https://github.com/quentin-maire/R-app-style-learning>
+
 505 short lessons, written in **tidyverse style** throughout (`tibble()`,
 `dplyr`/`purrr`/`forcats`/`stringr`/`tidyr` verbs, `ggplot2`, `ggalluvial`,
 and the native `|>` pipe — no base-R subsetting or `data.frame()` except
@@ -793,11 +796,13 @@ units 14–33.
 
 ## Hosting on GitHub Pages
 
-1. Push this repo to GitHub as-is (`index.html` at the root).
+This app lives at <https://github.com/quentin-maire/R-app-style-learning>.
+
+1. Push this repo to that GitHub repository as-is (`index.html` at the root).
 2. In the repo, go to **Settings → Pages**.
 3. Under **Build and deployment**, set **Source** to `Deploy from a branch`,
    branch `main`, folder `/ (root)`. Save.
-4. GitHub will publish at `https://<username>.github.io/<repo-name>/`
+4. GitHub will publish at <https://quentin-maire.github.io/R-app-style-learning/>
    (usually live within a minute or two).
 5. Open that URL in Chrome on Android → **⋮ → Add to Home screen / Install
    app**. It now behaves like a standalone app.
