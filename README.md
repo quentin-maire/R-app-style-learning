@@ -6,11 +6,11 @@ No server, no install, no account — open the page and R runs on-device.
 Installable to an Android home screen as a lightweight app once hosted
 over `https://`.
 
-131 short lessons, written in **tidyverse style** throughout (`tibble()`,
+505 short lessons, written in **tidyverse style** throughout (`tibble()`,
 `dplyr`/`purrr`/`forcats`/`stringr`/`tidyr` verbs, `ggplot2`, `ggalluvial`,
 and the native `|>` pipe — no base-R subsetting or `data.frame()` except
 where there's genuinely no tidyverse equivalent, like plain vector
-indexing). Organized into 35 units, built around a running "pilot survey"
+indexing). Organized into 72 units, built around a running "pilot survey"
 dataset, plus a project-workflow unit and an RStudio-shortcuts unit that
 aren't tied to the dataset at all.
 
@@ -37,149 +37,319 @@ Creating labelled data with `labelled()` · converting labels to factors
 with `as_factor()` · dropping labels with `zap_labels()` · marking
 special missing codes with `tagged_na()`
 
+**Unit 4 — Variable & Value Labels with labelled & haven**
+*For SPSS/Stata-style files such as HILDA and LSAY.* `var_label()` · `val_labels()` (get and set) · dropping labels of negative missing codes · negative codes to `NA` across columns · `labelled_spss()` user-missing codes · `zap_missing()` · `as_factor()` · `look_for()` · `generate_dictionary()` · `set_variable_labels()` · `write_sav()`/`read_sav()` · `read_dta(n_max = 0, col_select)`
+
+**Unit 5 — Importing Text Data with readr**
+`read_csv()` · forcing column types with `col_types` · `parse_number()` ·
+declaring missing codes with `na =` · `write_csv()` round trip · `read_lines()` · `write_rds()`/`read_rds()`
+
+**Unit 6 — Capstone: Import & Label a Survey with haven & dplyr**
+One multi-step lesson ending Phase 2: labelled SPSS codes → factors, refusal
+codes → `NA`, then a grouped mean.
+
 ### Phase 3 — Data Cleaning / Wrangling
 
-**Unit 4 — Tidyverse Foundations with dplyr, purrr & tibble**
+**Unit 7 — Tidyverse Foundations with dplyr, purrr & tibble**
 Vectors & indexing · `tibble()` + `select()` · `filter()` · a function +
 `purrr::map_dbl()` · `summarise()` · `mutate()` + `if_else()`
 
-**Unit 5 — Working with Survey Data with dplyr**
+**Unit 8 — Building Tibbles with tibble & tidyr**
+`tribble()` · `add_row()` · `rownames_to_column()` · `expand_grid()`
+
+**Unit 9 — Working with Survey Data with dplyr**
 `arrange()` · missing data in a pipeline · `case_when()` · cross-tabs with
 `count()` · `left_join()` · a combined-condition `filter()` checkpoint
 
-**Unit 6 — More Joins & Variable Wrangling with dplyr**
+**Unit 10 — More Joins & Variable Wrangling with dplyr**
 Keeping only matches with `inner_join()` · keeping everything with
 `full_join()` · renaming with `rename()` · reordering with `relocate()`
 
-**Unit 7 — Recoding Variable Sets with dplyr**
+**Unit 11 — Recoding Variable Sets with dplyr**
 Recoding several columns at once with `mutate(across(...))` · converting
 a whole column set to numeric with `across(where(is.character), ...)`
 
-**Unit 8 — Data Wrangling Deep Dive with dplyr & forcats**
+**Unit 12 — SPSS-to-tidyverse Rosetta with dplyr & janitor**
+A lookup-style unit for SPSS users: FREQUENCIES → `tabyl()` · DESCRIPTIVES
+→ `summarise()` · CROSSTABS → `tabyl()` + `adorn_percentages()` · COMPUTE →
+`mutate()` · MISSING VALUES → `na_if()` · RECODE INTO → `case_when()` · IF →
+`if_else()` · SELECT IF → `filter()` · SORT CASES → `arrange()` · MEANS →
+`group_by()` + `summarise()` · AGGREGATE → `group_by()` + `mutate()` · MATCH
+FILES → `left_join()` · T-TEST → `t.test()` · REGRESSION → `lm()`. Each
+lesson shows the SPSS syntax first.
+
+**Unit 13 — Data Wrangling Deep Dive with dplyr & forcats**
 Reordering factors with `fct_infreq()` · relabeling with `fct_recode()` ·
 base-R dates · filling missing values with `coalesce()` · `anti_join()`
 
-**Unit 9 — Factors & Measurement Levels with forcats**
+**Unit 14 — Dates & Times with lubridate**
+`ymd()` · `dmy()` for Australian formats · `year()` / `month()` · exact age
+with `time_length()` · `floor_date()`
+
+**Unit 15 — Factors & Measurement Levels with forcats**
 Defining an ordinal scale with `factor(ordered = TRUE)` · binning a
 continuous variable with `cut()` · setting the reference level with
 `fct_relevel()` · collapsing rare categories with `fct_lump_n()` · making
-NA an explicit level with `fct_na_value_to_level()`
+NA an explicit level with `fct_na_value_to_level()` · `fct_rev()` · `fct_count()` · `fct_cross()`
 
-**Unit 10 — Reshaping Data with tidyr**
+**Unit 16 — Measurement Levels for Variable Sets with forcats, dplyr & purrr**
+Checking every column's type with `map_chr()` · a Likert battery to ordered
+factors with `across()` · factor to numeric safely · `fct_collapse()` ·
+dummy coding with `model.matrix()` · sum contrasts · standardizing a set ·
+`if_any()` / `if_all()` · `fct_reorder()`
+
+**Unit 17 — Reshaping Data with tidyr**
 Wide to long with `pivot_longer()` · long to wide with `pivot_wider()` ·
-splitting a column with `separate()` · combining columns with `unite()` ·
+reshaping two measures at once with `.value` · splitting a column with `separate()` · combining columns with `unite()` ·
 carrying values forward with `fill()` · making gaps explicit with
 `complete()`
 
-**Unit 11 — Strings & Regex with stringr**
+**Unit 18 — Strings & Regex with stringr**
 `str_detect()` · `str_extract()` · `str_replace_all()` · `str_split()` ·
-cleaning free-text with `str_trim()` + `str_to_lower()`
+cleaning free-text with `str_trim()` + `str_to_lower()` · `str_sub()` · `str_pad()` ·
+`str_c()` · `str_count()` · `str_squish()` + `str_to_title()`
 
-**Unit 12 — Tidying with janitor**
+**Unit 19 — Tidying with janitor**
 `clean_names()` · quick frequency tables with `tabyl()` · finding
 duplicates with `get_dupes()` · dropping empty columns with
 `remove_empty()` · totals rows with `adorn_totals()`
 
-**Unit 13 — Missing Data with naniar**
+**Unit 20 — Data Cleaning Toolkit with dplyr**
+`distinct()` · `slice_max()` · `lag()` for within-person change ·
+`add_count()` + `n_distinct()` · `bind_rows(.id)` · `semi_join()` ·
+`across()` with several functions and `.names` · `rename_with()` ·
+`select(where(), starts_with())` · `rowwise()` + `c_across()` · `between()` / `%in%`
+
+**Unit 21 — Ranking, Windows & Recoding with dplyr**
+`count(wt =)` · `summarise(.by =)` · `case_match()` · `min_rank()` within
+groups · `ntile()` · `cumsum()` · `first()` / `last()` · `transmute()` ·
+`join_by()` for differently named keys
+
+**Unit 22 — Iteration & Functions with purrr**
+Anonymous functions with `\(x)` shorthand · `map2_dbl()` over two vectors ·
+folding with `reduce()` · writing a function with a default argument · `map_lgl()` · `keep()` ·
+`pluck()` · `possibly()` · `list_rbind()`
+
+**Unit 23 — Stacking & Harmonising Wave Files with purrr, dplyr & stringr**
+*For wave-by-wave files such as HILDA's Combined files.* Stripping wave prefixes with `str_sub()` + `rename_with()` · `intersect()` / `setdiff()` · `all_of()` · tagging waves · a `read_wave()` function · `compact()` · `map()` + `bind_rows()` · `match(wave, letters)` · key checks with `anyDuplicated()` · `reduce(union)` for type clashes · cleaning a variable list · arithmetic age bands
+
+**Unit 24 — Deriving Survey Variables with dplyr**
+Yes/no codes to 0/1 · ever/never from a frequency · `pmax()` for the higher of two parents · carrying once-asked values across waves · decade and period variables with `cut()` · equivalised income · `ntile(.by =)` thirds within group and wave · age-group labels · `droplevels()` · own cluster for missing ids · `%in%` indicators · outcomes defined only for a subgroup · 'unsure' to missing · mean-one weights · reweighting to a target share · wave columns by `paste0()` · `rename(any_of(lookup))` · `.after =` · `case_when()` leaving others missing
+
+**Unit 25 — Missing Data with naniar**
 Summarizing missingness with `miss_var_summary()` · visualizing it with
 `vis_miss()` · a per-variable bar chart with `gg_miss_var()` · flagging
 sentinel missing codes with `replace_with_na()` · counting total
-missingness with `n_miss()` / `prop_miss()`
+missingness with `n_miss()` / `prop_miss()` · per-respondent summaries with
+`miss_case_summary()` · `add_n_miss()` · the shadow matrix with `bind_shadow()`
 
-**Unit 14 — Panel Data Overviews with overviewR**
+**Unit 26 — Missing Values in Practice with tidyr & dplyr**
+`colSums(is.na())` · listwise deletion with `drop_na()` · `replace_na()` ·
+missingness indicators and group comparisons · why mean imputation shrinks
+the SD · missing items per respondent · scale scores with a half rule
+
+**Unit 27 — Panel Data Overviews with overviewR**
 Summarizing panel coverage with `overview_tab()` · checking missing data
 with `overview_na()`
 
-**Unit 15 — Multiple Imputation with mice**
+**Unit 28 — Multiple Imputation with mice**
 Creating imputations with `mice()` · extracting a completed dataset with
-`complete()` · pooling model results across imputations with `pool()`
+`complete()` · pooling model results across imputations with `pool()` · missing-data
+patterns with `md.pattern()` · stacked imputations with `complete(action = "long")`
 
-**Unit 16 — Iteration & Functions with purrr**
-Anonymous functions with `\(x)` shorthand · `map2_dbl()` over two vectors ·
-folding with `reduce()` · writing a function with a default argument
+**Unit 29 — Defensive Scripting with base R & purrr**
+`stopifnot()` + `tryCatch()` · a skip-on-error wrapper · `file.path()` + `sprintf()` · `%||%` · catching warnings · `reduce(left_join)` · `iwalk()` progress · a `need_vars()` check with `setdiff()` · `file.exists()` guards · `next` to skip a missing variable · `requireNamespace()` for optional packages · `rm(list = setdiff(ls(), keep))` · `withCallingHandlers()` + `invokeRestart("muffleWarning")` · a warning log across models
+
+**Unit 30 — Saving Outputs & Reproducibility with base R**
+Output folders from one list of paths with `dir.create(recursive = TRUE)` · a `save_csv()` helper · `read.csv(check.names = FALSE)` · `capture.output(sessionInfo())` · `set.seed()` before every random step · dated file names with `format()` · running scripts in order with `source(local = env)`
+
+**Unit 31 — Nested Data & Models by Group with tidyr, purrr & broom**
+`nest()` · `map_int()` on list-columns · one `lm()` per group · `tidy()` +
+`unnest()` to collect slopes · `unnest()` back to rows
+
+**Unit 32 — Capstone: Clean & Reshape Panel Data with dplyr, tidyr & forcats**
+One multi-step lesson ending Phase 3: wide panel → long, relabel a factor,
+summarise with missing waves.
 
 ### Phase 4 — Basic Analysis & Data Visualization
 
-**Unit 17 — Exploring & Summarizing with dplyr**
+**Unit 33 — Exploring & Summarizing with dplyr**
 `count()` + proportions · `group_by()` + `summarise()` · multiple grouped
 summaries with `n()` · quantiles · standardizing with `mutate()` ·
 correlation with `summarise()` + `pull()`
 
-**Unit 18 — Visualization with ggplot2**
+**Unit 34 — Weighted Tables & Table Building with base R & dplyr**
+Weighted percentages with `tapply()` · `droplevels()` on valid cases · `weighted.mean()` on complete pairs · tidy blocks per variable with `do.call(rbind)` · `ave()` for position within group · `as.data.frame(table(), responseName)` · `merge()` · `cbind()` constant columns · APA-style p-values with `formatC()` · significance stars with nested `ifelse()` · SE and p from an interval · replacing codes with display labels
+
+**Unit 35 — Visualization with ggplot2**
 A first scatter plot with `geom_point()` · `geom_col()` bar charts ·
 mapping `color` in `aes()` · titles with `labs()` · small multiples with
-`facet_wrap()`
+`facet_wrap()` · `geom_histogram()` · `geom_boxplot()` · `geom_line()` ·
+`geom_smooth()`
 
-**Unit 19 — Visualizing Correlations with corrplot**
+**Unit 36 — Visualizing Correlations with corrplot**
 A first correlation plot · handling missing data with
 `cor(..., use = "complete.obs")`
 
-**Unit 20 — Flow Diagrams with ggalluvial & ggplot2**
+**Unit 37 — Flow Diagrams with ggalluvial & ggplot2**
 A first alluvial (Sankey-style) plot with `geom_alluvium()` +
 `geom_stratum()` · coloring flows with `aes(fill = ...)` · labeling
 strata with `geom_text()` + `after_stat()`
 
-**Unit 21 — Text Analysis with tidytext & dplyr**
+**Unit 38 — Publication Figures with ggplot2**
+`geom_ribbon()` confidence bands · `scale_colour_manual()` · `theme_bw()` + `theme()` · axis breaks · `facet_wrap(scales, ncol)` · `label_wrap_gen()` · `geom_pointrange()` with `position_dodge()` · `geom_hline()` · horizontal intervals · `fct_reorder()` for panels · `ggsave()` · stacked areas with `position_stack(reverse = TRUE)` · `coord_cartesian()` limits · stacked bars by panel · dodged bars with `geom_errorbar()` · one-row legends with `guides()` · `hcl.colors()` · `setNames()` palettes · strip text themes · `expansion()` · per-panel reference lines · `geom_text(y = Inf)` notes · ordering by a position column · one folder of figures per theme
+
+**Unit 39 — Text Analysis with tidytext & dplyr**
 Tokenizing text with `unnest_tokens()` · removing stop words with
 `anti_join()` · counting word frequencies with `count()`
 
-**Unit 22 — Applied Survey Techniques with dplyr**
+**Unit 40 — Applied Survey Techniques with dplyr**
 Reverse-coding with `mutate()` · a composite scale with `across()` · a
 two-group t-test · simple linear regression · reading R² · a capstone
 `group_by()` + `summarise()` report across two outcomes
 
-**Unit 23 — Tidy Models with broom**
+**Unit 41 — Tidy Models with broom**
 Tidying coefficients with `tidy()` · model-level fit stats with
 `glance()` · row-level predictions with `augment()`
 
-**Unit 24 — Scale Reliability with psych**
+**Unit 42 — Classic Inference Tests with stats & broom**
+Chi-square test with `chisq.test()` · standardized residuals · `tidy()`
+on a test · `prop.test()` · one-way ANOVA with `aov()` · `TukeyHSD()`
+post-hoc comparisons · tidying Tukey results · `cor.test()` · the
+Wilcoxon rank-sum test with `wilcox.test()`
+
+**Unit 43 — Cibois's PEM (Percentage of Maximum Deviation) with base R**
+Expected counts and deviations under independence · PEM for a single
+cell · the PEM for every cell (attraction and repulsion use different
+maxima) · a reusable `pem_fun()` · listing the strongest attractions. PEM
+is written by hand, in base R, so the formula is visible; the `descriptio`
+package offers the same measure but is not used here.
+
+**Unit 44 — Scale Scoring & Index Construction with dplyr & purrr**
+Reverse-coding · POMP 0-100 rescaling · answered share with `pick()` · an index requiring enough answered items · per-item ranges with `cur_column()` · scores for several scales with `map()` · `keep()` · one random wave per person with `slice_sample(by =)`
+
+**Unit 45 — Scale Reliability with psych**
 Cronbach's alpha with `alpha()` · a one-factor PCA with `principal()` ·
-quick variable summaries with `describe()`
+quick variable summaries with `describe()` · `polychoric()` · one-factor `fa()` · omega from loadings · `fa.parallel()` · item-rest correlations · Spearman-Brown · first-component share
+
+**Unit 46 — Measurement Invariance with lavaan**
+`cfa()` · `fitMeasures()` · configural, metric and scalar multi-group models (`group`, `group.equal`) · ΔCFI · robust `MLR` with `missing = "ml"` · `standardizedSolution()`
+
+**Unit 47 — Multiple Correspondence Analysis with FactoMineR & ggplot2**
+The disjunctive (indicator) table · `MCA()` · eigenvalues and total
+inertia · Benzécri's modified rates · contributions · cos2 · v-tests ·
+mapping the categories (the space of lifestyles) · mapping the
+individuals · η² by variable · supplementary categorical and quantitative
+variables · `dimdesc()` · clustering with `HCPC()`. Built around a small
+simulated "space of lifestyles" (occupation, education, music, reading,
+sport, with gender and age as supplementary variables), in the spirit of
+Husson, Lê & Pagès's *Exploratory Multivariate Analysis by Example Using
+R* and of Bourdieusian analyses of social space.
+
+**Unit 48 — Capstone: Explore, Test & Plot with dplyr, broom & ggplot2**
+One multi-step lesson ending Phase 4: a descriptive table, a t-test, the
+test as a tibble, and a box plot.
+
+**Unit 49 — Spot & Fix Bugs with dplyr, stringr & ggplot2**
+Fifteen "debug on purpose" lessons: each starts from broken code (an error
+message or a silent mistake) that you repair. Covers `=` vs `==`, results
+that were never assigned, `na.rm`, leftover grouping, `case_when()` order,
+join keys with different names, factor-to-number traps, `== NA`, `&` vs
+`|`, regex dots, a fixed colour inside `aes()`, weighted means, `cut()`
+boundaries, piping into `lm()`, and `summarise()` vs `mutate()`.
 
 ### Phase 5 — More Advanced Analysis
 
-**Unit 25 — Model Parameters with parameters**
+**Unit 50 — Model Parameters with parameters**
 Tidy output with `model_parameters()` · standardized coefficients
 
-**Unit 26 — Regression Reporting with jtools**
+**Unit 51 — Regression Reporting with jtools**
 A cleaner model summary with `summ()` · visualizing an effect with
 `effect_plot()`
 
-**Unit 27 — Post-Estimation with marginaleffects**
+**Unit 52 — Logistic Regression with glm, broom & marginaleffects**
+`glm(family = binomial)` · odds ratios with `tidy(exponentiate = TRUE)` ·
+predicted probabilities with `predict(type = "response")` · average
+marginal effects with `avg_slopes()` · likelihood-ratio test with
+`anova(test = "Chisq")` · McFadden's pseudo R²
+
+**Unit 53 — Ordinal & Multinomial Models with MASS & nnet**
+Ordered logit with `MASS::polr()` · odds ratios from ordinal slopes ·
+predicted category probabilities · `nnet::multinom()` for unordered
+outcomes · choosing the reference category with `relevel()` · predicted
+probabilities across categories (MASS is called with `MASS::` and never
+attached, because `library(MASS)` masks `dplyr::select()`)
+
+**Unit 54 — Multinomial Models with VGAM**
+`VGAM::vglm(multinomial(refLevel = 1))` · reading coefficient names like `x:1` · odds ratios with limits from `vcov()` · `logLik()` and McFadden R-squared · Cox-Snell and Nagelkerke · weights rescaled to sum to n (VGAM is called with `::`, never attached)
+
+**Unit 55 — Post-Estimation with marginaleffects**
 Average marginal effects with `avg_slopes()` · `predictions()` ·
 `avg_predictions()` · `avg_comparisons()`
 
-**Unit 28 — Model Diagnostics with performance**
+**Unit 56 — Model Diagnostics with performance**
 R-squared with `r2()` · checking collinearity with
 `check_collinearity()` · testing residual normality with
 `check_normality()`
 
-**Unit 29 — Multilevel Models with lme4**
-A random-intercept model with `lmer()` · adding a fixed-effect predictor ·
-extracting random effects with `ranef()` · fixed effects with `fixef()`
+**Unit 57 — Multilevel Models with lme4**
+A random-intercept model with `lmer()` · adding a fixed-effect predictor · extracting random effects with `ranef()` · fixed effects with `fixef()` · three-level `(1 | school/pid)` · variance shares from `VarCorr()` · Wald intervals with `confint()` · `nobars()` for the pooled model · pooled versus multilevel coefficients
 
-**Unit 30 — Event History Analysis with survival**
+**Unit 58 — Panel Regression with plm**
+`pdata.frame()` + `pdim()` · pooled OLS · fixed effects (`within`) · the
+within estimator by hand · random effects · Hausman test with `phtest()` ·
+`pFtest()` · `fixef()` · two-way effects · cluster-robust SEs with
+`vcovHC()` · first differences. plm is called as `plm::name()` (not attached)
+to avoid masking dplyr's `lag()`.
+
+**Unit 59 — Event History Analysis with survival**
 Declaring survival data with `Surv()` · a Kaplan-Meier curve with
 `survfit()` · a Cox model with `coxph()`
 
-**Unit 31 — Complex Survey Design with survey**
+**Unit 60 — Complex Survey Design with survey**
 Declaring a design with `svydesign()` · weighted means with `svymean()` ·
 a weighted regression with `svyglm()` · subgroup estimates with `svyby()`
 
-**Unit 32 — Social Network Analysis with igraph**
+**Unit 61 — Survey Estimation Toolkit with survey**
+*For clustered, weighted samples such as LSAY.* Schools as clusters with `nest = TRUE` · `options(survey.lonely.psu)` · subsetting a design with `des[rows, ]` · `svyby(vartype = "ci")` · clamped proportion intervals · weighted shares from 0/1 indicators · `svycontrast()` for differences and for slopes by group · nested specifications from a list · one common complete-case sample
+
+**Unit 62 — Survey Model Reporting & Inference with survey & stats**
+Combined slope and interval from `vcov()` · a custom odds-ratio table function · `do.call(rbind, Map())` · share of a gradient explained · deviance-based pseudo R-squared · a Wald chi-square by hand · design-based F test · delta-method predicted-probability curves · `as.svrepdesign()` bootstrap · `withReplicates()`
+
+**Unit 63 — Average Marginal Effects by Hand with glm & survey**
+Counterfactual copies of the data · the average effect of a factor level · numeric predictors as plus/minus half a unit · looping over factor levels · one function for numeric and factor predictors · bootstrap standard errors with `withReplicates()`
+
+**Unit 64 — Weighted Multinomial Models with svyVGAM**
+`svyVGAM::svy_vglm()` with `multinomial(refLevel = 1)` · mean-one weights for stable fitting. (svyVGAM is a lazy install, called with `::`, never attached.)
+
+**Unit 65 — Weighted Trend Models with survey, broom & purrr**
+*For repeated cross-sections and panels such as HILDA.* `svydesign(ids =)` clustered on person · `svymean()` · `svyby()` · `svyglm()` · group-by-decade interactions · `tidy()` · `reformulate()` · `regTermTest()` · `subset()` of a design · weighted logistic trends with `quasibinomial()` · `plogis()` · ratio of odds ratios · `crossing()` specification grids · `map_dbl()` over outcomes · `group_modify()` by year
+
+**Unit 66 — Social Network Analysis with igraph**
 Building a network with `graph_from_data_frame()` · degree centrality
 with `degree()` · visualizing a network with `plot()`
 
-**Unit 33 — Comparative Methods with QCA**
+**Unit 67 — Comparative Methods with QCA**
 Calibrating a fuzzy-set condition · building a truth table with
 `truthTable()`
 
-**Unit 34 — Segregation Measures with segregation**
-The dissimilarity index · the mutual information index with
-`mutual_total()`
+**Unit 68 — Segregation Measures with dplyr & segregation**
+*For school-level SES segregation work.* Built from the ground up: school composition (row shares) · where each group is found (column shares) · stacked bars of composition · counts per school · the even-spread benchmark and gaps · the dissimilarity index step by step, what it means in students, then `dissimilarity()` · isolation and exposure by hand · entropy · the mutual information index M by hand, then `mutual_total()` · Theil's H = M / E · three groups at once · decomposing M within sectors with `mutual_within()`
 
-**Unit 35 — Publication Tables with modelsummary**
+**Unit 69 — Publication Tables with modelsummary**
 Comparing two models with `modelsummary()` · naming models in the table
+
+**Unit 70 — Publication Table Helpers with dplyr, stringr & tidyr**
+Significance stars with `case_when()` · `formatC()` decimals · `mapply()` · estimate + CI strings · p-value formatting · en dashes with lookarounds · blanking repeated labels · interleaving columns · `pivot_wider(names_glue)` · hidden header suffixes
+
+**Unit 71 — Excel Reports with openxlsx**
+`createWorkbook()` / `addWorksheet()` / `writeData()` / `saveWorkbook()` · title rows · `createStyle()` + `addStyle()` · `mergeCells()` + `setColWidths()` · one sheet per table with `iwalk()`
+
+**Unit 72 — Capstone: Model & Report with glm, broom & marginaleffects**
+One multi-step lesson ending Phase 5: a logistic model, odds ratios,
+average marginal effects and a predicted probability.
+
+**Navigation.** Every unit header in the path map shows a one-line description under its name, so you can see what a block of lessons is about before opening it. Every lesson's explainer says what the function does, why you would use it, what it needs and what it assumes.
 
 The path map groups lessons visually by unit, and shows a lock icon on
 lessons that come later than where you've currently progressed — but it's
@@ -190,6 +360,115 @@ clear you're jumping past something. That means you can freely start
 Foundations with dplyr, purrr & tibble" first, or drop into
 "Visualization with ggplot2" on day one if that's what you want to
 explore.
+
+## Installing on Android (add to home screen)
+
+Field Notes is a progressive web app (PWA): it ships a `manifest.webmanifest`,
+home-screen icons and a service worker, so once the repo is hosted over
+`https://` (for example on GitHub Pages) Chrome can install it as an app.
+
+1. Open the page's address in **Chrome** on your Android phone and let it
+   finish loading.
+2. Either tap **⚙️ → Install Field Notes** inside the app (this button
+   appears when Chrome offers installation), or tap Chrome's **⋮ menu →
+   Add to Home screen** (on some versions it reads **Install app**).
+3. Confirm the name and tap **Install** (or **Add**). The icon appears on
+   your home screen.
+4. Open it from the icon. It runs full-screen, like an app.
+
+Things to know:
+
+- **Updates.** The service worker fetches the app files network-first, so
+  after you push a new version to GitHub the phone picks it up the next
+  time it opens with a connection (close and reopen the app once if you
+  still see the old one). To force every device to drop its old caches,
+  change `VERSION` at the top of `sw.js`.
+- **Stored R engine.** R (webr.r-wasm.org) and its packages (repo.r-wasm.org) are kept in their own long-lived cache
+  (`field-notes-webr-v1`) and served cache-first, refreshed when an entry is over 30 days old. This cache survives `VERSION`
+  bumps; Settings has a button to clear it. This has not been tested on a real device.
+- **Offline.** The app shell, R and the packages are cached after the
+  first successful load, so the app should open without a connection. Whether
+  R itself starts fully offline depends on how the browser lets the webR
+  worker use that cache, which has not been tested here, so treat offline use
+  as a bonus, not a guarantee. The first load of each session still needs
+  internet.
+- **Progress** is stored by the browser for that exact address. Open the
+  app from the same address (or the same home-screen icon) to keep it, and
+  use **⚙️ → Export progress** before clearing browser data or changing
+  phone.
+- **Files.** The PWA needs these files next to `index.html`:
+  `manifest.webmanifest`, `sw.js` and the `icons/` folder. The single-file
+  `r-field-notes.html` works for quick use but cannot be installed as an app,
+  because it has no manifest or service worker.
+- If neither install option appears, check that you are on the `https://`
+  address, in Chrome (not an in-app browser such as the one inside another
+  app), and that the page has finished loading. Samsung Internet offers
+  the same option under **☰ → Add page to → Home screen**.
+
+## Learning features
+
+- **Targeted feedback.** A failed check no longer just says "not quite". The app re-runs the lesson's solution in a
+  private environment and compares each object you were meant to create with it (class, columns, rows, length, values),
+  so you see messages such as "`x` should have 3 rows, but yours has 2". Common R errors are translated into plain
+  language. A lesson can add its own tests with an optional `feedback: [{ when: "R expression", msg: "text" }]` list.
+- **What your code created.** After Run or Check, the objects your code assigned are shown below the console. "Compare
+  with the expected result" shows what the correct code produces (and counts as a hint).
+- **See it first.** The Learn page has a collapsible worked example taken from the lesson's Help; examples that are safe
+  to run have a Run button.
+- **Predict first.** About fifty lessons start with a short multiple-choice "what will this return?" question
+  (+5 XP the first time you get it right).
+- **Spaced review.** Review uses Leitner boxes (1, 3, 7, 16 and 35 days). A clean pass moves a lesson up a box, a hint
+  keeps it, Display answer sends it back to box 1, and a miss during review drops it a box. Lessons that are due show an
+  orange dot on the path.
+- **Search.** The box on the Path page finds lessons by title, function name, package or topic.
+- **Placement check and Skip.** A 20-question placement check can mark whole phases as already known, and every unit
+  header has a Skip button. Skipped lessons show a dashed outline, earn no XP and return in Review after two days.
+- **Your skills.** The Path page groups lessons into 13 skill areas with completion and mastery bars.
+- **Code editor.** The code box highlights R as you type (comments, strings, numbers, keywords, function names, pipes and
+  the `___` blanks), grows with your code, closes brackets and quotes (typing the closer steps over it, backspace removes an
+  empty pair), and indents after Enter (after an opening bracket or at the end of a `|>` or `+` line). The symbol bar also
+  has Undo and Reset-to-starter. It is a deliberately light editor built for touch screens, not a full IDE.
+- **Stuck help.** After two failed checks the feedback offers Show the hint, Compare with expected and Start again; after
+  three it also offers Show the answer. The comparison panel shows your result and the expected one together.
+- **Reference.** The Reference tab has a cheat sheet for every unit (each lesson's function, one-line explanation and a
+  worked example, with a button to open the lesson) and an A to Z list of functions, both searchable.
+- **Unit quiz.** Once a unit is finished (and has at least three lessons with a named function), a "Unit quiz" button
+  appears under it: five questions generated from the unit's own lessons ("which function fits this description?" and "which
+  line of code does this?"). Four or more right earns +20 XP once per unit; missed lessons become due in Review.
+- **Read aloud.** The Help popup can read itself aloud using the voice already on the device (browser speech synthesis;
+  Australian English preferred, then NZ, UK, US). The first time you open Help it asks once whether to read aloud every time;
+  after that it starts speaking when you tap Help. There are Pause/Resume and speed (0.8x, 1x, 1.25x) buttons in the popup, and a
+  switch in Settings. It reads the lesson title, the explanation and the help text, says "the example code is on screen" instead
+  of reading code, and stops when you close Help, change lesson or leave the page. Hidden if the browser has no speech support.
+- **Start-up.** While R loads the banner shows the step and elapsed time and the Run/Check buttons say "R loading…". After
+  the first visit the R engine and packages are stored on the device (see below) and Settings can clear them.
+- **Mobile bar.** On phones (and narrow windows) the Practice page has a fixed bar with Run, Check and Display answer
+  buttons, plus a symbol toolbar (`|>`, `<-`, `%in%`, quotes, brackets, `$`, `~`, `==`, `!=`, `&`, `|`, indent). Symbol
+  buttons insert at the cursor without closing the keyboard, put the cursor inside paired symbols, and wrap a selection.
+  While you type, the bar sits above the on-screen keyboard.
+- **Was this explanation clear?** Each lesson has 👍 / 👎 buttons on the Learn and Practice pages (👎 offers an optional
+  note). Ratings are stored in this browser, included in Export/Import progress, and exported as a CSV from Settings
+  (unclear lessons first) so you can see which explainers to rewrite. The self-test report also lists lessons you
+  marked unclear.
+
+
+## Lesson notes (the explainer on every lesson)
+
+Each lesson has an `explain` object that appears in two places: as a
+**Notes** card on the Learn page, and at the top of the **Help** popup
+(above the worked example). It has up to five short sections:
+
+- **What it's for** — when you would reach for this function.
+- **Kind of analysis** — which family of methods it belongs to.
+- **What your data needs** — the object or variable properties required.
+- **Assumptions to keep in mind** — the conditions the method relies on.
+- **The maths in plain words** — for functions built on a formula (about
+  forty percent of the lessons): what the formula is and what it does.
+
+Every explainer says what the function does, why you would use it, and what to watch for.
+
+A lesson's `explain` fields are plain HTML strings, with `use` and
+`family` required (the validator checks that every lesson has them).
 
 ## App structure
 
@@ -218,10 +497,10 @@ code box:
 
 - **Show hint** (−15 XP if the lesson is then completed) — a short nudge
   toward the answer.
-- **Help** (free, no XP cost) — opens a popup explaining the R
-  function(s) used in the lesson, with a short standalone example that's
-  deliberately different from the exercise itself, so it doesn't just hand
-  over the answer.
+- **Help** (free, no XP cost) — opens a popup with the lesson's notes (what
+  the function is for, what it needs, its assumptions and the maths) and
+  then a short standalone worked example, deliberately different from the
+  exercise itself so it doesn't just hand over the answer.
 - **Display answer** (−25 XP if the lesson is then completed) — writes the
   fully correct solution into the code box. Pressing it again ("Hide
   answer") restores whatever was in the box immediately before, so it
@@ -229,9 +508,61 @@ code box:
   used before completing, only the larger (answer) penalty applies — they
   don't stack.
 
+## Settings & tools (the ⚙️ in the top bar)
+
+- **Export / import progress** — downloads your progress as a small JSON
+  file, and merges one back in (all completed lessons are kept, along with
+  the higher XP total). Use it before clearing site data or moving to a
+  new phone, since `localStorage` is per browser.
+- **Install the app** — appears when Chrome offers installation (see
+  "Installing on Android").
+- **Self-test** — runs every lesson's `setup`, `solution` and `check` in
+  the real R engine on your device and lists the lessons that fail, with
+  the error text. See "How to run the self-test" below.
+
+### How to run the self-test
+
+Run it after every update. It is the only way to find out whether a
+lesson's solution and check really work in R, because the checks cannot be
+run anywhere else.
+
+1. Open the app and wait until the banner at the top turns **green** ("R is
+   running"). The self-test needs R to be ready, and says so if it is not.
+2. Tap **⚙️** in the top bar to open Settings & tools.
+3. Under **Self-test**, choose the scope: **All lessons** (every lesson,
+   slow the first time) or **Current unit only** (the unit of the lesson
+   you last opened, a quick way to re-test one fix).
+4. Tap **Run self-test**, then keep the panel open and the screen awake.
+   A status line counts through the lessons (`Testing 57/505: …`). The
+   first full run installs each unit's packages as it reaches them, so
+   expect several minutes; later runs are faster because packages stay
+   installed for the session.
+5. When it finishes, the status line gives the totals (for example
+   `Self-test: 183 passed, 6 failed, of 505 lessons`) and the box lists
+   every failing lesson as `FAIL <lesson id> [<unit>]` followed by the
+   reason: either the R error message, `check did not return TRUE`, or
+   `package install failed for this unit`.
+6. Tap **Copy results** (or long-press the box if the copy is blocked) and
+   paste the list to whoever is maintaining the course, or use it yourself:
+   find the lesson by its id in `index.html` and fix its `solution`,
+   `setup` or `check`.
+
+How to read the failures:
+
+- Many failures in **one unit** and a package message usually means that
+  package has no working WebAssembly build (or the network blocked it).
+  Only that unit is affected; the fallback is to remove the unit.
+- A single failure with an R error means a typo or an API change in that
+  lesson's code.
+- `check did not return TRUE` means the solution runs, but the check
+  expression disagrees with it, so the check is too strict or wrong.
+- The test runs the **solution** against the **check**; it does not test
+  your own answers, and it does not draw plots on screen (plot lessons are
+  run on a hidden graphics device).
+
 ## Progression
 
-- **Easy / Medium / Hard** — 93 of the 100 lessons offer three starting
+- **Easy / Medium / Hard** — all but seven of the 505 lessons offer three starting
   points for the same code box: Easy pre-builds a skeleton with blanks
   for arguments; Medium gives a plain-English comment and an empty
   assignment line, so you write the full function call yourself; Hard
@@ -248,6 +579,28 @@ code box:
   difficulty bonus (+10 Medium, +25 Hard) if the lesson has tiers and
   wasn't done on Easy, minus a hint or answer penalty if either was used.
   150 XP per level, shown as a compact bar in the top strip.
+- **Mastery stars** — each completed lesson shows 1–3 stars on the path:
+  one for clearing it on Easy, two for Medium, three for Hard (lessons
+  without tiers earn three). Redoing a lesson on a harder tier earns the
+  XP bonus you missed the first time, without stacking hint or answer
+  penalties.
+- **Continue** — a button at the top of the path opens the lesson you
+  were last on, or the first one you haven't finished.
+- **Capstones and badges** — each phase (2 to 5) ends with a **Capstone**
+  unit: one multi-step lesson that combines the phase's skills, drawn as a
+  larger 🏆 node and worth double XP. Finishing every lesson in a unit
+  earns a 🏅 on its heading; finishing a phase puts a 🏆 on the phase
+  header and shows a "Unit complete" or "Phase complete" celebration.
+- **Review mode** — the blue **Review** button on the path picks up to five
+  completed lessons (the ones you practised longest ago, then the ones
+  with the fewest stars) and drops you straight into Practice on the
+  **Hard** tier, with no scaffolding, to recall the code from scratch.
+  Each lesson you pass earns +10 XP once per review. A lesson counts as
+  "due" three days after you last passed it. Review progress is stored
+  as a last-practised time per lesson id.
+- **Phases and collapsible units** — the path shows the five phase
+  headers; tap a unit heading to collapse or expand it. By default only
+  the unit you're currently in is open.
 - **Completion celebration** — a short overlay confirms XP earned and any
   level-up.
 
@@ -308,15 +661,26 @@ understanding the different kinds of risk stacked up here:
   separate code path and never depends on whether the image actually
   drew.
 
+- **lavaan, labelled, openxlsx, survey.** New lazy installs. lavaan is the heaviest (first install may be slow); `ggsave()` and the SPSS/Stata round trips write to temporary files, which should work in the browser but have not been run there.
+- **VGAM, svyVGAM.** New lazy installs for the multinomial units; both are called with `::` and never attached. svyVGAM is the less common one, so it sits in its own two-lesson unit: if it will not install under WebAssembly only that unit is affected. The bootstrap lessons (`as.svrepdesign()`, `withReplicates()`) refit models on many replicate weight sets, which is slower in the browser than on a desktop.
+- **plm, readr, lubridate.** These install lazily like the others. plm has many dependencies, so its first install may be slow or fail under WebAssembly; if the Panel Regression unit will not load, run the self-test on that unit and tell me the error. plm is never attached, so its lessons call `plm::plm()` etc.
+- **FactoMineR and MASS/nnet.** The Multiple Correspondence Analysis unit
+  needs `FactoMineR`, which pulls in a long dependency chain (car, emmeans,
+  leaps, flashClust and others), and the ordinal/multinomial unit needs
+  `MASS` and `nnet`. Whether the webR package repository carries working
+  builds of all of these has not been verified from here; use the in-app
+  **self-test** (⚙️) to find out, and the lazy per-unit install keeps any
+  failure confined to that unit.
+
 If any of these turns out to be a real blocker in practice, the
 straightforward fallback is to drop the offending unit from the `LESSONS`
 array and remove the corresponding package from the `installPackages()`
 call — every unit is independent, and removing one doesn't affect any
 other.
 
-### Lazy per-unit installs (units 14–21)
+### Lazy per-unit installs (everything after the boot-time list)
 
-Nine packages at boot is already a lot. Rather than keep adding to that
+Nine packages at boot is already a lot. (The newest units also install `MASS` and `nnet`, which are installed but never attached: `library(MASS)` would mask `dplyr::select()`, so lessons call `MASS::polr()` explicitly.) Rather than keep adding to that
 list forever, units 14 onward (`broom`, `corrplot`, `overviewR`,
 `jtools`, `parameters`, `QCA`, `segregation`, `survey`) install lazily —
 only the first time a student actually opens a lesson from that specific
@@ -461,6 +825,9 @@ block in `index.html`. Each lesson is one object:
   solution: "Fully correct R code — written into the box by 'Display answer'",
   hint: "Shown when the student taps 'Show hint'",
   help: "HTML shown in the 'Help' popup — explain the function(s) used, plus a standalone example different from the exercise",
+  explain: { use: "...", family: "...", needs: "...", assumes: "...", formula: "..." },  // use and family required; the rest optional — shown as Notes on Learn and at the top of Help
+  hasPlot: "Optional true — the lesson draws a plot; Run renders it to the canvas",
+  capstone: "Optional true — draws the node as a trophy and doubles the first-completion XP (used by the Capstone units)",
   check: "R expression that must evaluate to TRUE for the lesson to pass"
 }
 ```
@@ -482,6 +849,21 @@ Since completion is tracked by lesson `id` and unlocking just looks at
 always safe — it doesn't disturb any other lesson's completion state,
 and the newly-inserted lesson simply unlocks once whatever now sits
 before it is done.
+
+## Files in the repo
+
+- `index.html` — the whole app (lessons, styles, scripts).
+- `manifest.webmanifest`, `sw.js`, `icons/` — the PWA files (see
+  "Installing on Android"). Keep them in the same folder as `index.html`.
+- `README.md`, `LICENSE`, `.gitignore`.
+
+## Keeping this README current
+
+Whenever lessons, units or features change: update the lesson and unit
+counts in the opening paragraph, the phase/unit list (renumbering units
+after any insertion), the phase comment above `LESSONS` in `index.html`,
+and any section describing behaviour that changed. Run the in-app
+self-test after each update.
 
 ## Notes
 
