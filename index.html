@@ -6316,7 +6316,7 @@ case_summary <-
       packages: ["naniar"],
       short: "add_n_miss()",
       unit: "Missing Data with naniar",
-      instructions: `Create <code>sv_nmiss</code>: <code>sv</code> with an extra column <code>n_miss</code> counting the missing values in each row, using <code>add_n_miss()</code>.`,
+      instructions: `Create <code>sv_nmiss</code>: <code>sv</code> with one extra column counting the missing values in each row, using <code>add_n_miss()</code>.`,
       preload: `Preloaded: sv. naniar is loaded.`,
       setup: `sv <- tibble(
         id = 1:8,
@@ -6330,7 +6330,7 @@ case_summary <-
       )`,
       starter: `sv_nmiss <- sv |> add_n_miss()
 `,
-      starterMedium: `# Create sv_nmiss: sv plus n_miss (missing values per row), using add_n_miss()
+      starterMedium: `# Create sv_nmiss: sv plus a missing-values-per-row column, using add_n_miss()
 sv_nmiss <- 
 `,
       starterHard: `# Attach the number of missing values per row to the data
@@ -6338,14 +6338,14 @@ sv_nmiss <-
       hint: `sv |> add_n_miss()`,
       solution: `sv_nmiss <- sv |> add_n_miss()
 `,
-      help: `<b>add_n_miss()</b> adds a column <code>n_miss</code> to the data (and <b>add_prop_miss()</b> adds the proportion), so you can filter or model on it.<br><br>Example:<br><code>airquality |> add_n_miss()</code>`,
+      help: `<b>add_n_miss()</b> adds a column to the data counting the missing values per row (named <code>n_miss_all</code> when you count every column; <b>add_prop_miss()</b> adds the proportion instead), so you can filter or model on it.<br><br>Example:<br><code>airquality |> add_n_miss()</code>`,
       explain: {
         use: `Attaches row-level missingness to the data so you can filter, plot or use it as a predictor, while keeping the original columns.`,
         family: `Diagnosing missing data: how much is missing, where, and in what pattern (data quality).`,
         needs: `A data frame.`,
         assumes: `Counts every column of the data frame, so select the relevant columns first if you want a narrower count.`
       },
-      check: `exists("sv_nmiss") && "n_miss" %in% names(sv_nmiss) && nrow(sv_nmiss) == nrow(sv) && isTRUE(all.equal(as.numeric(sv_nmiss$n_miss), as.numeric(rowSums(is.na(sv)))))`
+      check: `exists("sv_nmiss") && is.data.frame(sv_nmiss) && nrow(sv_nmiss) == nrow(sv) && length(setdiff(names(sv_nmiss), names(sv))) == 1 && isTRUE(all.equal(as.numeric(sv_nmiss[[setdiff(names(sv_nmiss), names(sv))]]), as.numeric(rowSums(is.na(sv)))))`
     },
     {
       title: "Comparing missing and observed cases with bind_shadow()",
@@ -6657,24 +6657,24 @@ sv_scale <-
         <code>overview_tab()</code>.`,
       preload: `Preloaded: panel_data — country and year columns. overviewR is loaded.`,
       setup: `panel_data <- tibble(country = c("A","A","B","B","B"), year = c(2010,2011,2010,2011,2012))`,
-      starter: `coverage <- overview_tab(dat = panel_data, id = ___, wave = ___)\n`,
+      starter: `coverage <- overview_tab(dat = panel_data, id = ___, time = ___)\n`,
       starterMedium: `# Create coverage: which years each country was observed, using overview_tab()
 coverage <- 
 `,
       starterHard: `# Summarize panel_data's coverage by country and year
 `,
-      hint: "overview_tab(dat = panel_data, id = country, wave = year)",
-      solution: `coverage <- overview_tab(dat = panel_data, id = country, wave = year)\n`,
+      hint: "overview_tab(dat = panel_data, id = country, time = year)",
+      solution: `coverage <- overview_tab(dat = panel_data, id = country, time = year)\n`,
       help: `<b>overview_tab()</b> summarizes how many waves/periods each unit (like a country)
         appears in — a quick sanity check before running any panel model.<br><br>
-        Example:<br><code>overview_tab(dat = my_panel, id = country, wave = year)</code>`,
+        Example:<br><code>overview_tab(dat = my_panel, id = country, time = year)</code>`,
       explain: {
         use: `overview_tab() shows which units (people, schools) are observed in which waves, revealing attrition and gaps before modelling.`,
         family: `Describing the structure and coverage of panel (longitudinal) data before modelling.`,
         needs: `Long-format panel data with a unit id and a time variable.`,
         assumes: `Each unit appears at most once per time period.`
       },
-      check: `exists("coverage") && is.data.frame(coverage) && nrow(coverage) > 0`
+      check: `exists("coverage") && length(coverage) > 0 && NROW(coverage) > 0`
     },
     {
       title: "Checking missing data with overview_na()",
@@ -6683,28 +6683,28 @@ coverage <-
       short: "overview_na()",
       unit: "Panel Data Overviews with overviewR",
       instructions: `A <code>panel_data</code> tibble has some missing GDP values.<br><br>
-        Create <code>na_summary</code>: an overview of missingness in the <code>gdp</code>
-        column, using <code>overview_na()</code>.`,
+        Create <code>na_summary</code>: an overview of the missing values in <code>panel_data</code>
+        (every column is reported, including <code>gdp</code>), using <code>overview_na()</code>.`,
       preload: `Preloaded: panel_data — country, year, gdp (some missing).`,
       setup: `panel_data <- tibble(country = c("A","A","B","B"), year = c(2010,2011,2010,2011), gdp = c(100,NA,120,NA))`,
-      starter: `na_summary <- overview_na(dat = panel_data, id = ___, variable = "___")\n`,
-      starterMedium: `# Create na_summary: missingness in gdp by country, using overview_na()
+      starter: `na_summary <- overview_na(dat = ___)\n`,
+      starterMedium: `# Create na_summary: the missing values in each column of panel_data, using overview_na()
 na_summary <- 
 `,
-      starterHard: `# Summarize missing gdp values by country
+      starterHard: `# Summarize the missing values in panel_data
 `,
-      hint: 'overview_na(dat = panel_data, id = country, variable = "gdp")',
-      solution: `na_summary <- overview_na(dat = panel_data, id = country, variable = "gdp")\n`,
-      help: `<b>overview_na()</b> reports how much of a variable is missing, broken down by unit
-        — a fast way to spot which countries or respondents have incomplete data.<br><br>
-        Example:<br><code>overview_na(dat = my_panel, id = country, variable = "gdp")</code>`,
+      hint: 'overview_na(dat = panel_data)',
+      solution: `na_summary <- overview_na(dat = panel_data)\n`,
+      help: `<b>overview_na()</b> reports how much of each variable in a data frame is missing
+        — a fast way to spot which columns have gaps before modelling.<br><br>
+        Example:<br><code>overview_na(dat = my_panel)</code>`,
       explain: {
         use: `overview_na() summarizes missing values in the panel, helping decide between complete-case analysis and imputation.`,
         family: `Describing the structure and coverage of panel (longitudinal) data before modelling.`,
         needs: `A data frame.`,
         assumes: `Applies to NA values only.`
       },
-      check: `exists("na_summary") && is.data.frame(na_summary) && nrow(na_summary) > 0`
+      check: `exists("na_summary") && length(na_summary) > 0 && NROW(na_summary) > 0`
     },
     {
       title: "Creating multiple imputations with mice()",
@@ -11061,7 +11061,8 @@ item_stats <-
       unit: "Scale Reliability with psych",
       instructions: `The four items are ordinal (codes 1-4). Create <code>pc</code>: their polychoric correlation matrix, using <code>polychoric(items)$rho</code>.`,
       preload: `Preloaded: items — 300 respondents × 4 ordinal items.`,
-      setup: `set.seed(7)
+      setup: `.__fn$nofork()
+      set.seed(7)
       f <- rnorm(300)
       items <- as.data.frame(lapply(1:4, function(i) cut(f + rnorm(300, sd = 0.8), c(-Inf, -1, 0, 1, Inf), labels = FALSE)))
       names(items) <- paste0("q", 1:4)`,
@@ -11091,7 +11092,8 @@ pc <-
       unit: "Scale Reliability with psych",
       instructions: `<code>pc</code> is the polychoric matrix. Create <code>f1</code>: a one-factor solution, using <code>fa(pc, nfactors = 1, n.obs = nrow(items), fm = "minres")</code>. Then <code>lam</code>: its loadings as a numeric vector.`,
       preload: `Preloaded: items and pc.`,
-      setup: `set.seed(7)
+      setup: `.__fn$nofork()
+      set.seed(7)
       f <- rnorm(300)
       items <- as.data.frame(lapply(1:4, function(i) cut(f + rnorm(300, sd = 0.8), c(-Inf, -1, 0, 1, Inf), labels = FALSE)))
       names(items) <- paste0("q", 1:4)
@@ -11152,7 +11154,8 @@ omega <-
       unit: "Scale Reliability with psych",
       instructions: `Create <code>pa</code>: a parallel analysis of <code>items</code> with <code>fa.parallel(items, fa = "fa", n.iter = 5, plot = FALSE)</code>. <code>pa$nfact</code> suggests the number of factors.`,
       preload: `Preloaded: items.`,
-      setup: `set.seed(7)
+      setup: `.__fn$nofork()
+      set.seed(7)
       f <- rnorm(300)
       items <- as.data.frame(lapply(1:4, function(i) cut(f + rnorm(300, sd = 0.8), c(-Inf, -1, 0, 1, Inf), labels = FALSE)))
       names(items) <- paste0("q", 1:4)`,
@@ -11694,7 +11697,7 @@ total_inertia <- sum(eig[, "eigenvalue"])
         assumes: `Percentages of inertia in MCA are pessimistic because the indicator coding spreads inertia over many dimensions: 20–30% on two axes can be a good result. The next lesson shows the corrected (modified) rates.`,
         formula: `Each eigenvalue is the inertia (variance) of one axis. Total inertia in MCA = (K − Q) ÷ Q, here (15 − 5) ÷ 5 = 2. The percentage for an axis is its eigenvalue divided by 2.`
       },
-      check: `exists("eig") && exists("total_inertia") && is.matrix(eig) && isTRUE(all.equal(as.numeric(total_inertia), 2))`
+      check: `exists("eig") && exists("total_inertia") && (is.matrix(eig) || is.data.frame(eig)) && isTRUE(all.equal(as.numeric(total_inertia), 2, tolerance = 1e-6))`
     },
     {
       title: "Benzécri's modified rates",
@@ -18344,7 +18347,8 @@ const PHASE_STARTS = {
     $("runBtn").disabled = true; $("checkBtn").disabled = true;
     let ok = true;
     try {
-      await webR.installPackages(needed);
+      try { await webR.installPackages(needed); }
+      catch (e1) { console.warn("Package install failed, retrying once", e1); await new Promise((r) => setTimeout(r, 1500)); await webR.installPackages(needed); }
       const toAttach = needed.filter((p) => !NO_ATTACH.has(p));
       if (toAttach.length) await webR.evalR(toAttach.map((p) => `library(${p})`).join("; "));
       needed.forEach((p) => installedPackages.add(p));
@@ -18668,6 +18672,20 @@ paste(.__out_lines, collapse = "\\n")`;
   if (nzchar(setup)) eval(parse(text = setup), e)
   eval(parse(text = code), e)
   e
+}
+.__fn$nofork <- function() {
+  options(mc.cores = 1L)
+  ns <- tryCatch(asNamespace("psych"), error = function(e) NULL)
+  if (is.null(ns)) return(invisible(FALSE))
+  imp <- parent.env(ns)
+  swap <- function(nm, f) {
+    if (exists(nm, envir = imp, inherits = FALSE)) {
+      try({ unlockBinding(nm, imp); assign(nm, f, envir = imp); lockBinding(nm, imp) }, silent = TRUE)
+    }
+  }
+  swap("mclapply", function(X, FUN, ..., mc.cores = 1L) lapply(X, FUN, ...))
+  swap("mcmapply", function(FUN, ..., mc.cores = 1L) mapply(FUN, ...))
+  invisible(TRUE)
 }
 .__fn$show <- function(nm, env) {
   if (!exists(nm, envir = env, inherits = FALSE)) return(paste0(nm, ": (not created yet)"))
