@@ -9,6 +9,20 @@ over `https://`.
 **Live app:** <https://quentin-maire.github.io/R-app-style-learning/> ·
 **Source:** <https://github.com/quentin-maire/R-app-style-learning>
 
+## Quick start
+
+1. **Publish it (once).** In the GitHub repo go to **Settings → Pages**, set **Source** to `Deploy from a branch`, branch
+   `main`, folder `/ (root)`, and save. After a minute or two the app is live at the address above.
+2. **Open it on your phone.** Go to <https://quentin-maire.github.io/R-app-style-learning/> and let it finish loading
+   (the first visit downloads R, so use Wi-Fi).
+3. **Install it.**
+   - **Android (Chrome):** tap ⚙️ → **Install Field Notes**, or Chrome's ⋮ menu → **Add to Home screen** / **Install app**.
+   - **iPhone/iPad (Safari):** tap **Share → Add to Home Screen**. *(Not tested on iOS.)*
+4. **Open it from the home-screen icon.** It runs full-screen and keeps your progress on that device.
+
+More detail is under "Installing on Android" and "Hosting on GitHub Pages" below.
+
+
 505 short lessons, written in **tidyverse style** throughout (`tibble()`,
 `dplyr`/`purrr`/`forcats`/`stringr`/`tidyr` verbs, `ggplot2`, `ggalluvial`,
 and the native `|>` pipe — no base-R subsetting or `data.frame()` except
