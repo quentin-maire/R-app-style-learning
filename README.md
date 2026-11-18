@@ -23,11 +23,11 @@ over `https://`.
 More detail is under "Installing on Android" and "Hosting on GitHub Pages" below.
 
 
-505 short lessons, written in **tidyverse style** throughout (`tibble()`,
+713 short lessons, written in **tidyverse style** throughout (`tibble()`,
 `dplyr`/`purrr`/`forcats`/`stringr`/`tidyr` verbs, `ggplot2`, `ggalluvial`,
 and the native `|>` pipe — no base-R subsetting or `data.frame()` except
 where there's genuinely no tidyverse equivalent, like plain vector
-indexing). Organized into 72 units, built around a running "pilot survey"
+indexing). Organized into 92 units, built around a running "pilot survey"
 dataset, plus a project-workflow unit and an RStudio-shortcuts unit that
 aren't tied to the dataset at all.
 
@@ -47,46 +47,59 @@ naming a numbered pipeline script · reproducibility tools (`renv`, Git)
 Running/selecting code from the console · navigating long scripts and the
 document outline · pipe (`|>`) and assignment (`<-`) shortcuts
 
+**Unit 3 — From SPSS: How R Thinks with tibble & dplyr**
+Orientation for SPSS users: `<-` objects instead of one active dataset ·
+the pipe `|>` as the full stop · `na.rm = TRUE` because R does not skip
+missing values for you · `$` to reach a column · `names()`/`ncol()`/`glimpse()`
+instead of the Variable View · one `mutate() |> filter()` pipeline instead of
+a syntax paragraph. Each lesson shows the SPSS syntax first.
+
 ### Phase 2 — Bringing in Data
 
-**Unit 3 — Reading Labelled Data with haven**
+**Unit 4 — Reading Labelled Data with haven**
 Creating labelled data with `labelled()` · converting labels to factors
 with `as_factor()` · dropping labels with `zap_labels()` · marking
 special missing codes with `tagged_na()`
 
-**Unit 4 — Variable & Value Labels with labelled & haven**
+**Unit 5 — Variable & Value Labels with labelled & haven**
 *For SPSS/Stata-style files such as HILDA and LSAY.* `var_label()` · `val_labels()` (get and set) · dropping labels of negative missing codes · negative codes to `NA` across columns · `labelled_spss()` user-missing codes · `zap_missing()` · `as_factor()` · `look_for()` · `generate_dictionary()` · `set_variable_labels()` · `write_sav()`/`read_sav()` · `read_dta(n_max = 0, col_select)`
 
-**Unit 5 — Importing Text Data with readr**
+**Unit 6 — Importing Text Data with readr**
 `read_csv()` · forcing column types with `col_types` · `parse_number()` ·
 declaring missing codes with `na =` · `write_csv()` round trip · `read_lines()` · `write_rds()`/`read_rds()`
 
-**Unit 6 — Capstone: Import & Label a Survey with haven & dplyr**
+**Unit 7 — Reading Spreadsheets with readxl**
+*R4DS spreadsheets.* `excel_sheets()` · `read_excel(sheet =)` by name and number · `range =` · `skip`/`n_max` · `col_types` · reading every sheet with `map()`. Uses the example workbooks bundled with readxl.
+
+**Unit 8 — Capstone: Import & Label a Survey with haven & dplyr**
 One multi-step lesson ending Phase 2: labelled SPSS codes → factors, refusal
 codes → `NA`, then a grouped mean.
 
 ### Phase 3 — Data Cleaning / Wrangling
 
-**Unit 7 — Tidyverse Foundations with dplyr, purrr & tibble**
+**Unit 9 — Tidyverse Foundations with dplyr, purrr & tibble**
 Vectors & indexing · `tibble()` + `select()` · `filter()` · a function +
 `purrr::map_dbl()` · `summarise()` · `mutate()` + `if_else()`
 
-**Unit 8 — Building Tibbles with tibble & tidyr**
+**Unit 10 — Reading Errors & Getting Help with dplyr & ggplot2**
+Fixing object-not-found, unexpected-symbol and could-not-find-function errors · `+` vs `|>` in ggplot2 · a coercion warning · `dput()` for a minimal example · `formals()` · `packageVersion()`
+
+**Unit 11 — Building Tibbles with tibble & tidyr**
 `tribble()` · `add_row()` · `rownames_to_column()` · `expand_grid()`
 
-**Unit 9 — Working with Survey Data with dplyr**
+**Unit 12 — Working with Survey Data with dplyr**
 `arrange()` · missing data in a pipeline · `case_when()` · cross-tabs with
 `count()` · `left_join()` · a combined-condition `filter()` checkpoint
 
-**Unit 10 — More Joins & Variable Wrangling with dplyr**
+**Unit 13 — More Joins & Variable Wrangling with dplyr**
 Keeping only matches with `inner_join()` · keeping everything with
 `full_join()` · renaming with `rename()` · reordering with `relocate()`
 
-**Unit 11 — Recoding Variable Sets with dplyr**
+**Unit 14 — Recoding Variable Sets with dplyr**
 Recoding several columns at once with `mutate(across(...))` · converting
 a whole column set to numeric with `across(where(is.character), ...)`
 
-**Unit 12 — SPSS-to-tidyverse Rosetta with dplyr & janitor**
+**Unit 15 — SPSS-to-tidyverse Rosetta with dplyr & janitor**
 A lookup-style unit for SPSS users: FREQUENCIES → `tabyl()` · DESCRIPTIVES
 → `summarise()` · CROSSTABS → `tabyl()` + `adorn_percentages()` · COMPUTE →
 `mutate()` · MISSING VALUES → `na_if()` · RECODE INTO → `case_when()` · IF →
@@ -95,164 +108,215 @@ A lookup-style unit for SPSS users: FREQUENCIES → `tabyl()` · DESCRIPTIVES
 FILES → `left_join()` · T-TEST → `t.test()` · REGRESSION → `lm()`. Each
 lesson shows the SPSS syntax first.
 
-**Unit 13 — Data Wrangling Deep Dive with dplyr & forcats**
+**Unit 16 — Data Wrangling Deep Dive with dplyr & forcats**
 Reordering factors with `fct_infreq()` · relabeling with `fct_recode()` ·
 base-R dates · filling missing values with `coalesce()` · `anti_join()`
 
-**Unit 14 — Dates & Times with lubridate**
+**Unit 17 — Recoding & Index Practice with dplyr**
+Collapsing categories (`case_when()`) · quartile groups (`cut()` + `quantile()`) · reverse-coding and a mean index that needs 4 of 6 answers
+(`rowMeans()`) · looking at "Other: please specify" answers · recoding individual cases (`IF (ID = 74)`) · treating implausible values as missing ·
+dollar amounts to income brackets (`cut(labels = FALSE)`) · one best-estimate variable from two measures (`coalesce()`). Uses a made-up practice survey.
+
+**Unit 18 — Logical Vectors & Numbers with dplyr**
+*R4DS logicals and numbers.* `sum()`/`mean()` of a condition · `any()`/`all()` · `NA` in comparisons · `&`, `|`, parentheses · `%in%` · `if_else(missing =)` · counting TRUEs by group · `%/%` and `%%` · `round()` ties to even, `floor()`, `ceiling()` · `near()` · `cumsum()` with `coalesce()` · `pmin()` top-coding · `n_distinct()`
+
+**Unit 19 — Dates & Times with lubridate**
 `ymd()` · `dmy()` for Australian formats · `year()` / `month()` · exact age
 with `time_length()` · `floor_date()`
 
-**Unit 15 — Factors & Measurement Levels with forcats**
+**Unit 20 — Factors & Measurement Levels with forcats**
 Defining an ordinal scale with `factor(ordered = TRUE)` · binning a
 continuous variable with `cut()` · setting the reference level with
 `fct_relevel()` · collapsing rare categories with `fct_lump_n()` · making
 NA an explicit level with `fct_na_value_to_level()` · `fct_rev()` · `fct_count()` · `fct_cross()`
 
-**Unit 16 — Measurement Levels for Variable Sets with forcats, dplyr & purrr**
+**Unit 21 — Measurement Levels for Variable Sets with forcats, dplyr & purrr**
 Checking every column's type with `map_chr()` · a Likert battery to ordered
 factors with `across()` · factor to numeric safely · `fct_collapse()` ·
 dummy coding with `model.matrix()` · sum contrasts · standardizing a set ·
 `if_any()` / `if_all()` · `fct_reorder()`
 
-**Unit 17 — Reshaping Data with tidyr**
+**Unit 22 — Reshaping Data with tidyr**
 Wide to long with `pivot_longer()` · long to wide with `pivot_wider()` ·
 reshaping two measures at once with `.value` · splitting a column with `separate()` · combining columns with `unite()` ·
 carrying values forward with `fill()` · making gaps explicit with
 `complete()`
 
-**Unit 18 — Strings & Regex with stringr**
+**Unit 23 — Rectangling Nested Data with tidyr & jsonlite**
+*R4DS hierarchical data.* `jsonlite::fromJSON()` with and without simplification · `unnest_wider()` (twice) · `unnest_longer()` · `hoist()` · `jsonlite::flatten()`. jsonlite is installed but never attached (it would mask `purrr::flatten()`).
+
+**Unit 24 — Strings & Regex with stringr**
 `str_detect()` · `str_extract()` · `str_replace_all()` · `str_split()` ·
 cleaning free-text with `str_trim()` + `str_to_lower()` · `str_sub()` · `str_pad()` ·
 `str_c()` · `str_count()` · `str_squish()` + `str_to_title()`
 
-**Unit 19 — Tidying with janitor**
+**Unit 25 — Tidying with janitor**
 `clean_names()` · quick frequency tables with `tabyl()` · finding
 duplicates with `get_dupes()` · dropping empty columns with
 `remove_empty()` · totals rows with `adorn_totals()`
 
-**Unit 20 — Data Cleaning Toolkit with dplyr**
+**Unit 26 — Data Cleaning Toolkit with dplyr**
 `distinct()` · `slice_max()` · `lag()` for within-person change ·
 `add_count()` + `n_distinct()` · `bind_rows(.id)` · `semi_join()` ·
 `across()` with several functions and `.names` · `rename_with()` ·
 `select(where(), starts_with())` · `rowwise()` + `c_across()` · `between()` / `%in%`
 
-**Unit 21 — Ranking, Windows & Recoding with dplyr**
+**Unit 27 — Ranking, Windows & Recoding with dplyr**
 `count(wt =)` · `summarise(.by =)` · `case_match()` · `min_rank()` within
 groups · `ntile()` · `cumsum()` · `first()` / `last()` · `transmute()` ·
 `join_by()` for differently named keys
 
-**Unit 22 — Iteration & Functions with purrr**
+**Unit 28 — Iteration & Functions with purrr**
 Anonymous functions with `\(x)` shorthand · `map2_dbl()` over two vectors ·
 folding with `reduce()` · writing a function with a default argument · `map_lgl()` · `keep()` ·
 `pluck()` · `possibly()` · `list_rbind()`
 
-**Unit 23 — Stacking & Harmonising Wave Files with purrr, dplyr & stringr**
+**Unit 29 — Stacking & Harmonising Wave Files with purrr, dplyr & stringr**
 *For wave-by-wave files such as HILDA's Combined files.* Stripping wave prefixes with `str_sub()` + `rename_with()` · `intersect()` / `setdiff()` · `all_of()` · tagging waves · a `read_wave()` function · `compact()` · `map()` + `bind_rows()` · `match(wave, letters)` · key checks with `anyDuplicated()` · `reduce(union)` for type clashes · cleaning a variable list · arithmetic age bands
 
-**Unit 24 — Deriving Survey Variables with dplyr**
+**Unit 30 — Deriving Survey Variables with dplyr**
 Yes/no codes to 0/1 · ever/never from a frequency · `pmax()` for the higher of two parents · carrying once-asked values across waves · decade and period variables with `cut()` · equivalised income · `ntile(.by =)` thirds within group and wave · age-group labels · `droplevels()` · own cluster for missing ids · `%in%` indicators · outcomes defined only for a subgroup · 'unsure' to missing · mean-one weights · reweighting to a target share · wave columns by `paste0()` · `rename(any_of(lookup))` · `.after =` · `case_when()` leaving others missing
 
-**Unit 25 — Missing Data with naniar**
+**Unit 31 — Missing Data with naniar**
 Summarizing missingness with `miss_var_summary()` · visualizing it with
 `vis_miss()` · a per-variable bar chart with `gg_miss_var()` · flagging
 sentinel missing codes with `replace_with_na()` · counting total
 missingness with `n_miss()` / `prop_miss()` · per-respondent summaries with
 `miss_case_summary()` · `add_n_miss()` · the shadow matrix with `bind_shadow()`
 
-**Unit 26 — Missing Values in Practice with tidyr & dplyr**
+**Unit 32 — Missing Values in Practice with tidyr & dplyr**
 `colSums(is.na())` · listwise deletion with `drop_na()` · `replace_na()` ·
 missingness indicators and group comparisons · why mean imputation shrinks
 the SD · missing items per respondent · scale scores with a half rule
 
-**Unit 27 — Panel Data Overviews with overviewR**
+**Unit 33 — Panel Data Overviews with overviewR**
 Summarizing panel coverage with `overview_tab()` · checking missing data
 with `overview_na()`
 
-**Unit 28 — Multiple Imputation with mice**
+**Unit 34 — Multiple Imputation with mice**
 Creating imputations with `mice()` · extracting a completed dataset with
 `complete()` · pooling model results across imputations with `pool()` · missing-data
 patterns with `md.pattern()` · stacked imputations with `complete(action = "long")`
 
-**Unit 29 — Defensive Scripting with base R & purrr**
+**Unit 35 — Defensive Scripting with base R & purrr**
 `stopifnot()` + `tryCatch()` · a skip-on-error wrapper · `file.path()` + `sprintf()` · `%||%` · catching warnings · `reduce(left_join)` · `iwalk()` progress · a `need_vars()` check with `setdiff()` · `file.exists()` guards · `next` to skip a missing variable · `requireNamespace()` for optional packages · `rm(list = setdiff(ls(), keep))` · `withCallingHandlers()` + `invokeRestart("muffleWarning")` · a warning log across models
 
-**Unit 30 — Saving Outputs & Reproducibility with base R**
+**Unit 36 — Saving Outputs & Reproducibility with base R**
 Output folders from one list of paths with `dir.create(recursive = TRUE)` · a `save_csv()` helper · `read.csv(check.names = FALSE)` · `capture.output(sessionInfo())` · `set.seed()` before every random step · dated file names with `format()` · running scripts in order with `source(local = env)`
 
-**Unit 31 — Nested Data & Models by Group with tidyr, purrr & broom**
+**Unit 37 — Nested Data & Models by Group with tidyr, purrr & broom**
 `nest()` · `map_int()` on list-columns · one `lm()` per group · `tidy()` +
 `unnest()` to collect slopes · `unnest()` back to rows
 
-**Unit 32 — Capstone: Clean & Reshape Panel Data with dplyr, tidyr & forcats**
+**Unit 38 — Capstone: Clean & Reshape Panel Data with dplyr, tidyr & forcats**
 One multi-step lesson ending Phase 3: wide panel → long, relabel a factor,
 summarise with missing waves.
 
 ### Phase 4 — Basic Analysis & Data Visualization
 
-**Unit 33 — Exploring & Summarizing with dplyr**
+**Unit 39 — Exploring & Summarizing with dplyr**
 `count()` + proportions · `group_by()` + `summarise()` · multiple grouped
 summaries with `n()` · quantiles · standardizing with `mutate()` ·
 correlation with `summarise()` + `pull()`
 
-**Unit 34 — Weighted Tables & Table Building with base R & dplyr**
+**Unit 40 — Weighted Tables & Table Building with base R & dplyr**
 Weighted percentages with `tapply()` · `droplevels()` on valid cases · `weighted.mean()` on complete pairs · tidy blocks per variable with `do.call(rbind)` · `ave()` for position within group · `as.data.frame(table(), responseName)` · `merge()` · `cbind()` constant columns · APA-style p-values with `formatC()` · significance stars with nested `ifelse()` · SE and p from an interval · replacing codes with display labels
 
-**Unit 35 — Visualization with ggplot2**
+**Unit 41 — Visualization with ggplot2**
 A first scatter plot with `geom_point()` · `geom_col()` bar charts ·
 mapping `color` in `aes()` · titles with `labs()` · small multiples with
 `facet_wrap()` · `geom_histogram()` · `geom_boxplot()` · `geom_line()` ·
 `geom_smooth()`
 
-**Unit 36 — Visualizing Correlations with corrplot**
+**Unit 42 — Grammar of Graphics: Aesthetics & Layers with ggplot2**
+*Healy ch. 3 and R4DS ch. 9.* Mapping vs setting an aesthetic · shape and alpha · global vs local `aes()` · `geom_bar()` counts · `after_stat(prop)` · `position = "dodge"` and `"fill"` · `stat_summary()` · `coord_flip()` · bubble size
+
+**Unit 43 — Grammar of Graphics: Distributions & Comparisons with ggplot2**
+*Healy ch. 4–5, R4DS ch. 10.* `binwidth` · `geom_freqpoly()` · `geom_density()` · `geom_violin()` · boxplot + `geom_jitter()` · `stat_ecdf()` · `geom_count()` · `geom_tile()` heatmap · `geom_bin2d()` · `facet_grid()`
+
+**Unit 44 — Grammar of Graphics: Scales, Labels & Themes with ggplot2, ggrepel & patchwork**
+*Healy ch. 8, R4DS ch. 11.* `scale_y_log10()` · `scales::percent` and `label_dollar()` · `scale_fill_brewer()` · `scale_colour_viridis_c()` · `annotate()` text and rect · `ggrepel::geom_text_repel()` · `theme_minimal()` and `theme()` · `labs(subtitle, caption)` · patchwork `+`, `plot_layout()`, `plot_annotation()`. ggrepel and patchwork install on first use.
+
+**Unit 45 — Describing One Variable at a Time with dplyr, janitor, ggplot2 & psych**
+Frequency tables with valid percent (`tabyl()` + `na_if()`) · median and mode of an ordinal variable · sorted counts ·
+bar charts (`geom_bar()`), sorting by frequency (`fct_infreq()`), count labels (`geom_text(stat = "count")`), titles and source notes
+(`labs()`) · select-all-that-apply questions (`colSums()`, percent of cases) · mean/median/SD/range (`summarise()`) · skewness and
+kurtosis the SPSS way (`psych::skew(type = 2)`) · percentiles and IQR · histograms (`geom_histogram()`), with a normal curve
+(`stat_function()`) · the 1.5 x IQR outlier rule · a 95% confidence interval for a mean (`t.test()`) · z-scores (`scale()`).
+Follows a univariate SPSS tutorial sequence (categorical, then scale variables).
+
+**Unit 46 — Relationships between Two Variables with dplyr, janitor, stats & ggplot2**
+Crosstabs with row percentages (`tabyl()` + `adorn_percentages()`) · chi-square and the expected-count rule · Cramér's V ·
+clustered bar charts (`position = "dodge"`) · ANOVA p value · bar chart of group means (`stat_summary()`) · how an unhandled
+missing-value code distorts a correlation · overplotting (`geom_jitter()`) · Spearman's rho · simple regression (B, R-squared, link to r) ·
+variance check then t-test (`var.test()`, `t.test()`) · partial correlation by hand (`resid()`).
+
+**Unit 47 — Visualizing Correlations with corrplot**
 A first correlation plot · handling missing data with
 `cor(..., use = "complete.obs")`
 
-**Unit 37 — Flow Diagrams with ggalluvial & ggplot2**
+**Unit 48 — Flow Diagrams with ggalluvial & ggplot2**
 A first alluvial (Sankey-style) plot with `geom_alluvium()` +
 `geom_stratum()` · coloring flows with `aes(fill = ...)` · labeling
 strata with `geom_text()` + `after_stat()`
 
-**Unit 38 — Publication Figures with ggplot2**
+**Unit 49 — Publication Figures with ggplot2**
 `geom_ribbon()` confidence bands · `scale_colour_manual()` · `theme_bw()` + `theme()` · axis breaks · `facet_wrap(scales, ncol)` · `label_wrap_gen()` · `geom_pointrange()` with `position_dodge()` · `geom_hline()` · horizontal intervals · `fct_reorder()` for panels · `ggsave()` · stacked areas with `position_stack(reverse = TRUE)` · `coord_cartesian()` limits · stacked bars by panel · dodged bars with `geom_errorbar()` · one-row legends with `guides()` · `hcl.colors()` · `setNames()` palettes · strip text themes · `expansion()` · per-panel reference lines · `geom_text(y = Inf)` notes · ordering by a position column · one folder of figures per theme
 
-**Unit 39 — Text Analysis with tidytext & dplyr**
+**Unit 50 — Maps with ggplot2 & maps**
+*Healy ch. 7, Imai & Webb ch. 5.* `map_data()` + `geom_polygon()` + `coord_quickmap()` · joining data to boundaries · choropleth · `scale_fill_viridis_c()` + `theme_void()` · binned choropleth · city points with `inherit.aes = FALSE` · a map of Australia. The `maps` package is installed but never attached (it would mask `purrr::map()`); `sf` is not used because it has no dependable browser build.
+
+**Unit 51 — Text Analysis with tidytext & dplyr**
 Tokenizing text with `unnest_tokens()` · removing stop words with
 `anti_join()` · counting word frequencies with `count()`
 
-**Unit 40 — Applied Survey Techniques with dplyr**
+**Unit 52 — Applied Survey Techniques with dplyr**
 Reverse-coding with `mutate()` · a composite scale with `across()` · a
 two-group t-test · simple linear regression · reading R² · a capstone
 `group_by()` + `summarise()` report across two outcomes
 
-**Unit 41 — Tidy Models with broom**
+**Unit 53 — Tidy Models with broom**
 Tidying coefficients with `tidy()` · model-level fit stats with
 `glance()` · row-level predictions with `augment()`
 
-**Unit 42 — Classic Inference Tests with stats & broom**
+**Unit 54 — Chance & Simulation with base R & dplyr**
+*Probability by simulation (Imai & Webb, ch. 6).* `set.seed()` + `sample()` · estimating a probability with `mean(logical)` · `replicate()` · the birthday problem · the law of large numbers (`cumsum()/seq_along()`) and its plot · `dbinom()`/`pbinom()` · `pnorm()`/`qnorm()` · z-scores · conditional probability from a simulated population
+
+**Unit 55 — Sampling Distributions & Confidence Intervals with dplyr & stats**
+*Sampling theory (Imai & Webb, ch. 7).* `slice_sample()` · the sampling distribution of a mean · standard error simulated vs formula · SE shrinking with n (`map_dbl()`) · the central limit theorem (skewness and a histogram) · margin of error for a proportion · confidence interval for a mean by hand and `t.test(conf.level)` · coverage by simulation · sample size for a margin of error · design effect and effective n
+
+**Unit 56 — Bootstrap, Permutation & Power with dplyr & stats**
+One resample · bootstrap SE of a median · percentile confidence interval with `quantile()` · bootstrap difference between groups · bootstrapped regression slope · shuffling labels · a permutation test and its histogram with `geom_vline()` · power by simulation · `power.t.test()`
+
+**Unit 57 — Classic Inference Tests with stats & broom**
 Chi-square test with `chisq.test()` · standardized residuals · `tidy()`
 on a test · `prop.test()` · one-way ANOVA with `aov()` · `TukeyHSD()`
 post-hoc comparisons · tidying Tukey results · `cor.test()` · the
 Wilcoxon rank-sum test with `wilcox.test()`
 
-**Unit 43 — Cibois's PEM (Percentage of Maximum Deviation) with base R**
+**Unit 58 — Cibois's PEM (Percentage of Maximum Deviation) with base R**
 Expected counts and deviations under independence · PEM for a single
 cell · the PEM for every cell (attraction and repulsion use different
 maxima) · a reusable `pem_fun()` · listing the strongest attractions. PEM
 is written by hand, in base R, so the formula is visible; the `descriptio`
 package offers the same measure but is not used here.
 
-**Unit 44 — Scale Scoring & Index Construction with dplyr & purrr**
+**Unit 59 — Scale Scoring & Index Construction with dplyr & purrr**
 Reverse-coding · POMP 0-100 rescaling · answered share with `pick()` · an index requiring enough answered items · per-item ranges with `cur_column()` · scores for several scales with `map()` · `keep()` · one random wave per person with `slice_sample(by =)`
 
-**Unit 45 — Scale Reliability with psych**
+**Unit 60 — Scale Reliability with psych**
 Cronbach's alpha with `alpha()` · a one-factor PCA with `principal()` ·
 quick variable summaries with `describe()` · `polychoric()` · one-factor `fa()` · omega from loadings · `fa.parallel()` · item-rest correlations · Spearman-Brown · first-component share
 
-**Unit 46 — Measurement Invariance with lavaan**
+**Unit 61 — Building & Testing Scales with psych & dplyr**
+`na_if()` for Don't know / Refused codes · reverse-coding with `across(.names = )` · item correlation matrix · corrected item-total
+correlations (`psych::alpha()`) · the kitchen-sink problem · summated scales with `rowMeans(pick())` · rescaling to 0–10 · convergent validity
+(group means and correlations) · KMO and Bartlett's test · Kaiser's rule and a varimax PCA (`psych::principal()`) · component scores vs the simple summed scale.
+
+**Unit 62 — Measurement Invariance with lavaan**
 `cfa()` · `fitMeasures()` · configural, metric and scalar multi-group models (`group`, `group.equal`) · ΔCFI · robust `MLR` with `missing = "ml"` · `standardizedSolution()`
 
-**Unit 47 — Multiple Correspondence Analysis with FactoMineR & ggplot2**
+**Unit 63 — Multiple Correspondence Analysis with FactoMineR & ggplot2**
 The disjunctive (indicator) table · `MCA()` · eigenvalues and total
 inertia · Benzécri's modified rates · contributions · cos2 · v-tests ·
 mapping the categories (the space of lifestyles) · mapping the
@@ -263,11 +327,26 @@ sport, with gender and age as supplementary variables), in the spirit of
 Husson, Lê & Pagès's *Exploratory Multivariate Analysis by Example Using
 R* and of Bourdieusian analyses of social space.
 
-**Unit 48 — Capstone: Explore, Test & Plot with dplyr, broom & ggplot2**
+**Unit 64 — Clustering & Components with stats, dplyr & ggplot2**
+*Imai & Webb ch. 3 and 5.* `scale()` · `kmeans()` · cluster labels · profiling clusters · the elbow plot · `hclust()` + `cutree()` · comparing methods with `table()` · `prcomp()` · variance explained · loadings · clusters on PC1/PC2
+
+**Unit 65 — SPSS Rosetta II: Tests, Models & Reshaping with stats, dplyr, tidyr & psych**
+More SPSS commands in R, each lesson showing the syntax first: SPLIT FILE →
+`group_by()` + `summarise()` · CORRELATIONS → `cor()` · ONEWAY → `aov()` ·
+POST HOC TUKEY → `TukeyHSD()` · CROSSTABS /CHISQ → `chisq.test()` · T-TEST
+PAIRS → `t.test(paired = TRUE)` · NPAR TESTS (Mann-Whitney) → `wilcox.test()` · PERCENTILES →
+`quantile()` · WEIGHT BY → `count(wt = )` · COUNT → `rowSums(across())` ·
+AUTORECODE → `factor()` · LOGISTIC REGRESSION → `glm(family = binomial)` ·
+FACTOR → `factanal()` · RELIABILITY → `psych::alpha()` · VARSTOCASES →
+`pivot_longer()` · CASESTOVARS → `pivot_wider()` · ADD FILES → `bind_rows()` ·
+DELETE VARIABLES → `select(-)`. Sits just before the Phase 4 capstone, after
+the units that teach these methods.
+
+**Unit 66 — Capstone: Explore, Test & Plot with dplyr, broom & ggplot2**
 One multi-step lesson ending Phase 4: a descriptive table, a t-test, the
 test as a tibble, and a box plot.
 
-**Unit 49 — Spot & Fix Bugs with dplyr, stringr & ggplot2**
+**Unit 67 — Spot & Fix Bugs with dplyr, stringr & ggplot2**
 Fifteen "debug on purpose" lessons: each starts from broken code (an error
 message or a silent mistake) that you repair. Covers `=` vs `==`, results
 that were never assigned, `na.rm`, leftover grouping, `case_when()` order,
@@ -275,94 +354,100 @@ join keys with different names, factor-to-number traps, `== NA`, `&` vs
 `|`, regex dots, a fixed colour inside `aes()`, weighted means, `cut()`
 boundaries, piping into `lm()`, and `summarise()` vs `mutate()`.
 
+**Unit 68 — Spotting Problems in Data & Graphs with dplyr & ggplot2**
+*Healy ch. 1 and critical reading.* A truncated bar axis · Simpson's paradox (overall vs within-group rates) · non-response bias, ecological fallacy and loaded-question multiple-choice lessons · tiny-n margins of error · a confounder removed by residuals · base rates (positive predictive value)
+
 ### Phase 5 — More Advanced Analysis
 
-**Unit 50 — Model Parameters with parameters**
+**Unit 69 — Model Parameters with parameters**
 Tidy output with `model_parameters()` · standardized coefficients
 
-**Unit 51 — Regression Reporting with jtools**
+**Unit 70 — Regression Reporting with jtools**
 A cleaner model summary with `summ()` · visualizing an effect with
 `effect_plot()`
 
-**Unit 52 — Logistic Regression with glm, broom & marginaleffects**
+**Unit 71 — Logistic Regression with glm, broom & marginaleffects**
 `glm(family = binomial)` · odds ratios with `tidy(exponentiate = TRUE)` ·
 predicted probabilities with `predict(type = "response")` · average
 marginal effects with `avg_slopes()` · likelihood-ratio test with
 `anova(test = "Chisq")` · McFadden's pseudo R²
 
-**Unit 53 — Ordinal & Multinomial Models with MASS & nnet**
+**Unit 72 — Ordinal & Multinomial Models with MASS & nnet**
 Ordered logit with `MASS::polr()` · odds ratios from ordinal slopes ·
 predicted category probabilities · `nnet::multinom()` for unordered
 outcomes · choosing the reference category with `relevel()` · predicted
 probabilities across categories (MASS is called with `MASS::` and never
 attached, because `library(MASS)` masks `dplyr::select()`)
 
-**Unit 54 — Multinomial Models with VGAM**
+**Unit 73 — Multinomial Models with VGAM**
 `VGAM::vglm(multinomial(refLevel = 1))` · reading coefficient names like `x:1` · odds ratios with limits from `vcov()` · `logLik()` and McFadden R-squared · Cox-Snell and Nagelkerke · weights rescaled to sum to n (VGAM is called with `::`, never attached)
 
-**Unit 55 — Post-Estimation with marginaleffects**
+**Unit 74 — Post-Estimation with marginaleffects**
 Average marginal effects with `avg_slopes()` · `predictions()` ·
 `avg_predictions()` · `avg_comparisons()`
 
-**Unit 56 — Model Diagnostics with performance**
+**Unit 75 — Model Diagnostics with performance**
 R-squared with `r2()` · checking collinearity with
 `check_collinearity()` · testing residual normality with
 `check_normality()`
 
-**Unit 57 — Multilevel Models with lme4**
+**Unit 76 — Multilevel Models with lme4**
 A random-intercept model with `lmer()` · adding a fixed-effect predictor · extracting random effects with `ranef()` · fixed effects with `fixef()` · three-level `(1 | school/pid)` · variance shares from `VarCorr()` · Wald intervals with `confint()` · `nobars()` for the pooled model · pooled versus multilevel coefficients
 
-**Unit 58 — Panel Regression with plm**
+**Unit 77 — Panel Regression with plm**
 `pdata.frame()` + `pdim()` · pooled OLS · fixed effects (`within`) · the
 within estimator by hand · random effects · Hausman test with `phtest()` ·
 `pFtest()` · `fixef()` · two-way effects · cluster-robust SEs with
 `vcovHC()` · first differences. plm is called as `plm::name()` (not attached)
 to avoid masking dplyr's `lag()`.
 
-**Unit 59 — Event History Analysis with survival**
+**Unit 78 — Event History Analysis with survival**
 Declaring survival data with `Surv()` · a Kaplan-Meier curve with
 `survfit()` · a Cox model with `coxph()`
 
-**Unit 60 — Complex Survey Design with survey**
+**Unit 79 — Complex Survey Design with survey**
 Declaring a design with `svydesign()` · weighted means with `svymean()` ·
 a weighted regression with `svyglm()` · subgroup estimates with `svyby()`
 
-**Unit 61 — Survey Estimation Toolkit with survey**
+**Unit 80 — Survey Estimation Toolkit with survey**
 *For clustered, weighted samples such as LSAY.* Schools as clusters with `nest = TRUE` · `options(survey.lonely.psu)` · subsetting a design with `des[rows, ]` · `svyby(vartype = "ci")` · clamped proportion intervals · weighted shares from 0/1 indicators · `svycontrast()` for differences and for slopes by group · nested specifications from a list · one common complete-case sample
 
-**Unit 62 — Survey Model Reporting & Inference with survey & stats**
+**Unit 81 — Survey Model Reporting & Inference with survey & stats**
 Combined slope and interval from `vcov()` · a custom odds-ratio table function · `do.call(rbind, Map())` · share of a gradient explained · deviance-based pseudo R-squared · a Wald chi-square by hand · design-based F test · delta-method predicted-probability curves · `as.svrepdesign()` bootstrap · `withReplicates()`
 
-**Unit 63 — Average Marginal Effects by Hand with glm & survey**
+**Unit 82 — Average Marginal Effects by Hand with glm & survey**
 Counterfactual copies of the data · the average effect of a factor level · numeric predictors as plus/minus half a unit · looping over factor levels · one function for numeric and factor predictors · bootstrap standard errors with `withReplicates()`
 
-**Unit 64 — Weighted Multinomial Models with svyVGAM**
+**Unit 83 — Weighted Multinomial Models with svyVGAM**
 `svyVGAM::svy_vglm()` with `multinomial(refLevel = 1)` · mean-one weights for stable fitting. (svyVGAM is a lazy install, called with `::`, never attached.)
 
-**Unit 65 — Weighted Trend Models with survey, broom & purrr**
+**Unit 84 — Weighted Trend Models with survey, broom & purrr**
 *For repeated cross-sections and panels such as HILDA.* `svydesign(ids =)` clustered on person · `svymean()` · `svyby()` · `svyglm()` · group-by-decade interactions · `tidy()` · `reformulate()` · `regTermTest()` · `subset()` of a design · weighted logistic trends with `quasibinomial()` · `plogis()` · ratio of odds ratios · `crossing()` specification grids · `map_dbl()` over outcomes · `group_modify()` by year
 
-**Unit 66 — Social Network Analysis with igraph**
+**Unit 85 — Social Network Analysis with igraph**
 Building a network with `graph_from_data_frame()` · degree centrality
 with `degree()` · visualizing a network with `plot()`
 
-**Unit 67 — Comparative Methods with QCA**
+**Unit 86 — Comparative Methods with QCA**
 Calibrating a fuzzy-set condition · building a truth table with
 `truthTable()`
 
-**Unit 68 — Segregation Measures with dplyr & segregation**
+**Unit 87 — Segregation Measures with dplyr & segregation**
 *For school-level SES segregation work.* Built from the ground up: school composition (row shares) · where each group is found (column shares) · stacked bars of composition · counts per school · the even-spread benchmark and gaps · the dissimilarity index step by step, what it means in students, then `dissimilarity()` · isolation and exposure by hand · entropy · the mutual information index M by hand, then `mutual_total()` · Theil's H = M / E · three groups at once · decomposing M within sectors with `mutual_within()`
 
-**Unit 69 — Publication Tables with modelsummary**
+**Unit 88 — Publication Tables with modelsummary**
 Comparing two models with `modelsummary()` · naming models in the table
 
-**Unit 70 — Publication Table Helpers with dplyr, stringr & tidyr**
+**Unit 89 — Publication Table Helpers with dplyr, stringr & tidyr**
 Significance stars with `case_when()` · `formatC()` decimals · `mapply()` · estimate + CI strings · p-value formatting · en dashes with lookarounds · blanking repeated labels · interleaving columns · `pivot_wider(names_glue)` · hidden header suffixes
 
-**Unit 71 — Excel Reports with openxlsx**
+**Unit 90 — Excel Reports with openxlsx**
 `createWorkbook()` / `addWorksheet()` / `writeData()` / `saveWorkbook()` · title rows · `createStyle()` + `addStyle()` · `mergeCells()` + `setColWidths()` · one sheet per table with `iwalk()`
 
-**Unit 72 — Capstone: Model & Report with glm, broom & marginaleffects**
+**Unit 91 — Writing Reports in Quarto (read-along) with base R**
+Quarto cannot render in the browser, so these lessons have you write the source: YAML headers · code chunks · chunk options (`echo`, `label`, `fig-cap`) · inline `r` results · several output formats · `writeLines()` to a `.qmd` file · the `quarto render` and `preview` commands
+
+**Unit 92 — Capstone: Model & Report with glm, broom & marginaleffects**
 One multi-step lesson ending Phase 5: a logistic model, odds ratios,
 average marginal effects and a predicted probability.
 
@@ -440,7 +525,7 @@ Things to know:
 - **Search.** The box on the Path page finds lessons by title, function name, package or topic.
 - **Placement check and Skip.** A 20-question placement check can mark whole phases as already known, and every unit
   header has a Skip button. Skipped lessons show a dashed outline, earn no XP and return in Review after two days.
-- **Your skills.** The Path page groups lessons into 13 skill areas with completion and mastery bars.
+- **Your skills.** The Path page groups lessons into 14 skill areas with completion and mastery bars.
 - **Code editor.** The code box highlights R as you type (comments, strings, numbers, keywords, function names, pipes and
   the `___` blanks), grows with your code, closes brackets and quotes (typing the closer steps over it, backspace removes an
   empty pair), and indents after Enter (after an opening bracket or at the end of a `|>` or `+` line). The symbol bar also
@@ -449,6 +534,8 @@ Things to know:
   three it also offers Show the answer. The comparison panel shows your result and the expected one together.
 - **Reference.** The Reference tab has a cheat sheet for every unit (each lesson's function, one-line explanation and a
   worked example, with a button to open the lesson) and an A to Z list of functions, both searchable.
+- **From SPSS.** A third Reference tab lists every SPSS command taught in the two Rosetta units (and Unit 3 orients SPSS users first)
+  with the R function that does the same job; tapping a row opens that lesson.
 - **Unit quiz.** Once a unit is finished (and has at least three lessons with a named function), a "Unit quiz" button
   appears under it: five questions generated from the unit's own lessons ("which function fits this description?" and "which
   line of code does this?"). Four or more right earns +20 XP once per unit; missed lessons become due in Review.
@@ -550,7 +637,7 @@ run anywhere else.
    slow the first time) or **Current unit only** (the unit of the lesson
    you last opened, a quick way to re-test one fix).
 4. Tap **Run self-test**, then keep the panel open and the screen awake.
-   A status line counts through the lessons (`Testing 57/505: …`). The
+   A status line counts through the lessons (`Testing 57/713: …`). The
    first full run installs each unit's packages as it reaches them, so
    expect several minutes; later runs are faster because packages stay
    installed for the session.
@@ -579,7 +666,7 @@ How to read the failures:
 
 ## Progression
 
-- **Easy / Medium / Hard** — all but seven of the 505 lessons offer three starting
+- **Easy / Medium / Hard** — all but seven of the 713 lessons offer three starting
   points for the same code box: Easy pre-builds a skeleton with blanks
   for arguments; Medium gives a plain-English comment and an empty
   assignment line, so you write the full function call yourself; Hard
@@ -681,6 +768,8 @@ understanding the different kinds of risk stacked up here:
 - **lavaan, labelled, openxlsx, survey.** New lazy installs. lavaan is the heaviest (first install may be slow); `ggsave()` and the SPSS/Stata round trips write to temporary files, which should work in the browser but have not been run there.
 - **VGAM, svyVGAM.** New lazy installs for the multinomial units; both are called with `::` and never attached. svyVGAM is the less common one, so it sits in its own two-lesson unit: if it will not install under WebAssembly only that unit is affected. The bootstrap lessons (`as.svrepdesign()`, `withReplicates()`) refit models on many replicate weight sets, which is slower in the browser than on a desktop.
 - **plm, readr, lubridate.** These install lazily like the others. plm has many dependencies, so its first install may be slow or fail under WebAssembly; if the Panel Regression unit will not load, run the self-test on that unit and tell me the error. plm is never attached, so its lessons call `plm::plm()` etc.
+- **readxl, jsonlite, ggrepel, patchwork, maps (units added in v13).** Lazy installs, none verified in a live webR yet. readxl and the maps unit use datasets bundled with the packages (`readxl_example()`, `map_data("state")`, `maps::us.cities`), so no downloads are needed. `maps` and `jsonlite` are installed but never attached, because `maps::map()` would mask `purrr::map()` and `jsonlite::flatten()` would mask `purrr::flatten()`. `sf` is deliberately not used. If one of these will not install, run the self-test on that unit and send me the error; only that unit is affected.
+- **Simulation and clustering lessons (v13).** The checks for lessons that use random numbers either recompute the answer with the same seed or accept a tolerance wide enough to be safe across seeds (for example "coverage between 0.88 and 0.99"). The ggplot2 scale, theme and patchwork checks read internal ggplot2 fields (`p$scales`, `p$theme`, `p$patches`) and are the most likely to need a tweak if ggplot2 or patchwork change their internals.
 - **FactoMineR and MASS/nnet.** The Multiple Correspondence Analysis unit
   needs `FactoMineR`, which pulls in a long dependency chain (car, emmeans,
   leaps, flashClust and others), and the ordinal/multinomial unit needs

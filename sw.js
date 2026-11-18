@@ -10,7 +10,7 @@
 //   does not, everything still works, just with network downloads as before.
 // - Fonts are network-first with a cached fallback.
 // Bump VERSION when you want every device to drop its old shell caches.
-const VERSION = "field-notes-v10";
+const VERSION = "field-notes-v13";
 const ENGINE_CACHE = "field-notes-webr-v1";   // not deleted on VERSION bumps
 const MAX_AGE_MS = 30 * 24 * 3600 * 1000;
 const SHELL = ["./", "./index.html", "./manifest.webmanifest",
