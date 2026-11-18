@@ -6,6 +6,8 @@
 <title>Field Notes — Learn R for Survey Data</title>
 <link rel="manifest" href="manifest.webmanifest">
 <meta name="theme-color" content="#9B7EDE">
+<meta name="color-scheme" content="light dark">
+<script>try{var __u=JSON.parse(localStorage.getItem("r-field-notes:ui")||"{}");if(__u.theme==="dark"||__u.theme==="light")document.documentElement.dataset.theme=__u.theme;}catch(e){}</script>
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Field Notes">
@@ -68,7 +70,7 @@
     font-family:'Baloo 2', sans-serif; font-size:12px; font-weight:700; line-height:1.4;
     display:flex; align-items:center; gap:8px;
   }
-  .engine-banner.loading{background:#EEF8FF; color:var(--blue-deep);}
+  .engine-banner.loading{background:var(--blue-soft); color:var(--blue-ink);}
   .engine-banner.ready{display:none;}
   .engine-banner.error{background:var(--red-light); color:var(--red-deep);}
   .dot{width:7px; height:7px; border-radius:50%; background:currentColor; flex:0 0 auto; animation:pulse 1.4s ease-in-out infinite;}
@@ -89,7 +91,7 @@
     font-family:'Baloo 2', sans-serif;
   }
   .unit-divider .unit-name{font-size:12.5px; font-weight:700; color:var(--text);}
-  .unit-divider .unit-count{font-size:11.5px; font-weight:700; color:var(--lilac-deep); background:var(--lilac-light); padding:2px 8px; border-radius:99px;}
+  .unit-divider .unit-count{font-size:11.5px; font-weight:700; color:var(--lilac-ink); background:var(--lilac-light); padding:2px 8px; border-radius:99px;}
   .path-map{position:relative; padding:4px 0 16px;}
   .path-map::before{
     content:""; position:absolute; left:50%; top:8px; bottom:8px; width:6px;
@@ -120,12 +122,12 @@
   button.continue-btn small{display:block; font-weight:600; opacity:.85; font-size:11.5px;}
   button.continue-btn:active{transform:translateY(3px); box-shadow:0 1px 0 var(--lilac-deep);}
   .explain-card{border:2px solid var(--card-border); border-radius:16px; background:var(--bg-soft); padding:4px 14px 10px; margin:14px 0 4px; text-align:left;}
-  .explain-card .ex-title{font-family:'Baloo 2', sans-serif; font-weight:700; font-size:13px; color:var(--lilac-deep); margin:8px 0 0;}
+  .explain-card .ex-title{font-family:'Baloo 2', sans-serif; font-weight:700; font-size:13px; color:var(--lilac-ink); margin:8px 0 0;}
   .explain-card h4{font-family:'Baloo 2', sans-serif; font-size:11.5px; font-weight:700; color:var(--text-soft); margin:9px 0 1px;}
   .explain-card p{margin:0; font-size:13px; line-height:1.5; color:var(--text);}
   .help-card.celebrate-card{max-width:340px; width:92%; max-height:86vh; overflow-y:auto; text-align:left; box-sizing:border-box;}
   .help-example{margin-top:12px; padding-top:8px; border-top:1.5px dashed var(--card-border);}
-  .node-btn.capstone{width:60px; height:60px; border:4px solid var(--gold); background:var(--lilac-light); color:var(--lilac-deep);}
+  .node-btn.capstone{width:60px; height:60px; border:4px solid var(--gold); background:var(--lilac-light); color:var(--lilac-ink);}
   .node-btn.capstone.done{background:var(--gold); color:#fff; border-color:var(--gold-deep);}
   .node-btn.capstone.current{background:var(--lilac); color:#fff;}
   pre.rosetta{background:#2B2B2B; color:#F1EAFB; border-radius:10px; padding:8px 10px; margin:4px 0 10px; font-family:'IBM Plex Mono', monospace; font-size:12px; line-height:1.45; white-space:pre-wrap; overflow-x:auto;}
@@ -157,7 +159,7 @@
     max-height:180px; overflow:auto; display:none; margin:6px 0;
   }
   #selfTestResults.show{display:block;}
-  #selfTestStatus{font-family:'Baloo 2', sans-serif; font-size:12px; font-weight:700; color:var(--lilac-deep); min-height:16px;}
+  #selfTestStatus{font-family:'Baloo 2', sans-serif; font-size:12px; font-weight:700; color:var(--lilac-ink); min-height:16px;}
   .node-btn{
     width:52px; height:52px; border-radius:50%; border:none; background:var(--card-border);
     display:flex; align-items:center; justify-content:center;
@@ -181,7 +183,7 @@
   /* Learn view */
   .learn-kicker{
     font-family:'Baloo 2', sans-serif; font-size:11.5px; font-weight:700; letter-spacing:.04em;
-    text-transform:uppercase; color:var(--lilac-deep); margin:12px 0 6px;
+    text-transform:uppercase; color:var(--lilac-ink); margin:12px 0 6px;
   }
   .learn-title{font-family:'Baloo 2', sans-serif; font-weight:700; font-size:21px; margin:0 0 10px; line-height:1.2;}
   .pkg-row{display:flex; flex-wrap:wrap; gap:5px; margin-bottom:10px;}
@@ -194,11 +196,11 @@
   .learn-body{font-size:15px; line-height:1.6;}
   .learn-body code{
     font-family:'IBM Plex Mono', monospace; background:var(--bg-soft); padding:2px 6px;
-    border-radius:6px; font-size:13.5px; color:var(--lilac-deep); border:1px solid var(--card-border);
+    border-radius:6px; font-size:13.5px; color:var(--lilac-ink); border:1px solid var(--card-border);
   }
   .preload-note{
     margin-top:12px; font-size:12.5px; color:var(--text-soft);
-    background:#EEF8FF; border-radius:10px; padding:9px 12px; border-left:4px solid var(--blue);
+    background:var(--blue-soft); border-radius:10px; padding:9px 12px; border-left:4px solid var(--blue);
   }
   .go-practice{
     display:block; width:100%; margin-top:20px; padding:14px; border:none; border-radius:16px;
@@ -214,7 +216,7 @@
   }
   .practice-recap{display:flex; align-items:center; justify-content:space-between; gap:10px;}
   .practice-recap .info{min-width:0;}
-  .practice-recap .kicker{font-family:'Baloo 2', sans-serif; font-size:10.5px; font-weight:700; color:var(--lilac-deep); text-transform:uppercase;}
+  .practice-recap .kicker{font-family:'Baloo 2', sans-serif; font-size:10.5px; font-weight:700; color:var(--lilac-ink); text-transform:uppercase;}
   .practice-recap .ttl{font-family:'Baloo 2', sans-serif; font-size:14.5px; font-weight:700; color:var(--text);
     white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
   #practiceInstructions{
@@ -222,7 +224,7 @@
   }
   #practiceInstructions code{
     font-family:'IBM Plex Mono', monospace; background:var(--bg-soft); padding:1px 5px;
-    border-radius:5px; font-size:12.5px; color:var(--lilac-deep); border:1px solid var(--card-border);
+    border-radius:5px; font-size:12.5px; color:var(--lilac-ink); border:1px solid var(--card-border);
   }
 
   .mini-row{display:flex; gap:5px; margin-top:12px; flex-wrap:nowrap;}
@@ -232,13 +234,13 @@
   }
   button.action.small:active:not(:disabled){transform:translateY(3px); box-shadow:none !important;}
   button.action.hint-btn{background:#0B5FA5; box-shadow:0 3px 0 #073F70; color:#fff;}
-  button.action.help-btn{background:var(--bg); border:2px solid var(--card-border); box-shadow:0 3px 0 var(--card-border); color:var(--blue-deep);}
+  button.action.help-btn{background:var(--bg); border:2px solid var(--card-border); box-shadow:0 3px 0 var(--card-border); color:var(--blue-ink);}
   button.action.answer-btn{background:var(--gold); box-shadow:0 4px 0 var(--gold-deep); color:var(--text);}
   button.action.diff-btn{background:var(--bg); border:2px solid var(--card-border); box-shadow:0 3px 0 var(--card-border); color:var(--text-soft);}
   button.action.diff-btn.active{background:var(--lilac); border-color:var(--lilac-deep); box-shadow:0 3px 0 var(--lilac-deep); color:#fff;}
   .hint-box{
     display:none; margin-top:8px; font-size:13px; color:var(--text-soft);
-    background:#EEF8FF; border-radius:10px; padding:10px 12px; line-height:1.5;
+    background:var(--blue-soft); border-radius:10px; padding:10px 12px; line-height:1.5;
   }
   .hint-box.show{display:block;}
 
@@ -263,27 +265,27 @@
   /* ---- reference, quiz ---- */
   .ref-tabs{display:flex; gap:8px; margin:0 0 12px;}
   .ref-tabs button{flex:1; padding:9px; border:2px solid var(--card-border); border-radius:12px; background:var(--bg); font:inherit; font-size:13px; font-weight:700; color:var(--text-soft); cursor:pointer;}
-  .ref-tabs button.active{border-color:var(--lilac); background:var(--lilac-light); color:var(--lilac-deep);}
+  .ref-tabs button.active{border-color:var(--lilac); background:var(--lilac-light); color:var(--lilac-ink);}
   details.ref-unit{border:2px solid var(--card-border); border-radius:14px; background:var(--bg); padding:8px 12px; margin-bottom:8px;}
   details.ref-unit summary small{display:block; font-weight:400; font-size:11px; color:var(--text-soft); margin-top:1px;}
   .ref-item{border-top:1px solid var(--card-border); padding:9px 0 4px; margin-top:8px;}
   .ref-item .ri-head{font-size:13.5px; font-weight:700; color:var(--text);}
-  .ref-item .ri-head .ri-ok{color:var(--lilac-deep); margin-left:4px;}
+  .ref-item .ri-head .ri-ok{color:var(--lilac-ink); margin-left:4px;}
   .ref-item .ri-meta{font-size:11px; color:var(--text-soft); margin-top:1px;}
   .ref-item .ri-use{font-size:12.5px; line-height:1.5; margin-top:4px; color:var(--text);}
   .ref-item pre{margin:6px 0 0; padding:8px 10px; background:#2B2F38; color:#E7E3D5; border-radius:10px; font-size:12px; line-height:1.5; white-space:pre-wrap; overflow-x:auto;}
-  .ref-item button.ri-open{margin:6px 0 4px; border:2px solid var(--lilac); background:var(--bg); color:var(--lilac-deep); border-radius:99px; font-size:12px; font-weight:700; padding:4px 12px; cursor:pointer;}
-  .az-letter{font-family:'Baloo 2', sans-serif; font-weight:700; font-size:15px; color:var(--lilac-deep); margin:14px 0 4px;}
+  .ref-item button.ri-open{margin:6px 0 4px; border:2px solid var(--lilac); background:var(--bg); color:var(--lilac-ink); border-radius:99px; font-size:12px; font-weight:700; padding:4px 12px; cursor:pointer;}
+  .az-letter{font-family:'Baloo 2', sans-serif; font-weight:700; font-size:15px; color:var(--lilac-ink); margin:14px 0 4px;}
   .az-row{display:flex; gap:8px; align-items:baseline; padding:6px 0; border-bottom:1px solid var(--card-border); cursor:pointer;}
   .az-row b{font-size:13px; flex:none; max-width:46%; overflow-wrap:anywhere;}
   .az-row span{font-size:12px; color:var(--text-soft); line-height:1.4;}
   .quiz-row{position:relative; z-index:1; display:flex; justify-content:center; margin:10px 0 4px;}
-  .quiz-row button{border:2px solid var(--gold-deep); background:#FFF6CC; color:var(--text); border-radius:99px; font-family:'Baloo 2', sans-serif; font-weight:700; font-size:13px; padding:8px 18px; cursor:pointer;}
+  .quiz-row button{border:2px solid var(--gold-deep); background:var(--gold-soft); color:var(--text); border-radius:99px; font-family:'Baloo 2', sans-serif; font-weight:700; font-size:13px; padding:8px 18px; cursor:pointer;}
   #placementCard .pl-q{white-space:pre-wrap;}
   #placementCard .pl-opts button code{font-family:'IBM Plex Mono', monospace; font-size:12px;}
   #bottomNav button{padding:6px 2px;}
   .tts-bar{display:flex; gap:8px; margin:0 0 10px;}
-  .tts-bar button, .tts-ask button{border:2px solid var(--lilac); background:var(--bg); color:var(--lilac-deep); border-radius:99px; font:inherit; font-size:12.5px; font-weight:700; padding:6px 14px; cursor:pointer;}
+  .tts-bar button, .tts-ask button{border:2px solid var(--lilac); background:var(--bg); color:var(--lilac-ink); border-radius:99px; font:inherit; font-size:12.5px; font-weight:700; padding:6px 14px; cursor:pointer;}
   .tts-bar button#ttsRate{min-width:52px; padding:6px 10px;}
   .tts-ask{background:var(--lilac-light); border-radius:12px; padding:10px 12px; margin:0 0 10px; font-size:13px; text-align:left;}
   .tts-ask-btns{display:flex; gap:8px; margin-top:8px;}
@@ -319,7 +321,7 @@
     display:none; line-height:1.5;
   }
   .feedback.show{display:block;}
-  .feedback.ok{background:var(--lilac-light); color:var(--lilac-deep);}
+  .feedback.ok{background:var(--lilac-light); color:var(--lilac-ink);}
   .feedback.bad{background:var(--red-light); color:var(--red-deep);}
 
   .scroll-cue{
@@ -341,7 +343,7 @@
     font-family:'Baloo 2', sans-serif; font-size:10px; font-weight:700; color:var(--text-faint);
   }
   #bottomNav button .ic{font-size:19px; line-height:1;}
-  #bottomNav button.active{color:var(--lilac-deep);}
+  #bottomNav button.active{color:var(--lilac-ink);}
 
   /* ---------- Celebration ---------- */
   .celebrate-overlay{
@@ -361,7 +363,7 @@
   .celebrate-title{font-family:'Baloo 2', sans-serif; font-weight:700; font-size:20px; margin:2px 0 8px; color:var(--text);}
   .celebrate-xp{font-family:'Baloo 2', sans-serif; font-size:15px; color:var(--gold-deep); font-weight:700; margin-bottom:14px;}
   .celebrate-levelup{
-    font-family:'Baloo 2', sans-serif; font-size:12px; font-weight:700; color:var(--lilac-deep);
+    font-family:'Baloo 2', sans-serif; font-size:12px; font-weight:700; color:var(--lilac-ink);
     background:var(--lilac-light); border-radius:12px; padding:8px 10px; margin-bottom:14px; display:none;
   }
   .celebrate-levelup.show{display:block;}
@@ -377,7 +379,7 @@
   #helpBody{font-size:13.5px; line-height:1.6; color:var(--text); margin-bottom:18px;}
   #helpBody code{
     display:inline-block; font-family:'IBM Plex Mono', monospace; background:var(--bg-soft);
-    padding:1px 5px; border-radius:5px; font-size:12.5px; color:var(--lilac-deep);
+    padding:1px 5px; border-radius:5px; font-size:12.5px; color:var(--lilac-ink);
     border:1px solid var(--card-border); margin-top:2px;
   }
   #helpBody b{color:var(--text);}
@@ -393,7 +395,7 @@
   .search-results{display:flex; flex-direction:column; gap:8px; margin-bottom:12px;}
   .search-item{display:flex; align-items:center; gap:10px; text-align:left; border:2px solid var(--card-border); border-radius:14px; background:var(--bg); padding:9px 12px; cursor:pointer; font:inherit; color:var(--text);}
   .search-item:hover{border-color:var(--lilac);}
-  .search-item .si-num{font-weight:700; font-size:12px; color:var(--lilac-deep); background:var(--lilac-light); border-radius:99px; padding:2px 8px; flex:none;}
+  .search-item .si-num{font-weight:700; font-size:12px; color:var(--lilac-ink); background:var(--lilac-light); border-radius:99px; padding:2px 8px; flex:none;}
   .search-item .si-title{font-weight:700; font-size:13.5px; line-height:1.3;}
   .search-item small{display:block; font-size:11px; color:var(--text-soft); font-weight:400; margin-top:1px;}
   .search-item .si-st{margin-left:auto; flex:none; font-size:12px; color:var(--gold-deep);}
@@ -404,7 +406,7 @@
   .node-btn{position:relative;}
   /* ---- see it first / results ---- */
   details.example-card, details.expected-card{border:2px solid var(--card-border); border-radius:16px; background:var(--bg-soft); padding:8px 14px; margin:12px 0 4px; text-align:left;}
-  details summary{cursor:pointer; font-family:'Baloo 2', sans-serif; font-weight:700; font-size:13px; color:var(--lilac-deep);}
+  details summary{cursor:pointer; font-family:'Baloo 2', sans-serif; font-weight:700; font-size:13px; color:var(--lilac-ink);}
   details pre{margin:8px 0 0; padding:10px 12px; background:#1F2430; color:#E8EAF0; border-radius:10px; font-size:12.5px; line-height:1.5; white-space:pre-wrap; overflow-x:auto;}
   details .ex-note{font-size:12px; color:var(--text-soft); margin:6px 0 0;}
   details .action.small{margin-top:8px;}
@@ -416,13 +418,13 @@
   .feedback .fb-sub{font-weight:400; font-size:12.5px; margin-top:6px; opacity:.85;}
   /* ---- predict, placement, skills, skip ---- */
   .predict-card{border:2px solid var(--lilac); border-radius:16px; background:var(--lilac-light); padding:10px 14px; margin:12px 0 4px; text-align:left;}
-  .predict-card .pc-title{font-family:'Baloo 2', sans-serif; font-weight:700; font-size:13px; color:var(--lilac-deep);}
+  .predict-card .pc-title{font-family:'Baloo 2', sans-serif; font-weight:700; font-size:13px; color:var(--lilac-ink);}
   .predict-card .pc-xp{font-weight:400; font-size:11px; color:var(--text-soft); margin-left:4px;}
   .predict-card .pc-q{font-size:13.5px; line-height:1.5; margin:6px 0 8px; color:var(--text);}
   .predict-card .pc-opts{display:flex; flex-direction:column; gap:6px;}
   .predict-card .pc-opts button, #placementCard .pl-opts button{font:inherit; font-size:13px; text-align:left; padding:8px 12px; border:2px solid var(--card-border); border-radius:12px; background:var(--bg); color:var(--text); cursor:pointer;}
   .predict-card .pc-opts button:hover:not(:disabled), #placementCard .pl-opts button:hover:not(:disabled){border-color:var(--lilac);}
-  .pc-opts button.right, .pl-opts button.right{border-color:#58CC02; background:#E8F8D8;}
+  .pc-opts button.right, .pl-opts button.right{border-color:#58CC02; background:var(--green-soft);}
   .pc-opts button.wrong, .pl-opts button.wrong{border-color:var(--red); background:var(--red-light);}
   .predict-card .pc-why{font-size:12.5px; line-height:1.5; margin-top:8px; color:var(--text);}
   #placementCard{text-align:left;}
@@ -442,8 +444,8 @@
   .skill-note{font-size:11px; color:var(--text-soft); margin:6px 0 2px;}
   button.place-btn{margin-top:0;}
   .unit-skip{border:1px solid var(--card-border); background:var(--bg); color:var(--text-soft); border-radius:99px; font-size:10.5px; padding:2px 8px; margin-left:6px; cursor:pointer;}
-  .unit-skip:hover{border-color:var(--lilac); color:var(--lilac-deep);}
-  .node-btn.done.placed{background:var(--bg); color:var(--lilac-deep); border:3px dashed var(--lilac); box-shadow:none;}
+  .unit-skip:hover{border-color:var(--lilac); color:var(--lilac-ink);}
+  .node-btn.done.placed{background:var(--bg); color:var(--lilac-ink); border:3px dashed var(--lilac); box-shadow:none;}
   /* ---- sticky action bar, symbol toolbar, ratings ---- */
   #view-practice{padding-bottom:150px;}
   .action-bar{
@@ -469,7 +471,248 @@
   .rate-note{display:flex; gap:6px; width:100%;}
   .rate-note input{flex:1; min-width:0; padding:7px 10px; border:2px solid var(--card-border); border-radius:10px; font:inherit; font-size:12.5px; background:var(--bg); color:var(--text);}
   .rate-note button{border:none; border-radius:10px; background:var(--lilac); color:#fff; font-weight:700; font-size:12px; padding:0 12px; cursor:pointer;}
-  .rate-thanks{font-size:11.5px; color:var(--lilac-deep);}
+  .rate-thanks{font-size:11.5px; color:var(--lilac-ink);}
+
+  /* =====================================================================
+     v15 visual layer: tokens, dark mode, home hero, compact path, lesson
+     screen, bottom sheets, plot card, celebration, motion
+     ===================================================================== */
+  :root{
+    --s1:4px; --s2:8px; --s3:16px; --s4:24px;
+    --lilac-ink:#7A5BC0; --blue-ink:#1899D6;
+    --blue-soft:#EEF8FF; --gold-soft:#FFF6CC; --green:#58CC02; --green-soft:#E8F8D8;
+    --shadow:0 1px 2px rgba(0,0,0,.06), 0 6px 16px rgba(0,0,0,.06);
+    --ease:cubic-bezier(.2,.8,.2,1);
+  }
+  :root[data-theme="dark"]{--bg:#1E2128; --bg-soft:#14161B; --card-border:#353A46; --text:#ECEDEF; --text-soft:#A9AEBA; --text-faint:#767B88;
+      --lilac-ink:#BBA2FF; --blue-ink:#6CCBFB; --lilac-light:#2D2644; --red-light:#3B2024; --red-deep:#FF8A8A;
+      --blue-soft:#13283A; --gold-soft:#3A3217; --green-soft:#1B3A12; --shadow:0 1px 2px rgba(0,0,0,.45); color-scheme:dark;}
+  @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){--bg:#1E2128; --bg-soft:#14161B; --card-border:#353A46; --text:#ECEDEF; --text-soft:#A9AEBA; --text-faint:#767B88;
+      --lilac-ink:#BBA2FF; --blue-ink:#6CCBFB; --lilac-light:#2D2644; --red-light:#3B2024; --red-deep:#FF8A8A;
+      --blue-soft:#13283A; --gold-soft:#3A3217; --green-soft:#1B3A12; --shadow:0 1px 2px rgba(0,0,0,.45); color-scheme:dark;} }
+  :root[data-theme="dark"] .review-banner{background:#13283A; border-bottom-color:#1F4560; color:#7FCBF5;}
+  :root[data-theme="dark"] .review-banner button{color:#7FCBF5; border-color:#1F4560;}
+  :root[data-theme="dark"] .node-btn{box-shadow:0 5px 0 #0E1014;}
+  :root[data-theme="dark"] .node-btn.locked{box-shadow:0 5px 0 #0E1014;}
+  :root[data-theme="dark"] .node-btn.locked::after{background:var(--bg-soft); box-shadow:0 2px 0 #0E1014;}
+  :root[data-theme="dark"] .feedback.ok{color:#8BE04A;}
+  :root[data-theme="dark"] .engine-banner.loading{color:#6CCBFB;}
+  :root[data-theme="dark"] .plot-canvas,:root[data-theme="dark"] .plot-card .plot-canvas{background:#fff;}
+  :root[data-theme="dark"] button.ghost{box-shadow:0 4px 0 #0E1014;}
+  :root[data-theme="dark"] button.help-fab,:root[data-theme="dark"] .seg{box-shadow:none;}
+  :root[data-theme="dark"] .phase-header{box-shadow:0 3px 0 #0E1014;}
+  :root[data-theme="dark"] .celebrate-card{box-shadow:0 6px 0 #0E1014;}
+  :root[data-theme="dark"] .pkg-chip{background:var(--bg-soft);}
+  :root[data-theme="dark"] .search-wrap input,:root[data-theme="dark"] .rate-note input,:root[data-theme="dark"] .settings-row select{background:var(--bg); color:var(--text);}
+  :root[data-theme="dark"] .explain-card,:root[data-theme="dark"] details.example-card,:root[data-theme="dark"] details.expected-card{background:var(--bg-soft);}
+  :root[data-theme="dark"] .learn-body code,:root[data-theme="dark"] #practiceInstructions code{background:var(--bg-soft);}
+  :root[data-theme="dark"] .quiz-row button{color:var(--text);}
+  @media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]) .review-banner{background:#13283A; border-bottom-color:#1F4560; color:#7FCBF5;}
+  :root:not([data-theme="light"]) .review-banner button{color:#7FCBF5; border-color:#1F4560;}
+  :root:not([data-theme="light"]) .node-btn{box-shadow:0 5px 0 #0E1014;}
+  :root:not([data-theme="light"]) .node-btn.locked{box-shadow:0 5px 0 #0E1014;}
+  :root:not([data-theme="light"]) .node-btn.locked::after{background:var(--bg-soft); box-shadow:0 2px 0 #0E1014;}
+  :root:not([data-theme="light"]) .feedback.ok{color:#8BE04A;}
+  :root:not([data-theme="light"]) .engine-banner.loading{color:#6CCBFB;}
+  :root:not([data-theme="light"]) .plot-canvas,:root:not([data-theme="light"]) .plot-card .plot-canvas{background:#fff;}
+  :root:not([data-theme="light"]) button.ghost{box-shadow:0 4px 0 #0E1014;}
+  :root:not([data-theme="light"]) button.help-fab,:root:not([data-theme="light"]) .seg{box-shadow:none;}
+  :root:not([data-theme="light"]) .phase-header{box-shadow:0 3px 0 #0E1014;}
+  :root:not([data-theme="light"]) .celebrate-card{box-shadow:0 6px 0 #0E1014;}
+  :root:not([data-theme="light"]) .pkg-chip{background:var(--bg-soft);}
+  :root:not([data-theme="light"]) .search-wrap input,:root:not([data-theme="light"]) .rate-note input,:root:not([data-theme="light"]) .settings-row select{background:var(--bg); color:var(--text);}
+  :root:not([data-theme="light"]) .explain-card,:root:not([data-theme="light"]) details.example-card,:root:not([data-theme="light"]) details.expected-card{background:var(--bg-soft);}
+  :root:not([data-theme="light"]) .learn-body code,:root:not([data-theme="light"]) #practiceInstructions code{background:var(--bg-soft);}
+  :root:not([data-theme="light"]) .quiz-row button{color:var(--text);}
+  }
+
+  main{padding:0 var(--s3);}
+  body{padding-bottom:calc(var(--navh, 64px) + env(safe-area-inset-bottom, 0px));}
+  .view{animation:viewIn .18s var(--ease);}
+  @keyframes viewIn{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:none;}}
+  #topStrip{padding:var(--s2) var(--s3); min-height:52px;}
+  .xp-block{max-width:none;}
+  #settingsBtn{min-width:44px; min-height:44px; font-size:20px; display:flex; align-items:center; justify-content:center; margin-right:-10px;}
+  #bottomNav{padding:var(--s1) var(--s2) calc(var(--s1) + env(safe-area-inset-bottom, 0px));}
+  #bottomNav button{min-height:52px; justify-content:center;}
+  #bottomNav button .ic{font-size:22px;}
+  #bottomNav button.active .ic{transform:translateY(-1px) scale(1.08); transition:transform .15s var(--ease);}
+
+  /* loading banner with progress bar */
+  .engine-banner{flex-direction:column; align-items:stretch; gap:6px; margin:var(--s2) var(--s3) 0; padding:10px 14px; border-radius:16px; box-shadow:var(--shadow);}
+  .engine-banner .eb-row{display:flex; align-items:center; gap:var(--s2);}
+  .eb-bar{height:6px; border-radius:99px; background:rgba(28,176,246,.2); overflow:hidden;}
+  .eb-fill{height:100%; width:6%; background:var(--blue); border-radius:99px; transition:width .6s ease;}
+  .eb-fill.indet{width:35%; animation:indet 1.2s ease-in-out infinite;}
+  @keyframes indet{0%{margin-left:-35%;} 100%{margin-left:100%;}}
+  .engine-banner:not(.loading) .eb-bar{display:none;}
+  #engineTip{font-family:'Nunito', sans-serif; font-weight:600; font-size:11.5px; opacity:.85; line-height:1.35;}
+  .engine-banner:not(.loading) #engineTip{display:none;}
+
+  /* home hero: daily goal ring + streak */
+  .hero{display:flex; align-items:center; gap:var(--s3); background:var(--bg); border:2px solid var(--card-border); border-radius:20px; padding:var(--s3); margin:var(--s3) 0 var(--s2); box-shadow:var(--shadow); cursor:pointer; user-select:none;}
+  .ring{position:relative; width:56px; height:56px; flex:none;}
+  .ring svg{width:56px; height:56px; transform:rotate(-90deg); display:block;}
+  .ring circle{fill:none; stroke-width:7; stroke-linecap:round;}
+  .ring .bgc{stroke:var(--card-border);}
+  .ring .fgc{stroke:var(--green); stroke-dasharray:150.8; stroke-dashoffset:150.8; transition:stroke-dashoffset .6s var(--ease);}
+  .ring .num{position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-family:'Baloo 2', sans-serif; font-weight:800; font-size:17px; color:var(--text);}
+  .hero-text{flex:1; min-width:0;}
+  .hero-title{font-family:'Baloo 2', sans-serif; font-weight:700; font-size:17px; line-height:1.2; color:var(--text);}
+  .hero-sub{font-size:13px; color:var(--text-soft); line-height:1.35;}
+  .streak{display:flex; flex-direction:column; align-items:center; gap:2px; min-width:44px; font-family:'Baloo 2', sans-serif; font-weight:800; font-size:18px; line-height:1; color:#FF9600;}
+  .streak .fl{font-size:28px; filter:grayscale(1); opacity:.45;}
+  .streak.on .fl{filter:none; opacity:1; animation:flame 1.8s ease-in-out infinite;}
+  .streak:not(.on){color:var(--text-faint);}
+  .streak small{font-size:11px; font-weight:700; color:var(--text-soft);}
+  @keyframes flame{0%,100%{transform:scale(1) rotate(-2deg);} 50%{transform:scale(1.08) rotate(2deg);}}
+
+  button.continue-btn{width:100%; min-height:56px; margin:var(--s2) 0 0; border-radius:18px; padding:12px var(--s3); font-size:15px;}
+  button.continue-btn.review-btn{margin-top:var(--s2);}
+  .linkbtn{min-height:44px; background:none; border:none; color:var(--lilac-ink); font-family:'Baloo 2', sans-serif; font-weight:700; font-size:14px; cursor:pointer; padding:0 var(--s2) 0 0; text-align:left;}
+  .place-link{display:block; width:100%; text-align:center; margin:0 0 var(--s2); font-size:13.5px; color:var(--text-soft);}
+  .search-wrap{margin:var(--s2) 0 var(--s2);}
+  .search-wrap input{min-height:48px; border-radius:16px;}
+  .search-wrap button{min-width:44px; min-height:44px;}
+  .skill-card{border-radius:18px; box-shadow:var(--shadow); margin-bottom:var(--s2);}
+  .skill-card summary{min-height:36px; display:flex; align-items:center;}
+  .skill-row .sk-fill{background:var(--area, var(--lilac)); opacity:.25;}
+  .skill-row .sk-mast{background:var(--area, var(--lilac));}
+
+  /* phases and units on the path */
+  .phase-header{display:flex; justify-content:space-between; align-items:center; gap:var(--s2); width:100%; border:none; text-align:left; min-height:48px; padding:10px var(--s3); margin:var(--s4) 0 var(--s2); max-width:none; border-radius:16px; font-size:13.5px; cursor:pointer; user-select:none; box-shadow:0 3px 0 rgba(0,0,0,.18);}
+  .phase-header .ph-prog{font-size:12px; font-weight:700; opacity:.9; white-space:nowrap;}
+  .phase-header.closed{background:var(--lilac); box-shadow:0 3px 0 var(--lilac-deep);}
+  .unit-card{position:relative; z-index:1; display:flex; align-items:center; gap:12px; background:var(--bg); border:2px solid var(--card-border); border-left:6px solid var(--area, var(--lilac)); border-radius:18px; padding:10px 14px 10px 12px; margin:12px 0 var(--s2); min-height:64px; box-shadow:var(--shadow); cursor:pointer; user-select:none; font-family:'Baloo 2', sans-serif;}
+  .uc-ic{width:44px; height:44px; flex:none; border-radius:14px; background:var(--area, var(--lilac)); display:flex; align-items:center; justify-content:center; font-size:22px; box-shadow:0 3px 0 var(--area-deep, var(--lilac-deep));}
+  .uc-main{flex:1; min-width:0; display:flex; flex-direction:column; gap:5px;}
+  .uc-name{font-weight:700; font-size:15px; line-height:1.2; color:var(--text);}
+  .uc-meta{display:flex; align-items:center; gap:var(--s2);}
+  .uc-bar{flex:1; height:6px; border-radius:99px; background:var(--bg-soft); border:1px solid var(--card-border); overflow:hidden;}
+  .uc-bar i{display:block; height:100%; background:var(--area, var(--lilac)); border-radius:99px; transition:width .4s var(--ease);}
+  .uc-count{font-size:12px; font-weight:700; color:var(--text-soft); white-space:nowrap;}
+  .uc-chev{color:var(--text-faint); font-size:14px; width:16px; text-align:center;}
+  .unit-detail{position:relative; z-index:1; background:var(--bg); border:2px dashed var(--card-border); border-radius:16px; padding:12px 14px; margin:0 0 var(--s2); font-size:13.5px; line-height:1.5; color:var(--text-soft);}
+  .unit-detail .pkg-row{margin:var(--s2) 0 0;}
+  .unit-detail .skip-unit{margin-top:var(--s2); min-height:44px; padding:0 var(--s3); border:2px solid var(--card-border); background:var(--bg); color:var(--text-soft); border-radius:14px; font-family:'Baloo 2', sans-serif; font-weight:700; font-size:13px; cursor:pointer;}
+  .path-row .node-btn:not(.locked):not(.done){background:var(--area, var(--lilac)); box-shadow:0 5px 0 var(--area-deep, var(--lilac-deep)); color:#fff;}
+  .path-row .node-btn.current::before{border-color:var(--area, var(--lilac));}
+  .path-row .node-btn.capstone:not(.locked):not(.done){border:4px solid var(--gold);}
+  .node-label{font-size:11.5px;}
+
+  /* learn screen */
+  .learn-kicker{margin:var(--s3) 0 var(--s1);}
+  .learn-title{font-size:24px; margin-bottom:var(--s2);}
+  .learn-body{font-size:16px; line-height:1.6;}
+  details.explain-card{padding:4px 14px; border-radius:16px; margin:var(--s3) 0 var(--s2);}
+  details.explain-card summary{min-height:44px; display:flex; align-items:center;}
+  details.explain-card[open]{padding-bottom:10px;}
+  .go-practice{min-height:56px; border-radius:18px; font-size:16px;}
+  details.example-card summary, details.expected-card summary{min-height:44px; display:flex; align-items:center;}
+
+  /* practice screen: task, editor, run and check only */
+  .practice-head{padding:var(--s3) 0 var(--s1);}
+  .ph-top{display:flex; align-items:center; justify-content:space-between; gap:var(--s2);}
+  .practice-head .kicker{font-family:'Baloo 2', sans-serif; font-size:11.5px; font-weight:700; color:var(--lilac-ink); text-transform:uppercase; letter-spacing:.04em; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+  .practice-head .ttl{font-family:'Baloo 2', sans-serif; font-weight:700; font-size:20px; line-height:1.2; margin:var(--s1) 0 var(--s2); color:var(--text);}
+  #practiceInstructions{font-size:15px; line-height:1.55; margin:0;}
+  #practiceInstructions.clamp{display:-webkit-box; -webkit-line-clamp:5; -webkit-box-orient:vertical; overflow:hidden;}
+  #taskBackground{border-left:4px solid var(--card-border); padding:2px 0 2px var(--s3); margin:var(--s1) 0 var(--s2); font-size:14px; line-height:1.55; color:var(--text-soft);}
+  #taskBackground[hidden]{display:none;}
+  #taskBackground .pkg-row{margin:var(--s2) 0 0;}
+  .seg{display:flex; flex:none; background:var(--bg); border:2px solid var(--card-border); border-radius:99px; padding:2px;}
+  .seg button{border:none; background:none; min-height:36px; min-width:44px; padding:0 10px; border-radius:99px; font-family:'Baloo 2', sans-serif; font-weight:700; font-size:12px; color:var(--text-soft); cursor:pointer; transition:background .15s, color .15s;}
+  .seg button.active{background:var(--lilac); color:#fff;}
+  .hint-box{border-radius:14px; background:var(--blue-soft); border-left:4px solid var(--blue); margin:var(--s2) 0;}
+  .console-label{margin-top:var(--s3);}
+  .editor{margin-top:var(--s2); border-radius:16px; box-shadow:var(--shadow);}
+  .ed-hl .b{color:#FFC800; background:rgba(255,200,0,.18); box-shadow:0 0 0 1px rgba(255,200,0,.55); border-radius:3px; text-decoration:none; animation:blank 1.6s ease-in-out 3;}
+  @keyframes blank{0%,100%{background:rgba(255,200,0,.18);} 50%{background:rgba(255,200,0,.42);}}
+  .action-bar{padding:var(--s2) var(--s3) var(--s2);}
+  .action-bar .btn-row button.action{min-height:48px; border-radius:16px; font-size:14px;}
+  .action-bar .btn-row button.check{flex:1.5 1 0;}
+  button.run{background:var(--bg); color:var(--blue-ink); border:2px solid var(--blue); box-shadow:0 3px 0 var(--blue);}
+  button.help-fab{flex:0 0 auto !important; background:var(--bg); color:var(--text); border:2px solid var(--card-border); box-shadow:0 3px 0 var(--card-border); padding:0 14px !important;}
+  .sym-bar button{min-width:44px; height:44px;}
+  .rate-btn{min-width:44px; min-height:44px;}
+  .rate-note button, .rate-note input{min-height:44px;}
+  .predict-card{border-radius:18px;}
+  .nav-row button{min-height:48px;}
+  .scroll-cue{display:none;}
+  .feedback{border-radius:16px;}
+  .feedback.ok{background:var(--green-soft); color:#3E8E00;}
+  .shake{animation:shake .24s ease-in-out;}
+  @keyframes shake{0%,100%{transform:none;} 25%{transform:translateX(-6px);} 75%{transform:translateX(6px);}}
+
+  button.continue-btn[hidden], .linkbtn[hidden], .sheet-row[hidden]{display:none !important;}
+  .skill-card summary, details.explain-card summary, details.example-card summary, details.expected-card summary{display:list-item; padding:10px 0; min-height:44px;}
+  .skill-card summary{padding:4px 0; min-height:36px;}
+  #ratePractice:not(.on){display:none;}
+  #expectedCard:not(.reveal){display:none;}
+  /* bottom sheets */
+  .celebrate-card{position:relative;}
+  .celebrate-overlay.sheet-mode{align-items:flex-end; justify-content:center; background:rgba(20,20,30,.45); transition:opacity .2s ease;}
+  .sheet-mode .celebrate-card{width:100%; max-width:640px; max-height:88vh; overflow-y:auto; border-radius:24px 24px 0 0; border-bottom:none; box-shadow:0 -8px 30px rgba(0,0,0,.2); padding:var(--s2) var(--s3) calc(var(--s3) + env(safe-area-inset-bottom, 0px)); transform:translateY(100%); transition:transform .22s var(--ease); text-align:left;}
+  .sheet-mode.show .celebrate-card{transform:none;}
+  .sheet-grab{width:40px; height:4px; border-radius:99px; background:var(--card-border); margin:6px auto 14px;}
+  .sheet-title{font-family:'Baloo 2', sans-serif; font-weight:800; font-size:21px; margin:0 0 var(--s3); color:var(--text);}
+  .sheet-row{display:flex; align-items:center; gap:var(--s3); width:100%; min-height:62px; padding:10px var(--s3); margin:0 0 var(--s2); background:var(--bg); border:2px solid var(--card-border); border-radius:16px; text-align:left; font:inherit; color:var(--text); cursor:pointer;}
+  .sheet-row:active{background:var(--bg-soft);}
+  .sheet-row[hidden]{display:none;}
+  .sr-ic{font-size:26px; width:34px; text-align:center; flex:none;}
+  .sr-t{display:flex; flex-direction:column; min-width:0;}
+  .sr-label{font-family:'Baloo 2', sans-serif; font-weight:700; font-size:16px; line-height:1.2;}
+  .sr-t small{font-size:12.5px; color:var(--text-soft); line-height:1.35;}
+  .sheet-cancel{display:block; width:100%; min-height:48px; margin-top:var(--s1); border:none; background:none; color:var(--text-soft); font-family:'Baloo 2', sans-serif; font-weight:700; font-size:15px; cursor:pointer;}
+  .sheet-mode .help-card .celebrate-title, .sheet-mode .celebrate-card .celebrate-title{text-align:left;}
+  .sheet-mode .celebrate-close{display:block; width:100%; min-height:48px;}
+
+  /* plot card */
+  .plot-card{display:none; margin-top:12px; border:2px solid var(--card-border); border-radius:18px; background:var(--bg); box-shadow:var(--shadow); overflow:hidden;}
+  .plot-card:has(.plot-canvas.show){display:block;}
+  .plot-card .pl-head{display:flex; justify-content:space-between; align-items:center; padding:0 2px 0 14px; font-family:'Baloo 2', sans-serif; font-weight:700; font-size:13px; color:var(--text-soft);}
+  .plot-card .pl-head button{min-width:44px; min-height:44px; border:none; background:none; font-size:19px; color:var(--text-soft); cursor:pointer;}
+  .plot-card .plot-canvas{margin:0; border:none; border-radius:0; cursor:zoom-in;}
+  #plotOverlay{background:rgba(0,0,0,.9);}
+  #plotOverlay .plot-full{width:100%; padding:var(--s3); text-align:center;}
+  #plotOverlay img{max-width:100%; max-height:76vh; border-radius:14px; background:#fff; display:block; margin:0 auto var(--s3);}
+
+  /* celebration */
+  .confetti{position:absolute; inset:0; pointer-events:none; overflow:hidden; border-radius:24px;}
+  .confetti i{position:absolute; top:-12px; width:8px; height:12px; border-radius:2px; animation:cfall 1.5s ease-in forwards;}
+  @keyframes cfall{to{transform:translate(var(--dx), 440px) rotate(var(--rot)); opacity:0;}}
+  .celebrate-mark{animation:pop .45s var(--ease);}
+  .celebrate-mark::before{content:attr(data-icon);}
+  @keyframes pop{0%{transform:scale(.4);} 70%{transform:scale(1.2);} 100%{transform:scale(1);}}
+  .cel-bar{height:18px; border-radius:99px; background:var(--bg-soft); border:2px solid var(--card-border); overflow:hidden; margin:0 0 var(--s1);}
+  .cel-fill{height:100%; width:0; background:var(--gold); border-radius:99px; transition:width .7s var(--ease);}
+  .cel-bar-txt{font-size:12px; font-weight:700; color:var(--text-soft); margin-bottom:var(--s3);}
+  .cel-goal{font-family:'Baloo 2', sans-serif; font-weight:700; font-size:14px; color:#FF9600; margin:-4px 0 var(--s3);}
+  .cel-goal:empty{display:none;}
+  .cel-summary{display:flex; gap:var(--s2); margin:0 0 var(--s3);}
+  .cel-summary span{flex:1; background:var(--bg-soft); border-radius:12px; padding:8px 4px; font-size:12px; color:var(--text-soft);}
+  .cel-summary b{display:block; font-family:'Baloo 2', sans-serif; font-size:19px; color:var(--text);}
+  .cel-actions{display:flex; flex-direction:column; gap:var(--s2);}
+  .cel-actions .action{width:100%; min-height:48px;}
+  .celebrate-close{min-height:48px;}
+  .celebrate-card{max-width:340px; width:92%;}
+
+  /* first-run tour */
+  .tour-card{max-width:340px; width:92%;}
+  .tour-ic{font-size:56px; line-height:1; margin-bottom:var(--s2);}
+  .tour-t{font-family:'Baloo 2', sans-serif; font-weight:800; font-size:21px; margin-bottom:var(--s2); color:var(--text);}
+  .tour-d{font-size:14.5px; line-height:1.55; color:var(--text-soft); margin-bottom:var(--s3);}
+  .tour-dots{display:flex; gap:6px; justify-content:center; margin-bottom:var(--s3);}
+  .tour-dots span{width:8px; height:8px; border-radius:50%; background:var(--card-border);}
+  .tour-dots span.on{background:var(--lilac); width:22px; border-radius:99px;}
+  .tour-skip{display:block; width:100%; margin-top:var(--s1); min-height:44px; border:none; background:none; color:var(--text-soft); font-family:'Baloo 2', sans-serif; font-weight:700; font-size:14px; cursor:pointer;}
+  .settings-card label.chk{display:flex; gap:var(--s2); align-items:center; font-size:14px; min-height:44px;}
+
+  @media (prefers-reduced-motion: reduce){
+    *, *::before, *::after{animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important;}
+    .confetti{display:none;}
+  }
 </style>
 </head>
 <body>
@@ -485,34 +728,41 @@
   </div>
 
   <div class="engine-banner loading" id="engineBanner">
-    <span class="dot"></span>
-    <span id="engineText">Starting R and installing dplyr, purrr, forcats, here, stringr, ggplot2, janitor, marginaleffects, ggalluvial (1–4 min first time)…</span>
+    <div class="eb-row"><span class="dot"></span><span id="engineText">Starting R…</span></div>
+    <div class="eb-bar"><div class="eb-fill" id="engineFill"></div></div>
+    <div id="engineTip">First visit only: R is downloaded once and then kept on your device. Read the first lesson while you wait.</div>
   </div>
 
   <main class="wrap">
     <section class="view" id="view-path">
-      <div class="path-intro">Learn R for survey data, tidyverse-first. Tap any unlocked lesson to begin.</div>
+      <div id="pathExtras">
+        <div class="hero" id="homeHero" role="button" aria-label="Daily goal and streak. Tap to change the goal.">
+          <div class="ring"><svg viewBox="0 0 56 56" aria-hidden="true"><circle class="bgc" cx="28" cy="28" r="24"></circle><circle class="fgc" id="ringFg" cx="28" cy="28" r="24"></circle></svg><div class="num" id="ringNum">0</div></div>
+          <div class="hero-text"><div class="hero-title" id="heroTitle">Today's goal</div><div class="hero-sub" id="heroSub"></div></div>
+          <div class="streak" id="streakChip" aria-label="Day streak"><span class="fl">🔥</span><span id="streakN">0</span><small id="streakLbl">days</small></div>
+        </div>
+      </div>
+      <button class="continue-btn" id="continueBtn" hidden></button>
+      <button class="continue-btn review-btn" id="reviewBtn" hidden></button>
       <div class="search-wrap">
         <input id="searchBox" type="search" placeholder="Search lessons or functions…" autocomplete="off" spellcheck="false">
         <button id="searchClear" hidden aria-label="Clear search">✕</button>
       </div>
       <div class="search-results" id="searchResults" hidden></div>
-      <div id="pathExtras">
+      <div id="pathExtras2">
         <details class="skill-card" id="skillCard"><summary>Your skills</summary><div id="skillBars"></div></details>
-        <button class="continue-btn place-btn" id="placementBtn">Already know some R?<small>A short placement check can mark whole phases as known</small></button>
+        <button class="linkbtn place-link" id="placementBtn">Already know some R? Take the placement check →</button>
       </div>
-      <button class="continue-btn" id="continueBtn" hidden></button>
-      <button class="continue-btn review-btn" id="reviewBtn" hidden></button>
       <div class="path-map" id="pathMap"></div>
     </section>
 
     <section class="view" id="view-learn" hidden>
-      <div class="learn-kicker" id="learnKicker">Lesson 1 of 40</div>
+      <div class="learn-kicker" id="learnKicker">Lesson 1</div>
       <h2 class="learn-title" id="learnTitle"></h2>
       <div class="pkg-row" id="learnPkgRow"></div>
       <div class="learn-body" id="learnInstructions"></div>
       <div class="preload-note" id="learnPreload" style="display:none;"></div>
-      <div class="explain-card" id="learnExplain" hidden></div>
+      <details class="explain-card" id="learnExplain" hidden></details>
       <div class="rate-row" id="rateLearn"></div>
       <details class="example-card" id="exampleCard" hidden>
         <summary>See it first: a worked example</summary>
@@ -538,24 +788,21 @@
         <span id="reviewLabel"></span>
         <button id="reviewExit">Exit review</button>
       </div>
-      <div class="practice-sticky">
-        <div class="practice-recap">
-          <div class="info">
-            <div class="kicker" id="practiceKicker">Lesson 1</div>
-            <div class="ttl" id="practiceTitle"></div>
-            <div class="pkg-row" id="practicePkgRow"></div>
+      <div class="practice-head">
+        <div class="ph-top">
+          <div class="kicker" id="practiceKicker">Lesson 1</div>
+          <div class="seg" id="diffSeg">
+            <button class="diff-btn" data-diff="easy" style="display:none;">Easy</button>
+            <button class="diff-btn" data-diff="medium" style="display:none;">Medium</button>
+            <button class="diff-btn" data-diff="hard" style="display:none;">Hard</button>
           </div>
         </div>
-        <div id="practiceInstructions"></div>
+        <div class="ttl" id="practiceTitle"></div>
+        <div id="practiceInstructions" class="clamp"></div>
+        <button class="linkbtn" id="taskMore" aria-expanded="false">Details ▾</button>
+        <div id="taskBackground" hidden><div id="taskBgText"></div><div class="pkg-row" id="practicePkgRow"></div></div>
       </div>
 
-      <div class="mini-row">
-        <button class="action small hint-btn" id="hintToggle">Hint</button>
-        <button class="action small help-btn" id="helpBtn">Help</button>
-        <button class="action small diff-btn" data-diff="easy" style="display:none;">Easy</button>
-        <button class="action small diff-btn" data-diff="medium" style="display:none;">Medium</button>
-        <button class="action small diff-btn" data-diff="hard" style="display:none;">Hard</button>
-      </div>
       <div class="hint-box" id="hintBox"></div>
       <div class="predict-card" id="predictCard" hidden>
         <div class="pc-title">Predict first <span class="pc-xp">+5 XP if you get it right first time</span></div>
@@ -573,14 +820,17 @@
       <div class="action-bar" id="actionBar">
         <div class="sym-bar" id="symBar" aria-label="Symbols"></div>
         <div class="btn-row">
+          <button class="action help-fab" id="helpFab" aria-label="Need help?">💡 Help</button>
           <button class="action run" id="runBtn" disabled>Run code</button>
           <button class="action check" id="checkBtn" disabled>Check answer</button>
-          <button class="action answer-btn" id="answerBtn">Display answer</button>
         </div>
       </div>
 
       <div class="output" id="output"></div>
-      <canvas class="plot-canvas" id="plotCanvas"></canvas>
+      <div class="plot-card" id="plotCard">
+        <div class="pl-head"><span>Plot</span><button id="plotExpand" aria-label="Expand plot">⤢</button></div>
+        <canvas class="plot-canvas" id="plotCanvas"></canvas>
+      </div>
       <div class="feedback" id="feedback"></div>
       <div class="result-box" id="resultBox" hidden></div>
       <div class="rate-row" id="ratePractice"></div>
@@ -589,7 +839,6 @@
         <pre id="expectedOut">Open to see what the correct code produces.</pre>
       </details>
 
-      <div class="scroll-cue">▾ more ▾</div>
       <div class="nav-row">
         <button class="action ghost" id="prevBtn">← Prev</button>
         <button class="action ghost" id="nextBtn">Next →</button>
@@ -605,17 +854,54 @@
   </nav>
 
   <div class="celebrate-overlay" id="celebrateOverlay">
-    <div class="celebrate-card">
-      <div class="celebrate-mark"></div>
+    <div class="celebrate-card" id="celebrateCard">
+      <div class="confetti" id="confetti" aria-hidden="true"></div>
+      <div class="celebrate-mark" id="celebrateMark" data-icon="🎉"></div>
       <div class="celebrate-title" id="celebrateTitle">Logged.</div>
       <div class="celebrate-xp" id="celebrateXp">+50 XP</div>
+      <div id="celBarWrap"><div class="cel-bar"><div class="cel-fill" id="celFill"></div></div><div class="cel-bar-txt" id="celBarTxt"></div></div>
       <div class="celebrate-levelup" id="celebrateLevelup">Level up! You're now Level 2.</div>
-      <button class="celebrate-close" id="celebrateClose">Continue</button>
+      <div class="cel-goal" id="celGoal"></div>
+      <div class="cel-summary" id="celSummary" hidden></div>
+      <div class="cel-actions">
+        <button class="action check" id="celQuiz" hidden>🧠 Take the unit quiz</button>
+        <button class="action ghost" id="celPath" hidden>Back to the path</button>
+        <button class="celebrate-close" id="celebrateClose">Continue</button>
+      </div>
     </div>
   </div>
 
-  <div class="celebrate-overlay" id="helpOverlay">
+  <div class="celebrate-overlay sheet-mode" id="sheetOverlay">
+    <div class="celebrate-card" id="helpSheet" role="dialog" aria-label="Need help?">
+      <div class="sheet-grab"></div>
+      <div class="sheet-title">Need help?</div>
+      <button class="sheet-row" id="hintToggle"><span class="sr-ic">💡</span><span class="sr-t"><b class="sr-label">Hint</b><small id="hintSub">A nudge in the right direction</small></span></button>
+      <button class="sheet-row" id="helpBtn"><span class="sr-ic">📖</span><span class="sr-t"><b class="sr-label">Explain</b><small>What this does, in plain words, with an example</small></span></button>
+      <button class="sheet-row" id="sheetRead"><span class="sr-ic">🔊</span><span class="sr-t"><b class="sr-label">Read aloud</b><small>Hear the explanation</small></span></button>
+      <button class="sheet-row" id="sheetCompare"><span class="sr-ic">🔍</span><span class="sr-t"><b class="sr-label">Compare with expected</b><small>See what the correct code produces (counts as a hint)</small></span></button>
+      <button class="sheet-row" id="answerBtn"><span class="sr-ic">👀</span><span class="sr-t"><b class="sr-label">Show answer</b><small id="answerSub">Fills the editor with the solution</small></span></button>
+      <button class="sheet-cancel" id="sheetClose">Close</button>
+    </div>
+  </div>
+
+  <div class="celebrate-overlay" id="plotOverlay">
+    <div class="plot-full"><img id="plotFullImg" alt="Plot, enlarged"><button class="celebrate-close" id="plotFullClose">Close</button></div>
+  </div>
+
+  <div class="celebrate-overlay" id="tourOverlay">
+    <div class="celebrate-card tour-card">
+      <div class="tour-ic" id="tourIc">📱</div>
+      <div class="tour-t" id="tourT"></div>
+      <div class="tour-d" id="tourD"></div>
+      <div class="tour-dots" id="tourDots"></div>
+      <button class="celebrate-close" id="tourNext" style="display:block; width:100%;">Next</button>
+      <button class="tour-skip" id="tourSkip">Skip the tour</button>
+    </div>
+  </div>
+
+  <div class="celebrate-overlay sheet-mode" id="helpOverlay">
     <div class="celebrate-card help-card">
+      <div class="sheet-grab"></div>
       <div class="celebrate-title">How it works</div>
       <div class="tts-bar" id="ttsBar" hidden>
         <button type="button" id="ttsPlay">🔊 Read aloud</button>
@@ -656,9 +942,18 @@
     </div>
   </div>
 
-  <div class="celebrate-overlay" id="settingsOverlay">
+  <div class="celebrate-overlay sheet-mode" id="settingsOverlay">
     <div class="celebrate-card settings-card">
+      <div class="sheet-grab"></div>
       <div class="celebrate-title">Settings &amp; tools</div>
+
+      <h3>Appearance &amp; goals</h3>
+      <div class="settings-row">
+        <select id="themeSel" aria-label="Theme"><option value="auto">Theme: match phone</option><option value="light">Theme: light</option><option value="dark">Theme: dark</option></select>
+        <select id="goalSel" aria-label="Daily goal"><option value="1">Goal: 1 lesson a day</option><option value="3">Goal: 3 lessons a day</option><option value="5">Goal: 5 lessons a day</option><option value="10">Goal: 10 lessons a day</option></select>
+      </div>
+      <label class="chk"><input type="checkbox" id="soundChk"> Sound effects</label>
+      <div class="settings-row"><button id="tourBtn">Show the quick tour</button></div>
 
       <div id="installRow" hidden>
         <h3>Install the app</h3>
@@ -1848,7 +2143,7 @@ back <- read_rds(tmp)
       short: "excel_sheets()",
       unit: "Reading Spreadsheets with readxl",
       instructions: `readxl ships with example workbooks. <code>path</code> points to <code>datasets.xlsx</code>. Create <code>sheets</code>: the names of its sheets using <code>excel_sheets()</code>.`,
-      preload: `Preloaded: path — the readxl example workbook "datasets.xlsx" (4 sheets).`,
+      preload: `Preloaded: path — the readxl example workbook "datasets.xlsx" (several sheets).`,
       setup: `path <- readxl_example("datasets.xlsx")`,
       starter: `sheets <- ___(path)
 sheets
@@ -1869,7 +2164,7 @@ sheets
         needs: `Path to an .xlsx or .xls file.`,
         assumes: `Sheet names may contain spaces or odd characters.`
       },
-      check: `exists("sheets") && is.character(sheets) && length(sheets) == 4 && "mtcars" %in% sheets && identical(sheets, excel_sheets(path))`
+      check: `exists("sheets") && is.character(sheets) && length(sheets) >= 2 && "mtcars" %in% sheets && identical(as.character(sheets), as.character(excel_sheets(path)))`
     },
     {
       title: "Reading a sheet by name",
@@ -1929,7 +2224,7 @@ chick
         needs: `Knowledge of sheet order.`,
         assumes: `Sheet order stays the same.`
       },
-      check: `exists("chick") && nrow(chick) == 71 && isTRUE(all.equal(chick, read_excel(path, sheet = "chickwts")))`
+      check: `exists("chick") && is.data.frame(chick) && nrow(chick) > 0 && isTRUE(all.equal(chick, read_excel(path, sheet = excel_sheets(path)[3])))`
     },
     {
       title: "Reading a cell range",
@@ -2055,7 +2350,7 @@ names(all_sheets)
         needs: `A workbook with several sheets.`,
         assumes: `Sheets with different columns need separate handling.`
       },
-      check: `exists("all_sheets") && is.list(all_sheets) && identical(names(all_sheets), excel_sheets(path)) && nrow(all_sheets$iris) == 150`
+      check: `exists("all_sheets") && is.list(all_sheets) && length(all_sheets) >= 2 && identical(names(all_sheets), as.character(excel_sheets(path))) && all(vapply(all_sheets, is.data.frame, logical(1)))`
     },
     {
       title: "Capstone: from SPSS codes to a clean file",
@@ -18578,7 +18873,7 @@ total_inertia <- sum(eig[, "eigenvalue"])
         assumes: `Percentages of inertia in MCA are pessimistic because the indicator coding spreads inertia over many dimensions: 20–30% on two axes can be a good result. The next lesson shows the corrected (modified) rates.`,
         formula: `Each eigenvalue is the inertia (variance) of one axis. Total inertia in MCA = (K − Q) ÷ Q, here (15 − 5) ÷ 5 = 2. The percentage for an axis is its eigenvalue divided by 2.`
       },
-      check: `exists("eig") && exists("total_inertia") && (is.matrix(eig) || is.data.frame(eig)) && isTRUE(all.equal(as.numeric(total_inertia), 2, tolerance = 1e-6))`
+      check: `exists("eig") && exists("total_inertia") && (is.matrix(eig) || is.data.frame(eig)) && abs(as.numeric(total_inertia) - (sum(vapply(social[, 1:5], nlevels, 1L)) - 5) / 5) < 0.01`
     },
     {
       title: "Benzécri's modified rates",
@@ -26483,6 +26778,10 @@ capstone_pred <- predict(capstone_fit, newdata = profile, type = "response")
   let preAnswerCode = "";
 
   const $ = (id) => document.getElementById(id);
+  const PREFS = { theme: "auto", sound: false, goal: 3, tour: false };
+  let daily = { d: "", ids: [] };
+  let streak = { last: "", n: 0, best: 0 };
+  const setLbl = (id, text) => { const e = $(id), l = e && e.querySelector(".sr-label"); if (l) l.textContent = text; else if (e) e.textContent = text; };
 
   async function loadProgress() {
     try {
@@ -26500,15 +26799,17 @@ capstone_pred <- predict(capstone_fit, newdata = profile, type = "response")
         if (p.quizBest && typeof p.quizBest === "object") quizBest = p.quizBest;
         if (p.placed && typeof p.placed === "object") placed = p.placed;
         if (p.predicted && typeof p.predicted === "object") predicted = p.predicted;
+        if (p.daily && typeof p.daily === "object" && Array.isArray(p.daily.ids)) daily = { d: String(p.daily.d || ""), ids: p.daily.ids };
+        if (p.streak && typeof p.streak === "object") streak = { last: String(p.streak.last || ""), n: Number(p.streak.n) || 0, best: Number(p.streak.best) || 0 };
       }
       const ui = localStorage.getItem("r-field-notes:ui");
-      if (ui) { const u = JSON.parse(ui); if (u && u.collapsed) collapsedUnits = u.collapsed; if (u && u.tts && typeof u.tts === "object") { TTS.prefs.auto = typeof u.tts.auto === "boolean" ? u.tts.auto : null; if ([0.8, 1, 1.25].includes(u.tts.rate)) TTS.prefs.rate = u.tts.rate; } }
+      if (ui) { const u = JSON.parse(ui); if (u && u.collapsed) collapsedUnits = u.collapsed; if (u) { if (["auto", "light", "dark"].includes(u.theme)) PREFS.theme = u.theme; if (typeof u.sound === "boolean") PREFS.sound = u.sound; if ([1, 3, 5, 10].includes(u.goal)) PREFS.goal = u.goal; if (u.tour === true) PREFS.tour = true; } if (u && u.tts && typeof u.tts === "object") { TTS.prefs.auto = typeof u.tts.auto === "boolean" ? u.tts.auto : null; if ([0.8, 1, 1.25].includes(u.tts.rate)) TTS.prefs.rate = u.tts.rate; } }
     } catch (e) { /* localStorage unavailable (e.g. private browsing, or this preview sandbox) — progress just won't persist */ }
   }
   async function saveProgress() {
     try {
-      localStorage.setItem("r-field-notes:progress", JSON.stringify({ completed: Array.from(completed), xp, difficulty, stars, lastId, lastPracticed, srs, placed, predicted, ratings, quizBest }));
-      localStorage.setItem("r-field-notes:ui", JSON.stringify({ collapsed: collapsedUnits, tts: TTS.prefs }));
+      localStorage.setItem("r-field-notes:progress", JSON.stringify({ completed: Array.from(completed), xp, difficulty, stars, lastId, lastPracticed, srs, placed, predicted, ratings, quizBest, daily, streak }));
+      localStorage.setItem("r-field-notes:ui", JSON.stringify({ collapsed: collapsedUnits, tts: TTS.prefs, theme: PREFS.theme, sound: PREFS.sound, goal: PREFS.goal, tour: PREFS.tour }));
     } catch (e) { console.warn("Could not save progress", e); }
   }
 
@@ -26664,10 +26965,88 @@ const PHASE_STARTS = {
     const first = LESSONS.findIndex((l) => !completed.has(l.id));
     return first >= 0 ? first : null;
   }
+  function isPhaseCollapsed(ph, openPhase) {
+    const k = "phase:" + ph;
+    if (Object.prototype.hasOwnProperty.call(collapsedUnits, k)) return !!collapsedUnits[k];
+    return ph !== openPhase;
+  }
   function isUnitCollapsed(unit, openUnit) {
     if (Object.prototype.hasOwnProperty.call(collapsedUnits, unit)) return !!collapsedUnits[unit];
     return unit !== openUnit;
   }
+
+
+  // ================= v15: look and feel helpers =================
+  const DEFAULT_AREA = { i: "📘", c: "#9B7EDE", d: "#7A5BC0" };
+  const AREA_STYLE = {
+    "Workflow & setup": { i: "🗂️", c: "#8E7CC3", d: "#6F5CA8" },
+    "Importing & labelling": { i: "📥", c: "#1CB0F6", d: "#1899D6" },
+    "Wrangling & recoding": { i: "🧹", c: "#58CC02", d: "#46A302" },
+    "Dates, text & reshaping": { i: "🔤", c: "#FF9600", d: "#D97F00" },
+    "Functions & iteration": { i: "🔁", c: "#CE82FF", d: "#A85ED9" },
+    "Missing data": { i: "🕳️", c: "#FF86D0", d: "#D966AE" },
+    "Exploring & visualising": { i: "📊", c: "#00B8A0", d: "#009783" },
+    "Tests, scales & measurement": { i: "🧪", c: "#4F8EF7", d: "#3A74D6" },
+    "Debugging": { i: "🐞", c: "#FF5A5A", d: "#D93636" },
+    "Probability & inference": { i: "🎲", c: "#7C4DFF", d: "#5E35D1" },
+    "Regression & models": { i: "📈", c: "#FF7043", d: "#D9552E" },
+    "Survey methods": { i: "📋", c: "#26A69A", d: "#1B857B" },
+    "Networks, QCA & segregation": { i: "🕸️", c: "#8D6E63", d: "#6D534A" },
+    "Reporting & output": { i: "📝", c: "#EC407A", d: "#C2185B" }
+  };
+  const areaOfUnit = (unit) => AREA_STYLE[skillAreaOf(unit)] || DEFAULT_AREA;
+  const shortUnit = (u) => String(u).split(" with ")[0];
+  function unitPkgs(u) { const p = String(u).split(" with ")[1]; return p ? p.split(/,\s*|\s&\s/).map((s) => s.trim()).filter(Boolean) : []; }
+  function splitInstructions(html) {
+    const parts = String(html).split(/<br\s*\/?>\s*<br\s*\/?>/).map((s) => s.trim()).filter(Boolean);
+    const balanced = (p) => ["pre", "ul", "ol", "table", "code"].every((t) => (p.match(new RegExp("<" + t + "[ >]", "g")) || []).length === (p.match(new RegExp("</" + t + ">", "g")) || []).length);
+    if (parts.length > 1 && parts.every(balanced)) return { task: parts[parts.length - 1], background: parts.slice(0, -1).join("<br><br>") };
+    return { task: html, background: "" };
+  }
+  const shake = (el) => { if (!el) return; el.classList.remove("shake"); void el.offsetWidth; el.classList.add("shake"); };
+  const buzz = (ms) => { try { navigator.vibrate && navigator.vibrate(ms || 30); } catch (_) {} };
+  let audioCtx = null;
+  function chime(big) {
+    if (!PREFS.sound) return;
+    try {
+      audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
+      (big ? [523, 659, 784, 1047] : [659, 880]).forEach((f, i) => {
+        const o = audioCtx.createOscillator(), g = audioCtx.createGain(), t = audioCtx.currentTime + i * 0.11;
+        o.type = "sine"; o.frequency.value = f;
+        g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.18, t + 0.02); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.25);
+        o.connect(g); g.connect(audioCtx.destination); o.start(t); o.stop(t + 0.3);
+      });
+    } catch (_) {}
+  }
+  function applyTheme() {
+    const t = PREFS.theme;
+    if (t === "dark" || t === "light") document.documentElement.dataset.theme = t; else delete document.documentElement.dataset.theme;
+    const dark = t === "dark" || (t === "auto" && window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches);
+    const m = document.querySelector('meta[name="theme-color"]'); if (m) m.content = dark ? "#1E2128" : "#9B7EDE";
+  }
+  if (window.matchMedia) { try { window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", applyTheme); } catch (_) {} }
+  // daily goal and streak (local dates)
+  const localDate = (back) => { const d = new Date(); if (back) d.setDate(d.getDate() - back); return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); };
+  function dailyToday() { const t = localDate(0); if (daily.d !== t) daily = { d: t, ids: [] }; return daily; }
+  function streakDays() { return (streak.last === localDate(0) || streak.last === localDate(1)) ? streak.n : 0; }
+  function bumpDaily(id) {
+    const d = dailyToday(), before = d.ids.length;
+    if (!d.ids.includes(id)) d.ids.push(id);
+    let streakUp = false;
+    if (streak.last !== localDate(0)) { streak.n = streak.last === localDate(1) ? streak.n + 1 : 1; streak.last = localDate(0); streak.best = Math.max(streak.best || 0, streak.n); streakUp = true; }
+    return { count: d.ids.length, goalJustMet: before < PREFS.goal && d.ids.length >= PREFS.goal, streakUp, streak: streak.n };
+  }
+  function renderHome() {
+    if (!$("homeHero")) return;
+    const d = dailyToday(), goal = PREFS.goal, got = d.ids.length, met = got >= goal;
+    $("ringFg").style.strokeDashoffset = String(150.8 * (1 - Math.min(got, goal) / goal));
+    $("ringNum").textContent = met ? "✓" : String(got);
+    $("heroTitle").textContent = met ? "Daily goal reached" : "Today's goal";
+    $("heroSub").textContent = met ? `${got} lesson${got === 1 ? "" : "s"} today. Nice work.` : `${got} of ${goal} lesson${goal === 1 ? "" : "s"} · tap to change`;
+    const s = streakDays();
+    $("streakChip").classList.toggle("on", s > 0); $("streakN").textContent = String(s); $("streakLbl").textContent = s === 1 ? "day" : "days";
+  }
+  $("homeHero").addEventListener("click", () => { const g = [1, 3, 5, 10]; PREFS.goal = g[(g.indexOf(PREFS.goal) + 1) % g.length]; $("goalSel").value = String(PREFS.goal); saveProgress(); renderHome(); });
 
   function renderStats() {
     const level = Math.floor(xp / XP_PER_LEVEL) + 1;
@@ -26675,6 +27054,7 @@ const PHASE_STARTS = {
     $("lvlLabel").textContent = `Lv ${level}`;
     $("xpNum").textContent = `${xpIntoLevel}/${XP_PER_LEVEL}`;
     $("xpFill").style.width = `${(xpIntoLevel / XP_PER_LEVEL) * 100}%`;
+    renderHome();
   }
 
   function renderPathMap() {
@@ -26694,56 +27074,75 @@ const PHASE_STARTS = {
       cont.onclick = null;
     }
     const openUnit = nextIdx !== null ? LESSONS[nextIdx].unit : null;
+    const openPhase = openUnit ? PHASE_OF_UNIT[openUnit] : null;
     const rv = $("reviewBtn");
     if (completed.size > 0) {
       const due = dueCount();
       rv.hidden = false;
       rv.innerHTML = due > 0
-        ? `Review · ${due} lesson${due === 1 ? "" : "s"} due<small>A ${Math.min(REVIEW_SIZE, completed.size)}-lesson refresher scheduled by spaced repetition, Hard tier, +${REVIEW_XP} XP each</small>`
-        : `Review · practise any ${Math.min(REVIEW_SIZE, completed.size)}<small>Nothing is due yet — these are the ones closest to being forgotten</small>`;
+        ? `Review · ${due} lesson${due === 1 ? "" : "s"} due<small>A quick ${Math.min(REVIEW_SIZE, completed.size)}-lesson refresher · +${REVIEW_XP} XP each</small>`
+        : `Review · practise any ${Math.min(REVIEW_SIZE, completed.size)}<small>Nothing is due yet. These are the ones closest to being forgotten.</small>`;
       rv.onclick = startReview;
     } else { rv.hidden = true; }
 
-    let lastUnit = null;
-    let collapsed = false;
-    let rowInUnit = 0;
+    let lastUnit = null, collapsed = false, rowInUnit = 0, hiddenPhase = false, curArea = DEFAULT_AREA;
     LESSONS.forEach((l, i) => {
       if (l.unit !== lastUnit) {
         lastUnit = l.unit;
         rowInUnit = 0;
         if (PHASE_STARTS[l.unit]) {
-          const ph = document.createElement("div");
-          ph.className = "phase-header";
-          ph.textContent = (phaseComplete(PHASE_STARTS[l.unit]) ? "🏆 " : "") + PHASE_STARTS[l.unit];
+          const phName = PHASE_STARTS[l.unit];
+          const was = isPhaseCollapsed(phName, openPhase);
+          hiddenPhase = was;
+          const pl = LESSONS.filter((x) => PHASE_OF_UNIT[x.unit] === phName), pd = pl.filter((x) => completed.has(x.id)).length;
+          const ph = document.createElement("button");
+          ph.type = "button";
+          ph.className = "phase-header" + (was ? " closed" : "");
+          ph.setAttribute("aria-expanded", String(!was));
+          ph.innerHTML = `<span class="ph-name">${pd === pl.length ? "🏆 " : ""}${esc(phName)}</span><span class="ph-prog">${pd}/${pl.length} ${was ? "▸" : "▾"}</span>`;
+          ph.addEventListener("click", () => { collapsedUnits["phase:" + phName] = !was; saveProgress(); renderPathMap(); });
           map.appendChild(ph);
         }
-        collapsed = isUnitCollapsed(l.unit, openUnit);
-        const unitLessons = LESSONS.filter((x) => x.unit === l.unit);
-        const doneInUnit = unitLessons.filter((x) => completed.has(x.id)).length;
-        const divider = document.createElement("div");
-        divider.className = "unit-divider";
-        divider.setAttribute("role", "button");
-        divider.innerHTML = `<span class="unit-left"><span class="chev">${collapsed ? "▸" : "▾"}</span><span class="unit-text"><span class="unit-name">${l.unit}</span><span class="unit-blurb">${UNIT_BLURBS[l.unit] || ""}</span></span></span><span><span class="badge">${doneInUnit === unitLessons.length ? "🏅" : ""}</span><span class="unit-count">${doneInUnit}/${unitLessons.length}</span>${doneInUnit < unitLessons.length ? '<button class="unit-skip" title="Mark this unit as already known">Skip</button>' : ""}</span>`;
-        const unitName = l.unit;
-        const skipBtn = divider.querySelector(".unit-skip");
-        if (skipBtn) skipBtn.addEventListener("click", (ev) => { ev.stopPropagation(); askSkipUnit(unitName); });
-        divider.addEventListener("click", () => {
-          collapsedUnits[unitName] = !isUnitCollapsed(unitName, openUnit);
-          saveProgress();
-          renderPathMap();
-        });
-        map.appendChild(divider);
+        if (!hiddenPhase) {
+          curArea = areaOfUnit(l.unit);
+          collapsed = isUnitCollapsed(l.unit, openUnit);
+          const unitLessons = LESSONS.filter((x) => x.unit === l.unit);
+          const doneInUnit = unitLessons.filter((x) => completed.has(x.id)).length;
+          const unitName = l.unit;
+          const vars = `--area:${curArea.c};--area-deep:${curArea.d}`;
+          const card = document.createElement("div");
+          card.className = "unit-card";
+          card.setAttribute("role", "button");
+          card.setAttribute("aria-expanded", String(!collapsed));
+          card.style.cssText = vars;
+          card.innerHTML = `<span class="uc-ic" aria-hidden="true">${curArea.i}</span><span class="uc-main"><span class="uc-name">${esc(shortUnit(unitName))}</span><span class="uc-meta"><span class="uc-bar"><i style="width:${(doneInUnit / unitLessons.length) * 100}%"></i></span><span class="uc-count">${doneInUnit === unitLessons.length ? "🏅 " : ""}${doneInUnit}/${unitLessons.length}</span></span></span><span class="uc-chev">${collapsed ? "▸" : "▾"}</span>`;
+          card.addEventListener("click", () => { collapsedUnits[unitName] = !isUnitCollapsed(unitName, openUnit); saveProgress(); renderPathMap(); });
+          map.appendChild(card);
+          if (!collapsed) {
+            const det = document.createElement("div");
+            det.className = "unit-detail";
+            det.style.cssText = vars;
+            const pk = unitPkgs(unitName);
+            det.innerHTML = `<div>${UNIT_BLURBS[unitName] || ""}</div>` + (pk.length ? `<div class="pkg-row">${pk.map((p) => `<span class="pkg-chip">${esc(p)}</span>`).join("")}</div>` : "") +
+              (doneInUnit < unitLessons.length ? `<button class="skip-unit" type="button">Already know this? Skip unit</button>` : "");
+            const sk = det.querySelector(".skip-unit");
+            if (sk) sk.addEventListener("click", (ev) => { ev.stopPropagation(); askSkipUnit(unitName); });
+            map.appendChild(det);
+          }
+        }
       }
-      if (collapsed) return;
+      if (hiddenPhase || collapsed) return;
       const unlocked = i === 0 || completed.has(LESSONS[i - 1].id) || completed.has(l.id);
       const row = document.createElement("div");
       row.className = "path-row " + (rowInUnit % 2 === 0 ? "left" : "right");
+      row.style.cssText = `--area:${curArea.c};--area-deep:${curArea.d}`;
       rowInUnit++;
       const slot = document.createElement("div");
       slot.className = "slot";
       const btn = document.createElement("button");
       btn.className = "node-btn " + (completed.has(l.id) && isDue(l.id) ? "due " : "") + (completed.has(l.id) && placed[l.id] ? "placed " : "") + (l.capstone ? "capstone " : "") + (completed.has(l.id) ? "done" : (i === current && view !== "path" ? "current" : (unlocked ? "" : "locked")));
       btn.textContent = completed.has(l.id) ? "✓" : String(i + 1);
+      btn.setAttribute("aria-label", `Lesson ${i + 1}: ${l.short}`);
       btn.addEventListener("click", () => {
         if (unlocked) { current = i; renderLesson(); switchView("learn"); }
         else { showUnlockConfirm(i); }
@@ -26770,6 +27169,7 @@ const PHASE_STARTS = {
     });
     syncSearchVisibility();
     renderSkills();
+    renderHome();
   }
 
   function starterForDifficulty(l, diff) {
@@ -26820,30 +27220,36 @@ const PHASE_STARTS = {
     preAnswerCode = "";
     if (lastId !== l.id) { lastId = l.id; saveProgress(); }
 
-    $("learnKicker").textContent = `Lesson ${current + 1} of ${LESSONS.length} · ${l.unit}`;
+    $("learnKicker").textContent = `Lesson ${current + 1} · ${shortUnit(l.unit)}`;
     $("learnTitle").textContent = l.title;
     renderPkgRow("learnPkgRow", l.packages);
     $("learnInstructions").innerHTML = l.instructions;
     const exBox = $("learnExplain"), exHtml = explainHTML(l);
-    exBox.hidden = !exHtml;
-    exBox.innerHTML = exHtml ? `<div class="ex-title">Notes</div>${exHtml}` : "";
+    exBox.hidden = !exHtml; exBox.open = false;
+    exBox.innerHTML = exHtml ? `<summary>Notes: what it is for and what to watch</summary>${exHtml}` : "";
     const pre = $("learnPreload");
     if (l.preload) { pre.style.display = "block"; pre.textContent = l.preload; }
     else { pre.style.display = "none"; }
 
-    $("practiceKicker").textContent = `Lesson ${current + 1}`;
+    $("practiceKicker").textContent = `Lesson ${current + 1} · ${shortUnit(l.unit)}`;
     $("practiceTitle").textContent = l.title;
     renderPkgRow("practicePkgRow", l.packages);
-    $("practiceInstructions").innerHTML = l.instructions + (l.preload ? `<div class="preload-note">${l.preload}</div>` : "");
+    const sp = splitInstructions(l.instructions);
+    $("practiceInstructions").innerHTML = sp.task;
+    $("practiceInstructions").classList.add("clamp");
+    $("taskBgText").innerHTML = sp.background + (l.preload ? `<div class="preload-note">${l.preload}</div>` : "");
+    $("taskBackground").hidden = true;
+    $("taskMore").textContent = "Details ▾"; $("taskMore").setAttribute("aria-expanded", "false");
 
     resetPracticeExtras(l);
     $("hintBox").classList.remove("show");
     $("hintBox").textContent = l.hint;
-    $("hintToggle").textContent = "Hint";
-    $("answerBtn").textContent = "Display answer";
+    setLbl("hintToggle", "Hint");
+    setLbl("answerBtn", "Show answer");
 
     const hasTiers = !!(l.starterMedium || l.starterHard);
     document.querySelectorAll(".diff-btn").forEach((b) => { b.style.display = hasTiers ? "" : "none"; });
+    $("diffSeg").style.display = hasTiers ? "" : "none";
     document.querySelectorAll(".diff-btn").forEach((b) => b.classList.toggle("active", b.dataset.diff === difficulty));
 
     $("code").value = reviewMode ? (l.starterHard || l.starter) : (hasTiers ? starterForDifficulty(l, difficulty) : l.starter);
@@ -26867,6 +27273,7 @@ const PHASE_STARTS = {
     const banner = $("engineBanner"); const text = $("engineText");
     banner.classList.remove("ready", "error"); banner.classList.add("loading");
     text.textContent = `Installing ${needed.join(", ")} for this unit (first time only)…`;
+    $("engineFill").className = "eb-fill indet"; $("engineTip").textContent = "Only the first time for this unit. You can keep reading.";
     $("runBtn").disabled = true; $("checkBtn").disabled = true;
     let ok = true;
     try {
@@ -26882,6 +27289,7 @@ const PHASE_STARTS = {
       banner.classList.remove("loading"); banner.classList.add("error");
       text.innerHTML = `Couldn't install ${needed.join(", ")} for this unit — likely a network restriction here, or no WASM build available. Other units are unaffected.`;
     }
+    $("engineFill").className = "eb-fill";
     $("runBtn").disabled = false; $("checkBtn").disabled = false;
     return ok;
   }
@@ -26910,12 +27318,16 @@ const PHASE_STARTS = {
 
   async function initEngine() {
     const banner = $("engineBanner"); const text = $("engineText");
-    const t0 = Date.now(); let stage = "Step 1 of 3: starting R";
-    const tips = ["Meanwhile: read the lesson, or answer its Predict first question.", "Meanwhile: browse the Reference tab.", "This is the slow part. It is stored on your device, so later visits are much faster.", "Meanwhile: try the placement check on the Path page."];
+    const t0 = Date.now(); let stage = "Step 1 of 3: starting R", stageT = Date.now(), stageBase = 6, stageCap = 32;
+    const setStage = (s, base, cap) => { stage = s; stageT = Date.now(); stageBase = base; stageCap = cap; };
+    const tips = ["Read the first lesson while you wait. Your progress bar fills as R loads.", "Browse the Reference tab, or try the placement check on the Path page.", "This is the slow part. It is stored on your device, so later visits are much faster.", "Tip: lesson blanks look like ___ . Fill them in, then press Check."];
     const tick = setInterval(() => {
       const sec = Math.round((Date.now() - t0) / 1000);
-      text.textContent = `${stage}… ${sec}s. ${tips[Math.floor(sec / 8) % tips.length]}`;
-    }, 1000);
+      const k = 1 - Math.exp(-((Date.now() - stageT) / 1000) / 25);
+      $("engineFill").style.width = (stageBase + (stageCap - stageBase) * k).toFixed(1) + "%";
+      text.textContent = `${stage}… ${sec}s`;
+      $("engineTip").textContent = tips[Math.floor(sec / 8) % tips.length];
+    }, 500);
     const labels = { run: $("runBtn").textContent, check: $("checkBtn").textContent };
     $("runBtn").textContent = "R loading…"; $("checkBtn").textContent = "R loading…";
     const restore = () => { clearInterval(tick); $("runBtn").textContent = labels.run; $("checkBtn").textContent = labels.check; };
@@ -26923,13 +27335,14 @@ const PHASE_STARTS = {
       const { WebR } = await import('https://webr.r-wasm.org/latest/webr.mjs');
       webR = new WebR();
       await webR.init();
-      stage = "Step 2 of 3: installing the core packages (dplyr, ggplot2, stringr and others)";
+      setStage("Step 2 of 3: installing the core packages", 32, 88);
       await webR.installPackages(['dplyr', 'purrr', 'forcats', 'here', 'stringr', 'ggplot2', 'janitor', 'marginaleffects', 'ggalluvial']);
-      stage = "Step 3 of 3: loading the packages";
+      setStage("Step 3 of 3: loading the packages", 90, 98);
       await webR.evalR('library(dplyr); library(purrr); library(tibble); library(forcats); library(here); library(stringr); library(ggplot2); library(janitor); library(marginaleffects); library(ggalluvial)');
       installedPackages = new Set(['dplyr', 'purrr', 'forcats', 'here', 'stringr', 'ggplot2', 'janitor', 'marginaleffects', 'ggalluvial']);
       try { await webR.evalR(R_HELPERS); } catch (e) { console.warn("Helper functions not loaded", e); }
       engineReady = true;
+      $("engineFill").style.width = "100%";
       restore();
       banner.classList.remove("loading"); banner.classList.add("ready");
       $("runBtn").disabled = false; $("checkBtn").disabled = false;
@@ -27000,26 +27413,111 @@ paste(.__out_lines, collapse = "\\n")`;
     }
   }
 
-  function showCelebration(xpAwarded, leveledUp, newLevel, title) {
+  let celOpts = {};
+  function confetti() {
+    const box = $("confetti"); box.innerHTML = "";
+    if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const cols = ["#9B7EDE", "#1CB0F6", "#FFC800", "#58CC02", "#FF4B4B"];
+    for (let i = 0; i < 30; i++) {
+      const p = document.createElement("i");
+      p.style.left = (Math.random() * 100) + "%"; p.style.background = cols[i % cols.length];
+      p.style.setProperty("--dx", (Math.random() * 120 - 60) + "px"); p.style.setProperty("--rot", (Math.random() * 720 - 360) + "deg");
+      p.style.animationDelay = (Math.random() * 0.25) + "s";
+      box.appendChild(p);
+    }
+  }
+  function showCelebration(xpAwarded, leveledUp, newLevel, title, opts) {
+    opts = opts || {}; celOpts = opts;
     $("celebrateTitle").textContent = title || "Logged.";
     $("celebrateXp").textContent = `+${xpAwarded} XP`;
+    const mark = $("celebrateMark");
+    mark.dataset.icon = opts.kind === "unit" ? "🏅" : (opts.kind === "phase" || opts.kind === "capstone") ? "🏆" : "🎉";
+    mark.style.animation = "none"; void mark.offsetWidth; mark.style.animation = "";
+    // XP bar fills from where it was to where it is now
+    const toXp = xp, fromXp = opts.prevXp != null ? opts.prevXp : Math.max(0, xp - xpAwarded);
+    const pct = (v) => ((v % XP_PER_LEVEL) / XP_PER_LEVEL) * 100;
+    $("celBarWrap").hidden = xpAwarded <= 0;
+    const fill = $("celFill");
+    fill.style.transition = "none"; fill.style.width = pct(fromXp) + "%"; void fill.offsetWidth; fill.style.transition = "";
+    $("celBarTxt").textContent = `Level ${newLevel} · ${toXp % XP_PER_LEVEL}/${XP_PER_LEVEL} XP`;
+    const lvlUp = Math.floor(fromXp / XP_PER_LEVEL) < Math.floor(toXp / XP_PER_LEVEL);
+    setTimeout(() => {
+      if (lvlUp) {
+        fill.style.width = "100%";
+        setTimeout(() => { fill.style.transition = "none"; fill.style.width = "0%"; void fill.offsetWidth; fill.style.transition = ""; fill.style.width = pct(toXp) + "%"; }, 750);
+      } else fill.style.width = pct(toXp) + "%";
+    }, 120);
     const lu = $("celebrateLevelup");
     if (leveledUp) { lu.textContent = `Level up! You're now Level ${newLevel}.`; lu.classList.add("show"); }
     else { lu.classList.remove("show"); }
+    const g = opts.goal, bits = [];
+    if (g && g.goalJustMet) bits.push("🎯 Daily goal reached");
+    if (g && g.streakUp) bits.push(`🔥 ${g.streak}-day streak`);
+    $("celGoal").textContent = bits.join("  ·  ");
+    const sum = $("celSummary");
+    if ((opts.kind === "unit" || opts.kind === "phase") && opts.unit) {
+      const grp = opts.kind === "phase" ? LESSONS.filter((x) => PHASE_OF_UNIT[x.unit] === PHASE_OF_UNIT[opts.unit]) : LESSONS.filter((x) => x.unit === opts.unit);
+      const st = grp.reduce((a, x) => a + (completed.has(x.id) ? starsFor(x) : 0), 0);
+      sum.innerHTML = `<span><b>${grp.length}</b>lessons</span><span><b>${st}/${grp.length * 3}</b>stars</span><span><b>${xp}</b>total XP</span>`;
+      sum.hidden = false;
+    } else sum.hidden = true;
+    $("celQuiz").hidden = !(opts.kind === "unit" && opts.unit && quizEligible(opts.unit));
+    $("celPath").hidden = !(opts.kind === "unit" || opts.kind === "phase");
     $("celebrateOverlay").classList.add("show");
+    if (xpAwarded > 0 || opts.kind) { confetti(); chime(!!opts.kind); } else $("confetti").innerHTML = "";
   }
   $("celebrateClose").addEventListener("click", () => $("celebrateOverlay").classList.remove("show"));
+  $("celQuiz").addEventListener("click", () => { $("celebrateOverlay").classList.remove("show"); if (celOpts.unit) openQuiz(celOpts.unit); });
+  $("celPath").addEventListener("click", () => { $("celebrateOverlay").classList.remove("show"); switchView("path"); });
+
+  // ---- Need help? bottom sheet ----
+  function openSheet() {
+    $("hintSub").textContent = `A nudge in the right direction (−${XP_HINT_PENALTY} XP on a first pass)`;
+    $("answerSub").textContent = `Fills the editor with the solution (−${XP_ANSWER_PENALTY} XP on a first pass)`;
+    $("sheetRead").hidden = !TTS.supported;
+    $("sheetCompare").hidden = !expectedNames(LESSONS[current]).length;
+    $("sheetOverlay").classList.add("show");
+  }
+  function closeSheet() { $("sheetOverlay").classList.remove("show"); }
+  $("helpFab").addEventListener("click", openSheet);
+  $("sheetClose").addEventListener("click", closeSheet);
+  $("sheetCompare").addEventListener("click", () => {
+    closeSheet();
+    const c = $("expectedCard"); c.hidden = false; c.classList.add("reveal"); c.open = true;
+    setTimeout(() => { try { c.scrollIntoView({ block: "center", behavior: "smooth" }); } catch (_) {} }, 60);
+  });
+  $("taskMore").addEventListener("click", () => {
+    const open = $("taskBackground").hidden;
+    $("taskBackground").hidden = !open;
+    $("practiceInstructions").classList.toggle("clamp", !open);
+    $("taskMore").textContent = open ? "Hide details ▴" : "Details ▾";
+    $("taskMore").setAttribute("aria-expanded", String(open));
+  });
+  // tap the dark backdrop to dismiss a sheet
+  document.querySelectorAll(".celebrate-overlay.sheet-mode, #plotOverlay").forEach((ov) => ov.addEventListener("click", (ev) => {
+    if (ev.target !== ov) return;
+    if (ov.id === "settingsOverlay" && selfTestRunning) return;
+    if (ov.id === "helpOverlay") ttsStop();
+    ov.classList.remove("show");
+  }));
+  function openPlotFull() { try { $("plotFullImg").src = $("plotCanvas").toDataURL("image/png"); $("plotOverlay").classList.add("show"); } catch (_) {} }
+  $("plotExpand").addEventListener("click", openPlotFull);
+  $("plotCanvas").addEventListener("click", openPlotFull);
+  $("plotFullClose").addEventListener("click", () => $("plotOverlay").classList.remove("show"));
 
   $("goPracticeBtn").addEventListener("click", () => switchView("practice"));
 
   $("hintToggle").addEventListener("click", () => {
     const box = $("hintBox");
     const showing = box.classList.toggle("show");
-    $("hintToggle").textContent = showing ? "Hide hint" : "Hint";
+    setLbl("hintToggle", showing ? "Hide hint" : "Hint");
     if (showing) hintUsedThisAttempt = true;
+    closeSheet();
+    if (showing) { try { $("hintBox").scrollIntoView({ block: "nearest", behavior: "smooth" }); } catch (_) {} }
   });
 
   $("helpBtn").addEventListener("click", () => {
+    closeSheet();
     const hl = LESSONS[current], hx = explainHTML(hl);
     $("helpBody").innerHTML = (hx ? `<div class="explain-card" style="border:none; background:none; padding:0; margin:0;">${hx}</div>` : "") +
       `<div class="${hx ? "help-example" : ""}">${hl.help}</div>`;
@@ -27027,6 +27525,10 @@ paste(.__out_lines, collapse = "\\n")`;
     ttsOnOpen(hl);
   });
   $("helpClose").addEventListener("click", () => { $("helpOverlay").classList.remove("show"); ttsStop(); });
+  $("sheetRead").addEventListener("click", () => {
+    $("helpBtn").click();
+    if (TTS.supported && TTS.state !== "playing") ttsPlayLesson(LESSONS[current]);
+  });
 
   let pendingUnlockIndex = null;
   function showUnlockConfirm(i) {
@@ -27056,12 +27558,13 @@ paste(.__out_lines, collapse = "\\n")`;
       codeBox.value = LESSONS[current].solution;
       answerShown = true;
       answerUsedThisAttempt = true;
-      $("answerBtn").textContent = "Hide answer";
+      setLbl("answerBtn", "Hide answer");
     } else {
       codeBox.value = preAnswerCode;
       answerShown = false;
-      $("answerBtn").textContent = "Display answer";
+      setLbl("answerBtn", "Show answer");
     }
+    closeSheet();
   });
 
   document.querySelectorAll(".diff-btn").forEach((btn) => {
@@ -27071,7 +27574,7 @@ paste(.__out_lines, collapse = "\\n")`;
       const l = LESSONS[current];
       $("code").value = starterForDifficulty(l, difficulty);
       answerShown = false;
-      $("answerBtn").textContent = "Display answer";
+      setLbl("answerBtn", "Show answer");
       $("output").classList.remove("show");
       $("plotCanvas").classList.remove("show");
       $("feedback").classList.remove("show");
@@ -27127,9 +27630,10 @@ paste(.__out_lines, collapse = "\\n")`;
 
       if (passed) {
         fb.classList.add("ok"); fb.textContent = "Correct — nicely done. That's logged.";
+        $("ratePractice").classList.add("on");
         const rank = tierRank(l, difficulty);
         const wasDone = completed.has(l.id) && !placed[l.id];
-        let gain = 0, title = "Logged.";
+        let gain = 0, title = "Logged.", kind = null;
         if (!wasDone) {
           completed.add(l.id);
           const diffBonus = (hasTiers(l) && difficulty !== "easy") ? (DIFFICULTY_BONUS[difficulty] || 0) : 0;
@@ -27137,9 +27641,9 @@ paste(.__out_lines, collapse = "\\n")`;
           gain = Math.max(0, XP_PER_LESSON * (l.capstone ? 2 : 1) + diffBonus - penalty);
           stars[l.id] = rank;
           const ph = PHASE_OF_UNIT[l.unit];
-          if (ph && phaseComplete(ph)) title = "Phase complete 🏆";
-          else if (unitComplete(l.unit)) title = "Unit complete 🏅";
-          else if (l.capstone) title = "Capstone cleared 🏆";
+          if (ph && phaseComplete(ph)) { title = "Phase complete 🏆"; kind = "phase"; }
+          else if (unitComplete(l.unit)) { title = "Unit complete 🏅"; kind = "unit"; }
+          else if (l.capstone) { title = "Capstone cleared 🏆"; kind = "capstone"; }
         } else if (rank > starsFor(l)) {
           // Redoing a lesson on a harder tier earns the bonus you missed, with no hint/answer penalty stacking.
           gain = BONUS_BY_RANK[rank] - BONUS_BY_RANK[starsFor(l)];
@@ -27157,14 +27661,17 @@ paste(.__out_lines, collapse = "\\n")`;
         lastPracticed[l.id] = Date.now();
         srsRecord(l.id, answerUsedThisAttempt ? "answer" : (hintUsedThisAttempt ? "hint" : "clean"), wasDone);
         const prevLevel = Math.floor(xp / XP_PER_LEVEL) + 1;
+        const prevXp = xp, goalInfo = bumpDaily(l.id);
         xp += gain;
         const newLevel = Math.floor(xp / XP_PER_LEVEL) + 1;
         await saveProgress();
         renderStats(); renderPathMap();
-        if (!wasDone || gain > 0) showCelebration(gain, newLevel > prevLevel, newLevel, title);
+        if (!wasDone || gain > 0) showCelebration(gain, newLevel > prevLevel, newLevel, title, { prevXp, kind, unit: l.unit, goal: goalInfo });
         if (reviewPoint && wasDone) fb.textContent = `Correct — +${REVIEW_XP} XP for the review.`;
       } else {
         fb.classList.add("bad");
+        shake($("editor")); shake(fb); buzz(30);
+        if (!$("expectedCard").hidden) $("expectedCard").classList.add("reveal");
         const msgs = await diagnose(l);
         const extra = expectedNames(l).length ? " Open “Compare with the expected result” below if you are stuck." : "";
         fb.innerHTML = msgs.length
@@ -27178,6 +27685,7 @@ paste(.__out_lines, collapse = "\\n")`;
     } catch (e) {
       const fr = friendlyError(e);
       fb.classList.add("bad");
+      shake($("editor")); shake(fb); buzz(30);
       fb.innerHTML = `<b>${esc(fr.headline)}</b>${fr.raw ? `<div class="fb-sub">${esc(fr.raw)}</div>` : ""}`;
       failCount++; fb.insertAdjacentHTML("beforeend", stuckHTML());
     }
@@ -27326,7 +27834,8 @@ paste(.__out_lines, collapse = "\\n")`;
     renderPredict(l);
     renderRatings();
     const card = $("expectedCard");
-    card.open = false; card.hidden = !expectedNames(l).length;
+    card.open = false; card.hidden = !expectedNames(l).length; card.classList.remove("reveal");
+    $("ratePractice").classList.remove("on");
     $("expectedOut").textContent = "Open to see what the correct code produces.";
     // worked example on the Learn page
     const ex = exampleFrom(l);
@@ -27416,6 +27925,7 @@ paste(.__out_lines, collapse = "\\n")`;
     $("searchResults").hidden = !searching;
     $("pathMap").hidden = searching;
     $("pathExtras").hidden = searching;
+    $("pathExtras2").hidden = searching;
     if (searching) { $("continueBtn").hidden = true; $("reviewBtn").hidden = true; }
   }
   function renderSearch() {
@@ -28404,7 +28914,7 @@ paste(.__out_lines, collapse = "\\n")`;
       const done = ls.filter((l) => completed.has(l.id)).length;
       const mast = ls.reduce((a, l) => a + (completed.has(l.id) ? starsFor(l) / 3 : 0), 0);
       const due = ls.filter((l) => isDue(l.id)).length;
-      return `<div class="skill-row" data-area="${esc(name)}"><div class="sk-name">${esc(name)}<small>${done}/${ls.length}${due ? " · " + due + " due" : ""}</small></div><div class="sk-bar"><div class="sk-fill" style="width:${(done / ls.length) * 100}%"></div><div class="sk-mast" style="width:${(mast / ls.length) * 100}%"></div></div></div>`;
+      return `<div class="skill-row" data-area="${esc(name)}" style="--area:${(AREA_STYLE[name] || DEFAULT_AREA).c}"><div class="sk-name">${esc(name)}<small>${done}/${ls.length}${due ? " · " + due + " due" : ""}</small></div><div class="sk-bar"><div class="sk-fill" style="width:${(done / ls.length) * 100}%"></div><div class="sk-mast" style="width:${(mast / ls.length) * 100}%"></div></div></div>`;
     }).join("");
     box.innerHTML = rows + `<div class="skill-note">Light bar: lessons completed. Dark bar: mastery (stars). Tap a skill to open its next lesson.</div>`;
     box.querySelectorAll(".skill-row").forEach((r) => r.addEventListener("click", () => {
@@ -28419,9 +28929,15 @@ paste(.__out_lines, collapse = "\\n")`;
 
   // ================= Mobile symbol toolbar, keyboard-aware bar, lesson ratings =================
   const SYMBOLS = [
-    ["|>", "|> "], ["<-", " <- "], ["%in%", " %in% "], ['"', '""', 1], ["'", "''", 1], ["( )", "()", 1], ["[ ]", "[]", 1], ["{ }", "{}", 1],
+    ["___", "__blank"], ["|>", "|> "], ["<-", " <- "], ["%in%", " %in% "], ['"', '""', 1], ["'", "''", 1], ["( )", "()", 1], ["[ ]", "[]", 1], ["{ }", "{}", 1],
     ["$", "$"], ["~", " ~ "], ["==", " == "], ["!=", " != "], ["&", " & "], ["|", " | "], [",", ", "], ["⇥", "  "], ["↶", "__undo"], ["↺", "__reset"]
   ];
+  function nextBlank() {
+    const ta = $("code"); ta.focus();
+    const v = ta.value; let i = v.indexOf("___", ta.selectionEnd);
+    if (i < 0) i = v.indexOf("___");
+    if (i >= 0) ta.setSelectionRange(i, i + 3);
+  }
   function insertAtCursor(text, back) {
     const ta = $("code");
     ta.focus();
@@ -28449,10 +28965,12 @@ paste(.__out_lines, collapse = "\\n")`;
       b.addEventListener("mousedown", (ev) => ev.preventDefault());
       b.addEventListener("click", () => {
         if (text === "__undo") { $("code").focus(); try { document.execCommand("undo"); } catch (_) {} refreshEditor(); }
+        else if (text === "__blank") nextBlank();
         else if (text === "__reset") askConfirm("Reset your code?", "Replace what you have typed with the starting code for this lesson?", "Reset", resetCode);
         else insertAtCursor(text, back);
       });
       if (text === "__undo") b.setAttribute("aria-label", "Undo");
+      if (text === "__blank") { b.setAttribute("aria-label", "Jump to the next blank"); b.dataset.blank = "1"; }
       if (text === "__reset") b.setAttribute("aria-label", "Reset code to the starter");
       bar.appendChild(b);
     });
@@ -28519,7 +29037,7 @@ paste(.__out_lines, collapse = "\\n")`;
     while ((m = ED_RX.exec(code)) !== null) {
       out += esc(code.slice(last, m.index));
       const cls = m[1] ? "c" : m[2] ? "s" : m[3] ? "n" : m[4] ? "k" : m[5] ? "o" : m[6] ? "b" : "f";
-      out += `<span class="${cls}">${esc(m[0])}</span>`;
+      out += `<span class="${cls}">${cls === "s" ? esc(m[0]).replace(/___/g, '<span class="b">___</span>') : esc(m[0])}</span>`;
       last = m.index + m[0].length;
       if (m[0].length === 0) ED_RX.lastIndex++;
     }
@@ -28528,6 +29046,7 @@ paste(.__out_lines, collapse = "\\n")`;
   function refreshEditor() {
     const ta = $("code"), hl = $("edHl");
     hl.innerHTML = highlightR(ta.value) + "\n";
+    const bb = document.querySelector("#symBar [data-blank]"); if (bb) bb.style.display = ta.value.includes("___") ? "" : "none";
     ta.style.height = "auto";
     ta.style.height = Math.max(110, ta.scrollHeight) + "px";
   }
@@ -28576,7 +29095,7 @@ paste(.__out_lines, collapse = "\\n")`;
   function resetCode() {
     const l = LESSONS[current];
     $("code").value = reviewMode ? (l.starterHard || l.starter) : (hasTiers(l) ? starterForDifficulty(l, difficulty) : l.starter);
-    answerShown = false; $("answerBtn").textContent = "Display answer";
+    answerShown = false; setLbl("answerBtn", "Show answer");
   }
 
   // ---- "Stuck?" help after repeated failed checks ----
@@ -28593,7 +29112,7 @@ paste(.__out_lines, collapse = "\\n")`;
     const b = ev.target.closest("[data-stuck]"); if (!b) return;
     const k = b.dataset.stuck;
     if (k === "hint") { if (!$("hintBox").classList.contains("show")) $("hintToggle").click(); $("hintBox").scrollIntoView({ block: "center", behavior: "smooth" }); }
-    else if (k === "compare") { const c = $("expectedCard"); c.open = true; c.scrollIntoView({ block: "center", behavior: "smooth" }); }
+    else if (k === "compare") { const c = $("expectedCard"); c.classList.add("reveal"); c.open = true; c.scrollIntoView({ block: "center", behavior: "smooth" }); }
     else if (k === "reset") askConfirm("Start again?", "Replace what you have typed with the starting code?", "Start again", resetCode);
     else if (k === "answer") { if (!answerShown) $("answerBtn").click(); }
   });
@@ -28670,7 +29189,7 @@ paste(.__out_lines, collapse = "\\n")`;
       LESSONS.forEach((l, i) => { if (!units.length || units[units.length - 1].name !== l.unit) units.push({ name: l.unit, idx: [] }); units[units.length - 1].idx.push(i); });
       units.forEach((u, n) => {
         const det = document.createElement("details"); det.className = "ref-unit";
-        det.innerHTML = `<summary><b>${n + 1}. ${esc(u.name)}</b><small>${esc(UNIT_BLURBS[u.name] || "")}</small></summary>`;
+        det.innerHTML = `<summary><b>${(areaOfUnit(u.name)).i} ${esc(shortUnit(u.name))}</b><small>${esc(UNIT_BLURBS[u.name] || "")}</small></summary>`;
         let filled = false;
         det.addEventListener("toggle", () => {
           if (!det.open || filled) return; filled = true;
@@ -28928,6 +29447,32 @@ paste(.__out_lines, collapse = "\\n")`;
   });
 
 
+  // ---------- Appearance, goals, tour ----------
+  $("themeSel").value = PREFS.theme; $("goalSel").value = String(PREFS.goal); $("soundChk").checked = PREFS.sound;
+  $("themeSel").addEventListener("change", (ev) => { PREFS.theme = ev.target.value; applyTheme(); saveProgress(); });
+  $("goalSel").addEventListener("change", (ev) => { PREFS.goal = Number(ev.target.value) || 3; saveProgress(); renderHome(); });
+  $("soundChk").addEventListener("change", (ev) => { PREFS.sound = ev.target.checked; saveProgress(); if (PREFS.sound) chime(false); });
+  const TOUR = [
+    { ic: "📱", t: "R runs right on your phone", d: "The first visit takes a few minutes while R downloads. The bar at the top shows progress, and you can read lessons in the meantime. After that it is stored on your device." },
+    { ic: "✍️", t: "Read a little, then code", d: "Each lesson is one short task. The editor starts with blanks like ___ for you to fill in. Press Run to try it and Check answer when you are ready." },
+    { ic: "💡", t: "Stuck? Tap Help", d: "Help holds hints, plain-language explanations, read-aloud and the answer. Hints and answers cost a few XP, and mistakes are free." }
+  ];
+  let tourI = 0;
+  function renderTour() {
+    const s = TOUR[tourI];
+    $("tourIc").textContent = s.ic; $("tourT").textContent = s.t; $("tourD").textContent = s.d;
+    $("tourDots").innerHTML = TOUR.map((_, i) => `<span class="${i === tourI ? "on" : ""}"></span>`).join("");
+    $("tourNext").textContent = tourI === TOUR.length - 1 ? "Start lesson 1" : "Next";
+  }
+  function openTour() { tourI = 0; renderTour(); $("settingsOverlay").classList.remove("show"); $("tourOverlay").classList.add("show"); }
+  function endTour(go) {
+    PREFS.tour = true; saveProgress(); $("tourOverlay").classList.remove("show");
+    if (go) { current = 0; renderLesson(); switchView("learn"); }
+  }
+  $("tourNext").addEventListener("click", () => { if (tourI >= TOUR.length - 1) endTour(true); else { tourI++; renderTour(); } });
+  $("tourSkip").addEventListener("click", () => endTour(false));
+  $("tourBtn").addEventListener("click", openTour);
+
   // ---------- Settings: export / import ----------
   $("settingsBtn").addEventListener("click", () => $("settingsOverlay").classList.add("show"));
   $("settingsClose").addEventListener("click", () => { if (!selfTestRunning) $("settingsOverlay").classList.remove("show"); });
@@ -29048,10 +29593,13 @@ paste(.__out_lines, collapse = "\\n")`;
 
   (async function boot() {
     await loadProgress();
+    applyTheme();
+    $("themeSel").value = PREFS.theme; $("goalSel").value = String(PREFS.goal); $("soundChk").checked = PREFS.sound;
     renderStats();
     renderLesson();
     switchView("path");
     initEngine();
+    if (!PREFS.tour && completed.size === 0) { tourI = 0; renderTour(); $("tourOverlay").classList.add("show"); }
   })();
 </script>
 </body>

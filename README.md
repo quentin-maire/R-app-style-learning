@@ -523,8 +523,8 @@ Things to know:
   keeps it, Display answer sends it back to box 1, and a miss during review drops it a box. Lessons that are due show an
   orange dot on the path.
 - **Search.** The box on the Path page finds lessons by title, function name, package or topic.
-- **Placement check and Skip.** A 20-question placement check can mark whole phases as already known, and every unit
-  header has a Skip button. Skipped lessons show a dashed outline, earn no XP and return in Review after two days.
+- **Placement check and Skip.** A 20-question placement check can mark whole phases as already known, and every open
+  unit has a Skip unit button. Skipped lessons show a dashed outline, earn no XP and return in Review after two days.
 - **Your skills.** The Path page groups lessons into 14 skill areas with completion and mastery bars.
 - **Code editor.** The code box highlights R as you type (comments, strings, numbers, keywords, function names, pipes and
   the `___` blanks), grows with your code, closes brackets and quotes (typing the closer steps over it, backspace removes an
@@ -546,8 +546,7 @@ Things to know:
   of reading code, and stops when you close Help, change lesson or leave the page. Hidden if the browser has no speech support.
 - **Start-up.** While R loads the banner shows the step and elapsed time and the Run/Check buttons say "R loading…". After
   the first visit the R engine and packages are stored on the device (see below) and Settings can clear them.
-- **Mobile bar.** On phones (and narrow windows) the Practice page has a fixed bar with Run, Check and Display answer
-  buttons, plus a symbol toolbar (`|>`, `<-`, `%in%`, quotes, brackets, `$`, `~`, `==`, `!=`, `&`, `|`, indent). Symbol
+- **Mobile bar.** On phones (and narrow windows) the Practice page has a fixed bar with Help, Run and Check buttons, plus a symbol toolbar (`|>`, `<-`, `%in%`, quotes, brackets, `$`, `~`, `==`, `!=`, `&`, `|`, indent). Symbol
   buttons insert at the cursor without closing the keyboard, put the cursor inside paired symbols, and wrap a selection.
   While you type, the bar sits above the on-screen keyboard.
 - **Was this explanation clear?** Each lesson has 👍 / 👎 buttons on the Learn and Practice pages (👎 offers an optional
@@ -576,44 +575,58 @@ A lesson's `explain` fields are plain HTML strings, with `use` and
 
 ## App structure
 
-The app is split into three views, switched via the icon bar at the
-bottom of the screen:
+The app has four views, switched with the icon bar at the bottom of the screen:
 
-- **Path** — the skill map. Tap any unlocked lesson to jump straight into it.
-- **Learn** — full instructions for the current lesson, plus a "Start
-  practicing" button.
-- **Practice** — the code editor. A slim sticky bar at the top shows the
-  lesson title and full instructions together, so both the task
-  description and the code box stay visible even when the on-screen
-  keyboard is open. Run and Check stay front and center; Previous/Next
-  live further down the page, out of the way until you deliberately scroll
-  for them — so completing a check or tapping Next never jumps straight
-  into the next task without the instructions in view.
+- **Path** — the home screen. A card at the top shows today's goal (a ring that fills as you finish lessons) and your
+  streak (a flame with the number of days in a row). Below it are Continue and Review, search, your skills and the map.
+  The map is grouped into five phases (the current phase is open, the others are collapsed; tap a phase header to open
+  or close it). Each unit is one compact card with a colour and icon for its skill area, a progress bar and its count;
+  tap it to open it and see the lesson nodes, a one-line description, the packages it uses and a "Skip unit" button.
+- **Learn** — the full instructions for the current lesson, with the notes (what it is for, what to watch) folded away.
+- **Practice** — the task, the code editor and the Run and Check buttons, and nothing else. The task shows its last
+  paragraph (usually the one instruction); "Details" opens the background, the package chips and any note about what is
+  preloaded. Easy, Medium and Hard are a small switch at the top right.
+- **Reference** — cheat sheets, A to Z and the SPSS table.
 
-Tapping a lesson on the Path view takes you straight to its Learn screen —
-there's no scrolling required to find the right activity.
+Run is the secondary button (outlined) and Check answer is the single strong action. Previous and Next sit below the
+editor.
 
-Each lesson has instructions, an editable code console, a **Run** button
-(prints console output), and a **Check** button (validates the student's
-variables against an expected answer). There's no attempt limit — Check
-can be retried as many times as needed. Three extra supports sit above the
-code box:
+### Need help? (the 💡 Help button)
 
-- **Show hint** (−15 XP if the lesson is then completed) — a short nudge
-  toward the answer.
-- **Help** (free, no XP cost) — opens a popup with the lesson's notes (what
-  the function is for, what it needs, its assumptions and the maths) and
-  then a short standalone worked example, deliberately different from the
-  exercise itself so it doesn't just hand over the answer.
-- **Display answer** (−25 XP if the lesson is then completed) — writes the
-  fully correct solution into the code box. Pressing it again ("Hide
-  answer") restores whatever was in the box immediately before, so it
-  never destroys in-progress work. If both the hint and the answer were
-  used before completing, only the larger (answer) penalty applies — they
-  don't stack.
+Everything that used to be a row of buttons is behind one **Help** button next to Run. It opens a bottom sheet:
+
+- **Hint** (−15 XP if the lesson is then completed) shows a short nudge under the task.
+- **Explain** opens the notes (what the function is for, what it needs, its assumptions and the maths) with a short worked
+  example that differs from the exercise.
+- **Read aloud** starts the spoken explanation (hidden if the device has no speech voice).
+- **Compare with expected** (when the lesson has named objects) shows what the correct code produces; it counts as a hint.
+- **Show answer** (−25 XP) writes the solution into the editor; "Hide answer" restores what was there. If both the hint
+  and the answer were used only the larger penalty applies.
+
+The sheet slides up from the bottom and closes when you tap outside it.
+
+### Blanks
+
+Starter code uses `___` blanks. They are highlighted in the editor, including inside quotes. The `___` button at the left
+of the symbol bar selects the next blank so you can type straight over it.
+
+### Goal, streak and celebrations
+
+- **Daily goal.** Finish 1, 3, 5 or 10 lessons a day (tap the ring or use Settings; the default is 3). Each lesson counts
+  once a day. **Streak:** one more day for every calendar day (your phone's local date) with at least one passed lesson;
+  it resets after a missed day. Both are saved with your progress.
+- **Celebration.** A pass shows confetti, the XP you earned and a bar that fills to your new level. A finished unit or
+  phase adds a summary (lessons, stars, total XP) with buttons for the unit quiz and "Back to the path". Optional sound
+  is off by default (Settings). A wrong check gives a short shake and, on phones that support it, a light vibration.
+- **First run.** A three-step tour appears once, and "Start lesson 1" takes you to the first lesson to read while R loads.
+  The loading banner has a progress bar. Settings can replay the tour.
+- **Dark mode.** Settings > Theme: match phone (default), light or dark.
+- **Plots.** A plot appears in a rounded card; tap the plot or the ⤢ button to see it full screen.
 
 ## Settings & tools (the ⚙️ in the top bar)
 
+- **Appearance and goals** — theme (match phone, light, dark), daily goal (1, 3, 5 or 10 lessons), sound effects (off by
+  default) and "Show the quick tour".
 - **Export / import progress** — downloads your progress as a small JSON
   file, and merges one back in (all completed lessons are kept, along with
   the higher XP total). Use it before clearing site data or moving to a
@@ -931,7 +944,7 @@ block in `index.html`. Each lesson is one object:
   starterMedium: "Optional — Medium tier: a comment + blank assignment line, no skeleton",
   starterHard: "Optional — Hard tier: just a task comment, everything else blank",
   solution: "Fully correct R code — written into the box by 'Display answer'",
-  hint: "Shown when the student taps 'Show hint'",
+  hint: "Shown when the student taps Hint in the Help sheet",
   help: "HTML shown in the 'Help' popup — explain the function(s) used, plus a standalone example different from the exercise",
   explain: { use: "...", family: "...", needs: "...", assumes: "...", formula: "..." },  // use and family required; the rest optional — shown as Notes on Learn and at the top of Help
   hasPlot: "Optional true — the lesson draws a plot; Run renders it to the canvas",
