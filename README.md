@@ -23,7 +23,7 @@ over `https://`.
 More detail is under "Installing on Android" and "Hosting on GitHub Pages" below.
 
 
-725 short lessons, written in **tidyverse style** throughout (`tibble()`,
+733 short lessons, written in **tidyverse style** throughout (`tibble()`,
 `dplyr`/`purrr`/`forcats`/`stringr`/`tidyr` verbs, `ggplot2`, `ggalluvial`,
 and the native `|>` pipe — no base-R subsetting or `data.frame()` except
 where there's genuinely no tidyverse equivalent, like plain vector
@@ -573,20 +573,32 @@ Every explainer says what the function does, why you would use it, and what to w
 A lesson's `explain` fields are plain HTML strings, with `use` and
 `family` required (the validator checks that every lesson has them).
 
-## Practice rounds (pilot)
+## Practice rounds and puzzles (pilot)
 
-Four units end with three **practice rounds** (⚡ on the Path): the same skill
-re-tested on a fresh tibble with slight variation, in the Duolingo style.
-They sit in Tidyverse Foundations, Recoding & Index Practice, More Joins &
-Variable Wrangling, and Exploring & Summarizing (12 lessons in all).
+Four units (Tidyverse Foundations, Recoding & Index Practice, More Joins & Variable Wrangling, Exploring & Summarizing)
+end with optional extras that re-test the same skills in a different way. They show on the Path as ⚡ (round), 🧩 (puzzle)
+or 🐞 (bug hunt), and are also listed on the **Review** tab.
 
-- They are ordinary lessons flagged `round: true`, so progress, spaced
-  repetition and the self-test cover them automatically.
-- They are **optional**: they never lock the next lesson and do not gate unit or
-  phase completion. They earn 40% of the usual XP.
-- They open straight into Practice, and are left out of the unit quiz, the A–Z
-  list and the cheat sheets.
-- To add more, copy a lesson, set `round: true` and place it at the end of its unit.
+- **Practice rounds ⚡ (12).** The same skill on a fresh small tibble with a slight twist. You write code as usual.
+- **Order puzzles 🧩 (4).** Tap pieces of a pipeline into the right order. Some have a piece that does not belong.
+- **Bug hunts 🐞 (4).** Tap the line with the bug, then choose the replacement that fixes it.
+- **Optional.** None of them lock the next lesson or gate unit/phase completion. Each earns 40% of the usual XP. They are
+  left out of the unit quiz, the A to Z list and the cheat sheets.
+- **Fresh variants in Review.** When a review picks a lesson that a round or puzzle `covers`, it may serve that variant
+  instead (the least recently practised of the original and its siblings), so recall is tested on new data. The original
+  lesson is credited in the spaced-repetition schedule, and the review banner says "a fresh variant of a lesson you did".
+
+### Adding more
+
+All of them are ordinary lessons with `round: true`, so progress, spaced repetition and the self-test cover them.
+
+- Rounds need the usual fields (setup, starters, solution, check). Add `covers: ["lesson-id", ...]` listing the lessons the
+  round is a sibling of.
+- Order puzzles add `kind: "order"`, `chunks: [...]` (the lines in the correct order) and optional `distractors: [...]`.
+  Make the order unambiguous: each step should need a column created by the one before it.
+- Bug hunts add `kind: "bug"`, `lines: [...]` (the buggy code), `bugLine` (0-based), `fixChoices: [...]` and `fixIndex`.
+- Puzzles still keep `setup`, `solution` (the corrected code) and `check`, so Settings > Self-test runs them in R. At
+  run time they are marked in the browser, so they also work before R has finished loading.
 
 ## App structure
 
@@ -669,7 +681,7 @@ run anywhere else.
    slow the first time) or **Current unit only** (the unit of the lesson
    you last opened, a quick way to re-test one fix).
 4. Tap **Run self-test**, then keep the panel open and the screen awake.
-   A status line counts through the lessons (`Testing 57/725: …`). The
+   A status line counts through the lessons (`Testing 57/733: …`). The
    first full run installs each unit's packages as it reaches them, so
    expect several minutes; later runs are faster because packages stay
    installed for the session.
@@ -698,7 +710,7 @@ How to read the failures:
 
 ## Progression
 
-- **Easy / Medium / Hard** — all but seven of the 725 lessons offer three starting
+- **Easy / Medium / Hard** — all but seven of the 733 lessons offer three starting
   points for the same code box: Easy pre-builds a skeleton with blanks
   for arguments; Medium gives a plain-English comment and an empty
   assignment line, so you write the full function call yourself; Hard

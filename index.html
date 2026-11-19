@@ -743,6 +743,27 @@
   .me-t small{display:block; color:var(--text-soft); font-size:12px;}
   .me-link{display:flex; align-items:center; gap:12px; width:100%; text-align:left; border:2px solid var(--card-border); background:var(--bg); border-radius:16px; padding:10px 14px; margin-bottom:8px; min-height:56px; cursor:pointer; font:inherit; color:var(--text);}
 
+  /* ---- v19: puzzles (tap-to-order, spot-the-bug) ---- */
+  .puzzle-box{display:none;}
+  body.puzzle .puzzle-box{display:block;}
+  body.puzzle .console-label, body.puzzle #editor, body.puzzle #symBar, body.puzzle #runBtn, body.puzzle #output, body.puzzle #plotCard, body.puzzle #expectedCard{display:none !important;}
+  .pz-label{font-family:'Baloo 2',sans-serif; font-weight:800; font-size:14px; margin:14px 0 8px; color:var(--text);}
+  .pz-built, .pz-bank, .pz-code, .pz-choices{display:flex; flex-direction:column; gap:8px;}
+  .pz-built{min-height:64px; padding:10px; border:2px dashed var(--card-border); border-radius:16px; background:var(--bg);}
+  .pz-empty{color:var(--text-faint); font-size:13px; align-self:center; margin:auto;}
+  .pz-chunk, .pz-line, .pz-choice{display:flex; align-items:center; gap:10px; width:100%; text-align:left; cursor:pointer; font:inherit; color:var(--text); border:2px solid var(--card-border); border-bottom-width:4px; border-radius:14px; background:var(--bg); padding:10px 12px; min-height:46px;}
+  .pz-chunk code, .pz-line code, .pz-choice code{font-family:ui-monospace,Menlo,Consolas,monospace; font-size:13px; white-space:pre-wrap; overflow-wrap:anywhere; flex:1; min-width:0; background:none; padding:0;}
+  .pz-chunk.placed{background:var(--lilac-light); border-color:var(--lilac);}
+  .pz-chunk:active, .pz-line:active, .pz-choice:active{transform:translateY(2px); border-bottom-width:2px;}
+  .pz-code{background:#272b36; border-radius:16px; padding:8px; gap:4px;}
+  .pz-line{background:transparent; border-color:transparent; border-bottom-width:2px; color:#e9ecf3; min-height:34px; padding-top:6px; padding-bottom:6px; border-radius:10px;}
+  .pz-line .ln{color:#7d8597; font-size:12px; width:16px; flex:none; text-align:right;}
+  .pz-line.sel{background:rgba(255,200,60,.18); border-color:#f5b82e;}
+  .pz-line.fixed{background:rgba(88,204,2,.18); border-color:#58cc02;}
+  .pz-choice.sel{background:var(--lilac-light); border-color:var(--lilac);}
+  .pz-note{color:var(--text-soft); font-size:12px; margin-top:8px;}
+  body.puzzle #view-practice{padding-bottom:130px;}
+
   @media (prefers-reduced-motion: reduce){
     *, *::before, *::after{animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important;}
     .confetti{display:none;}
@@ -861,6 +882,8 @@
         <pre class="ed-hl" id="edHl" aria-hidden="true"></pre>
         <textarea id="code" spellcheck="false" autocapitalize="off" autocorrect="off" autocomplete="off" aria-label="R code"></textarea>
       </div>
+
+      <div class="puzzle-box" id="puzzle"></div>
 
       <div class="action-bar" id="actionBar">
         <div class="sym-bar" id="symBar" aria-label="Symbols"></div>
@@ -2648,6 +2671,7 @@ Example:<br><code>tibble(temp = c(15,25)) |> mutate(weather = if_else(temp > 20,
       short: "filter + select",
       unit: "Tidyverse Foundations with dplyr, purrr & tibble",
       round: true,
+      covers: ["filtering-rows-with-filter", "building-a-tibble"],
       instructions: `A fresh tibble, the same moves. <code>visits</code> (id, state, age, trust) is loaded.<br><br>Create <code>vic_trust</code>: only the respondents from <code>"VIC"</code>, keeping just the <code>id</code> and <code>trust</code> columns, using <code>filter()</code> then <code>select()</code>.`,
       preload: `Preloaded: visits — 8 respondents with id, state, age and trust (1–5 scale).`,
       setup: `visits <- tibble(
@@ -2682,6 +2706,7 @@ vic_trust <-
       short: "mutate + if_else",
       unit: "Tidyverse Foundations with dplyr, purrr & tibble",
       round: true,
+      covers: ["recoding-with-if-else"],
       instructions: `The same <code>visits</code> tibble is loaded.<br><br>Create <code>visits2</code>: the same data with two new columns, <code>high_trust</code> (<code>TRUE</code> when <code>trust</code> is 4 or more) and <code>age_group</code> (<code>"Under 30"</code> below 30, otherwise <code>"30+"</code>). Use one <code>mutate()</code>, with <code>if_else()</code> where it helps.`,
       preload: `Preloaded: visits — 8 respondents with id, state, age and trust (1–5 scale).`,
       setup: `visits <- tibble(
@@ -2722,6 +2747,7 @@ visits2 <-
       short: "filter + summarise",
       unit: "Tidyverse Foundations with dplyr, purrr & tibble",
       round: true,
+      covers: ["descriptive-stats-with-summarise", "filtering-rows-with-filter"],
       instructions: `The same <code>visits</code> tibble is loaded.<br><br>Create <code>older_trust</code>: for respondents aged 30 or over only, a one-row tibble with <code>mean_trust</code> (rounded to 2 decimal places) and <code>n</code> (how many respondents), using <code>filter()</code> then <code>summarise()</code>.`,
       preload: `Preloaded: visits — 8 respondents with id, state, age and trust (1–5 scale).`,
       setup: `visits <- tibble(
@@ -2752,6 +2778,84 @@ older_trust <-
         assumes: `Missing values would make mean() return NA unless na.rm = TRUE.`
       },
       check: `exists("older_trust") && isTRUE(all.equal(as.data.frame(older_trust), data.frame(mean_trust = round(mean(visits$trust[visits$age >= 30]), 2), n = sum(visits$age >= 30)), check.attributes = FALSE))`
+    },
+    {
+      title: "Puzzle: build the pipeline in order",
+      id: "puzzle-tf-pipeline-order",
+      packages: ["dplyr"],
+      short: "🧩 Pipeline order",
+      unit: "Tidyverse Foundations with dplyr, purrr & tibble",
+      round: true,
+      kind: "order",
+      chunks: ["old_visits <- visits |>", "  mutate(older = age >= 40) |>", "  filter(older) |>", "  select(id, state, age)"],
+      distractors: ["  summarise(n = n()) |>"],
+      covers: ["filtering-rows-with-filter", "recoding-with-if-else"],
+      instructions: `Tap the pieces to build code that creates <code>old_visits</code>: respondents aged 40 or over, with the columns <code>id</code>, <code>state</code> and <code>age</code>. Each step needs the one before it. One piece does not belong.`,
+      preload: `Preloaded: visits — 8 respondents with id, state, age and trust.`,
+      setup: `visits <- tibble(
+        id = 1:8,
+        state = c("VIC","NSW","VIC","QLD","NSW","VIC","QLD","SA"),
+        age = c(24, 61, 33, 45, 19, 52, 38, 70),
+        trust = c(4, 2, 5, 3, 1, 4, 5, 2)
+      )`,
+      starter: `old_visits <- visits |>
+  mutate(older = age >= 40) |>
+  filter(older) |>
+  select(id, state, age)
+`,
+      hint: `Make the flag first, filter on it, and only then drop it with select().`,
+      solution: `old_visits <- visits |>
+  mutate(older = age >= 40) |>
+  filter(older) |>
+  select(id, state, age)
+`,
+      help: `<b>A pipeline</b> reads top to bottom: each |> passes the result of one step into the next. A column has to exist before a later step can use it.`,
+      explain: {
+        use: `Reading a pipeline step by step is the fastest way to debug it.`,
+        family: `Core dplyr verbs for filtering, adding columns and summarising a tibble.`,
+        needs: `A tibble to start from.`,
+        assumes: `Each step uses the result of the previous one.`
+      },
+      check: `exists("old_visits") && isTRUE(all.equal(as.data.frame(old_visits), data.frame(id = c(2, 4, 6, 8), state = c("NSW","QLD","VIC","SA"), age = c(61, 45, 52, 70)), check.attributes = FALSE))`
+    },
+    {
+      title: "Bug hunt: the summary that will not run",
+      id: "puzzle-tf-bug-summarise",
+      packages: ["dplyr"],
+      short: "🐞 Bug hunt",
+      unit: "Tidyverse Foundations with dplyr, purrr & tibble",
+      round: true,
+      kind: "bug",
+      lines: ["late_trust <- visits |>", "  filter(age >= 40) |>", "  summarise(mean_trust = mean(trust), n = n)"],
+      bugLine: 2,
+      fixChoices: ["  summarise(mean_trust = mean(trust), n = n())", "  summarise(mean_trust = mean(trust), n = count())", "  summarise(mean_trust = mean(trust), n = length)", "  summarise(mean_trust = mean(trust), n == n())"],
+      fixIndex: 0,
+      covers: ["descriptive-stats-with-summarise"],
+      instructions: `This code should create <code>late_trust</code>: the average trust and the number of respondents, for people aged 40 or over. It stops with an error. Find the line with the bug, then choose the fix.`,
+      preload: `Preloaded: visits — 8 respondents with id, state, age and trust.`,
+      setup: `visits <- tibble(
+        id = 1:8,
+        state = c("VIC","NSW","VIC","QLD","NSW","VIC","QLD","SA"),
+        age = c(24, 61, 33, 45, 19, 52, 38, 70),
+        trust = c(4, 2, 5, 3, 1, 4, 5, 2)
+      )`,
+      starter: `late_trust <- visits |>
+  filter(age >= 40) |>
+  summarise(mean_trust = mean(trust), n = n)
+`,
+      hint: `Read the summarise() line. One of its two summaries is not asking for a number yet.`,
+      solution: `late_trust <- visits |>
+  filter(age >= 40) |>
+  summarise(mean_trust = mean(trust), n = n())
+`,
+      help: `<b>n()</b> counts the rows in each group (or in the whole table). It is a function, so it needs its brackets.`,
+      explain: {
+        use: `A missing pair of brackets is one of the most common beginner errors.`,
+        family: `Core dplyr verbs for filtering, adding columns and summarising a tibble.`,
+        needs: `A tibble piped into summarise().`,
+        assumes: `summarise() needs each new column to be a number computed from the rows.`
+      },
+      check: `exists("late_trust") && isTRUE(all.equal(as.data.frame(late_trust), data.frame(mean_trust = mean(visits$trust[visits$age >= 40]), n = sum(visits$age >= 40)), check.attributes = FALSE))`
     },
     {
       title: "Error: object not found",
@@ -3483,6 +3587,7 @@ Example:<br><code>tibble(age = c(20,40,60), city = c("A","B","A")) |> filter(age
       short: "inner_join",
       unit: "More Joins & Variable Wrangling with dplyr",
       round: true,
+      covers: ["keeping-only-matches-with-inner-join"],
       instructions: `Different tables, the same join. <code>schools</code> lists 5 schools and <code>naplan</code> has reading scores for only some of them (and one school that is not on the list).<br><br>Create <code>both</code>: only the schools that appear in <b>both</b> tables, using <code>inner_join()</code> by <code>school_id</code>.`,
       preload: `Preloaded: schools — 5 schools (school_id, sector); naplan — reading scores for 4 school ids.`,
       setup: `schools <- tibble(school_id = 1:5, sector = c("Gov","Cath","Ind","Gov","Gov"))
@@ -3513,6 +3618,7 @@ both <-
       short: "full_join, by =",
       unit: "More Joins & Variable Wrangling with dplyr",
       round: true,
+      covers: ["keeping-everything-with-full-join"],
       instructions: `<code>schools</code> names its key <code>school_id</code> but <code>results</code> calls the same thing <code>sid</code>.<br><br>Create <code>all_schools</code>: every school from either table, using <code>full_join()</code> and matching <code>school_id</code> to <code>sid</code> with <code>by = c("school_id" = "sid")</code>.`,
       preload: `Preloaded: schools — 5 schools (school_id, sector); results — maths scores keyed by sid for 4 schools.`,
       setup: `schools <- tibble(school_id = 1:5, sector = c("Gov","Cath","Ind","Gov","Gov"))
@@ -3543,6 +3649,7 @@ all_schools <-
       short: "rename + relocate",
       unit: "More Joins & Variable Wrangling with dplyr",
       round: true,
+      covers: ["renaming-columns-with-rename", "reordering-columns-with-relocate"],
       instructions: `<code>raw</code> has cryptic column names and the key in the wrong place.<br><br>Create <code>tidy</code>: <code>raw</code> with <code>rd</code> renamed to <code>reading</code>, <code>mt</code> renamed to <code>maths</code>, and <code>school_id</code> moved to the front, using <code>rename()</code> and <code>relocate()</code>.`,
       preload: `Preloaded: raw — 3 schools with sector, rd, mt and school_id.`,
       setup: `raw <- tibble(sector = c("Gov","Cath","Ind"), rd = c(480, 520, 455), mt = c(510, 490, 530), school_id = c(2, 3, 5))`,
@@ -3568,6 +3675,77 @@ tidy <-
         assumes: `rename() uses new = old, the opposite of what many people expect.`
       },
       check: `exists("tidy") && identical(names(tidy), c("school_id", "sector", "reading", "maths")) && isTRUE(all.equal(tidy$reading, raw$rd)) && isTRUE(all.equal(tidy$maths, raw$mt))`
+    },
+    {
+      title: "Puzzle: join, measure, filter, tidy",
+      id: "puzzle-jn-chain-order",
+      packages: ["dplyr"],
+      short: "🧩 Join chain",
+      unit: "More Joins & Variable Wrangling with dplyr",
+      round: true,
+      kind: "order",
+      chunks: ["top_schools <- schools |>", "  inner_join(naplan, by = \"school_id\") |>", "  mutate(above = reading - 470) |>", "  filter(above > 0) |>", "  select(school_id, sector, reading)"],
+      distractors: ["  full_join(naplan, by = \"school_id\") |>"],
+      covers: ["keeping-only-matches-with-inner-join"],
+      instructions: `Tap the pieces to create <code>top_schools</code>: join the reading scores to <code>schools</code> (keeping only matches), add how far each school is above 470, keep the schools above 470, then keep just <code>school_id</code>, <code>sector</code> and <code>reading</code>. One piece does not belong.`,
+      preload: `Preloaded: schools (5 schools) and naplan (reading scores for 4 school ids).`,
+      setup: `schools <- tibble(school_id = 1:5, sector = c("Gov","Cath","Ind","Gov","Gov"))
+      naplan <- tibble(school_id = c(2, 3, 5, 6), reading = c(480, 520, 455, 500))`,
+      starter: `top_schools <- schools |>
+  inner_join(naplan, by = "school_id") |>
+  mutate(above = reading - 470) |>
+  filter(above > 0) |>
+  select(school_id, sector, reading)
+`,
+      hint: `The join comes first, because reading only exists after it. select() has to come after the filter, because it drops the new column.`,
+      solution: `top_schools <- schools |>
+  inner_join(naplan, by = "school_id") |>
+  mutate(above = reading - 470) |>
+  filter(above > 0) |>
+  select(school_id, sector, reading)
+`,
+      help: `<b>Chaining joins and verbs</b> works when each step only uses columns that already exist.`,
+      explain: {
+        use: `Real data preparation often joins first and then derives and filters.`,
+        family: `Joining tables by a key and tidying column names and order with dplyr.`,
+        needs: `Two tables with a shared key.`,
+        assumes: `inner_join() drops schools with no match.`
+      },
+      check: `exists("top_schools") && isTRUE(all.equal(as.data.frame(top_schools), data.frame(school_id = c(2, 3), sector = c("Cath","Ind"), reading = c(480, 520)), check.attributes = FALSE))`
+    },
+    {
+      title: "Bug hunt: the rename that wipes the data",
+      id: "puzzle-jn-bug-rename",
+      packages: ["dplyr"],
+      short: "🐞 Bug hunt",
+      unit: "More Joins & Variable Wrangling with dplyr",
+      round: true,
+      kind: "bug",
+      lines: ["tidy2 <- raw |>", "  rename(rd = reading, mt = maths) |>", "  relocate(school_id)"],
+      bugLine: 1,
+      fixChoices: ["  rename(reading = rd, maths = mt) |>", "  select(reading = rd, maths = mt) |>", "  mutate(reading = rd, maths = mt) |>", "  rename(reading == rd, maths == mt) |>"],
+      fixIndex: 0,
+      covers: ["renaming-columns-with-rename"],
+      instructions: `This code should create <code>tidy2</code>: <code>raw</code> with <code>rd</code> renamed to <code>reading</code>, <code>mt</code> renamed to <code>maths</code>, and <code>school_id</code> first. It does not give those names. Find the line with the bug, then choose the fix.`,
+      preload: `Preloaded: raw — 3 schools with sector, rd, mt and school_id.`,
+      setup: `raw <- tibble(sector = c("Gov","Cath","Ind"), rd = c(480, 520, 455), mt = c(510, 490, 530), school_id = c(2, 3, 5))`,
+      starter: `tidy2 <- raw |>
+  rename(rd = reading, mt = maths) |>
+  relocate(school_id)
+`,
+      hint: `rename() takes new_name = old_name. Check which side each name is on.`,
+      solution: `tidy2 <- raw |>
+  rename(reading = rd, maths = mt) |>
+  relocate(school_id)
+`,
+      help: `<b>rename()</b> changes names with new = old, and keeps every other column.`,
+      explain: {
+        use: `Swapping new and old names in rename() is a very common slip.`,
+        family: `Joining tables by a key and tidying column names and order with dplyr.`,
+        needs: `Existing column names.`,
+        assumes: `rename() uses new = old.`
+      },
+      check: `exists("tidy2") && identical(names(tidy2), c("school_id", "sector", "reading", "maths")) && isTRUE(all.equal(tidy2$reading, raw$rd)) && isTRUE(all.equal(tidy2$maths, raw$mt))`
     },
     {
       title: "Recoding several columns at once with across()",
@@ -4751,6 +4929,7 @@ wr_best <-
       short: "case_when",
       unit: "Recoding & Index Practice with dplyr",
       round: true,
+      covers: ["prep-collapse"],
       instructions: `A new variable, the same idea. <code>rc</code> has a highest-qualification code <code>qual</code>: 1–2 school, 3–4 vocational or undergraduate, 5 postgraduate, 9 not stated.<br><br>Create <code>rc2</code>: <code>rc</code> with <code>qual3</code> equal to 1 for codes 1–2, 2 for codes 3–4, 3 for code 5 and <code>NA</code> otherwise, using <code>case_when()</code>.`,
       preload: `Preloaded: rc — 10 respondents with id and qual (1–5, or 9 for not stated).`,
       setup: `rc <- tibble(id = 1:10, qual = c(1, 3, 5, 2, 9, 4, 3, 1, 5, 2))`,
@@ -4790,6 +4969,7 @@ rc2 <-
       short: "reverse + mean",
       unit: "Recoding & Index Practice with dplyr",
       round: true,
+      covers: ["prep-index-min"],
       instructions: `<code>att</code> has three 1–5 attitude items. <code>q2</code> is worded in the opposite direction to <code>q1</code> and <code>q3</code>. One respondent skipped <code>q2</code>.<br><br>Create <code>att2</code>: <code>att</code> with <code>q2_r</code> (reverse-coded as 6 minus the score) and <code>score</code>, the mean of <code>q1</code>, <code>q2_r</code> and <code>q3</code>. The score should be <code>NA</code> for the respondent with a missing item.`,
       preload: `Preloaded: att — 6 respondents with q1, q2 and q3 (1–5), q2 reverse-worded and one value missing.`,
       setup: `att <- tibble(id = 1:6, q1 = c(5, 4, 2, 3, 5, 1), q2 = c(1, 2, 4, 3, NA, 5), q3 = c(4, 4, 1, 3, 5, 2))`,
@@ -4825,6 +5005,7 @@ att2 <-
       short: "cut",
       unit: "Recoding & Index Practice with dplyr",
       round: true,
+      covers: ["prep-quartiles", "prep-brackets"],
       instructions: `<code>ppl</code> has an <code>age</code> for each of 8 people, including some exactly on a band edge.<br><br>Create <code>ppl2</code>: <code>ppl</code> with <code>age_band</code>, using <code>cut()</code> with the labels <code>"18-29"</code>, <code>"30-44"</code>, <code>"45-64"</code> and <code>"65+"</code>. Someone aged 29 belongs in "18-29" and someone aged 30 in "30-44".`,
       preload: `Preloaded: ppl — 8 people with id and age (18 to 80).`,
       setup: `ppl <- tibble(id = 1:8, age = c(18, 29, 30, 44, 45, 64, 65, 80))`,
@@ -4850,6 +5031,80 @@ ppl2 <-
         assumes: `Values outside the outer breaks become NA, which is why the first break is 17 and the last is Inf.`
       },
       check: `exists("ppl2") && "age_band" %in% names(ppl2) && identical(as.character(ppl2$age_band), c("18-29", "18-29", "30-44", "30-44", "45-64", "45-64", "65+", "65+"))`
+    },
+    {
+      title: "Puzzle: reverse, average, then drop the missing",
+      id: "puzzle-rc-index-order",
+      packages: ["dplyr"],
+      short: "🧩 Index order",
+      unit: "Recoding & Index Practice with dplyr",
+      round: true,
+      kind: "order",
+      chunks: ["att_idx <- att |>", "  mutate(q2_r = 6 - q2) |>", "  mutate(score = (q1 + q2_r + q3) / 3) |>", "  filter(!is.na(score))"],
+      distractors: ["  mutate(q2_r = q2 - 6) |>"],
+      covers: ["prep-index-min"],
+      instructions: `Tap the pieces to create <code>att_idx</code>: reverse-code <code>q2</code> as 6 minus the score, average the three items into <code>score</code>, then keep only people with a score. One piece does not belong.`,
+      preload: `Preloaded: att — 6 respondents with q1, q2, q3 (1–5); q2 is reverse-worded and one value is missing.`,
+      setup: `att <- tibble(id = 1:6, q1 = c(5, 4, 2, 3, 5, 1), q2 = c(1, 2, 4, 3, NA, 5), q3 = c(4, 4, 1, 3, 5, 2))`,
+      starter: `att_idx <- att |>
+  mutate(q2_r = 6 - q2) |>
+  mutate(score = (q1 + q2_r + q3) / 3) |>
+  filter(!is.na(score))
+`,
+      hint: `The score needs q2_r, and the filter needs the score.`,
+      solution: `att_idx <- att |>
+  mutate(q2_r = 6 - q2) |>
+  mutate(score = (q1 + q2_r + q3) / 3) |>
+  filter(!is.na(score))
+`,
+      help: `<b>Building an index</b> means reverse-coding any opposite-worded items before averaging, then dealing with missing scores.`,
+      explain: {
+        use: `The order of steps in an index matters: you cannot average before you reverse.`,
+        family: `Recoding survey codes into groups and building simple scores with dplyr and base R.`,
+        needs: `Items on the same 1–5 scale.`,
+        assumes: `Reversing on a 1–5 scale is 6 minus the score.`
+      },
+      check: `exists("att_idx") && nrow(att_idx) == 5 && isTRUE(all.equal(att_idx$score, ((att$q1 + (6 - att$q2) + att$q3) / 3)[!is.na(att$q2)]))`
+    },
+    {
+      title: "Bug hunt: the recode that will not run",
+      id: "puzzle-rc-bug-casewhen",
+      packages: ["dplyr"],
+      short: "🐞 Bug hunt",
+      unit: "Recoding & Index Practice with dplyr",
+      round: true,
+      kind: "bug",
+      lines: ["rc3 <- rc |> mutate(qual_grp = case_when(", "  qual %in% 1:2 ~ \"School\",", "  qual %in% 3:4 = \"Tertiary\",", "  qual == 5 ~ \"Postgrad\",", "  TRUE ~ NA_character_", "))"],
+      bugLine: 2,
+      fixChoices: ["  qual %in% 3:4 ~ \"Tertiary\",", "  qual %in% 3:4 == \"Tertiary\",", "  qual %in% 3:4 -> \"Tertiary\",", "  qual == 3:4 ~ \"Tertiary\","],
+      fixIndex: 0,
+      covers: ["prep-collapse"],
+      instructions: `This code should create <code>rc3</code> with a <code>qual_grp</code> column: codes 1–2 become <code>"School"</code>, 3–4 <code>"Tertiary"</code>, 5 <code>"Postgrad"</code>, anything else <code>NA</code>. It stops with an error. Find the line with the bug, then choose the fix.`,
+      preload: `Preloaded: rc — 10 respondents with id and qual (1–5, or 9 for not stated).`,
+      setup: `rc <- tibble(id = 1:10, qual = c(1, 3, 5, 2, 9, 4, 3, 1, 5, 2))`,
+      starter: `rc3 <- rc |> mutate(qual_grp = case_when(
+  qual %in% 1:2 ~ "School",
+  qual %in% 3:4 = "Tertiary",
+  qual == 5 ~ "Postgrad",
+  TRUE ~ NA_character_
+))
+`,
+      hint: `Compare the three condition lines carefully. One of them joins the condition to its result differently.`,
+      solution: `rc3 <- rc |> mutate(qual_grp = case_when(
+  qual %in% 1:2 ~ "School",
+  qual %in% 3:4 ~ "Tertiary",
+  qual == 5 ~ "Postgrad",
+  TRUE ~ NA_character_
+))
+`,
+      help: `<b>case_when()</b> pairs each condition with its result using a tilde: condition ~ result.`,
+      explain: {
+        use: `case_when() uses ~ between a condition and its value, not = or ==.`,
+        family: `Recoding survey codes into groups and building simple scores with dplyr and base R.`,
+        needs: `A column of codes.`,
+        assumes: `Every right-hand value is text here, so the final NA is NA_character_.`
+      },
+      check: `exists("rc3") && identical(rc3$qual_grp, c("School","Tertiary","Postgrad","School",NA,"Tertiary","Tertiary","School","Postgrad","School"))`
     },
     {
       title: "Counting TRUEs with sum() and mean()",
@@ -10464,6 +10719,7 @@ Example:<br><code>tibble(x = 1:3) |> summarise(total = sum(x)) |> pull(total)</c
       short: "count + percent",
       unit: "Exploring & Summarizing with dplyr",
       round: true,
+      covers: ["frequencies-proportions"],
       instructions: `A new variable, the same recipe. <code>trips</code> records how 8 people commute.<br><br>Create <code>mode_share</code>: a count of each <code>mode</code> plus a <code>pct</code> column, the percentage of all trips rounded to 1 decimal place, by chaining <code>count()</code> into <code>mutate()</code>.`,
       preload: `Preloaded: trips — 8 people with their commute mode.`,
       setup: `trips <- tibble(mode = c("Car","Train","Car","Walk","Train","Car","Bike","Car"))`,
@@ -10497,6 +10753,7 @@ mode_share <-
       short: "group_by + summarise",
       unit: "Exploring & Summarizing with dplyr",
       round: true,
+      covers: ["grouped-means-with-group-by-summarise", "multiple-grouped-summaries"],
       instructions: `<code>work</code> has weekly hours for 8 workers in three states.<br><br>Create <code>state_hours</code>: for each <code>state</code>, the average hours (<code>mean_hours</code>), the longest hours (<code>max_hours</code>) and the number of workers (<code>n</code>), using <code>group_by()</code> then <code>summarise()</code> with <code>.groups = "drop"</code>.`,
       preload: `Preloaded: work — 8 workers with state and weekly hours.`,
       setup: `work <- tibble(state = c("VIC","NSW","VIC","QLD","NSW","VIC","QLD","NSW"), hours = c(38, 45, 30, 40, 36, 42, 25, 50))`,
@@ -10540,6 +10797,7 @@ state_hours <-
       short: "filter + median, IQR",
       unit: "Exploring & Summarizing with dplyr",
       round: true,
+      covers: ["quantiles-with-summarise", "multiple-grouped-summaries"],
       instructions: `<code>earn</code> has income and sex for 8 people. Incomes are skewed, so the median and interquartile range suit better than the mean.<br><br>Create <code>f_income</code>: for women only (<code>sex == "F"</code>), a one-row tibble with <code>median_income</code> and <code>iqr_income</code>, using <code>filter()</code> then <code>summarise()</code> with <code>median()</code> and <code>IQR()</code>.`,
       preload: `Preloaded: earn — 8 people with sex and income in dollars.`,
       setup: `earn <- tibble(sex = c("F","M","F","F","M","F","M","F"), income = c(52000, 61000, 48000, 75000, 58000, 39000, 90000, 56000))`,
@@ -10565,6 +10823,74 @@ f_income <-
         assumes: `IQR() is the 75th minus the 25th percentile.`
       },
       check: `exists("f_income") && isTRUE(all.equal(as.data.frame(f_income), data.frame(median_income = median(earn$income[earn$sex == "F"]), iqr_income = IQR(earn$income[earn$sex == "F"])), check.attributes = FALSE))`
+    },
+    {
+      title: "Puzzle: a ranked frequency table",
+      id: "puzzle-ex-share-order",
+      packages: ["dplyr"],
+      short: "🧩 Table order",
+      unit: "Exploring & Summarizing with dplyr",
+      round: true,
+      kind: "order",
+      chunks: ["top_modes <- trips |>", "  count(mode) |>", "  mutate(pct = round(100 * n / sum(n), 1)) |>", "  arrange(desc(pct))"],
+      distractors: ["  group_by(mode) |>"],
+      covers: ["frequencies-proportions"],
+      instructions: `Tap the pieces to create <code>top_modes</code>: count each commute <code>mode</code>, add its percentage of all trips (1 decimal place), then sort from the biggest percentage down. One piece does not belong.`,
+      preload: `Preloaded: trips — 8 people with their commute mode.`,
+      setup: `trips <- tibble(mode = c("Car","Train","Car","Walk","Train","Car","Bike","Car"))`,
+      starter: `top_modes <- trips |>
+  count(mode) |>
+  mutate(pct = round(100 * n / sum(n), 1)) |>
+  arrange(desc(pct))
+`,
+      hint: `count() creates n, the percentage needs n, and the sorting needs the percentage.`,
+      solution: `top_modes <- trips |>
+  count(mode) |>
+  mutate(pct = round(100 * n / sum(n), 1)) |>
+  arrange(desc(pct))
+`,
+      help: `<b>count() then mutate() then arrange()</b> is the standard recipe for a ranked frequency table.`,
+      explain: {
+        use: `A ranked table of shares is often the first thing you show about a categorical variable.`,
+        family: `Frequencies and grouped summaries with dplyr.`,
+        needs: `A categorical column.`,
+        assumes: `Percentages are of all rows.`
+      },
+      check: `exists("top_modes") && isTRUE(all.equal(as.data.frame(top_modes), as.data.frame(trips |> dplyr::count(mode) |> dplyr::mutate(pct = round(100 * n / sum(n), 1)) |> dplyr::arrange(dplyr::desc(pct))), check.attributes = FALSE))`
+    },
+    {
+      title: "Bug hunt: the filter that stops the code",
+      id: "puzzle-ex-bug-filter",
+      packages: ["dplyr"],
+      short: "🐞 Bug hunt",
+      unit: "Exploring & Summarizing with dplyr",
+      round: true,
+      kind: "bug",
+      lines: ["f_med <- earn |>", "  filter(sex = \"F\") |>", "  summarise(med = median(income))"],
+      bugLine: 1,
+      fixChoices: ["  filter(sex == \"F\") |>", "  filter(sex == F) |>", "  filter(\"sex\" == \"F\") |>", "  filter(sex %in% \"M\") |>"],
+      fixIndex: 0,
+      covers: ["multiple-grouped-summaries", "grouped-means-with-group-by-summarise"],
+      instructions: `This code should create <code>f_med</code>: the median income of women (<code>sex</code> is <code>"F"</code>). It stops with an error. Find the line with the bug, then choose the fix.`,
+      preload: `Preloaded: earn — 8 people with sex and income in dollars.`,
+      setup: `earn <- tibble(sex = c("F","M","F","F","M","F","M","F"), income = c(52000, 61000, 48000, 75000, 58000, 39000, 90000, 56000))`,
+      starter: `f_med <- earn |>
+  filter(sex = "F") |>
+  summarise(med = median(income))
+`,
+      hint: `Look at how filter() is asked to compare sex with "F".`,
+      solution: `f_med <- earn |>
+  filter(sex == "F") |>
+  summarise(med = median(income))
+`,
+      help: `<b>filter()</b> keeps rows where a comparison is TRUE. A comparison uses two equals signs: ==.`,
+      explain: {
+        use: `Using = instead of == inside filter() is the most common filtering error.`,
+        family: `Frequencies and grouped summaries with dplyr.`,
+        needs: `A column to compare.`,
+        assumes: `One = assigns or names an argument; == compares.`
+      },
+      check: `exists("f_med") && isTRUE(all.equal(as.data.frame(f_med), data.frame(med = median(earn$income[earn$sex == "F"])), check.attributes = FALSE))`
     },
     {
       title: "Weighted percentages with tapply()",
@@ -27226,7 +27552,7 @@ capstone_pred <- predict(capstone_fit, newdata = profile, type = "response")
   let placed = {};        // lesson id -> 1 when it was skipped as "already known" (not earned by passing)
   let predicted = {};     // lesson id -> 1 (right first time) or 0 (wrong first time) for Predict-first questions
   let srs = {};           // lesson id -> { box 1-5, due (ms), lapses } : spaced-repetition schedule for Review
-  let reviewMode = false, reviewQueue = [], reviewPos = 0, reviewDone = new Set(), reviewGain = 0, reviewFailed = new Set();
+  let reviewFor = {}, reviewMode = false, reviewQueue = [], reviewPos = 0, reviewDone = new Set(), reviewGain = 0, reviewFailed = new Set();
   const REVIEW_XP = 10, REVIEW_SIZE = 5, REVIEW_DUE_MS = 3 * 24 * 3600 * 1000;
   let lastId = null;     // most recently opened lesson id, for "Continue"
   let collapsedUnits = {}; // unit name -> true/false once the learner toggles it
@@ -27432,7 +27758,7 @@ const PHASE_STARTS = {
     const interval = Math.max(1, SRS_DAYS[e.box]) * DAY_MS;
     return (Date.now() - e.due) / interval + 0.5 * (e.lapses || 0) + 0.1 * (3 - starsFor(l));
   }
-  function dueCount() { return LESSONS.filter((l) => isDue(l.id)).length; }
+  function dueCount() { return LESSONS.filter((l) => !l.round && isDue(l.id)).length; }
   function nextLessonIndex() {
     const li = LESSONS.findIndex((l) => l.id === lastId);
     if (li >= 0 && !completed.has(LESSONS[li].id)) return li;
@@ -27605,7 +27931,7 @@ const PHASE_STARTS = {
       slot.className = "slot";
       const btn = document.createElement("button");
       btn.className = "node-btn " + (completed.has(l.id) && isDue(l.id) ? "due " : "") + (completed.has(l.id) && placed[l.id] ? "placed " : "") + (l.capstone ? "capstone " : "") + (l.round ? "round " : "") + (completed.has(l.id) ? "done" : (i === current && view !== "path" ? "current" : (unlocked ? "" : "locked")));
-      btn.textContent = completed.has(l.id) ? "✓" : (l.round ? "⚡" : String(i + 1));
+      btn.textContent = completed.has(l.id) ? "✓" : (l.round ? nodeIcon(l) : String(i + 1));
       btn.setAttribute("aria-label", `Lesson ${i + 1}: ${l.short}`);
       btn.addEventListener("click", () => {
         if (unlocked) { current = i; renderLesson(); switchView("learn"); }
@@ -27613,7 +27939,7 @@ const PHASE_STARTS = {
       });
       const label = document.createElement("div");
       label.className = "node-label";
-      label.textContent = (l.capstone ? "🏆 " : l.round ? "⚡ " : "") + l.short;
+      label.textContent = (l.capstone ? "🏆 " : l.round ? nodeIcon(l) + " " : "") + l.short;
       slot.appendChild(btn); slot.appendChild(label);
       if (completed.has(l.id)) {
         const st = document.createElement("div");
@@ -27674,6 +28000,81 @@ const PHASE_STARTS = {
     });
   }
 
+  // ---- Puzzles: tap-to-order and spot-the-bug (lessons with a kind field) ----
+  const isPuzzle = (l) => !!(l && l.kind);
+  const nodeIcon = (l) => l.kind === "bug" ? "🐞" : l.kind === "order" ? "🧩" : "⚡";
+  let pz = null;
+  function renderPuzzle(l) {
+    document.body.classList.toggle("puzzle", isPuzzle(l));
+    if (!isPuzzle(l)) { pz = null; $("puzzle").innerHTML = ""; return; }
+    if (l.kind === "order") {
+      const n = l.chunks.length + (l.distractors || []).length;
+      let order = shuffle(Array.from({ length: n }, (_, i) => i));
+      if (order.slice(0, l.chunks.length).every((v, k) => v === k) && n > 1) order = order.reverse();
+      pz = { kind: "order", order, built: [], done: false };
+    } else pz = { kind: "bug", sel: null, choice: null, stage: "find", done: false };
+    drawPuzzle(l);
+  }
+  function drawPuzzle(l) {
+    const box = $("puzzle"); if (!pz) return;
+    const hl = (t) => highlightR(t);
+    if (pz.kind === "order") {
+      const items = l.chunks.concat(l.distractors || []);
+      const bank = pz.order.filter((i) => !pz.built.includes(i));
+      box.innerHTML = `<div class="pz-label">🧩 Tap the pieces in the right order</div>
+        <div class="pz-built">${pz.built.length ? pz.built.map((i, k) => `<button type="button" class="pz-chunk placed" data-k="${k}"><code>${hl(items[i])}</code></button>`).join("") : `<span class="pz-empty">Your code appears here. Tap a piece to place it, tap it again to take it back.</span>`}</div>
+        <div class="pz-label">Pieces</div>
+        <div class="pz-bank">${bank.map((i) => `<button type="button" class="pz-chunk" data-i="${i}"><code>${hl(items[i])}</code></button>`).join("") || `<span class="pz-empty">All pieces placed. Press Check answer.</span>`}</div>
+        ${(l.distractors || []).length ? `<div class="pz-note">Not every piece belongs.</div>` : ""}`;
+    } else {
+      const fixed = pz.stage === "fix" || pz.done;
+      box.innerHTML = `<div class="pz-label">🐞 ${pz.stage === "find" && !pz.done ? "Tap the line that has the bug" : "Found it: line " + (l.bugLine + 1)}</div>
+        <div class="pz-code">${l.lines.map((t, i) => `<button type="button" class="pz-line ${pz.sel === i ? (fixed ? "fixed" : "sel") : ""}" data-i="${i}"><span class="ln">${i + 1}</span><code>${hl(pz.done && i === l.bugLine ? l.fixChoices[l.fixIndex] : t)}</code></button>`).join("")}</div>
+        ${fixed ? `<div class="pz-label">Which replacement fixes line ${l.bugLine + 1}?</div><div class="pz-choices">${l.fixChoices.map((c, j) => `<button type="button" class="pz-choice ${pz.choice === j ? "sel" : ""}" data-j="${j}"><code>${hl(c)}</code></button>`).join("")}</div>` : ""}`;
+    }
+  }
+  $("puzzle").addEventListener("click", (ev) => {
+    const l = LESSONS[current]; if (!pz || pz.done || !isPuzzle(l)) return;
+    const t = ev.target.closest("button"); if (!t) return;
+    if (pz.kind === "order") {
+      if (t.dataset.i !== undefined) pz.built.push(Number(t.dataset.i));
+      else if (t.dataset.k !== undefined) pz.built.splice(Number(t.dataset.k), 1);
+      else return;
+    } else {
+      if (t.dataset.i !== undefined) { if (pz.stage !== "find") return; pz.sel = Number(t.dataset.i); }
+      else if (t.dataset.j !== undefined) pz.choice = Number(t.dataset.j);
+      else return;
+    }
+    $("feedback").classList.remove("show", "ok", "bad");
+    drawPuzzle(l);
+  });
+  function puzzleResult(l) {
+    if (pz.kind === "order") {
+      const n = l.chunks.length;
+      if (!pz.built.length) return { ok: false, msg: "Tap the pieces to build the code first." };
+      const ok = pz.built.length === n && pz.built.every((v, k) => v === k);
+      if (ok) return { ok: true };
+      const right = pz.built.filter((v, k) => v === k).length;
+      return { ok: false, msg: `${right} of your ${pz.built.length} piece${pz.built.length === 1 ? "" : "s"} ${right === 1 ? "is" : "are"} in the right place. Remember each step needs what the step before it made, and not every piece belongs.` };
+    }
+    if (pz.stage === "find") {
+      if (pz.sel === null) return { ok: false, msg: "Tap the line you think has the bug first." };
+      if (pz.sel !== l.bugLine) return { ok: false, msg: `Line ${pz.sel + 1} is fine. Read each line again and think about what R would do with it.` };
+      pz.stage = "fix";
+      return { ok: false, advance: true, msg: `Yes, line ${l.bugLine + 1} is the bug. Now choose the replacement that fixes it, then press Check answer.` };
+    }
+    if (pz.choice === null) return { ok: false, msg: "Choose a replacement first." };
+    if (pz.choice !== l.fixIndex) return { ok: false, msg: "That replacement does not fix it. Compare each choice with what the task asks for." };
+    pz.done = true;
+    return { ok: true };
+  }
+  function puzzleReveal(l) {
+    if (!pz) return;
+    if (pz.kind === "order") pz.built = l.chunks.map((_, k) => k);
+    else { pz.sel = l.bugLine; pz.stage = "fix"; pz.choice = l.fixIndex; }
+    drawPuzzle(l);
+  }
+
   function renderLesson() {
     ttsStop();
     const l = LESSONS[current];
@@ -27712,7 +28113,7 @@ const PHASE_STARTS = {
 
     $("code").value = reviewMode ? (l.starterHard || l.starter) : (hasTiers ? starterForDifficulty(l, difficulty) : l.starter);
     $("reviewBanner").hidden = !reviewMode;
-    if (reviewMode) $("reviewLabel").textContent = `Review ${reviewPos + 1} of ${reviewQueue.length} · recall it without scaffolding`;
+    if (reviewMode) $("reviewLabel").textContent = `Review ${reviewPos + 1} of ${reviewQueue.length} · ` + (reviewFor[l.id] ? "a fresh variant of a lesson you did" : "recall it without scaffolding");
     $("output").classList.remove("show"); $("output").textContent = "";
     $("plotCanvas").classList.remove("show");
     $("feedback").classList.remove("show");
@@ -27721,9 +28122,10 @@ const PHASE_STARTS = {
       ? (reviewPos >= reviewQueue.length - 1 ? "Finish review ✓" : "Next review →")
       : (current === LESSONS.length - 1 ? "Restart ↻" : "Next →");
 
+    renderPuzzle(l);
     renderPathMap();
     updateLessonBar();
-    prepareEnvironment();
+    if (isPuzzle(l)) { $("checkBtn").disabled = false; } else prepareEnvironment();
   }
 
   async function ensureUnitPackages(unit) {
@@ -27789,7 +28191,7 @@ const PHASE_STARTS = {
     const ul = LESSONS.filter((x) => x.unit === l.unit && !x.round);
     const d = ul.filter((x) => completed.has(x.id)).length;
     $("lbFill").style.width = (ul.length ? d / ul.length * 100 : 0) + "%";
-    $("lbTxt").textContent = l.round ? "⚡" : d + "/" + ul.length;
+    $("lbTxt").textContent = l.round ? nodeIcon(l) : d + "/" + ul.length;
   }
   function renderReview() {
     const box = $("reviewLists"); box.innerHTML = "";
@@ -27819,8 +28221,8 @@ const PHASE_STARTS = {
     }
     const rounds = LESSONS.map((l, i) => ({ l, i })).filter((x) => x.l.round && isUnlocked(x.i));
     if (rounds.length) {
-      section("Practice rounds ⚡", "same skill, fresh data, optional");
-      rounds.forEach((x) => row("⚡", x.l.title.replace(/^Practice round \d+: /, ""), shortUnit(x.l.unit), completed.has(x.l.id) ? "✓ done" : "to do", () => { current = x.i; renderLesson(); switchView("practice"); }));
+      section("Practice rounds & puzzles", "same skills, fresh angles, optional");
+      rounds.forEach((x) => row(nodeIcon(x.l), x.l.title.replace(/^Practice round \d+: /, ""), shortUnit(x.l.unit), completed.has(x.l.id) ? "✓ done" : "to do", () => { current = x.i; renderLesson(); switchView("practice"); }));
     }
   }
   function renderMe() {
@@ -28070,6 +28472,7 @@ paste(.__out_lines, collapse = "\\n")`;
   });
 
   $("answerBtn").addEventListener("click", () => {
+    if (isPuzzle(LESSONS[current])) { puzzleReveal(LESSONS[current]); answerUsedThisAttempt = true; closeSheet(); return; }
     const codeBox = $("code");
     if (!answerShown) {
       preAnswerCode = codeBox.value;
@@ -28134,17 +28537,25 @@ paste(.__out_lines, collapse = "\\n")`;
   });
 
   $("checkBtn").addEventListener("click", async () => {
-    if (!engineReady) return;
+    const l = LESSONS[current];
+    if (!engineReady && !isPuzzle(l)) return;
     const fb = $("feedback");
     fb.classList.remove("ok", "bad"); fb.classList.add("show"); fb.textContent = "Checking…";
     try {
-      const code = $("code").value;
-      await webR.evalR(code);
-      const l = LESSONS[current];
-      const checkResult = await webR.evalR(l.check);
-      const jsVal = await checkResult.toJs();
-      try { checkResult.free?.(); } catch (_) {}
-      const passed = jsVal.type === "logical" ? jsVal.values[0] === true : false;
+      let passed, puzzleMsg = "";
+      if (isPuzzle(l)) {
+        const r = puzzleResult(l);
+        if (r.advance) { fb.classList.add("ok"); fb.innerHTML = `<b>${esc(r.msg)}</b>`; drawPuzzle(l); return; }
+        passed = r.ok; puzzleMsg = r.msg || "";
+        if (passed) drawPuzzle(l);
+      } else {
+        const code = $("code").value;
+        await webR.evalR(code);
+        const checkResult = await webR.evalR(l.check);
+        const jsVal = await checkResult.toJs();
+        try { checkResult.free?.(); } catch (_) {}
+        passed = jsVal.type === "logical" ? jsVal.values[0] === true : false;
+      }
 
       if (passed) {
         fb.classList.add("ok"); fb.textContent = "Correct — nicely done. That's logged.";
@@ -28159,10 +28570,10 @@ paste(.__out_lines, collapse = "\\n")`;
           gain = Math.max(0, Math.round(XP_PER_LESSON * (l.capstone ? 2 : l.round ? 0.4 : 1)) + diffBonus - penalty);
           stars[l.id] = rank;
           const ph = PHASE_OF_UNIT[l.unit];
-          if (ph && phaseComplete(ph)) { title = "Phase complete 🏆"; kind = "phase"; }
+          if (l.round) { title = l.kind === "bug" ? "Bug squashed 🐞" : l.kind === "order" ? "Puzzle solved 🧩" : "Round done ⚡"; }
+          else if (ph && phaseComplete(ph)) { title = "Phase complete 🏆"; kind = "phase"; }
           else if (unitComplete(l.unit)) { title = "Unit complete 🏅"; kind = "unit"; }
           else if (l.capstone) { title = "Capstone cleared 🏆"; kind = "capstone"; }
-          else if (l.round) { title = "Round done ⚡"; }
         } else if (rank > starsFor(l)) {
           // Redoing a lesson on a harder tier earns the bonus you missed, with no hint/answer penalty stacking.
           gain = BONUS_BY_RANK[rank] - BONUS_BY_RANK[starsFor(l)];
@@ -28180,6 +28591,7 @@ paste(.__out_lines, collapse = "\\n")`;
         lastPracticed[l.id] = Date.now();
         updateLessonBar();
         srsRecord(l.id, answerUsedThisAttempt ? "answer" : (hintUsedThisAttempt ? "hint" : "clean"), wasDone);
+        if (reviewMode && reviewFor[l.id]) { const o = reviewFor[l.id]; srsRecord(o, answerUsedThisAttempt ? "answer" : (hintUsedThisAttempt ? "hint" : "clean"), true); lastPracticed[o] = Date.now(); reviewDone.add(o); }
         const prevLevel = Math.floor(xp / XP_PER_LEVEL) + 1;
         const prevXp = xp, goalInfo = bumpDaily(l.id);
         xp += gain;
@@ -28190,7 +28602,13 @@ paste(.__out_lines, collapse = "\\n")`;
         if (reviewPoint && wasDone) fb.textContent = `Correct — +${REVIEW_XP} XP for the review.`;
       } else {
         fb.classList.add("bad");
-        shake($("editor")); shake(fb); buzz(30);
+        shake(isPuzzle(l) ? $("puzzle") : $("editor")); shake(fb); buzz(30);
+        if (isPuzzle(l)) {
+          fb.innerHTML = `<b>Not quite yet.</b> <span class="fb-sub">${esc(puzzleMsg)}</span>`;
+          failCount++; fb.insertAdjacentHTML("beforeend", stuckHTML());
+          if (reviewMode && !reviewFailed.has(l.id)) { reviewFailed.add(l.id); srsRecord(l.id, "fail"); const o = reviewFor[l.id]; if (o) srsRecord(o, "fail"); saveProgress(); }
+          return;
+        }
         if (!$("expectedCard").hidden) $("expectedCard").classList.add("reveal");
         const msgs = await diagnose(l);
         const extra = expectedNames(l).length ? " Open “Compare with the expected result” below if you are stuck." : "";
@@ -28199,9 +28617,9 @@ paste(.__out_lines, collapse = "\\n")`;
           : `<b>Not quite yet.</b> <span class="fb-sub">${esc("Your objects have the right shape, but the check still found a difference: look at the exact values, rounding and spelling." + extra)}</span>`;
         failCount++; fb.insertAdjacentHTML("beforeend", stuckHTML());
         if ($("expectedCard").open) fillExpected();
-        if (reviewMode && !reviewFailed.has(l.id)) { reviewFailed.add(l.id); srsRecord(l.id, "fail"); saveProgress(); }
+        if (reviewMode && !reviewFailed.has(l.id)) { reviewFailed.add(l.id); srsRecord(l.id, "fail"); const o = reviewFor[l.id]; if (o) srsRecord(o, "fail"); saveProgress(); }
       }
-      showResult(l);
+      if (!isPuzzle(l)) showResult(l);
     } catch (e) {
       const fr = friendlyError(e);
       fb.classList.add("bad");
@@ -28288,7 +28706,7 @@ paste(.__out_lines, collapse = "\\n")`;
     return out;
   }
   // Names worth showing as "your result": not the plot object (that is drawn instead)
-  function expectedNames(l) { return assignedNames(l.solution).filter((n) => !(l.hasPlot && n === "p")).slice(-3); }
+  function expectedNames(l) { if (l.kind) return []; return assignedNames(l.solution).filter((n) => !(l.hasPlot && n === "p")).slice(-3); }
   const rVec = (arr) => "c(" + arr.map((n) => JSON.stringify(n)).join(", ") + ")";
   async function rStrings(expr) {
     const res = await webR.evalR(expr);
@@ -29614,6 +30032,7 @@ paste(.__out_lines, collapse = "\\n")`;
   })();
   function resetCode() {
     const l = LESSONS[current];
+    if (isPuzzle(l)) { renderPuzzle(l); return; }
     $("code").value = reviewMode ? (l.starterHard || l.starter) : (hasTiers(l) ? starterForDifficulty(l, difficulty) : l.starter);
     answerShown = false; setLbl("answerBtn", "Show answer");
   }
@@ -29930,20 +30349,31 @@ paste(.__out_lines, collapse = "\\n")`;
 
   // ---------- Review mode ----------
   function startReview() {
-    const cand = LESSONS.map((l, i) => ({ l, i })).filter((x) => completed.has(x.l.id));
+    const cand = LESSONS.map((l, i) => ({ l, i })).filter((x) => !x.l.round && completed.has(x.l.id));
     if (!cand.length) return;
     cand.sort((a, b) => srsPriority(b.l) - srsPriority(a.l));
     // interleave: at most two lessons per unit when there are enough candidates
     const picked = [], perUnit = {};
     cand.forEach((x) => { if (picked.length < REVIEW_SIZE && (perUnit[x.l.unit] || 0) < 2) { picked.push(x); perUnit[x.l.unit] = (perUnit[x.l.unit] || 0) + 1; } });
     cand.forEach((x) => { if (picked.length < REVIEW_SIZE && !picked.includes(x)) picked.push(x); });
-    reviewQueue = picked.map((x) => x.i);
+    // Sibling variants: a lesson that has a practice round or puzzle covering it may be served as that variant
+    // (the least recently practised of the original and its siblings), so recall is tested on fresh data.
+    reviewFor = {};
+    reviewQueue = picked.map((x) => {
+      const sibs = LESSONS.map((s, si) => ({ s, si })).filter((y) => y.s.round && (y.s.covers || []).includes(x.l.id) && isUnlocked(y.si));
+      if (!sibs.length) return x.i;
+      const opts = sibs.concat([{ s: x.l, si: x.i }]);   // ties go to a sibling
+      opts.sort((a, b) => (lastPracticed[a.s.id] || 0) - (lastPracticed[b.s.id] || 0));
+      const pick = opts[0];
+      if (pick.s.id !== x.l.id) reviewFor[pick.s.id] = x.l.id;
+      return pick.si;
+    });
     reviewPos = 0; reviewDone = new Set(); reviewFailed = new Set(); reviewGain = 0; reviewMode = true;
     current = reviewQueue[0];
     renderLesson(); switchView("practice");
   }
   function exitReview() {
-    reviewMode = false; reviewQueue = []; reviewPos = 0;
+    reviewMode = false; reviewQueue = []; reviewPos = 0; reviewFor = {};
     $("reviewBanner").hidden = true;
     renderLesson(); switchView("review");
   }
