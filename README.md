@@ -23,7 +23,7 @@ over `https://`.
 More detail is under "Installing on Android" and "Hosting on GitHub Pages" below.
 
 
-713 short lessons, written in **tidyverse style** throughout (`tibble()`,
+725 short lessons, written in **tidyverse style** throughout (`tibble()`,
 `dplyr`/`purrr`/`forcats`/`stringr`/`tidyr` verbs, `ggplot2`, `ggalluvial`,
 and the native `|>` pipe — no base-R subsetting or `data.frame()` except
 where there's genuinely no tidyverse equivalent, like plain vector
@@ -573,20 +573,39 @@ Every explainer says what the function does, why you would use it, and what to w
 A lesson's `explain` fields are plain HTML strings, with `use` and
 `family` required (the validator checks that every lesson has them).
 
+## Practice rounds (pilot)
+
+Four units end with three **practice rounds** (⚡ on the Path): the same skill
+re-tested on a fresh tibble with slight variation, in the Duolingo style.
+They sit in Tidyverse Foundations, Recoding & Index Practice, More Joins &
+Variable Wrangling, and Exploring & Summarizing (12 lessons in all).
+
+- They are ordinary lessons flagged `round: true`, so progress, spaced
+  repetition and the self-test cover them automatically.
+- They are **optional**: they never lock the next lesson and do not gate unit or
+  phase completion. They earn 40% of the usual XP.
+- They open straight into Practice, and are left out of the unit quiz, the A–Z
+  list and the cheat sheets.
+- To add more, copy a lesson, set `round: true` and place it at the end of its unit.
+
 ## App structure
 
-The app has four views, switched with the icon bar at the bottom of the screen:
+The bottom bar has four tabs: **Path, Review, Reference and Me**. Lessons open on their own full-screen page.
 
 - **Path** — the home screen. A card at the top shows today's goal (a ring that fills as you finish lessons) and your
-  streak (a flame with the number of days in a row). Below it are Continue and Review, search, your skills and the map.
-  The map is grouped into five phases (the current phase is open, the others are collapsed; tap a phase header to open
-  or close it). Each unit is one compact card with a colour and icon for its skill area, a progress bar and its count;
-  tap it to open it and see the lesson nodes, a one-line description, the packages it uses and a "Skip unit" button.
-- **Learn** — the full instructions for the current lesson, with the notes (what it is for, what to watch) folded away.
-- **Practice** — the task, the code editor and the Run and Check buttons, and nothing else. The task shows its last
-  paragraph (usually the one instruction); "Details" opens the background, the package chips and any note about what is
-  preloaded. Easy, Medium and Hard are a small switch at the top right.
+  streak. Below it are Continue, search and the map. The map is grouped into five phases (the current phase is open, the
+  others are collapsed; tap a phase header to open or close it). Each unit is one compact card with a colour and icon for
+  its skill area, a progress bar and its count; tap it to see the lesson nodes, a one-line description, the packages it
+  uses and a "Skip unit" button.
+- **Lesson** (full screen, no bottom bar) — a ✕ to leave, a progress bar for the unit, the task, the code editor and the
+  Run and Check buttons. The task shows its last paragraph; "Details" opens the background, package chips and preloaded
+  data. A collapsed **Notes & worked example** card holds what the function is for, what to watch, and a runnable example.
+  Easy, Medium and Hard are a small switch at the top right. Practice rounds and reviews use the same screen.
+- **Review** — the 🔁 badge shows how many lessons are due. This tab holds the spaced-repetition refresher, "Needs another
+  look" (lessons you failed in review or rated unclear), unit quizzes and the optional practice rounds.
 - **Reference** — cheat sheets, A to Z and the SPSS table.
+- **Me** — streak and daily goal, your skills, the placement check, back up or restore progress, and Settings & tools
+  (the ⚙️ now lives here).
 
 Run is the secondary button (outlined) and Check answer is the single strong action. Previous and Next sit below the
 editor.
@@ -650,7 +669,7 @@ run anywhere else.
    slow the first time) or **Current unit only** (the unit of the lesson
    you last opened, a quick way to re-test one fix).
 4. Tap **Run self-test**, then keep the panel open and the screen awake.
-   A status line counts through the lessons (`Testing 57/713: …`). The
+   A status line counts through the lessons (`Testing 57/725: …`). The
    first full run installs each unit's packages as it reaches them, so
    expect several minutes; later runs are faster because packages stay
    installed for the session.
@@ -679,7 +698,7 @@ How to read the failures:
 
 ## Progression
 
-- **Easy / Medium / Hard** — all but seven of the 713 lessons offer three starting
+- **Easy / Medium / Hard** — all but seven of the 725 lessons offer three starting
   points for the same code box: Easy pre-builds a skeleton with blanks
   for arguments; Medium gives a plain-English comment and an empty
   assignment line, so you write the full function call yourself; Hard

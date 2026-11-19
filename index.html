@@ -127,6 +127,8 @@
   .explain-card p{margin:0; font-size:13px; line-height:1.5; color:var(--text);}
   .help-card.celebrate-card{max-width:340px; width:92%; max-height:86vh; overflow-y:auto; text-align:left; box-sizing:border-box;}
   .help-example{margin-top:12px; padding-top:8px; border-top:1.5px dashed var(--card-border);}
+  .node-btn.round{border:3px dashed var(--gold); font-size:22px;}
+  .node-btn.round.done{background:var(--gold); color:#fff; border-style:solid;}
   .node-btn.capstone{width:60px; height:60px; border:4px solid var(--gold); background:var(--lilac-light); color:var(--lilac-ink);}
   .node-btn.capstone.done{background:var(--gold); color:#fff; border-color:var(--gold-deep);}
   .node-btn.capstone.current{background:var(--lilac); color:#fff;}
@@ -709,6 +711,38 @@
   .tour-skip{display:block; width:100%; margin-top:var(--s1); min-height:44px; border:none; background:none; color:var(--text-soft); font-family:'Baloo 2', sans-serif; font-weight:700; font-size:14px; cursor:pointer;}
   .settings-card label.chk{display:flex; gap:var(--s2); align-items:center; font-size:14px; min-height:44px;}
 
+  /* ---- v16: one lesson screen, Review and Me tabs ---- */
+  body.in-lesson{--navh:0px;}
+  body.in-lesson #bottomNav, body.in-lesson #topStrip, body.in-lesson #engineBanner{display:none;}
+  body.in-lesson .action-bar{bottom:var(--kb,0px); padding-bottom:calc(8px + env(safe-area-inset-bottom,0px));}
+  .lesson-bar{display:none; align-items:center; gap:12px; position:sticky; top:0; z-index:30; background:var(--bg-soft); padding:10px 0 8px; margin-bottom:4px;}
+  body.in-lesson .lesson-bar{display:flex;}
+  .lesson-bar #lessonClose{width:40px; height:40px; border:none; background:none; font-size:20px; color:var(--text-soft); cursor:pointer; border-radius:12px; flex:none;}
+  .lb-track{flex:1; height:12px; border-radius:99px; background:var(--card-border); overflow:hidden;}
+  .lb-fill{height:100%; width:0; border-radius:99px; background:var(--lilac); transition:width .35s var(--ease);}
+  .lb-txt{font-family:'Baloo 2',sans-serif; font-weight:800; font-size:12px; color:var(--text-soft); min-width:34px; text-align:right;}
+  .notes-card{border:2px solid var(--card-border); border-radius:16px; background:var(--bg); padding:6px 14px; margin:8px 0 12px;}
+  .notes-card > summary{min-height:40px; display:flex; align-items:center; cursor:pointer; font-family:'Baloo 2',sans-serif; font-weight:700; font-size:14px; list-style:none;}
+  .notes-card > summary::-webkit-details-marker{display:none;}
+  .notes-card .explain-card, .notes-card .example-card{margin:8px 0;}
+  #bottomNav button{position:relative;}
+  .nav-badge{position:absolute; top:2px; left:calc(50% + 6px); min-width:16px; height:16px; padding:0 4px; border-radius:99px; background:#E5484D; color:#fff; font-size:10px; line-height:16px; text-align:center; font-weight:800;}
+  .nav-badge[hidden]{display:none;}
+  .rv-empty{color:var(--text-soft); font-size:14px; padding:20px 4px;}
+  .rv-sec{margin:18px 0 6px; font-family:'Baloo 2',sans-serif; font-weight:800; font-size:15px; color:var(--text);}
+  .rv-sec small{font-weight:600; color:var(--text-soft); font-size:12px; margin-left:6px;}
+  .rv-row{display:flex; align-items:center; gap:12px; width:100%; text-align:left; border:2px solid var(--card-border); background:var(--bg); border-radius:16px; padding:10px 14px; margin-bottom:8px; min-height:52px; cursor:pointer; font:inherit; color:var(--text);}
+  .rv-row b{display:block; font-family:'Baloo 2',sans-serif; font-size:14px;}
+  .rv-row small{display:block; color:var(--text-soft); font-size:12px;}
+  .rv-row .rv-ic{font-size:20px; flex:none;}
+  .rv-row .rv-st{margin-left:auto; font-size:12px; color:var(--text-soft); flex:none;}
+  .me-card{border:2px solid var(--card-border); border-radius:18px; background:var(--bg); padding:14px; margin-bottom:10px;}
+  .me-row{display:flex; align-items:center; gap:12px;}
+  .me-ic{font-size:24px; flex:none;}
+  .me-t b{display:block; font-family:'Baloo 2',sans-serif; font-size:15px;}
+  .me-t small{display:block; color:var(--text-soft); font-size:12px;}
+  .me-link{display:flex; align-items:center; gap:12px; width:100%; text-align:left; border:2px solid var(--card-border); background:var(--bg); border-radius:16px; padding:10px 14px; margin-bottom:8px; min-height:56px; cursor:pointer; font:inherit; color:var(--text);}
+
   @media (prefers-reduced-motion: reduce){
     *, *::before, *::after{animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important;}
     .confetti{display:none;}
@@ -724,7 +758,6 @@
       <div class="xp-track"><div class="xp-fill" id="xpFill"></div></div>
       <span class="xp-num" id="xpNum">0/150</span>
     </div>
-    <button id="settingsBtn" aria-label="Settings and tools">⚙️</button>
   </div>
 
   <div class="engine-banner loading" id="engineBanner">
@@ -743,35 +776,13 @@
         </div>
       </div>
       <button class="continue-btn" id="continueBtn" hidden></button>
-      <button class="continue-btn review-btn" id="reviewBtn" hidden></button>
       <div class="search-wrap">
         <input id="searchBox" type="search" placeholder="Search lessons or functions…" autocomplete="off" spellcheck="false">
         <button id="searchClear" hidden aria-label="Clear search">✕</button>
       </div>
       <div class="search-results" id="searchResults" hidden></div>
-      <div id="pathExtras2">
-        <details class="skill-card" id="skillCard"><summary>Your skills</summary><div id="skillBars"></div></details>
-        <button class="linkbtn place-link" id="placementBtn">Already know some R? Take the placement check →</button>
-      </div>
+      <div id="pathExtras2"></div>
       <div class="path-map" id="pathMap"></div>
-    </section>
-
-    <section class="view" id="view-learn" hidden>
-      <div class="learn-kicker" id="learnKicker">Lesson 1</div>
-      <h2 class="learn-title" id="learnTitle"></h2>
-      <div class="pkg-row" id="learnPkgRow"></div>
-      <div class="learn-body" id="learnInstructions"></div>
-      <div class="preload-note" id="learnPreload" style="display:none;"></div>
-      <details class="explain-card" id="learnExplain" hidden></details>
-      <div class="rate-row" id="rateLearn"></div>
-      <details class="example-card" id="exampleCard" hidden>
-        <summary>See it first: a worked example</summary>
-        <pre id="exampleCode"></pre>
-        <button class="action small" id="exampleRun">Run this example</button>
-        <pre id="exampleOut" hidden></pre>
-        <div class="ex-note" id="exampleNote"></div>
-      </details>
-      <button class="go-practice" id="goPracticeBtn">Start practicing →</button>
     </section>
 
     <section class="view" id="view-ref" hidden>
@@ -783,7 +794,30 @@
       <div id="refBody"></div>
     </section>
 
+    <section class="view" id="view-review" hidden>
+      <div class="path-intro">Keep what you have learned. Short refreshers, unit quizzes and optional practice rounds live here.</div>
+      <button class="continue-btn review-btn" id="reviewBtn" hidden></button>
+      <div id="reviewEmpty" class="rv-empty" hidden>Finish a lesson on the Path and your reviews will appear here.</div>
+      <div id="reviewLists"></div>
+    </section>
+
+    <section class="view" id="view-me" hidden>
+      <div class="me-card">
+        <div class="me-row"><span class="me-ic">🔥</span><div class="me-t"><b id="meStreak">0 day streak</b><small id="meGoalTxt"></small></div></div>
+        <div class="settings-row" style="margin-top:8px;"><select id="meGoalSel" aria-label="Daily goal"><option value="1">Goal: 1 lesson a day</option><option value="3">Goal: 3 lessons a day</option><option value="5">Goal: 5 lessons a day</option><option value="10">Goal: 10 lessons a day</option></select></div>
+      </div>
+      <details class="skill-card" id="skillCard" open><summary>Your skills</summary><div id="skillBars"></div></details>
+      <button class="me-link" id="placementBtn"><span class="me-ic">🎯</span><span class="me-t"><b>Placement check</b><small>Already know some R? Skip what you know.</small></span></button>
+      <button class="me-link" id="meBackup"><span class="me-ic">💾</span><span class="me-t"><b>Back up or restore progress</b><small>Export a file, or import one from another phone.</small></span></button>
+      <button class="me-link" id="meSettings"><span class="me-ic">⚙️</span><span class="me-t"><b>Settings &amp; tools</b><small>Theme, sound, read aloud, self-test.</small></span></button>
+    </section>
+
     <section class="view" id="view-practice" hidden>
+      <div class="lesson-bar" id="lessonBar">
+        <button id="lessonClose" aria-label="Leave lesson and go back">✕</button>
+        <div class="lb-track"><div class="lb-fill" id="lbFill"></div></div>
+        <span class="lb-txt" id="lbTxt"></span>
+      </div>
       <div class="review-banner" id="reviewBanner" hidden>
         <span id="reviewLabel"></span>
         <button id="reviewExit">Exit review</button>
@@ -804,6 +838,17 @@
       </div>
 
       <div class="hint-box" id="hintBox"></div>
+      <details class="notes-card" id="notesCard">
+        <summary>📖 Notes &amp; worked example</summary>
+        <details class="explain-card" id="learnExplain" hidden></details>
+        <details class="example-card" id="exampleCard" hidden>
+          <summary>See it first: a worked example</summary>
+          <pre id="exampleCode"></pre>
+          <button class="action small" id="exampleRun">Run this example</button>
+          <pre id="exampleOut" hidden></pre>
+          <div class="ex-note" id="exampleNote"></div>
+        </details>
+      </details>
       <div class="predict-card" id="predictCard" hidden>
         <div class="pc-title">Predict first <span class="pc-xp">+5 XP if you get it right first time</span></div>
         <div class="pc-q" id="predictQ"></div>
@@ -848,9 +893,9 @@
 
   <nav id="bottomNav">
     <button data-view="path"><span class="ic">🗺️</span>Path</button>
-    <button data-view="learn"><span class="ic">📖</span>Learn</button>
-    <button data-view="practice"><span class="ic">⌨️</span>Practice</button>
+    <button data-view="review"><span class="ic">🔁</span>Review<span class="nav-badge" id="navBadge" hidden></span></button>
     <button data-view="ref"><span class="ic">📚</span>Reference</button>
+    <button data-view="me"><span class="ic">🙂</span>Me</button>
   </nav>
 
   <div class="celebrate-overlay" id="celebrateOverlay">
@@ -2597,6 +2642,118 @@ Example:<br><code>tibble(temp = c(15,25)) |> mutate(weather = if_else(temp > 20,
       check: `exists("pilot2") && identical(pilot2$age_group, dplyr::if_else(pilot$age < 40, "Under 40", "40+"))`
     },
     {
+      title: "Practice round 1: filter() then select()",
+      id: "round-tf-filter-select",
+      packages: ["dplyr"],
+      short: "filter + select",
+      unit: "Tidyverse Foundations with dplyr, purrr & tibble",
+      round: true,
+      instructions: `A fresh tibble, the same moves. <code>visits</code> (id, state, age, trust) is loaded.<br><br>Create <code>vic_trust</code>: only the respondents from <code>"VIC"</code>, keeping just the <code>id</code> and <code>trust</code> columns, using <code>filter()</code> then <code>select()</code>.`,
+      preload: `Preloaded: visits — 8 respondents with id, state, age and trust (1–5 scale).`,
+      setup: `visits <- tibble(
+        id = 1:8,
+        state = c("VIC","NSW","VIC","QLD","NSW","VIC","QLD","SA"),
+        age = c(24, 61, 33, 45, 19, 52, 38, 70),
+        trust = c(4, 2, 5, 3, 1, 4, 5, 2)
+      )`,
+      starter: `vic_trust <- visits |> filter(state == "___") |> select(id, ___)
+`,
+      starterMedium: `# Create vic_trust
+vic_trust <- 
+`,
+      starterHard: `# Create vic_trust
+`,
+      hint: `Pipe visits into filter(state == "VIC"), then pipe that into select() with the two column names.`,
+      solution: `vic_trust <- visits |> filter(state == "VIC") |> select(id, trust)
+`,
+      help: `<b>filter() then select()</b> first keeps the rows you want, then keeps the columns you want.<br><br>Example:<br><code>mtcars |&gt; filter(cyl == 4) |&gt; select(mpg, hp)</code>`,
+      explain: {
+        use: `Most data preparation is a chain of small verbs: filter() picks rows and select() picks columns.`,
+        family: `Core dplyr verbs for filtering, adding columns and summarising a tibble.`,
+        needs: `A tibble or data frame piped in with |>.`,
+        assumes: `filter() keeps rows where the condition is TRUE and drops rows where it is FALSE or NA.`
+      },
+      check: `exists("vic_trust") && isTRUE(all.equal(as.data.frame(vic_trust), as.data.frame(visits |> dplyr::filter(state == "VIC") |> dplyr::select(id, trust)), check.attributes = FALSE))`
+    },
+    {
+      title: "Practice round 2: two new columns with mutate()",
+      id: "round-tf-mutate-ifelse",
+      packages: ["dplyr"],
+      short: "mutate + if_else",
+      unit: "Tidyverse Foundations with dplyr, purrr & tibble",
+      round: true,
+      instructions: `The same <code>visits</code> tibble is loaded.<br><br>Create <code>visits2</code>: the same data with two new columns, <code>high_trust</code> (<code>TRUE</code> when <code>trust</code> is 4 or more) and <code>age_group</code> (<code>"Under 30"</code> below 30, otherwise <code>"30+"</code>). Use one <code>mutate()</code>, with <code>if_else()</code> where it helps.`,
+      preload: `Preloaded: visits — 8 respondents with id, state, age and trust (1–5 scale).`,
+      setup: `visits <- tibble(
+        id = 1:8,
+        state = c("VIC","NSW","VIC","QLD","NSW","VIC","QLD","SA"),
+        age = c(24, 61, 33, 45, 19, 52, 38, 70),
+        trust = c(4, 2, 5, 3, 1, 4, 5, 2)
+      )`,
+      starter: `visits2 <- visits |> mutate(
+  high_trust = trust >= ___,
+  age_group = if_else(age < ___, "Under 30", "30+")
+)
+`,
+      starterMedium: `# Create visits2
+visits2 <- 
+`,
+      starterHard: `# Create visits2
+`,
+      hint: `A comparison like trust >= 4 already returns TRUE or FALSE, so it needs no if_else(). if_else(condition, value_if_true, value_if_false) is for text labels.`,
+      solution: `visits2 <- visits |> mutate(
+  high_trust = trust >= 4,
+  age_group = if_else(age < 30, "Under 30", "30+")
+)
+`,
+      help: `<b>mutate()</b> adds columns, and several can be created in one call, separated by commas.<br><br>Example:<br><code>mtcars |&gt; mutate(heavy = wt &gt; 3, size = if_else(wt &gt; 3, "big", "small"))</code>`,
+      explain: {
+        use: `mutate() with a comparison or if_else() is how you turn raw answers into flags and groups.`,
+        family: `Core dplyr verbs for filtering, adding columns and summarising a tibble.`,
+        needs: `A tibble and columns to compare.`,
+        assumes: `if_else() needs both outcomes to be the same type (here, text).`
+      },
+      check: `exists("visits2") && identical(visits2$high_trust, visits$trust >= 4) && identical(visits2$age_group, ifelse(visits$age < 30, "Under 30", "30+"))`
+    },
+    {
+      title: "Practice round 3: filter() then summarise()",
+      id: "round-tf-filter-summarise",
+      packages: ["dplyr"],
+      short: "filter + summarise",
+      unit: "Tidyverse Foundations with dplyr, purrr & tibble",
+      round: true,
+      instructions: `The same <code>visits</code> tibble is loaded.<br><br>Create <code>older_trust</code>: for respondents aged 30 or over only, a one-row tibble with <code>mean_trust</code> (rounded to 2 decimal places) and <code>n</code> (how many respondents), using <code>filter()</code> then <code>summarise()</code>.`,
+      preload: `Preloaded: visits — 8 respondents with id, state, age and trust (1–5 scale).`,
+      setup: `visits <- tibble(
+        id = 1:8,
+        state = c("VIC","NSW","VIC","QLD","NSW","VIC","QLD","SA"),
+        age = c(24, 61, 33, 45, 19, 52, 38, 70),
+        trust = c(4, 2, 5, 3, 1, 4, 5, 2)
+      )`,
+      starter: `older_trust <- visits |>
+  filter(age >= ___) |>
+  summarise(mean_trust = round(mean(trust), ___), n = ___())
+`,
+      starterMedium: `# Create older_trust
+older_trust <- 
+`,
+      starterHard: `# Create older_trust
+`,
+      hint: `filter(age >= 30) first, then summarise(mean_trust = ..., n = n()). n() takes no arguments.`,
+      solution: `older_trust <- visits |>
+  filter(age >= 30) |>
+  summarise(mean_trust = round(mean(trust), 2), n = n())
+`,
+      help: `<b>summarise()</b> collapses many rows into one row of summary numbers. n() counts the rows it is given.<br><br>Example:<br><code>mtcars |&gt; filter(cyl == 6) |&gt; summarise(mean_mpg = mean(mpg), n = n())</code>`,
+      explain: {
+        use: `Filter first, then summarise: the standard way to describe one subgroup.`,
+        family: `Core dplyr verbs for filtering, adding columns and summarising a tibble.`,
+        needs: `A numeric column to average.`,
+        assumes: `Missing values would make mean() return NA unless na.rm = TRUE.`
+      },
+      check: `exists("older_trust") && isTRUE(all.equal(as.data.frame(older_trust), data.frame(mean_trust = round(mean(visits$trust[visits$age >= 30]), 2), n = sum(visits$age >= 30)), check.attributes = FALSE))`
+    },
+    {
       title: "Error: object not found",
       id: "err-object-not-found",
       packages: ["dplyr"],
@@ -3318,6 +3475,99 @@ Example:<br><code>tibble(age = c(20,40,60), city = c("A","B","A")) |> filter(age
         assumes: `Only the order changes; no values are altered.`
       },
       check: `exists("pilot2") && identical(names(pilot2), c("income","age","region")) && isTRUE(all.equal(as.data.frame(pilot2[, c("age","region","income")]), as.data.frame(pilot), check.attributes = FALSE))`
+    },
+    {
+      title: "Practice round 1: inner_join() on new tables",
+      id: "round-jn-inner",
+      packages: ["dplyr"],
+      short: "inner_join",
+      unit: "More Joins & Variable Wrangling with dplyr",
+      round: true,
+      instructions: `Different tables, the same join. <code>schools</code> lists 5 schools and <code>naplan</code> has reading scores for only some of them (and one school that is not on the list).<br><br>Create <code>both</code>: only the schools that appear in <b>both</b> tables, using <code>inner_join()</code> by <code>school_id</code>.`,
+      preload: `Preloaded: schools — 5 schools (school_id, sector); naplan — reading scores for 4 school ids.`,
+      setup: `schools <- tibble(school_id = 1:5, sector = c("Gov","Cath","Ind","Gov","Gov"))
+      naplan <- tibble(school_id = c(2, 3, 5, 6), reading = c(480, 520, 455, 500))`,
+      starter: `both <- schools |> ___(naplan, by = "school_id")
+`,
+      starterMedium: `# Create both
+both <- 
+`,
+      starterHard: `# Create both
+`,
+      hint: `inner_join() keeps only the rows whose key appears in both tables, here school_id 2, 3 and 5.`,
+      solution: `both <- schools |> inner_join(naplan, by = "school_id")
+`,
+      help: `<b>inner_join()</b> combines two tables and keeps only the rows whose key is in both.<br><br>Example:<br><code>a |&gt; inner_join(b, by = "id")</code>`,
+      explain: {
+        use: `Use inner_join() when you only want cases that have information in both sources.`,
+        family: `Joining tables by a key and tidying column names and order with dplyr.`,
+        needs: `A key column present in both tables.`,
+        assumes: `Rows without a match in the other table are dropped.`
+      },
+      check: `exists("both") && isTRUE(all.equal(as.data.frame(both), as.data.frame(schools |> dplyr::inner_join(naplan, by = "school_id")), check.attributes = FALSE)) && nrow(both) == 3`
+    },
+    {
+      title: "Practice round 2: full_join() when the key names differ",
+      id: "round-jn-full-keys",
+      packages: ["dplyr"],
+      short: "full_join, by =",
+      unit: "More Joins & Variable Wrangling with dplyr",
+      round: true,
+      instructions: `<code>schools</code> names its key <code>school_id</code> but <code>results</code> calls the same thing <code>sid</code>.<br><br>Create <code>all_schools</code>: every school from either table, using <code>full_join()</code> and matching <code>school_id</code> to <code>sid</code> with <code>by = c("school_id" = "sid")</code>.`,
+      preload: `Preloaded: schools — 5 schools (school_id, sector); results — maths scores keyed by sid for 4 schools.`,
+      setup: `schools <- tibble(school_id = 1:5, sector = c("Gov","Cath","Ind","Gov","Gov"))
+      results <- tibble(sid = c(1, 2, 4, 7), maths = c(510, 490, 530, 470))`,
+      starter: `all_schools <- schools |> full_join(results, by = c("school_id" = "___"))
+`,
+      starterMedium: `# Create all_schools
+all_schools <- 
+`,
+      starterHard: `# Create all_schools
+`,
+      hint: `Write the left table name on the left of = and the right table name on the right: c("school_id" = "sid").`,
+      solution: `all_schools <- schools |> full_join(results, by = c("school_id" = "sid"))
+`,
+      help: `<b>by = c("a" = "b")</b> joins when the key has a different name in each table. The result keeps the left table's name.<br><br>Example:<br><code>x |&gt; full_join(y, by = c("id" = "person"))</code>`,
+      explain: {
+        use: `Keys are often named differently in different files; by = c(...) lines them up without renaming first.`,
+        family: `Joining tables by a key and tidying column names and order with dplyr.`,
+        needs: `One key column in each table, holding the same kind of identifier.`,
+        assumes: `Unmatched rows from either table are kept with NA in the other table's columns.`
+      },
+      check: `exists("all_schools") && isTRUE(all.equal(as.data.frame(all_schools), as.data.frame(schools |> dplyr::full_join(results, by = c("school_id" = "sid"))), check.attributes = FALSE)) && nrow(all_schools) == 6`
+    },
+    {
+      title: "Practice round 3: rename() and relocate() together",
+      id: "round-jn-rename-relocate",
+      packages: ["dplyr"],
+      short: "rename + relocate",
+      unit: "More Joins & Variable Wrangling with dplyr",
+      round: true,
+      instructions: `<code>raw</code> has cryptic column names and the key in the wrong place.<br><br>Create <code>tidy</code>: <code>raw</code> with <code>rd</code> renamed to <code>reading</code>, <code>mt</code> renamed to <code>maths</code>, and <code>school_id</code> moved to the front, using <code>rename()</code> and <code>relocate()</code>.`,
+      preload: `Preloaded: raw — 3 schools with sector, rd, mt and school_id.`,
+      setup: `raw <- tibble(sector = c("Gov","Cath","Ind"), rd = c(480, 520, 455), mt = c(510, 490, 530), school_id = c(2, 3, 5))`,
+      starter: `tidy <- raw |>
+  rename(reading = rd, ___ = mt) |>
+  relocate(___)
+`,
+      starterMedium: `# Create tidy
+tidy <- 
+`,
+      starterHard: `# Create tidy
+`,
+      hint: `rename() takes new = old. relocate(school_id) with no other arguments moves that column to the front.`,
+      solution: `tidy <- raw |>
+  rename(reading = rd, maths = mt) |>
+  relocate(school_id)
+`,
+      help: `<b>rename() and relocate()</b> rename() changes names with new = old; relocate() moves columns (to the front by default, or use .before and .after).<br><br>Example:<br><code>df |&gt; rename(score = s) |&gt; relocate(id)</code>`,
+      explain: {
+        use: `Tidy names and a sensible column order make a data frame easier to read and to join.`,
+        family: `Joining tables by a key and tidying column names and order with dplyr.`,
+        needs: `Existing column names.`,
+        assumes: `rename() uses new = old, the opposite of what many people expect.`
+      },
+      check: `exists("tidy") && identical(names(tidy), c("school_id", "sector", "reading", "maths")) && isTRUE(all.equal(tidy$reading, raw$rd)) && isTRUE(all.equal(tidy$maths, raw$mt))`
     },
     {
       title: "Recoding several columns at once with across()",
@@ -4493,6 +4743,113 @@ wr_best <-
         assumes: `Both measures must use the same brackets and the same direction.`
       },
       check: `exists("wr_best") && "income_derived" %in% names(wr_best) && isTRUE(all.equal(as.integer(wr_best$income_derived), as.integer(ifelse(!is.na(wr$inc_from_num), wr$inc_from_num, ifelse(!is.na(wr$incbrkt) & wr$incbrkt <= 6, wr$incbrkt, NA)))))`
+    },
+    {
+      title: "Practice round 1: collapse codes with case_when()",
+      id: "round-rc-case-when",
+      packages: ["dplyr"],
+      short: "case_when",
+      unit: "Recoding & Index Practice with dplyr",
+      round: true,
+      instructions: `A new variable, the same idea. <code>rc</code> has a highest-qualification code <code>qual</code>: 1–2 school, 3–4 vocational or undergraduate, 5 postgraduate, 9 not stated.<br><br>Create <code>rc2</code>: <code>rc</code> with <code>qual3</code> equal to 1 for codes 1–2, 2 for codes 3–4, 3 for code 5 and <code>NA</code> otherwise, using <code>case_when()</code>.`,
+      preload: `Preloaded: rc — 10 respondents with id and qual (1–5, or 9 for not stated).`,
+      setup: `rc <- tibble(id = 1:10, qual = c(1, 3, 5, 2, 9, 4, 3, 1, 5, 2))`,
+      starter: `rc2 <- rc |> mutate(qual3 = case_when(
+  qual %in% 1:2 ~ 1,
+  qual %in% 3:4 ~ ___,
+  qual == ___ ~ 3,
+  TRUE ~ NA_real_
+))
+`,
+      starterMedium: `# Create rc2
+rc2 <- 
+`,
+      starterHard: `# Create rc2
+`,
+      hint: `List the groups with %in%, then end with TRUE ~ NA_real_ so everything else (the 9s) becomes missing.`,
+      solution: `rc2 <- rc |> mutate(qual3 = case_when(
+  qual %in% 1:2 ~ 1,
+  qual %in% 3:4 ~ 2,
+  qual == 5 ~ 3,
+  TRUE ~ NA_real_
+))
+`,
+      help: `<b>case_when()</b> checks conditions from top to bottom and uses the first one that is TRUE. A final TRUE ~ ... catches everything else.<br><br>Example:<br><code>case_when(x &lt; 10 ~ "low", x &lt; 20 ~ "mid", TRUE ~ "high")</code>`,
+      explain: {
+        use: `case_when() is the tidyverse version of SPSS RECODE with several ranges and an ELSE.`,
+        family: `Recoding survey codes into groups and building simple scores with dplyr and base R.`,
+        needs: `A column of codes.`,
+        assumes: `Every right-hand value must have the same type (all numbers here, so NA_real_).`
+      },
+      check: `exists("rc2") && "qual3" %in% names(rc2) && isTRUE(all.equal(as.numeric(rc2$qual3), c(1, 2, 3, 1, NA, 2, 2, 1, 3, 1)))`
+    },
+    {
+      title: "Practice round 2: reverse-code one item and average",
+      id: "round-rc-reverse-mean",
+      packages: ["dplyr"],
+      short: "reverse + mean",
+      unit: "Recoding & Index Practice with dplyr",
+      round: true,
+      instructions: `<code>att</code> has three 1–5 attitude items. <code>q2</code> is worded in the opposite direction to <code>q1</code> and <code>q3</code>. One respondent skipped <code>q2</code>.<br><br>Create <code>att2</code>: <code>att</code> with <code>q2_r</code> (reverse-coded as 6 minus the score) and <code>score</code>, the mean of <code>q1</code>, <code>q2_r</code> and <code>q3</code>. The score should be <code>NA</code> for the respondent with a missing item.`,
+      preload: `Preloaded: att — 6 respondents with q1, q2 and q3 (1–5), q2 reverse-worded and one value missing.`,
+      setup: `att <- tibble(id = 1:6, q1 = c(5, 4, 2, 3, 5, 1), q2 = c(1, 2, 4, 3, NA, 5), q3 = c(4, 4, 1, 3, 5, 2))`,
+      starter: `att2 <- att |> mutate(
+  q2_r = ___ - q2,
+  score = (q1 + q2_r + q3) / ___
+)
+`,
+      starterMedium: `# Create att2
+att2 <- 
+`,
+      starterHard: `# Create att2
+`,
+      hint: `On a 1–5 scale, reversing is 6 minus the score (1 becomes 5, 5 becomes 1). Add the three items and divide by 3; a missing item makes the sum NA.`,
+      solution: `att2 <- att |> mutate(
+  q2_r = 6 - q2,
+  score = (q1 + q2_r + q3) / 3
+)
+`,
+      help: `<b>reverse-coding</b> flips a scale so that a high score always means the same thing. On a 1 to k scale it is (k + 1) minus the score.<br><br>Example:<br><code>6 - c(1, 2, 5)</code>`,
+      explain: {
+        use: `Scales mix positively and negatively worded items; reverse-code before averaging.`,
+        family: `Recoding survey codes into groups and building simple scores with dplyr and base R.`,
+        needs: `Items on the same numeric scale.`,
+        assumes: `The scale runs 1 to 5, so the reversal constant is 6.`
+      },
+      check: `exists("att2") && all(c("q2_r", "score") %in% names(att2)) && isTRUE(all.equal(att2$q2_r, 6 - att$q2)) && isTRUE(all.equal(att2$score, (att$q1 + (6 - att$q2) + att$q3) / 3))`
+    },
+    {
+      title: "Practice round 3: age bands with cut()",
+      id: "round-rc-age-bands",
+      packages: ["dplyr"],
+      short: "cut",
+      unit: "Recoding & Index Practice with dplyr",
+      round: true,
+      instructions: `<code>ppl</code> has an <code>age</code> for each of 8 people, including some exactly on a band edge.<br><br>Create <code>ppl2</code>: <code>ppl</code> with <code>age_band</code>, using <code>cut()</code> with the labels <code>"18-29"</code>, <code>"30-44"</code>, <code>"45-64"</code> and <code>"65+"</code>. Someone aged 29 belongs in "18-29" and someone aged 30 in "30-44".`,
+      preload: `Preloaded: ppl — 8 people with id and age (18 to 80).`,
+      setup: `ppl <- tibble(id = 1:8, age = c(18, 29, 30, 44, 45, 64, 65, 80))`,
+      starter: `ppl2 <- ppl |> mutate(age_band = cut(age,
+  breaks = c(17, ___, 44, 64, Inf),
+  labels = c("18-29", "30-44", "45-64", "65+")))
+`,
+      starterMedium: `# Create ppl2
+ppl2 <- 
+`,
+      starterHard: `# Create ppl2
+`,
+      hint: `By default cut() intervals are open on the left and closed on the right: (17, 29] contains 29 but not 17. So the upper edge of each band is the breaks value.`,
+      solution: `ppl2 <- ppl |> mutate(age_band = cut(age,
+  breaks = c(17, 29, 44, 64, Inf),
+  labels = c("18-29", "30-44", "45-64", "65+")))
+`,
+      help: `<b>cut()</b> turns a number into ordered groups. breaks are the edges and labels name the groups. By default each interval includes its upper edge.<br><br>Example:<br><code>cut(c(5, 10, 15), breaks = c(0, 10, 20), labels = c("low", "high"))</code>`,
+      explain: {
+        use: `cut() is the quickest way to turn age or income into bands for tables and charts.`,
+        family: `Recoding survey codes into groups and building simple scores with dplyr and base R.`,
+        needs: `A numeric column and one more break than labels.`,
+        assumes: `Values outside the outer breaks become NA, which is why the first break is 17 and the last is Inf.`
+      },
+      check: `exists("ppl2") && "age_band" %in% names(ppl2) && identical(as.character(ppl2$age_band), c("18-29", "18-29", "30-44", "30-44", "45-64", "45-64", "65+", "65+"))`
     },
     {
       title: "Counting TRUEs with sum() and mean()",
@@ -10099,6 +10456,115 @@ Example:<br><code>tibble(x = 1:3) |> summarise(total = sum(x)) |> pull(total)</c
         formula: `Pearson r = the covariance of x and y ÷ (sd of x × sd of y); it ranges from −1 to 1.`
       },
       check: `exists("age_satisfaction_cor") && isTRUE(all.equal(age_satisfaction_cor, cor(pilot$age, pilot$satisfaction), check.attributes = FALSE))`
+    },
+    {
+      title: "Practice round 1: count() and a percentage",
+      id: "round-ex-count-share",
+      packages: ["dplyr"],
+      short: "count + percent",
+      unit: "Exploring & Summarizing with dplyr",
+      round: true,
+      instructions: `A new variable, the same recipe. <code>trips</code> records how 8 people commute.<br><br>Create <code>mode_share</code>: a count of each <code>mode</code> plus a <code>pct</code> column, the percentage of all trips rounded to 1 decimal place, by chaining <code>count()</code> into <code>mutate()</code>.`,
+      preload: `Preloaded: trips — 8 people with their commute mode.`,
+      setup: `trips <- tibble(mode = c("Car","Train","Car","Walk","Train","Car","Bike","Car"))`,
+      starter: `mode_share <- trips |>
+  count(mode) |>
+  mutate(pct = round(100 * n / ___(n), ___))
+`,
+      starterMedium: `# Create mode_share
+mode_share <- 
+`,
+      starterHard: `# Create mode_share
+`,
+      hint: `count(mode) makes a column n. A percentage is 100 * n / sum(n).`,
+      solution: `mode_share <- trips |>
+  count(mode) |>
+  mutate(pct = round(100 * n / sum(n), 1))
+`,
+      help: `<b>count() then mutate()</b> count() tallies each category into a column called n; mutate() can then turn the tallies into shares.<br><br>Example:<br><code>mtcars |&gt; count(cyl) |&gt; mutate(pct = round(100 * n / sum(n), 1))</code>`,
+      explain: {
+        use: `A frequency table with percentages is the first thing to look at for any categorical variable.`,
+        family: `Frequencies and grouped summaries with dplyr.`,
+        needs: `A categorical column.`,
+        assumes: `Percentages are of all rows, including any NA category.`
+      },
+      check: `exists("mode_share") && isTRUE(all.equal(as.data.frame(mode_share), as.data.frame(trips |> dplyr::count(mode) |> dplyr::mutate(pct = round(100 * n / sum(n), 1))), check.attributes = FALSE))`
+    },
+    {
+      title: "Practice round 2: several summaries per group",
+      id: "round-ex-group-summary",
+      packages: ["dplyr"],
+      short: "group_by + summarise",
+      unit: "Exploring & Summarizing with dplyr",
+      round: true,
+      instructions: `<code>work</code> has weekly hours for 8 workers in three states.<br><br>Create <code>state_hours</code>: for each <code>state</code>, the average hours (<code>mean_hours</code>), the longest hours (<code>max_hours</code>) and the number of workers (<code>n</code>), using <code>group_by()</code> then <code>summarise()</code> with <code>.groups = "drop"</code>.`,
+      preload: `Preloaded: work — 8 workers with state and weekly hours.`,
+      setup: `work <- tibble(state = c("VIC","NSW","VIC","QLD","NSW","VIC","QLD","NSW"), hours = c(38, 45, 30, 40, 36, 42, 25, 50))`,
+      starter: `state_hours <- work |>
+  group_by(___) |>
+  summarise(
+    mean_hours = mean(hours),
+    max_hours = ___(hours),
+    n = n(),
+    .groups = "drop"
+  )
+`,
+      starterMedium: `# Create state_hours
+state_hours <- 
+`,
+      starterHard: `# Create state_hours
+`,
+      hint: `group_by(state), then one summarise() with three named summaries separated by commas.`,
+      solution: `state_hours <- work |>
+  group_by(state) |>
+  summarise(
+    mean_hours = mean(hours),
+    max_hours = max(hours),
+    n = n(),
+    .groups = "drop"
+  )
+`,
+      help: `<b>group_by() + summarise()</b> splits the data by a column and computes the summaries once per group. Several summaries can sit in one summarise().<br><br>Example:<br><code>mtcars |&gt; group_by(cyl) |&gt; summarise(m = mean(mpg), n = n(), .groups = "drop")</code>`,
+      explain: {
+        use: `Comparing groups on several numbers at once is the core of exploratory survey analysis.`,
+        family: `Frequencies and grouped summaries with dplyr.`,
+        needs: `A grouping column and a numeric column.`,
+        assumes: `Groups are listed in alphabetical order of the grouping value.`
+      },
+      check: `exists("state_hours") && isTRUE(all.equal(as.data.frame(state_hours), as.data.frame(work |> dplyr::group_by(state) |> dplyr::summarise(mean_hours = mean(hours), max_hours = max(hours), n = dplyr::n(), .groups = "drop")), check.attributes = FALSE))`
+    },
+    {
+      title: "Practice round 3: median and IQR for one subgroup",
+      id: "round-ex-median-iqr",
+      packages: ["dplyr"],
+      short: "filter + median, IQR",
+      unit: "Exploring & Summarizing with dplyr",
+      round: true,
+      instructions: `<code>earn</code> has income and sex for 8 people. Incomes are skewed, so the median and interquartile range suit better than the mean.<br><br>Create <code>f_income</code>: for women only (<code>sex == "F"</code>), a one-row tibble with <code>median_income</code> and <code>iqr_income</code>, using <code>filter()</code> then <code>summarise()</code> with <code>median()</code> and <code>IQR()</code>.`,
+      preload: `Preloaded: earn — 8 people with sex and income in dollars.`,
+      setup: `earn <- tibble(sex = c("F","M","F","F","M","F","M","F"), income = c(52000, 61000, 48000, 75000, 58000, 39000, 90000, 56000))`,
+      starter: `f_income <- earn |>
+  filter(sex == "___") |>
+  summarise(median_income = median(income), iqr_income = ___(income))
+`,
+      starterMedium: `# Create f_income
+f_income <- 
+`,
+      starterHard: `# Create f_income
+`,
+      hint: `filter() to the women first, then summarise(). IQR() is written in capitals.`,
+      solution: `f_income <- earn |>
+  filter(sex == "F") |>
+  summarise(median_income = median(income), iqr_income = IQR(income))
+`,
+      help: `<b>median() and IQR()</b> are robust summaries: the middle value and the spread of the middle half. Outliers barely move them.<br><br>Example:<br><code>median(c(1, 2, 3, 100)); IQR(c(1, 2, 3, 100))</code>`,
+      explain: {
+        use: `For skewed variables such as income, report the median and IQR rather than the mean and SD.`,
+        family: `Frequencies and grouped summaries with dplyr.`,
+        needs: `A numeric column with no missing values (or na.rm = TRUE).`,
+        assumes: `IQR() is the 75th minus the 25th percentile.`
+      },
+      check: `exists("f_income") && isTRUE(all.equal(as.data.frame(f_income), data.frame(median_income = median(earn$income[earn$sex == "F"]), iqr_income = IQR(earn$income[earn$sex == "F"])), check.attributes = FALSE))`
     },
     {
       title: "Weighted percentages with tapply()",
@@ -26933,8 +27399,16 @@ const PHASE_STARTS = {
   // Which phase each unit belongs to (the nearest PHASE_STARTS entry at or before it).
   const PHASE_OF_UNIT = {};
   (function () { let ph = null; LESSONS.forEach((l) => { if (PHASE_STARTS[l.unit]) ph = PHASE_STARTS[l.unit]; PHASE_OF_UNIT[l.unit] = ph; }); })();
-  function unitComplete(unit) { return LESSONS.filter((x) => x.unit === unit).every((x) => completed.has(x.id)); }
-  function phaseComplete(ph) { return LESSONS.filter((x) => PHASE_OF_UNIT[x.unit] === ph).every((x) => completed.has(x.id)); }
+  // Practice rounds (round: true) are optional: they never lock the next lesson and don't gate unit/phase completion.
+  function isUnlocked(i) {
+    if (i === 0 || completed.has(LESSONS[i].id)) return true;
+    let p = i - 1;
+    while (p >= 0 && LESSONS[p].round) p--;
+    if (LESSONS[i].round) return p < 0 || completed.has(LESSONS[p].id);
+    return p < 0 || completed.has(LESSONS[p].id);
+  }
+  function unitComplete(unit) { return LESSONS.filter((x) => x.unit === unit && !x.round).every((x) => completed.has(x.id)); }
+  function phaseComplete(ph) { return LESSONS.filter((x) => PHASE_OF_UNIT[x.unit] === ph && !x.round).every((x) => completed.has(x.id)); }
   // ---- Spaced repetition (Leitner boxes: 1, 3, 7, 16, 35 days; a lapse drops a box) ----
   const SRS_DAYS = [0, 1, 3, 7, 16, 35], DAY_MS = 86400000;
   function srsEntry(id) {
@@ -26962,7 +27436,7 @@ const PHASE_STARTS = {
   function nextLessonIndex() {
     const li = LESSONS.findIndex((l) => l.id === lastId);
     if (li >= 0 && !completed.has(LESSONS[li].id)) return li;
-    const first = LESSONS.findIndex((l) => !completed.has(l.id));
+    const first = LESSONS.findIndex((l) => !l.round && !completed.has(l.id));
     return first >= 0 ? first : null;
   }
   function isPhaseCollapsed(ph, openPhase) {
@@ -27075,16 +27549,6 @@ const PHASE_STARTS = {
     }
     const openUnit = nextIdx !== null ? LESSONS[nextIdx].unit : null;
     const openPhase = openUnit ? PHASE_OF_UNIT[openUnit] : null;
-    const rv = $("reviewBtn");
-    if (completed.size > 0) {
-      const due = dueCount();
-      rv.hidden = false;
-      rv.innerHTML = due > 0
-        ? `Review · ${due} lesson${due === 1 ? "" : "s"} due<small>A quick ${Math.min(REVIEW_SIZE, completed.size)}-lesson refresher · +${REVIEW_XP} XP each</small>`
-        : `Review · practise any ${Math.min(REVIEW_SIZE, completed.size)}<small>Nothing is due yet. These are the ones closest to being forgotten.</small>`;
-      rv.onclick = startReview;
-    } else { rv.hidden = true; }
-
     let lastUnit = null, collapsed = false, rowInUnit = 0, hiddenPhase = false, curArea = DEFAULT_AREA;
     LESSONS.forEach((l, i) => {
       if (l.unit !== lastUnit) {
@@ -27132,7 +27596,7 @@ const PHASE_STARTS = {
         }
       }
       if (hiddenPhase || collapsed) return;
-      const unlocked = i === 0 || completed.has(LESSONS[i - 1].id) || completed.has(l.id);
+      const unlocked = isUnlocked(i);
       const row = document.createElement("div");
       row.className = "path-row " + (rowInUnit % 2 === 0 ? "left" : "right");
       row.style.cssText = `--area:${curArea.c};--area-deep:${curArea.d}`;
@@ -27140,8 +27604,8 @@ const PHASE_STARTS = {
       const slot = document.createElement("div");
       slot.className = "slot";
       const btn = document.createElement("button");
-      btn.className = "node-btn " + (completed.has(l.id) && isDue(l.id) ? "due " : "") + (completed.has(l.id) && placed[l.id] ? "placed " : "") + (l.capstone ? "capstone " : "") + (completed.has(l.id) ? "done" : (i === current && view !== "path" ? "current" : (unlocked ? "" : "locked")));
-      btn.textContent = completed.has(l.id) ? "✓" : String(i + 1);
+      btn.className = "node-btn " + (completed.has(l.id) && isDue(l.id) ? "due " : "") + (completed.has(l.id) && placed[l.id] ? "placed " : "") + (l.capstone ? "capstone " : "") + (l.round ? "round " : "") + (completed.has(l.id) ? "done" : (i === current && view !== "path" ? "current" : (unlocked ? "" : "locked")));
+      btn.textContent = completed.has(l.id) ? "✓" : (l.round ? "⚡" : String(i + 1));
       btn.setAttribute("aria-label", `Lesson ${i + 1}: ${l.short}`);
       btn.addEventListener("click", () => {
         if (unlocked) { current = i; renderLesson(); switchView("learn"); }
@@ -27149,7 +27613,7 @@ const PHASE_STARTS = {
       });
       const label = document.createElement("div");
       label.className = "node-label";
-      label.textContent = (l.capstone ? "🏆 " : "") + l.short;
+      label.textContent = (l.capstone ? "🏆 " : l.round ? "⚡ " : "") + l.short;
       slot.appendChild(btn); slot.appendChild(label);
       if (completed.has(l.id)) {
         const st = document.createElement("div");
@@ -27220,16 +27684,10 @@ const PHASE_STARTS = {
     preAnswerCode = "";
     if (lastId !== l.id) { lastId = l.id; saveProgress(); }
 
-    $("learnKicker").textContent = `Lesson ${current + 1} · ${shortUnit(l.unit)}`;
-    $("learnTitle").textContent = l.title;
-    renderPkgRow("learnPkgRow", l.packages);
-    $("learnInstructions").innerHTML = l.instructions;
     const exBox = $("learnExplain"), exHtml = explainHTML(l);
     exBox.hidden = !exHtml; exBox.open = false;
     exBox.innerHTML = exHtml ? `<summary>Notes: what it is for and what to watch</summary>${exHtml}` : "";
-    const pre = $("learnPreload");
-    if (l.preload) { pre.style.display = "block"; pre.textContent = l.preload; }
-    else { pre.style.display = "none"; }
+    $("notesCard").open = false;
 
     $("practiceKicker").textContent = `Lesson ${current + 1} · ${shortUnit(l.unit)}`;
     $("practiceTitle").textContent = l.title;
@@ -27264,6 +27722,7 @@ const PHASE_STARTS = {
       : (current === LESSONS.length - 1 ? "Restart ↻" : "Next →");
 
     renderPathMap();
+    updateLessonBar();
     prepareEnvironment();
   }
 
@@ -27307,14 +27766,74 @@ const PHASE_STARTS = {
   function goTo(i) { if (i === LESSONS.length) i = 0; current = i; renderLesson(); }
 
   function switchView(name) {
+    if (name === "learn") name = "practice";   // Learn and Practice are one lesson screen now
     view = name;
-    ["path","learn","practice","ref"].forEach((v) => { $("view-" + v).hidden = (v !== name); });
+    ["path","practice","review","ref","me"].forEach((v) => { $("view-" + v).hidden = (v !== name); });
+    document.body.classList.toggle("in-lesson", name === "practice");
     document.querySelectorAll("#bottomNav button").forEach((b) => b.classList.toggle("active", b.dataset.view === name));
     window.scrollTo(0, 0);
     if (name === "path") renderPathMap();
     if (name === "ref") renderRef();
-    if (name === "practice") refreshEditor();
+    if (name === "review") renderReview();
+    if (name === "me") renderMe();
+    if (name === "practice") { refreshEditor(); updateLessonBar(); }
+    updateNavBadge();
   }
+  function updateNavBadge() {
+    const b = $("navBadge"); if (!b) return;
+    const n = dueCount(); b.hidden = n === 0; b.textContent = n > 99 ? "99+" : String(n);
+  }
+  function updateLessonBar() {
+    const l = LESSONS[current]; if (!l || !$("lbFill")) return;
+    if (reviewMode) { $("lbFill").style.width = ((reviewPos + 1) / Math.max(1, reviewQueue.length) * 100) + "%"; $("lbTxt").textContent = (reviewPos + 1) + "/" + reviewQueue.length; return; }
+    const ul = LESSONS.filter((x) => x.unit === l.unit && !x.round);
+    const d = ul.filter((x) => completed.has(x.id)).length;
+    $("lbFill").style.width = (ul.length ? d / ul.length * 100 : 0) + "%";
+    $("lbTxt").textContent = l.round ? "⚡" : d + "/" + ul.length;
+  }
+  function renderReview() {
+    const box = $("reviewLists"); box.innerHTML = "";
+    const rv = $("reviewBtn");
+    const any = completed.size > 0;
+    $("reviewEmpty").hidden = any;
+    if (any) {
+      const due = dueCount();
+      rv.hidden = false;
+      rv.innerHTML = due > 0
+        ? `Review · ${due} lesson${due === 1 ? "" : "s"} due<small>A quick ${Math.min(REVIEW_SIZE, completed.size)}-lesson refresher · +${REVIEW_XP} XP each</small>`
+        : `Review · practise any ${Math.min(REVIEW_SIZE, completed.size)}<small>Nothing is due yet. These are the ones closest to being forgotten.</small>`;
+      rv.onclick = startReview;
+    } else rv.hidden = true;
+    const section = (title, sub) => { const h = document.createElement("div"); h.className = "rv-sec"; h.innerHTML = `${esc(title)}<small>${esc(sub || "")}</small>`; box.appendChild(h); };
+    const row = (ic, t, sm, st, fn) => { const b = document.createElement("button"); b.className = "rv-row"; b.innerHTML = `<span class="rv-ic">${ic}</span><span><b>${esc(t)}</b><small>${esc(sm)}</small></span><span class="rv-st">${esc(st || "")}</span>`; b.addEventListener("click", fn); box.appendChild(b); };
+    const shaky = LESSONS.map((l, i) => ({ l, i })).filter((x) => !x.l.round && completed.has(x.l.id) && ((srs[x.l.id] && srs[x.l.id].lapses > 0) || (ratings[x.l.id] && ratings[x.l.id].v === -1)));
+    if (shaky.length) {
+      section("Needs another look", "lessons you found tricky");
+      shaky.slice(0, 6).forEach((x) => row("🧩", x.l.title, shortUnit(x.l.unit), "", () => { current = x.i; renderLesson(); switchView("practice"); }));
+    }
+    const allUnits = []; LESSONS.forEach((l) => { if (!allUnits.includes(l.unit)) allUnits.push(l.unit); });
+    const qu = allUnits.filter((u) => quizEligible(u) && LESSONS.some((x) => x.unit === u && !x.round && completed.has(x.id)));
+    if (qu.length) {
+      section("Unit quizzes", "5 quick questions each");
+      qu.forEach((u) => row("🧠", shortUnit(u), unitComplete(u) ? "Unit finished" : "In progress", quizBest[u] ? "best " + quizBest[u] + "/5" : "new", () => openQuiz(u)));
+    }
+    const rounds = LESSONS.map((l, i) => ({ l, i })).filter((x) => x.l.round && isUnlocked(x.i));
+    if (rounds.length) {
+      section("Practice rounds ⚡", "same skill, fresh data, optional");
+      rounds.forEach((x) => row("⚡", x.l.title.replace(/^Practice round \d+: /, ""), shortUnit(x.l.unit), completed.has(x.l.id) ? "✓ done" : "to do", () => { current = x.i; renderLesson(); switchView("practice"); }));
+    }
+  }
+  function renderMe() {
+    $("meStreak").textContent = streakDays() + " day streak";
+    const dt = dailyToday();
+    $("meGoalTxt").textContent = `Today: ${(dt && dt.ids ? dt.ids.length : 0)} of ${PREFS.goal} lesson${PREFS.goal === 1 ? "" : "s"}`;
+    $("meGoalSel").value = String(PREFS.goal);
+    renderSkills();
+  }
+  $("lessonClose").addEventListener("click", () => { if (reviewMode) exitReview(); else switchView("path"); });
+  $("meGoalSel").addEventListener("change", () => { PREFS.goal = Number($("meGoalSel").value) || 3; $("goalSel").value = String(PREFS.goal); saveProgress(); renderHome(); renderMe(); });
+  $("meSettings").addEventListener("click", () => $("settingsOverlay").classList.add("show"));
+  $("meBackup").addEventListener("click", () => { $("settingsOverlay").classList.add("show"); setTimeout(() => { const e = $("exportBtn"); if (e && e.scrollIntoView) e.scrollIntoView({ block: "center" }); }, 50); });
 
   async function initEngine() {
     const banner = $("engineBanner"); const text = $("engineText");
@@ -27505,8 +28024,7 @@ paste(.__out_lines, collapse = "\\n")`;
   $("plotCanvas").addEventListener("click", openPlotFull);
   $("plotFullClose").addEventListener("click", () => $("plotOverlay").classList.remove("show"));
 
-  $("goPracticeBtn").addEventListener("click", () => switchView("practice"));
-
+  
   $("hintToggle").addEventListener("click", () => {
     const box = $("hintBox");
     const showing = box.classList.toggle("show");
@@ -27638,12 +28156,13 @@ paste(.__out_lines, collapse = "\\n")`;
           completed.add(l.id);
           const diffBonus = (hasTiers(l) && difficulty !== "easy") ? (DIFFICULTY_BONUS[difficulty] || 0) : 0;
           const penalty = answerUsedThisAttempt ? XP_ANSWER_PENALTY : (hintUsedThisAttempt ? XP_HINT_PENALTY : 0);
-          gain = Math.max(0, XP_PER_LESSON * (l.capstone ? 2 : 1) + diffBonus - penalty);
+          gain = Math.max(0, Math.round(XP_PER_LESSON * (l.capstone ? 2 : l.round ? 0.4 : 1)) + diffBonus - penalty);
           stars[l.id] = rank;
           const ph = PHASE_OF_UNIT[l.unit];
           if (ph && phaseComplete(ph)) { title = "Phase complete 🏆"; kind = "phase"; }
           else if (unitComplete(l.unit)) { title = "Unit complete 🏅"; kind = "unit"; }
           else if (l.capstone) { title = "Capstone cleared 🏆"; kind = "capstone"; }
+          else if (l.round) { title = "Round done ⚡"; }
         } else if (rank > starsFor(l)) {
           // Redoing a lesson on a harder tier earns the bonus you missed, with no hint/answer penalty stacking.
           gain = BONUS_BY_RANK[rank] - BONUS_BY_RANK[starsFor(l)];
@@ -27659,6 +28178,7 @@ paste(.__out_lines, collapse = "\\n")`;
         }
         delete placed[l.id];
         lastPracticed[l.id] = Date.now();
+        updateLessonBar();
         srsRecord(l.id, answerUsedThisAttempt ? "answer" : (hintUsedThisAttempt ? "hint" : "clean"), wasDone);
         const prevLevel = Math.floor(xp / XP_PER_LEVEL) + 1;
         const prevXp = xp, goalInfo = bumpDaily(l.id);
@@ -27926,7 +28446,7 @@ paste(.__out_lines, collapse = "\\n")`;
     $("pathMap").hidden = searching;
     $("pathExtras").hidden = searching;
     $("pathExtras2").hidden = searching;
-    if (searching) { $("continueBtn").hidden = true; $("reviewBtn").hidden = true; }
+    if (searching) { $("continueBtn").hidden = true; }
   }
   function renderSearch() {
     const q = $("searchBox").value.trim();
@@ -27941,7 +28461,7 @@ paste(.__out_lines, collapse = "\\n")`;
         const done = completed.has(e.l.id);
         b.innerHTML = `<span class="si-num">${e.i + 1}</span><span><span class="si-title">${esc(e.l.title)}</span><small>${esc(e.l.unit)}</small></span><span class="si-st">${done ? "★".repeat(starsFor(e.l)) : ""}</span>`;
         b.addEventListener("click", () => {
-          const unlocked = e.i === 0 || completed.has(LESSONS[e.i - 1].id) || done;
+          const unlocked = isUnlocked(e.i);
           if (unlocked) { current = e.i; renderLesson(); switchView("learn"); } else showUnlockConfirm(e.i);
         });
         box.appendChild(b);
@@ -28921,7 +29441,7 @@ paste(.__out_lines, collapse = "\\n")`;
       const ls = LESSONS.map((l, i) => ({ l, i })).filter((x) => skillAreaOf(x.l.unit) === r.dataset.area);
       const nxt = ls.find((x) => !completed.has(x.l.id)) || ls[0];
       if (!nxt) return;
-      const unlocked = nxt.i === 0 || completed.has(LESSONS[nxt.i - 1].id) || completed.has(nxt.l.id);
+      const unlocked = isUnlocked(nxt.i);
       if (unlocked) { current = nxt.i; renderLesson(); switchView("learn"); } else showUnlockConfirm(nxt.i);
     }));
   }
@@ -28992,7 +29512,7 @@ paste(.__out_lines, collapse = "\\n")`;
   // ---- "Was this explanation clear?" ----
   function renderRatings() {
     const l = LESSONS[current], r = ratings[l.id];
-    ["rateLearn", "ratePractice"].forEach((id) => {
+    ["ratePractice"].forEach((id) => {
       const box = $(id); if (!box) return;
       box.innerHTML = `<span class="rate-q">Was this explanation clear?</span><button class="rate-btn ${r && r.v === 1 ? "on" : ""}" data-v="1" aria-label="Yes, clear">👍</button><button class="rate-btn ${r && r.v === -1 ? "on" : ""}" data-v="-1" aria-label="No, unclear">👎</button><span class="rate-thanks">${r ? "Saved" : ""}</span>` +
         (r && r.v === -1 ? `<div class="rate-note"><input type="text" maxlength="300" placeholder="What was unclear? (optional)" value="${esc(r.note || "")}"><button type="button">Save</button></div>` : "");
@@ -29119,12 +29639,13 @@ paste(.__out_lines, collapse = "\\n")`;
 
   // ---- shared helpers ----
   function openLesson(i) {
-    const unlocked = i === 0 || completed.has(LESSONS[i - 1].id) || completed.has(LESSONS[i].id);
+    const unlocked = isUnlocked(i);
     if (unlocked) { current = i; renderLesson(); switchView("learn"); } else showUnlockConfirm(i);
   }
   const shuffle = (a) => { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
   function keyFns(l) {
     const out = [];
+    if (l.round) return out;
     const t = l.title;
     (t.match(/%[A-Za-z]+%/g) || []).forEach((m) => { if (!out.includes(m)) out.push(m); });
     t.replace(/\b([A-Za-z_.][A-Za-z0-9_.]*)\(\)?/g, (_, f) => { if (!out.includes(f + "()")) out.push(f + "()"); return _; });
@@ -29199,7 +29720,7 @@ paste(.__out_lines, collapse = "\\n")`;
       });
     } else if (refTab === "spss") {
       const rows = [];
-      LESSONS.forEach((l, i) => { const m = /^([A-Z][A-Z0-9 \/=().,&-]*?) → (.+)$/.exec(l.title); if (m) rows.push({ cmd: m[1], r: m[2], i }); });
+      LESSONS.forEach((l, i) => { if (l.round) return; const m = /^([A-Z][A-Z0-9 \/=().,&-]*?) → (.+)$/.exec(l.title); if (m) rows.push({ cmd: m[1], r: m[2], i }); });
       const intro = document.createElement("div"); intro.className = "search-empty";
       intro.textContent = "SPSS command → the R function that does the same job. Tap a row to open its lesson.";
       body.appendChild(intro);
@@ -29211,7 +29732,7 @@ paste(.__out_lines, collapse = "\\n")`;
       });
     } else {
       const ents = [];
-      LESSONS.forEach((l, i) => { const ks = keyFns(l); if (ks.length) ks.forEach((k) => ents.push({ label: k, i })); else ents.push({ label: l.title, i }); });
+      LESSONS.forEach((l, i) => { if (l.round) return; const ks = keyFns(l); if (ks.length) ks.forEach((k) => ents.push({ label: k, i })); else ents.push({ label: l.title, i }); });
       const key = (x) => x.label.toLowerCase().replace(/^[%._]+/, "");
       ents.sort((a, b) => key(a) < key(b) ? -1 : key(a) > key(b) ? 1 : a.i - b.i);
       let cur = "";
@@ -29424,7 +29945,7 @@ paste(.__out_lines, collapse = "\\n")`;
   function exitReview() {
     reviewMode = false; reviewQueue = []; reviewPos = 0;
     $("reviewBanner").hidden = true;
-    renderLesson(); switchView("path");
+    renderLesson(); switchView("review");
   }
   $("reviewExit").addEventListener("click", exitReview);
 
@@ -29474,8 +29995,7 @@ paste(.__out_lines, collapse = "\\n")`;
   $("tourBtn").addEventListener("click", openTour);
 
   // ---------- Settings: export / import ----------
-  $("settingsBtn").addEventListener("click", () => $("settingsOverlay").classList.add("show"));
-  $("settingsClose").addEventListener("click", () => { if (!selfTestRunning) $("settingsOverlay").classList.remove("show"); });
+    $("settingsClose").addEventListener("click", () => { if (!selfTestRunning) $("settingsOverlay").classList.remove("show"); });
 
   $("exportBtn").addEventListener("click", () => {
     const payload = { app: "r-field-notes", version: 2, exported: new Date().toISOString(),
