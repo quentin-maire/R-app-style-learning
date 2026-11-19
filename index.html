@@ -19339,7 +19339,7 @@ total_inertia <- sum(eig[, "eigenvalue"])
         assumes: `Percentages of inertia in MCA are pessimistic because the indicator coding spreads inertia over many dimensions: 20–30% on two axes can be a good result. The next lesson shows the corrected (modified) rates.`,
         formula: `Each eigenvalue is the inertia (variance) of one axis. Total inertia in MCA = (K − Q) ÷ Q, here (15 − 5) ÷ 5 = 2. The percentage for an axis is its eigenvalue divided by 2.`
       },
-      check: `exists("eig") && exists("total_inertia") && (is.matrix(eig) || is.data.frame(eig)) && abs(as.numeric(total_inertia) - (sum(vapply(social[, 1:5], nlevels, 1L)) - 5) / 5) < 0.01`
+      check: `exists("eig") && exists("total_inertia") && (is.matrix(eig) || is.data.frame(eig)) && length(total_inertia) == 1 && isTRUE(all.equal(as.numeric(eig), as.numeric(res_mca$eig))) && isTRUE(all.equal(as.numeric(total_inertia), sum(res_mca$eig[, "eigenvalue"])))`
     },
     {
       title: "Benzécri's modified rates",
